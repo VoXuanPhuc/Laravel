@@ -13,6 +13,15 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group( ['prefix' => '/identity'], function () use ($router) {
+
+    $router->get('/', function () use ($router) {
+        return \response()->json('Identity Services');
+    });
+
+    $router->get('/health-check', function () use ($router) {
+        return \response()->json('Founds');
+    });
+
+
 });
