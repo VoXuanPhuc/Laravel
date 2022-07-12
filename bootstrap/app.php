@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+ $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ $app = new Laravel\Lumen\Application(
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    \Encoda\Core\Exceptions\ExceptionHandler::class
 );
 
 $app->singleton(
@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('config');
 
 /*
 |--------------------------------------------------------------------------
@@ -72,9 +73,11 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+ $app->middleware([
+     //Core middleware
+     \Encoda\Core\Middlewares\UnsupportedMiddleware::class,
+     \Encoda\Core\Middlewares\UnacceptableMiddleware::class
+ ]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -94,6 +97,14 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register( Encoda\Core\Providers\CoreServiceProvider::class );
+$app->register( Encoda\Auth\Providers\AuthServiceProvider::class );
+$app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
+
+
+/**
+ * Lang
+ */
 
 /*
 |--------------------------------------------------------------------------

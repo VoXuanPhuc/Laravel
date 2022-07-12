@@ -1,0 +1,13 @@
+{
+    "name": "encoda/auth",
+    "description": "Auth Service",
+    "authors": [
+        {
+            "name": "Nam Nguyen",
+            "email": "nam.nguyen@encoda.io"
+        }
+    ],
+    "require": {
+        "aws/aws-sdk-php": "^3.231"
+    }
+}

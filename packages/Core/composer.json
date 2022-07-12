@@ -1,0 +1,18 @@
+{
+    "name": "encoda/core",
+    "description": "Core Lib",
+    "authors": [
+        {
+            "name": "Nam Nguyen",
+            "email": "nam.nguyen@encoda.io"
+        }
+    ],
+    "require": {
+        "aws/aws-sdk-php": "^3.231"
+    },
+    "autoload": {
+        "psr-4": {
+            "Encoda\\Core\\" : "src"
+        }
+    }
+}

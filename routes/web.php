@@ -13,7 +13,7 @@
 |
 */
 
-$router->group( ['prefix' => '/identity'], function () use ($router) {
+$router->group( ['prefix' => '/v1/identity'], function () use ($router) {
 
     $router->get('/', function () use ($router) {
         return \response()->json('Identity Services');
@@ -23,5 +23,8 @@ $router->group( ['prefix' => '/identity'], function () use ($router) {
         return \response()->json('Founds');
     });
 
+    $router->get('hello',[
+        'as' => 'hello', 'uses' => 'ExampleController@hello'
+    ]);
 
 });
