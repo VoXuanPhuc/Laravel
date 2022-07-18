@@ -34,7 +34,7 @@ RUN composer update --no-scripts
 RUN composer dump-autoload
 
 #Apache2
-ENV PORT=9001
+ENV PORT=8081
 RUN rm -f /etc/apache2/sites-available/*
 RUN rm -f /etc/apache2/sites-enabled/*
 
