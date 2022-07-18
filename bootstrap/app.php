@@ -76,7 +76,8 @@ $app->configure('config');
  $app->middleware([
      //Core middleware
      \Encoda\Core\Middlewares\UnsupportedMiddleware::class,
-     \Encoda\Core\Middlewares\UnacceptableMiddleware::class
+     \Encoda\Core\Middlewares\UnacceptableMiddleware::class,
+     //\Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
  ]);
 
 // $app->routeMiddleware([

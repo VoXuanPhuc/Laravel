@@ -3,6 +3,7 @@ namespace Encoda\Auth\Services;
 
 use Encoda\Auth\Http\Requests\SignupRequest;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
+use Encoda\Core\Exceptions\BadRequestException;
 use Laravel\Lumen\Http\Request;
 use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
 
@@ -21,10 +22,14 @@ class UserService
     /**
      * @param Request $request
      * @return \Aws\Result|false
+     * @throws BadRequestException
      */
     public function authenticate(Request $request ) {
 
-        return $this->awsCognitoClient->authenticate( $request->get('username'), $request->get('password') );
+        if( empty( request('username') ) || empty( request('password') ) ) {
+            throw new BadRequestException('Username or password incorrect');
+        }
+        return $this->awsCognitoClient->authenticate( request('username'),request('password') );
     }
 
     /**
@@ -34,10 +39,10 @@ class UserService
     public function signup( SignupRequest $signupRequest ) {
 
         return $this->awsCognitoClient->register(
-            $signupRequest->email,
+            $signupRequest->username,
             $signupRequest->password,
             [
-                'email' => $signupRequest->email,
+                'email' => $signupRequest->username,
                 'given_name' => $signupRequest->firstName,
                 'family_name' => $signupRequest->lastName,
             ]

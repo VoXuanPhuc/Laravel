@@ -2,23 +2,32 @@
 namespace Encoda\Auth\Http\Controllers;
 
 use Encoda\Auth\Http\Requests\SignupRequest;
+use Encoda\Auth\Repositories\RoleRepository;
 use Encoda\Auth\Services\UserService;
+use Encoda\Core\Exceptions\BadRequestException;
 use Laravel\Lumen\Http\Request;
 
 class AuthController extends Controller
 {
 
     protected UserService $userService;
+    protected RoleRepository $roleRepository;
 
-    public function __construct( UserService $userService)
+    /**
+     * @param UserService $userService
+     * @param RoleRepository $roleRepository
+     */
+    public function __construct( UserService $userService, RoleRepository $roleRepository )
     {
         $this->userService = $userService;
+        $this->roleRepository = $roleRepository;
     }
 
 
     /**
      * @param Request $request
      * @return mixed|null
+     * @throws BadRequestException
      */
     public function login( Request $request ) {
 
@@ -29,6 +38,7 @@ class AuthController extends Controller
 
     /**
      * @return mixed|null
+     * @throws BadRequestException
      */
     public function getAccessToken(Request $request) {
         return $this->login($request);
@@ -40,8 +50,17 @@ class AuthController extends Controller
      */
     public function signup( SignupRequest $signupRequest ) {
 
-        return $this->userService->signup( $signupRequest );
+        $signupRequest = new SignupRequest();
 
+        $signupRequest->username = \request('username');
+        $signupRequest->password = \request('password');
+        $signupRequest->confirmPassword = \request('confirmPassword');
+        $signupRequest->firstName = \request('firstName');
+        $signupRequest->lastName = \request('lastName');
+
+        $response = $this->userService->signup( $signupRequest );
+
+        return $response;
     }
 
     /**

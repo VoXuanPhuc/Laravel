@@ -10,5 +10,8 @@ return [
         'server_errors' => 'Internal Server Error',
         'unsupported_media_type' => 'Unsupported Media Type',
         'unacceptable_data_type' => 'Accept type is not supported',
+    ],
+    'message' => [
+        
     ]
 ];

@@ -13,7 +13,7 @@
 |
 */
 
-$router->group( ['prefix' => '/v1/identity'], function () use ($router) {
+$router->group( ['prefix' => '/identity'], function () use ($router) {
 
     $router->get('/', function () use ($router) {
         return \response()->json('Identity Services');

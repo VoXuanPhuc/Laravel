@@ -7,7 +7,7 @@ use Encoda\Auth\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
-Route::group( ['prefix' => '/v1/identity'] , function() {
+Route::group( ['prefix' => '/identity/api/v1/'] , function() {
 
     //Login
     Route::post('login', [

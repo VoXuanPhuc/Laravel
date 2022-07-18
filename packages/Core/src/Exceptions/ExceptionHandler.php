@@ -17,7 +17,7 @@ class ExceptionHandler extends Handler
      */
     public function render($request, Throwable $exception)
     {
-        if( $request->wantsJson() || $request->isJson() ) {
+        if( $request->wantsJson() || $request->acceptsJson() || $request->isJson() ) {
 
             $statusCode = !in_array( $exception->getCode(), HttpStatusCode::STATUS_CODES ) ? HttpStatusCode::INTERNAL_SERVER_ERROR : $exception->getCode();
             $json = [

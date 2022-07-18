@@ -7,6 +7,11 @@
             "email": "nam.nguyen@encoda.io"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Encoda\\Auth\\" : "src"
+        }
+    },
     "require": {
         "aws/aws-sdk-php": "^3.231"
     }

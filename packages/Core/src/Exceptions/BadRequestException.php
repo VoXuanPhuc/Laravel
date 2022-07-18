@@ -3,12 +3,14 @@
 namespace Encoda\Core\Exceptions;
 
 
+use Encoda\Core\Http\HttpStatus\HttpStatusCode;
+
 class BadRequestException extends BaseException
 {
 
-    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    public function __construct($message = "", $code = HttpStatusCode::BAD_REQUEST, Throwable $previous = null)
     {
-        $message = __('core::app.exception.bad_request') ?? $message ;
+        $message = $message ?: __('core::app.exception.bad_request') ;
         parent::__construct($message, $code, $previous);
     }
 }

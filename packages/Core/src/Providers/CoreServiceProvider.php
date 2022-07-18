@@ -1,17 +1,19 @@
 <?php
 namespace Encoda\Core\Providers;
 
-class CoreServiceProvider extends  \Illuminate\Support\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class CoreServiceProvider extends  ServiceProvider
 {
 
-    /**
-     *
-     */
     public function boot() {
         $this->loadTranslationsFrom( __DIR__ . '/../Resources/lang', 'core' );
 
         //Provides
         $this->register( EventServiceProvider::class );
+
+        //API Resource without wrapping
+        //JsonResource::withoutWrapping();
     }
 
 }
