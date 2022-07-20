@@ -2,6 +2,7 @@
 namespace Encoda\Core\Middlewares;
 
 use Closure;
+use Laravel\Lumen\Http\Request;
 
 abstract class BaseMiddleware
 {

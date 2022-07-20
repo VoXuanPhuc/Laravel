@@ -8,7 +8,8 @@
         "php": "^8.0",
         "aws/aws-sdk-php": "^3.231",
         "laravel/lumen-framework": "^9.0",
-        "prettus/l5-repository": "^2.8"
+        "prettus/l5-repository": "^2.8",
+        "symfony/serializer": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -23,7 +24,8 @@
             "Encoda\\Core\\" : "packages/Core/src",
             "Encoda\\Log\\" : "packages/Log/src",
             "Encoda\\Auth\\" : "packages/Auth/src",
-            "Encoda\\AWSCognito\\" : "packages/AWSCognito/src"
+            "Encoda\\AWSCognito\\" : "packages/AWSCognito/src",
+            "Encoda\\Identity\\" : "packages/Identity/src"
         }
     },
     "autoload-dev": {

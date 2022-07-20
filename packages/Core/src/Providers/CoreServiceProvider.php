@@ -11,6 +11,7 @@ class CoreServiceProvider extends  ServiceProvider
 
         //Provides
         $this->register( EventServiceProvider::class );
+        $this->register( FormRequestProvider::class );
 
         //API Resource without wrapping
         //JsonResource::withoutWrapping();

@@ -13,4 +13,7 @@ return [
     |
     */
     'locale' => env('APP_LOCALE', 'en'),
+    'identity_pool' => [
+        'driver' => env('IDENTITY_POOL', 'cognito'),
+    ]
 ];

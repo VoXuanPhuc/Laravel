@@ -1,6 +1,6 @@
 <?php
 
-class ConfirmPasswordMatchValidation implements \Illuminate\Contracts\Validation\Rule
+class SignupConfirmPasswordMatchValidation implements \Illuminate\Contracts\Validation\Rule
 {
 
     protected $password;

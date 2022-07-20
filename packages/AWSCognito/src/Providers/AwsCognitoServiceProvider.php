@@ -15,6 +15,7 @@ class AwsCognitoServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        //Cognito client
         $this->app->singleton( CognitoIdentityProviderClient::class, function( $app ) {
 
             $configs = [

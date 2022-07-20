@@ -61,6 +61,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('config');
+$app->configure('cognito');
 
 /*
 |--------------------------------------------------------------------------
@@ -77,12 +78,13 @@ $app->configure('config');
      //Core middleware
      \Encoda\Core\Middlewares\UnsupportedMiddleware::class,
      \Encoda\Core\Middlewares\UnacceptableMiddleware::class,
-     //\Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
+     \Encoda\Core\Middlewares\JsonPayloadHandlerMiddleware::class,
+     \Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
  ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+ $app->routeMiddleware([
+     'auth' => App\Http\Middleware\Authenticate::class,
+ ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +101,10 @@ $app->configure('config');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register( Encoda\Core\Providers\CoreServiceProvider::class );
+$app->register( Encoda\Core\Providers\BaseConcordServiceProvider::class );
+$app->register( Encoda\Core\Providers\FormRequestProvider::class );
 $app->register( Encoda\Auth\Providers\AuthServiceProvider::class );
+$app->register( Encoda\Identity\Providers\IdentityServiceProvider::class );
 $app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
 
 

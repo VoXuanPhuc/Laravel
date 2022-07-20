@@ -1,10 +1,9 @@
 <?php
 namespace Encoda\Core\Http\Requests;
 
-use Encoda\Core\Interfaces\RequestInterface;
-use Laravel\Lumen\Http\Request;
+use Illuminate\Http\Request;
 
-class BaseRequest extends Request implements RequestInterface
+class BaseRequest extends Request
 {
 
 }
