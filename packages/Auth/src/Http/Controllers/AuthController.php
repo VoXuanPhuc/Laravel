@@ -3,6 +3,7 @@ namespace Encoda\Auth\Http\Controllers;
 
 use Encoda\Auth\Services\AuthService;
 use Encoda\Core\Exceptions\BadRequestException;
+use Encoda\Identity\Http\Requests\User\CreateUserRequest;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -39,12 +40,11 @@ class AuthController extends Controller
     }
 
     /**
-     * @param SignupRequest $signupRequest
+     * @param CreateUserRequest $signupRequest
      * @return \Aws\Result|false
      */
-    public function signup( SignupRequest $signupRequest ) {
+    public function signup( CreateUserRequest $signupRequest ) {
 
-        $signupRequest = new SignupRequest();
 
         $response = $this->authService->signup( $signupRequest );
 
