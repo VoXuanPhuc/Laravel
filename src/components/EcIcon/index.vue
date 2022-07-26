@@ -1,0 +1,92 @@
+<template>
+  <component :width="width" :height="height" :is="icon" />
+</template>
+
+<script>
+import { defineAsyncComponent } from "vue"
+
+const lazyLoad = (iconName) => defineAsyncComponent(() => import(`./Icons/${iconName}.vue`))
+
+export default {
+  name: "EcIcon",
+  props: {
+    icon: {
+      type: String,
+      required: true,
+      default: "Default",
+    },
+    width: {
+      type: String,
+      default: "24",
+    },
+    height: {
+      type: String,
+      default: "24",
+    },
+  },
+  components: {
+    Adjustments: lazyLoad("Adjustments"),
+    ArrowLeft: lazyLoad("ArrowLeft"),
+    ArrowRight: lazyLoad("ArrowRight"),
+    Ban: lazyLoad("Ban"),
+    Bell: lazyLoad("Bell"),
+    Calendar: lazyLoad("Calendar"),
+    ChartSquareBar: lazyLoad("ChartSquareBar"),
+    ChatAlt: lazyLoad("ChatAlt"),
+    Check: lazyLoad("Check"),
+    CheckCircle: lazyLoad("CheckCircle"),
+    ChevronDoubleLeft: lazyLoad("ChevronDoubleLeft"),
+    ChevronDoubleRight: lazyLoad("ChevronDoubleRight"),
+    ChevronDown: lazyLoad("ChevronDown"),
+    ChevronLeft: lazyLoad("ChevronLeft"),
+    ChevronRight: lazyLoad("ChevronRight"),
+    ChevronUp: lazyLoad("ChevronUp"),
+    Clipboard: lazyLoad("Clipboard"),
+    ClipboardCheck: lazyLoad("ClipboardCheck"),
+    ClipboardList: lazyLoad("ClipboardList"),
+    Clock: lazyLoad("Clock"),
+    CloudUpload: lazyLoad("CloudUpload"),
+    Cog: lazyLoad("Cog"),
+    CreditCard: lazyLoad("CreditCard"),
+    CurrencyDollar: lazyLoad("CurrencyDollar"),
+    Default: lazyLoad("Default"),
+    DocumentDownload: lazyLoad("DocumentDownload"),
+    DocumentDuplicate: lazyLoad("DocumentDuplicate"),
+    DotsHorizontal: lazyLoad("DotsHorizontal"),
+    Download: lazyLoad("Download"),
+    Exclamation: lazyLoad("Exclamation"),
+    ExclamationCircle: lazyLoad("ExclamationCircle"),
+    Eye: lazyLoad("Eye"),
+    Home: lazyLoad("Home"),
+    LocationMarker: lazyLoad("LocationMarker"),
+    LockClosed: lazyLoad("LockClosed"),
+    Logout: lazyLoad("Logout"),
+    Mail: lazyLoad("Mail"),
+    MailOpen: lazyLoad("MailOpen"),
+    Menu: lazyLoad("Menu"),
+    Minus: lazyLoad("Minus"),
+    MinusCircle: lazyLoad("MinusCircle"),
+    OfficeBuilding: lazyLoad("OfficeBuilding"),
+    PaperAirPlane: lazyLoad("PaperAirPlane"),
+    PaperClip: lazyLoad("PaperClip"),
+    Pencil: lazyLoad("Pencil"),
+    Percent: lazyLoad("Percent"),
+    Phone: lazyLoad("Phone"),
+    Plus: lazyLoad("Plus"),
+    PlusCircle: lazyLoad("PlusCircle"),
+    QuestionMark: lazyLoad("QuestionMark"),
+    Refresh: lazyLoad("Refresh"),
+    Search: lazyLoad("Search"),
+    Share: lazyLoad("Share"),
+    Template: lazyLoad("Template"),
+    ShieldCheck: lazyLoad("ShieldCheck"),
+    ShieldDollar: lazyLoad("ShieldDollar"),
+    Trash: lazyLoad("Trash"),
+    TrashAlt: lazyLoad("TrashAlt"),
+    User: lazyLoad("User"),
+    UserGroup: lazyLoad("UserGroup"),
+    Users: lazyLoad("Users"),
+    X: lazyLoad("X"),
+  },
+}
+</script>
