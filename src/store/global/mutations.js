@@ -16,11 +16,11 @@ export default {
   },
   setTenantId(state, payload) {
     state.tenantId = payload
-    localStorage.setItem("coverAdminTenantId", payload)
+    localStorage.setItem("readyBCAdminTenantId", payload)
   },
   setClientId(state, payload) {
     state.clientId = payload
-    localStorage.setItem("coverAdminClientId", payload)
+    localStorage.setItem("readyBCAdminClientId", payload)
   },
   setMe(state, payload) {
     state.me = payload

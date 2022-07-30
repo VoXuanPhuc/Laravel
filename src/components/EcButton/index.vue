@@ -11,7 +11,7 @@
     <!-- Prefix Slot -->
     <slot name="prefix">
       <div v-if="iconPrefixName" :class="variantCls.left">
-        <JIcon :icon="iconPrefixName" :class="variantCls.iconPrefix" :width="iconPrefixWidth" :height="iconPrefixHeight" />
+        <EcIcon :icon="iconPrefixName" :class="variantCls.iconPrefix" :width="iconPrefixWidth" :height="iconPrefixHeight" />
       </div>
     </slot>
     <!-- Default Slot -->
@@ -21,7 +21,7 @@
     <!-- Suffix Slot -->
     <slot name="suffix">
       <div v-if="iconSuffixName" :class="variantCls.right">
-        <JIcon :icon="iconSuffixName" :class="variantCls.iconSuffix" :width="iconSuffixWidth" :height="iconSuffixHeight" />
+        <EcIcon :icon="iconSuffixName" :class="variantCls.iconSuffix" :width="iconSuffixWidth" :height="iconSuffixHeight" />
       </div>
     </slot>
   </component>

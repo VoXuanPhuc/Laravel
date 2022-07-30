@@ -1,6 +1,6 @@
 export default {
   auth: {
-    loginTitle: "Login to CoverAdmin",
+    loginTitle: "Login to ReadyBC",
     loginSubtitle: "Enterprise Policy Admin Solution",
     email: "Email",
     password: "Password",

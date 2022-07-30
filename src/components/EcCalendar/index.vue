@@ -3,7 +3,7 @@
     <section :class="variantCls.navigation">
       <div :class="variantCls.changeMonthButtons" @click="decrementMonth(viewingMonth)">
         <slot name="previousMonth">
-          <JIcon width="20" height="20" icon="ChevronLeft" />
+          <EcIcon width="20" height="20" icon="ChevronLeft" />
         </slot>
       </div>
       <select id="months" v-model="viewingMonth.month" :disabled="disabled" name="months" :class="variantCls.monthYearSelect">
@@ -16,7 +16,7 @@
       </select>
       <div :class="variantCls.changeMonthButtons" @click="incrementMonth(viewingMonth)">
         <slot name="nextMonth">
-          <JIcon width="20" height="20" icon="ChevronRight" />
+          <EcIcon width="20" height="20" icon="ChevronRight" />
         </slot>
       </div>
     </section>

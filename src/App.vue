@@ -7,7 +7,7 @@
     <div id="layer3"></div>
     <div id="layer4"></div>
     <div id="layer5"></div>
-    <CMessage />
+    <RMessage />
   </div>
 </template>
 

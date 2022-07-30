@@ -4,6 +4,15 @@ import ViewNewPassword from "../views/ViewNewPassword.vue"
 
 export default [
   {
+    path: "/",
+    component: ViewLogin,
+    name: "DefaultLogin",
+    props: true,
+    meta: {
+      isPublic: true,
+    },
+  },
+  {
     path: "/login",
     component: ViewLogin,
     name: "ViewLogin",

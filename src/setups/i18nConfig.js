@@ -15,8 +15,8 @@ const i18n = createI18n({
 })
 
 export function setI18nLanguage(lang) {
-  i18n.global.locale.value = lang
-  window.localStorage.setItem("coverAdminLocale", lang)
+  i18n.global.locale = lang
+  window.localStorage.setItem("readyBCAdminLocale", lang)
   return lang
 }
 
@@ -35,15 +35,18 @@ export function loadLanguageAsync(lang) {
 
   // Dynamic import of locales
   const defaultPromise = import(`@/locales/${lang}.js`)
-  // const tenantPromist = import(`@/tenants/${tenantId}/locales/${lang}.js`)
+  const tenantPromist = import(`@/tenants/${tenantId}/locales/${lang}.js`)
   const promises = [defaultPromise]
-  // if (tenantId) promises.push(tenantPromist)
-
+  if (tenantId) {
+    promises.push(tenantPromist)
+  }
   return Promise.allSettled(promises).then(([defaultResult, tenantResult]) => {
     /**
      * Default Locale File
      */
-    if (defaultResult.status === "fulfilled") defaultMessages = defaultResult.value?.default ?? {}
+    if (defaultResult.status === "fulfilled") {
+      defaultMessages = defaultResult.value?.default ?? {}
+    }
 
     /**
      * Tenant locale file

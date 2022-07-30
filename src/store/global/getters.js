@@ -7,7 +7,7 @@ export default {
    */
   variants: () => (componentName, variant) => {
     if (window) {
-      return window?.COVER_ADMIN_THEME?.baseComponentsVariants?.[componentName]?.[variant] || { el: {} }
+      return window?.READYBC_ADMIN_THEME?.baseComponentsVariants?.[componentName]?.[variant] || { el: {} }
     }
 
     return { el: {} }

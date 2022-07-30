@@ -17,7 +17,7 @@
       :leaveActiveClass="variantCls.leaveActive"
       :leaveToClass="variantCls.leaveTo"
     >
-      <JFlex
+      <EcFlex
         v-if="isVisible"
         :class="variantCls.modalWrapper"
         @click.self="handleClickOverlay"
@@ -27,7 +27,7 @@
         <div :class="variantCls.root">
           <slot />
         </div>
-      </JFlex>
+      </EcFlex>
     </transition>
   </div>
 </template>

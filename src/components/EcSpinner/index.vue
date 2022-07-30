@@ -25,7 +25,7 @@ export default {
       required: false,
       default: "circle",
       validator(val) {
-        return ["circle", "dots"].includes(val);
+        return ["circle", "dots"].includes(val)
       },
     },
     delay: {
@@ -38,24 +38,24 @@ export default {
   data() {
     return {
       isVisible: false,
-    };
+    }
   },
 
   computed: {
     variantCls() {
-      return (s
+      return (
         this.getComponentVariants({
           componentName: "EcSpinner",
           variant: this.variant,
         })?.el ?? {}
-      );
+      )
     },
   },
 
   mounted() {
-    setTimeout(() => (this.isVisible = true), this.delay);
+    setTimeout(() => (this.isVisible = true), this.delay)
   },
-};
+}
 </script>
 
 <style scoped>

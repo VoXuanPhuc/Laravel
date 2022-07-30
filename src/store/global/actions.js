@@ -1,4 +1,4 @@
-import { loadLanguageAsync } from "../../setups/i18n"
+import { loadLanguageAsync } from "../../setups/i18nConfig"
 
 export default {
   addToastMessage({ commit }, { type, content, cb, delay = 10000, preventAutoClose = false }) {

@@ -9,10 +9,12 @@ module.exports = {
     parser: "babel-eslint",
   },
   rules: {
-    // "import/extensions": ["never"],
+    "import/extensions": [0, "never"],
     // General rules
+    "vue/multi-word-component-names": 0,
+    "vue/no-reserved-component-names": 0,
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "warn",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "error",
+    "no-debugger": "off", // process.env.NODE_ENV === "production" ? "error" : "error",
     "no-tabs": ["error", { allowIndentationTabs: true }],
     // quotes: ["error", "single"],
     // indent: ["error", "tab"], // enable this may cause an error: Cannot read property "range" of null

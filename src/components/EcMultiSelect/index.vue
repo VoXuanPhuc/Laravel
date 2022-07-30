@@ -121,12 +121,17 @@ export default {
   },
   computed: {
     filteredOptions() {
-      if (!this.searchTerm) return this.options
+      if (!this.searchTerm) {
+        return this.options
+      }
       const filteredOptions = this.options.filter((item) => {
         if (item && item[this.nameKey] && item[this.nameKey].toLowerCase().includes(this.searchTerm.toLowerCase())) {
           return true
         }
+
+        return false
       })
+
       return filteredOptions
     },
     variantCls() {

@@ -23,8 +23,8 @@ const setMe = async () => {
 }
 
 const checkAuthGuard = (router) => {
-  let currentTenantId = localStorage.getItem("coverAdminTenantId")
-  let currentClientId = localStorage.getItem("coverAdminClientId")
+  let currentTenantId = localStorage.getItem("readyBCAdminTenantId")
+  let currentClientId = localStorage.getItem("readyBCAdminClientId")
   const blockedRoutes = ["ViewLogin", "ViewForgotPassword", "ViewNewPassword"]
 
   router.beforeEach(async (to, from, next) => {

@@ -23,7 +23,7 @@
     </select>
     <div :class="variantCls.iconRoot">
       <slot name="icon" :variantCls="variantCls">
-        <JIcon :class="variantCls.icon" :icon="variantAssets.iconName" />
+        <EcIcon :class="variantCls.icon" :icon="variantAssets.iconName" />
       </slot>
     </div>
   </div>

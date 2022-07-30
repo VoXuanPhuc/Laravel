@@ -1,0 +1,113 @@
+@tailwind base;
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap");
+
+html {
+  font-family: "Rubik", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 12px;
+  background-color: #f6f7fb;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  background-color: #4f78e0;
+}
+
+/* JSlider */
+/* variant: primary */
+.j-slider__primary {
+  width: 100%;
+  margin: 12px 0;
+  background-color: transparent;
+  -webkit-appearance: none;
+}
+.j-slider__primary:focus {
+  outline: none;
+}
+.j-slider__primary::-webkit-slider-runnable-track {
+  background: #4562bd;
+  border: 1.2px solid #111111;
+  border-radius: 19.7px;
+  width: 100%;
+  height: 11.1px;
+  cursor: pointer;
+}
+.j-slider__primary::-webkit-slider-thumb {
+  margin-top: -13.15px;
+  width: 16px;
+  height: 35px;
+  background: #f6f7fb;
+  border: 4.8px solid #4f78e0;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+.j-slider__primary:focus::-webkit-slider-runnable-track {
+  background: #5c75c5;
+}
+.j-slider__primary::-moz-range-track {
+  background: #4562bd;
+  border: 1.2px solid #111111;
+  border-radius: 19.7px;
+  width: 100%;
+  height: 11.1px;
+  cursor: pointer;
+}
+.j-slider__primary::-moz-range-thumb {
+  width: 16px;
+  height: 35px;
+  background: #f6f7fb;
+  border: 4.8px solid #4f78e0;
+  border-radius: 14px;
+  cursor: pointer;
+}
+.j-slider__primary::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  border-width: 16.05px 0;
+  color: transparent;
+  width: 100%;
+  height: 11.1px;
+  cursor: pointer;
+}
+.j-slider__primary::-ms-fill-lower {
+  background: #3c56a8;
+  border: 1.2px solid #111111;
+  border-radius: 39.4px;
+}
+.j-slider__primary::-ms-fill-upper {
+  background: #4562bd;
+  border: 1.2px solid #111111;
+  border-radius: 39.4px;
+}
+.j-slider__primary::-ms-thumb {
+  width: 16px;
+  height: 35px;
+  background: #f6f7fb;
+  border: 4.8px solid #4f78e0;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 0px;
+}
+.j-slider__primary:focus::-ms-fill-lower {
+  background: #4562bd;
+}
+.j-slider__primary:focus::-ms-fill-upper {
+  background: #5c75c5;
+}
+@supports (-ms-ime-align: auto) {
+  .j-slider__primary {
+    margin: 0;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;

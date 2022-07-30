@@ -10,7 +10,7 @@
       :leaveActiveClass="variantCls.leaveActive"
       :leaveToClass="variantCls.leaveTo"
     >
-      <JCalendar
+      <EcCalendar
         v-if="calendarVisible"
         :modelValue="computedValue"
         :variant="componentInstanceVariants.calendar"

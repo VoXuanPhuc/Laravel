@@ -1,28 +1,28 @@
 <template>
-  <JFlex :class="variantCls.root">
+  <EcFlex :class="variantCls.root">
     <!-- Image -->
-    <JFlex :class="variantCls.image.wrapper">
+    <EcFlex :class="variantCls.image.wrapper">
       <img :class="variantCls.image.img" :src="computedLogo" alt="Login Image" />
-    </JFlex>
+    </EcFlex>
 
     <!-- SVGs & Auth slot -->
-    <JFlex :class="variantCls.svgs.wrapper">
-      <JBox :class="variantCls.svgs.mobile.class" :style="variantCls.svgs.mobile.style">
+    <EcFlex :class="variantCls.svgs.wrapper">
+      <EcBox :class="variantCls.svgs.mobile.class" :style="variantCls.svgs.mobile.style">
         <svg width="100vw" height="30vw" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 22 C30 25, 50 20, 100 0 L100 30 0 30Z" fill="currentColor" />
         </svg>
-      </JBox>
-      <JBox :class="variantCls.svgs.desktop.class" :style="variantCls.svgs.desktop.style">
+      </EcBox>
+      <EcBox :class="variantCls.svgs.desktop.class" :style="variantCls.svgs.desktop.style">
         <svg width="30vh" height="100vh" viewBox="0 0 30 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M17 0 C-20 40, 35 65, 28 100 L0 100 0 0Z" fill="currentColor" />
         </svg>
-      </JBox>
+      </EcBox>
       <slot />
-    </JFlex>
+    </EcFlex>
 
     <!-- Background -->
-    <JBox :class="variantCls.background.class" :style="variantCls.background.style" />
-  </JFlex>
+    <EcBox :class="variantCls.background.class" :style="variantCls.background.style" />
+  </EcFlex>
 </template>
 
 <script>
@@ -78,7 +78,9 @@ export default {
       )
     },
     variantCls() {
-      return this.variants?.el || {}
+      var data = this.variants?.el || {}
+      console.log(data)
+      return data
     },
   },
 }

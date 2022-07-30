@@ -26,7 +26,7 @@
               {{ item.content }}
             </slot>
             <div :class="variantCls.closeIcon" @click="$emit('close', item.key)">
-              <JIcon width="20" height="20" icon="X" />
+              <EcIcon width="20" height="20" icon="X" />
             </div>
           </div>
         </div>
