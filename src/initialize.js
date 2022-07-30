@@ -27,7 +27,7 @@ const fetchConfig = async ({ tenantId, clientId }) => {
 const initializeVariants = async ({ tenantId, filename }) => {
   let defaultVariants
   let tenantVariants
-  debugger
+
   try {
     defaultVariants = await import("@/setups/variants/")
     defaultVariants = defaultVariants?.variants

@@ -18,7 +18,7 @@
   --c1-500: 119, 152, 233; /* #7798e9 */
   --c1-600: 69, 98, 189; /* #4562bd */
   --c1-700: 58, 77, 155; /* #3a4d9b */
-  --c1-800: 48, 55, 120; /* #303778 */
+  --c1-800: 17, 6, 99; /* #110663 */
   --c1-900: 33, 38, 84; /* #212654 */
 
   --c2-50: 253, 249, 251; /* #fdf9fb */
@@ -184,7 +184,7 @@
   --cWarning-800: 142, 104, 16; /* #8e6810 */
   --cWarning-900: 96, 71, 11; /* #60470b */
 
-  --primary-font: "Rubik", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial",
+  --primary-font: "Roboto", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial",
     "'Noto Sans'", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   --secondary-font: "Georgia", "Cambria", "Times New Roman", "Times", "serif";

@@ -19,7 +19,7 @@ export function resolveMutationErrors({
     }
   }
 
-  // By CoverGo convention, mutations are failed when status !== success
+  // By ReadyBC convention, mutations are failed when status !== success
   if (statusAndErrors?.status !== "success") {
     return constructError({
       code: "QUERY",

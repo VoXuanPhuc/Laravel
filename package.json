@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 8080",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vite --port 8080",
@@ -15,6 +15,7 @@
     "@vue/eslint-config-standard": "^8.0.0",
     "@vuelidate/core": "^2.0.0-alpha.43",
     "@vuelidate/validators": "^2.0.0-alpha.31",
+    "@xstate/inspect": "^0.7.0",
     "axios": "^0.27.2",
     "babel-eslint": "^10.1.0",
     "body-scroll-lock": "^4.0.0-beta.0",
@@ -27,7 +28,8 @@
     "vue": "^3.2.13",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.1.2",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "xstate": "^4.32.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

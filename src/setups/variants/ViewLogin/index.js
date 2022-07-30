@@ -3,7 +3,7 @@ export default {
   primary: {
     el: {
       root: "flex items-center",
-      title: "mb-6 lg:text-4xl",
+      title: "tmb-6 lg:text-5xl text-c0-50",
       subtitle: {
         class: "text-c1-200 mb-12",
         tenantId: "text-cWhite",
@@ -11,21 +11,21 @@ export default {
       },
       form: "w-full max-w-md",
       email: {
-        class: "mb-5",
+        class: "mb-5 text-c0-50",
         variant: "primary-lg",
         isDark: true,
       },
       password: {
-        class: "mb-12",
+        class: "mb-12 text-c0-50",
         variant: "primary-lg",
         isDark: true,
       },
       login: {
-        class: "mr-5",
+        class: "mr-5 hover:bg-c3-50 hover:border-c3-50 hover:text-c0-50 hover:shadow-lg",
         variant: "primary",
       },
       forgotPassword: {
-        class: "",
+        class: "hover:bg-c3-50 hover:border-c3-50 hover:text-c0-50",
         variant: "transparent",
       },
     },

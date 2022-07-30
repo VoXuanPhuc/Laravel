@@ -15,11 +15,11 @@ export function constructQuery({ defaultFragment, defaultQuery, fragment, queryO
     }
 
     # Default query here
-		query cases($limit: Int, $sort: sortInput, $skip: Int, $where: caseWhere, $asOf: DateTimeOffset) {
-			cases(limit: $limit, sort: $sort, where: $where, skip: $skip, asOf: $asOf) {
-				...cases
-			}
-		}
+        query cases($limit: Int, $sort: sortInput, $skip: Int, $where: caseWhere, $asOf: DateTimeOffset) {
+            cases(limit: $limit, sort: $sort, where: $where, skip: $skip, asOf: $asOf) {
+                ...cases
+            }
+        }
   */
 
   return queryOverride || `${fragment || defaultFragment} ${defaultQuery}`

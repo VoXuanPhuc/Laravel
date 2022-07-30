@@ -1,12 +1,19 @@
+import { makeAxiosRestFetcher } from "@/readybc/composables/api/makeAxiosRestFetcher"
 import axios from "axios"
 
-const fetcher = axios.create({
-  baseURL: "https://app-readybc.com/identity/",
-  timeout: 300,
+const baseURL = "https://app-readybc.com"
+
+export const fetcher = makeAxiosRestFetcher({
+  baseURL,
+  axios,
+
+  getToken() {
+    return localStorage[process.env.VUE_APP_TOKEN_KEY]
+  },
+
+  getLocale() {
+    return localStorage?.rbcAdminLocale || "en-US"
+  },
+
+  debug: true,
 })
-
-export { fetcher }
-
-export const getToken = () => {
-  return fetcher.get("login")
-}

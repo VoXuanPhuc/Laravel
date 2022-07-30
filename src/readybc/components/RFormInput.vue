@@ -52,7 +52,7 @@
     <EcBox v-if="isDirty && hasError" class="mt-2">
       <EcBox>
         <!-- Goes through messages and if message exists in validation definition, it will display message based on if it's valid or not -->
-        <EcText v-for="key in Object.keys(messages)" :key="key" class="text-cError-500 text-sm mt-1">
+        <EcText v-for="key in Object.keys(messages)" :key="key" class="text-cError-600 text-sm mt-1">
           {{ getMessage(getField, key) }}
         </EcText>
       </EcBox>

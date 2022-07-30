@@ -6,7 +6,9 @@
     <EcBox :class="variantCls.subtitle.class">
       <EcText> {{ $t("auth.loginSubtitle") }} </EcText>
       <EcText v-if="tenantId" :class="variantCls.subtitle.tenantId"> ( {{ $t("auth.tenantId") }}: {{ tenantId }} ) </EcText>
-      <EcText v-else :class="variantCls.subtitle.warning"> {{ $t("auth.missingTenantId") }} </EcText>
+      <EcText v-else :class="variantCls.subtitle.warning">
+        {{ $t("auth.missingTenantId") }}
+      </EcText>
     </EcBox>
     <EcBox :class="variantCls.form">
       <RFormInput
@@ -15,6 +17,7 @@
         componentName="EcInputText"
         :label="$t('auth.email')"
         type="email"
+        required="true"
         :variant="variantCls.email.variant"
         :dark="variantCls.email.isDark"
         iconPrefix="Mail"
@@ -72,6 +75,7 @@ import { apiToken } from "@/readybc/composables/login/apiToken"
 import { fetcher } from "../api/fetcher"
 import { handleErrorForUser } from "../api/handleErrorForUser"
 import dayjs from "dayjs"
+import useVuelidate from "@vuelidate/core"
 
 export default {
   name: "ViewLogin",
@@ -81,6 +85,7 @@ export default {
   },
   data() {
     return {
+      $v: useVuelidate(),
       form: {
         email: "",
         password: "",
@@ -121,8 +126,8 @@ export default {
   },
   methods: {
     async handleClickLogin() {
-      this.$v.form.$touch()
-      if (this.$v.form.$invalid) return
+      // this.$v.form.$touch()
+      // if (this.$v.form.$invalid) return
 
       // Show loading indicator
       this.isLoading = true
@@ -148,6 +153,7 @@ export default {
         username: this.form.email,
         password: this.form.password,
       }
+
       const { data, error } = await apiToken({
         variables,
         fetcher,

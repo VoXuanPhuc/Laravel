@@ -1,7 +1,7 @@
 export default {
   auth: {
     loginTitle: "Login to ReadyBC",
-    loginSubtitle: "Enterprise Policy Admin Solution",
+    loginSubtitle: "Business Continuity Made Easy",
     email: "Email",
     password: "Password",
     login: "Login",

@@ -1,5 +1,6 @@
 export default {
   logo: {
+    login: "readybc-login.png",
     sidebar: "escalate_logo.png",
   },
 

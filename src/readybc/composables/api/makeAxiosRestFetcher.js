@@ -12,9 +12,10 @@ export function makeAxiosRestFetcher({
   headers: fetcherHeaders = {},
   options: fetcherOptions = {},
 
-  debug = false,
+  debug = true,
 }) {
   if (!axios) throw new Error("Axios dependency is required as a parameter")
+
   return ({
     url: componentUrl,
     baseURL: componentBaseURL,
@@ -25,6 +26,7 @@ export function makeAxiosRestFetcher({
     locale = null,
     token = null,
   }) => {
+    // Check to see the fetcher url or component url
     if (!componentUrl && !fetcherUrl) throw new Error("Url is required to make an API call")
 
     const url = componentUrl || fetcherUrl

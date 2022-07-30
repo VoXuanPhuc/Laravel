@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { checkAuthGuard } from "./guards"
 import auth from "@/modules/auth/router/index"
+import dashboard from "@/modules/dashboard/router/index"
 
 const routes = [
   {
@@ -9,6 +10,7 @@ const routes = [
     redirect: "dashboard",
   },
   ...auth,
+  ...dashboard,
 ]
 
 const router = createRouter({

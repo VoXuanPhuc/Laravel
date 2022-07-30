@@ -3,28 +3,26 @@ import { constructQuery } from "../api/constructQuery"
 import { resolveFetcherErrors } from "../api/resolveFetcherErrors"
 import { resolveAuthQueryMutationErrors } from "../api/resolveAuthQueryMutationErrors"
 
-export function apiToken(params = {}) {
+export function apiForgotPassword(params = {}) {
   validateParams(params)
   const { variables, fragment, fetcher, queryOverride, locale, token } = params
 
   const defaultQuery = ""
 
-  const defaultFragment = "/identity/api/v1/login"
+  const defaultFragment = ""
 
-  const url = constructQuery({ defaultFragment, defaultQuery, fragment, queryOverride })
+  const query = constructQuery({ defaultFragment, defaultQuery, fragment, queryOverride })
 
   return new Promise((resolve) => {
-    debugger
-    fetcher({ url, variables, locale, token })
+    fetcher({ query, variables, locale, token })
       .then((response) =>
         resolve({
-          data: response?.data?.token,
+          data: response?.data?.forgotPassword,
           response,
           error: resolveAuthQueryMutationErrors({
-            type: "query",
-            // Have "error" & "errorDescription" instead of "errors" in response?.data
+            type: "mutation",
+            statusAndErrors: response?.data?.forgotPassword,
             errors: response?.errors,
-            dataToCheck: response?.data?.token,
           }),
         })
       )

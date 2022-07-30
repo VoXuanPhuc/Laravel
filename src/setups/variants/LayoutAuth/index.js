@@ -5,7 +5,7 @@ export default {
       root: "flex-col min-h-screen lg:flex-row-reverse",
       image: {
         wrapper: "p-10 lg:items-center items-center lg:w-7/12",
-        img: "mx-auto w-auto",
+        img: "mx-auto w-auto w-72",
       },
       svgs: {
         wrapper:

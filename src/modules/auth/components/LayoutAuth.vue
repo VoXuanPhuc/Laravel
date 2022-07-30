@@ -79,7 +79,6 @@ export default {
     },
     variantCls() {
       var data = this.variants?.el || {}
-      console.log(data)
       return data
     },
   },
