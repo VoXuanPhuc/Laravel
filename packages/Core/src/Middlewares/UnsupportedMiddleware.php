@@ -5,6 +5,7 @@ use Closure;
 use Encoda\Core\Exceptions\UnsupportedMediaTypeException;
 use Encoda\Core\Http\Header\Header;
 use Encoda\Core\Http\Media\MediaType;
+use Encoda\Core\Http\Method\RequestMethod;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Http\ResponseFactory;
 
@@ -21,7 +22,7 @@ class UnsupportedMiddleware extends BaseMiddleware
     {
         $type = $request->headers->get(Header::CONTENT_TYPE);
 
-        if (stripos($type, MediaType::APPLICATION_JSON ) !== 0) {
+        if ( $request->getMethod() == RequestMethod::POST && stripos($type, MediaType::APPLICATION_JSON ) !== 0) {
 
             throw new UnsupportedMediaTypeException();
         }

@@ -82,7 +82,6 @@ $app->configure('cors');
      \Encoda\Core\Middlewares\UnacceptableMiddleware::class,
      \Encoda\Core\Middlewares\JsonPayloadHandlerMiddleware::class,
      \Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
-     \Encoda\CORS\Middlewares\CORSMiddleware::class,
  ]);
 
  $app->routeMiddleware([
@@ -109,7 +108,6 @@ $app->register( Encoda\Core\Providers\FormRequestProvider::class );
 $app->register( Encoda\Auth\Providers\AuthServiceProvider::class );
 $app->register( Encoda\Identity\Providers\IdentityServiceProvider::class );
 $app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
-$app->register( Encoda\CORS\Providers\CORSServiceProvider::class );
 
 
 /**
