@@ -62,6 +62,8 @@ $app->singleton(
 $app->configure('app');
 $app->configure('config');
 $app->configure('cognito');
+$app->configure('auth');
+$app->configure('cors');
 
 /*
 |--------------------------------------------------------------------------
@@ -80,10 +82,11 @@ $app->configure('cognito');
      \Encoda\Core\Middlewares\UnacceptableMiddleware::class,
      \Encoda\Core\Middlewares\JsonPayloadHandlerMiddleware::class,
      \Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
+     \Encoda\CORS\Middlewares\CORSMiddleware::class,
  ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
+     'auth' => Encoda\Auth\Http\Middlewares\AuthMiddleware::class,
  ]);
 
 /*
@@ -106,6 +109,7 @@ $app->register( Encoda\Core\Providers\FormRequestProvider::class );
 $app->register( Encoda\Auth\Providers\AuthServiceProvider::class );
 $app->register( Encoda\Identity\Providers\IdentityServiceProvider::class );
 $app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
+$app->register( Encoda\CORS\Providers\CORSServiceProvider::class );
 
 
 /**

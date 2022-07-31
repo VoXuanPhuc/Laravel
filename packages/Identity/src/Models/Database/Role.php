@@ -1,5 +1,5 @@
 <?php
-namespace Encoda\Auth\Models;
+namespace Encoda\Auth\Models\Database;
 
 use Illuminate\Database\Eloquent\Model;
 

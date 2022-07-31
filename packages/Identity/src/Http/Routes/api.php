@@ -8,7 +8,7 @@ use Encoda\Identity\Http\Controllers\UserGroupController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
-Route::group( ['prefix' => '/identity/api/v1/'] , function() {
+Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
 
 
     /** ======== User routing  */

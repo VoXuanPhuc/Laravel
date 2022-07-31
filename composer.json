@@ -22,6 +22,7 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Encoda\\Core\\" : "packages/Core/src",
+            "Encoda\\CORS\\" : "packages/CORS/src",
             "Encoda\\Log\\" : "packages/Log/src",
             "Encoda\\Auth\\" : "packages/Auth/src",
             "Encoda\\AWSCognito\\" : "packages/AWSCognito/src",

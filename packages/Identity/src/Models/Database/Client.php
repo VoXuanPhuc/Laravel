@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoda\Identity\Models;
+namespace Encoda\Identity\Models\Database;
 
 use Illuminate\Database\Eloquent\Model;
 
