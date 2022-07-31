@@ -44,6 +44,7 @@ RUN echo "Listen ${PORT}" >> /etc/apache2/ports.conf
 COPY ./docker/apache2/identity-service.conf  /etc/apache2/sites-available/
 RUN a2ensite identity-service
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 # Expose port and start apache2 server
 EXPOSE ${PORT}
