@@ -19,7 +19,7 @@ class AuthMiddleware
     public function handle($request, Closure $next, $guard = null ) {
 
         if( $this->auth->guard( $guard )->guest() ) {
-            throw new UnauthorizedException('Unauthorized', 401);
+            //throw new UnauthorizedException('Unauthorized', 401);
         }
         return $next($request);
     }
