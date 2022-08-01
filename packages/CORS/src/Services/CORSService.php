@@ -3,8 +3,10 @@
 namespace Encoda\CORS\Services;
 
 use Encoda\CORS\Contracts\CORSServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class CORSService implements CORSServiceInterface
 {
@@ -95,7 +97,7 @@ class CORSService implements CORSServiceInterface
             $response = $this->setAccessControlAllowOriginHeader($request, $response);
 
             if ($this->allowCredentials) {
-                $response->headers->set('Access-Control-Allow-Credentials', 'true');
+                $response->headers->set('Access-Control-Allow-Credentials', $this->allowCredentials);
             }
 
             if ($this->maxAge) {
@@ -119,11 +121,12 @@ class CORSService implements CORSServiceInterface
     }
 
     /**
+     *
      * @param Request $request
-     * @param Response $response
+     * @param Response|JsonResponse $response
      * @return Response
      */
-    public function handleRequest(Request $request, Response $response): Response
+    public function handleRequest(Request $request, $response)
     {
         // Do not set any headers if the origin is not allowed
         if ($this->isOriginAllowed($request->headers->get('Origin'))) {

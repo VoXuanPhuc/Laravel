@@ -2,6 +2,7 @@
 
 namespace Encoda\CORS\Contracts;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -13,20 +14,20 @@ interface CORSServiceInterface
      *
      * @param Request $request
      *
-     * @return Response
+     * @return Response|JsonResponse
      */
-    public function handlePreflightRequest(Request $request): Response;
+    public function handlePreflightRequest(Request $request);
 
 
     /**
      * Handles the actual request.
      *
      * @param Request  $request
-     * @param Response $response
+     * @param $response
      *
      * @return Response
      */
-    public function handleRequest(Request $request, Response $response): Response;
+    public function handleRequest(Request $request, $response);
 
 
     /**

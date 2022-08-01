@@ -21,7 +21,11 @@ class UnacceptableMiddleware extends BaseMiddleware
     {
         $accept = $request->headers->get(Header::ACCEPT );
 
-        if ( $accept && stripos($accept, MediaType::JSON ) === false ) {
+        if (
+            $accept
+            && stripos($accept, MediaType::WILDCARD ) === false
+            && stripos($accept, MediaType::JSON ) === false
+        ) {
             throw new UnacceptableDataTypeException();
         }
 
