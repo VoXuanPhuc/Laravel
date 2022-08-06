@@ -86,6 +86,11 @@ export default {
     User: lazyLoad("User"),
     UserGroup: lazyLoad("UserGroup"),
     Users: lazyLoad("Users"),
+    Resource: lazyLoad("Resource"),
+    Supplier: lazyLoad("Supplier"),
+    Industry: lazyLoad("Industry"),
+    Activity: lazyLoad("Activity"),
+    Dashboard: lazyLoad("Dashboard"),
     X: lazyLoad("X"),
   },
 }

@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import store from "@/store"
+import { useGlobalStore } from "@/stores/global"
 
 const isAuthenticated = () => {
   const now = dayjs()
@@ -9,10 +9,11 @@ const isAuthenticated = () => {
 }
 
 const setMe = async () => {
+  const globalStore = useGlobalStore()
   try {
-    await store.dispatch("setMe")
+    await globalStore.setMe()
   } catch (error) {
-    store.dispatch("addToastMessage", {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
@@ -23,6 +24,7 @@ const setMe = async () => {
 }
 
 const checkAuthGuard = (router) => {
+  const globalStore = useGlobalStore()
   let currentTenantId = localStorage.getItem("readyBCAdminTenantId")
   let currentClientId = localStorage.getItem("readyBCAdminClientId")
   const blockedRoutes = ["ViewLogin", "ViewForgotPassword", "ViewNewPassword"]
@@ -33,11 +35,11 @@ const checkAuthGuard = (router) => {
       (to?.query?.tenantId && to?.query?.tenantId !== currentTenantId) ||
       (to?.query?.clientId && to?.query?.clientId !== currentClientId)
     ) {
-      store.dispatch("logout")
+      globalStore.logout()
       // tenantId and clientId in store will be the newly passed params
       // we assign above to currentTenantId and clientId to escape this loop
-      currentTenantId = store.state.tenantId
-      currentClientId = store.state.clientId
+      currentTenantId = globalStore.getTenantId
+      currentClientId = globalStore.getClientId
     } else if (!isAuthenticated() && !to.meta.isPublic) {
       // Store entered link into window.PATH
       // Navigate user to the page was stored after login (ViewLogin.vue)

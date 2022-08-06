@@ -26,8 +26,31 @@ import EcLabel from "@/components/EcLabel"
 import EcIcon from "@/components/EcIcon"
 
 // Project components
-import RMessage from "@/readybc/components/RMessage"
-import RFormInput from "@/readybc/components/RFormInput"
+import RMessage from "@/modules/core/components/common/RMessage"
+import RFormInput from "@/modules/core/components/common/RFormInput"
+import RLayoutDefault from "@/modules/core/components/common/RLayoutDefault"
+import RLayout from "@/modules/core/components/common/RLayout"
+import RLayoutTwoCol from "@/modules/core/components/common/RLayoutTwoCol"
+import RBreadcrumb from "@/modules/core/components/common/RBreadcrumb"
+import RProgressBar from "@/modules/core/components/common/RProgressBar"
+import RQuoteHeadline from "@/modules/core/components/common/RQuoteHeadline"
+import RSidebar from "@/modules/core/components/common/RSidebar"
+import RSidebarMenu from "@/modules/core/components/common/RSidebarMenu"
+import RSidebarMobile from "@/modules/core/components/common/RSidebarMobile"
+import RPagination from "@/modules/core/components/common/RPagination"
+import RPaginationStatus from "@/modules/core/components/common/RPaginationStatus"
+import RSearchBox from "@/modules/core/components/common/RSearchBox"
+import RTabs from "@/modules/core/components/common/RTabs"
+import REditableField from "@/modules/core/components/common/REditableField"
+import RDatePickerAdvanced from "@/modules/core/components/common/RDatePickerAdvanced"
+
+// Table
+import RTable from "@/modules/core/components/RTable/RTable"
+import RTableAction from "@/modules/core/components/RTable/RTableAction"
+import RTableCell from "@/modules/core/components/RTable/RTableCell"
+import RTableHeaderCell from "@/modules/core/components/RTable/RTableHeaderCell"
+import RTableHeaderRow from "@/modules/core/components/RTable/RTableHeaderRow"
+import RTableRow from "@/modules/core/components/RTable/RTableRow"
 
 // Base components
 const baseComponents = {
@@ -59,8 +82,30 @@ const baseComponents = {
 }
 
 const coreComponents = {
+  RBreadcrumb,
   RFormInput,
+  RLayoutDefault,
+  RLayout,
+  RLayoutTwoCol,
   RMessage,
+  RProgressBar,
+  RQuoteHeadline,
+  RSidebar,
+  RSidebarMenu,
+  RSidebarMobile,
+  RPagination,
+  RPaginationStatus,
+  RSearchBox,
+
+  RTable,
+  RTableAction,
+  RTableCell,
+  RTableHeaderCell,
+  RTableHeaderRow,
+  RTableRow,
+  RTabs,
+  REditableField,
+  RDatePickerAdvanced,
 }
 
 // Inject variant resolver function into base components

@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { checkAuthGuard } from "./guards"
+
 import auth from "@/modules/auth/router/index"
 import dashboard from "@/modules/dashboard/router/index"
+import organization from "@/modules/organization/router/index"
+import user from "@/modules/user/router/index"
+import setting from "@/modules/setting/router/index"
 
 const routes = [
   {
@@ -11,6 +14,9 @@ const routes = [
   },
   ...auth,
   ...dashboard,
+  ...organization,
+  ...user,
+  ...setting,
 ]
 
 const router = createRouter({
@@ -23,7 +29,5 @@ const router = createRouter({
     }
   },
 })
-
-checkAuthGuard(router)
 
 export default router

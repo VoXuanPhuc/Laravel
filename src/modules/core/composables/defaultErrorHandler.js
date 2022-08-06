@@ -1,29 +1,45 @@
-import store from "@/store"
+import { useGlobalStore } from "@/stores/global"
+import { i18n } from "@/setups/i18nConfig"
 
 function logout() {
-  store.dispatch("logout")
+  const globalStore = useGlobalStore()
+  globalStore.logout()
 }
 
-export function defaultErrorHandler({ error = {}, $t }) {
-  const { code, userMessage } = error
+function centralizeError(error) {
+  // axios error format
+  const { data, status } = error?.response || {}
+  // BE error format
+  const { code, message } = data?.error || {}
 
-  if (code === "NETWORK_OR_SERVER") {
-    store.dispatch("addToastMessage", {
+  return {
+    error,
+    code: code || status,
+    message: message || error?.message,
+  }
+}
+
+export function defaultErrorHandler(error = {}) {
+  const globalStore = useGlobalStore()
+  const { code, message } = centralizeError(error)
+
+  if (code === 500) {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
-        text: $t("errors.network"),
+        text: i18n.global.t("errors.network"),
       },
     })
     return
   }
 
-  if (code === "AUTH_INVALID_TOKEN") {
-    store.dispatch("addToastMessage", {
+  if (code === 401) {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
-        text: $t("errors.token"),
+        text: i18n.global.t("errors.token"),
       },
     })
 
@@ -33,33 +49,27 @@ export function defaultErrorHandler({ error = {}, $t }) {
     return
   }
 
-  if (code === "AUTH_INSUFFICIENT_PERMISSIONS") {
-    store.dispatch("addToastMessage", {
+  if (code === 403) {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
-        text: $t("errors.permission"),
+        text: i18n.global.t("errors.permission"),
       },
     })
     return
   }
 
-  if (code === "QUERY") {
-    store.dispatch("addToastMessage", {
+  if (code === 404) {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
-        text: `${$t("errors.query")} ${userMessage}`,
+        text: i18n.global.t("errors.notFound"),
       },
     })
     return
   }
 
-  store.dispatch("addToastMessage", {
-    type: "error",
-    content: {
-      type: "message",
-      text: $t("errors.general"),
-    },
-  })
+  return { error, code, message }
 }

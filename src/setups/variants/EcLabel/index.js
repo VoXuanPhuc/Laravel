@@ -1,8 +1,8 @@
 export default {
-	default: "block",
-	block: {
-		el: {
-			root: "block",
-		},
-	},
+  default: "block",
+  block: {
+    el: {
+      root: "block",
+    },
+  },
 }

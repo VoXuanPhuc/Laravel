@@ -26,20 +26,20 @@
 </template>
 
 <script>
-import { useStore } from "vuex"
+import { useGlobalStore } from "@/stores/global"
 import { computed, shallowRef, onBeforeMount } from "vue"
 export default {
   name: "LayoutAuth",
   inject: ["getComponentVariants"],
 
   setup() {
-    const store = useStore()
+    const globalStore = useGlobalStore()
 
     const logoImg = shallowRef(null)
     const computedLogo = computed(() => logoImg.value || "https://via.placeholder.com/400x300")
 
     async function decideImageToRender() {
-      const { tenantId, clientId } = store?.state
+      const { tenantId, clientId } = globalStore.getTenantClientId
       try {
         const tenantConfig = await import(`@/tenants/${tenantId}/configs/${clientId}.js`)
         const fileName = tenantConfig?.default?.logo?.login

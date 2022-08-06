@@ -1,4 +1,5 @@
 :root {
+  --white: 255, 255, 255;
   --c0-50: 251, 251, 253; /* #fbfbfd */
   --c0-100: 246, 247, 251; /* #f6f7fb */
   --c0-200: 204, 209, 225; /* #ccd1e1 */
@@ -184,8 +185,8 @@
   --cWarning-800: 142, 104, 16; /* #8e6810 */
   --cWarning-900: 96, 71, 11; /* #60470b */
 
-  --primary-font: "Roboto", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial",
-    "'Noto Sans'", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --primary-font: "Google Sans", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue",
+    "Arial", "'Noto Sans'", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   --secondary-font: "Georgia", "Cambria", "Times New Roman", "Times", "serif";
 

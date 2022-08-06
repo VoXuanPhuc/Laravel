@@ -1,20 +1,38 @@
-// Factory function returning fetcher suitable for ReadyBC Rest APIs
 import axios from "axios"
-import { makeAxiosRestFetcher } from "@/readybc/composables/api/makeAxiosRestFetcher"
+import { defaultErrorHandler } from "../composables/defaultErrorHandler"
 
-const baseURL = process.env.VUE_APP_FILE_SYSTEM_ENDPOINT
-
-export const restFetcher = makeAxiosRestFetcher({
-  axios,
-  baseURL,
-
-  getToken() {
-    return localStorage[process.env.VUE_APP_TOKEN_KEY]
-  },
-
-  getLocale() {
-    return localStorage?.rbcAdminLocale || "en-US"
-  },
-
-  debug: true,
+const fetcher = axios.create({
+  baseURL: `${process.env.VUE_APP_BASE_URL}`,
 })
+
+fetcher.defaults.timeout = 3 * 1000 * 60 // 3 mins
+
+fetcher.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem(process.env.VUE_APP_TOKEN_KEY) || ""
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    // Do something with request error
+    return Promise.reject(error)
+  }
+)
+
+fetcher.interceptors.response.use(
+  (response) => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response
+  },
+  (error) => {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    const centralizedError = defaultErrorHandler(error)
+    return Promise.reject(centralizedError)
+  }
+)
+
+export default fetcher

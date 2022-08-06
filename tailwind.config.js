@@ -2,7 +2,7 @@
 //  ** TailwindCSS Configuration File
 //  **
 //  ** Docs: https://tailwindcss.com/docs/configuration
-//  ** Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+//  ** DEFAULT: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
 //  */
 const colorCallback =
   (colorName) =>
@@ -18,12 +18,11 @@ const colorCallback =
 module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
+    // purgeLayersByDEFAULT: true,
   },
-  content: {
-    enabled: process.env.NODE_ENV === "production",
-    content: ["*.html", "./src/**/*.html", "./src/**/*.vue", "./src/**/*.js"],
-  },
+  enabled: process.env.NODE_ENV === "production",
+
+  content: ["*.html", "./src/**/*.html", "./src/**/*.vue", "./src/**/*.js"],
   target: "relaxed",
   prefix: "",
   important: false,
@@ -196,13 +195,18 @@ module.exports = {
         800: colorCallback("--c12-800"),
         900: colorCallback("--c12-900"),
       },
-      c13: { default: colorCallback("--c13") },
-      c14: { default: colorCallback("--c14") },
-      c15: { default: colorCallback("--c15") },
-      cWhite: { default: colorCallback("--cWhite") },
-      cBlack: { default: colorCallback("--cBlack") },
-      cTransparent: { default: "var(--cTransparent)" },
-      cCurrent: { default: "var(--cCurrent)" },
+      c13: colorCallback("--c13"),
+      c14: colorCallback("--c14"),
+      c15: colorCallback("--c15"),
+
+      cWhite: {
+        DEFAULT: colorCallback("--cWhite"),
+      },
+      cBlack: {
+        DEFAULT: colorCallback("--cBlack"),
+      },
+      cTransparent: "var(--cTransparent)",
+      cCurrent: "var(--cCurrent)",
       cError: {
         50: colorCallback("--cError-50"),
         100: colorCallback("--cError-100"),
@@ -242,7 +246,7 @@ module.exports = {
     },
 
     boxShadow: {
-      default: "2px 2px 6px rgba(204, 217, 252, 0.5)",
+      DEFAULT: "2px 2px 6px rgba(204, 217, 252, 0.5)",
       2: "0px 2px 20px rgba(207, 220, 255, 0.2)",
       3: "2px 2px 10px rgba(217, 143, 171, 0.2)",
       4: "0px 2px 20px rgba(207, 220, 255, 0.2)",
@@ -313,13 +317,13 @@ module.exports = {
     },
     borderColor: (theme) => ({
       ...theme("colors"),
-      default: theme("colors.gray.300", "currentColor"),
+      DEFAULT: theme("colors.gray.500", "currentColor"),
     }),
     borderOpacity: (theme) => theme("opacity"),
     borderRadius: {
       none: "0",
       sm: "0.125rem",
-      default: "0.25rem",
+      DEFAULT: "0.25rem",
       md: "0.375rem",
       lg: "0.5rem",
       full: "9999px",
@@ -328,8 +332,9 @@ module.exports = {
       "3xl": "1.5rem",
     },
     borderWidth: {
-      default: "1px",
+      DEFAULT: "1px",
       0: "0",
+      1: "1px",
       2: "2px",
       4: "4px",
       8: "8px",
@@ -337,7 +342,7 @@ module.exports = {
     container: {},
     cursor: {
       auto: "auto",
-      default: "default",
+      DEFAULT: "default",
       pointer: "pointer",
       wait: "wait",
       text: "text",
@@ -358,11 +363,11 @@ module.exports = {
     },
     flexGrow: {
       0: "0",
-      default: "1",
+      DEFAULT: "1",
     },
     flexShrink: {
       0: "0",
-      default: "1",
+      DEFAULT: "1",
     },
     fontSize: {
       xs: "0.75rem",
@@ -738,7 +743,7 @@ module.exports = {
     transitionProperty: {
       none: "none",
       all: "all",
-      default: "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform",
+      DEFAULT: "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform",
       colors: "background-color, border-color, color, fill, stroke",
       opacity: "opacity",
       shadow: "box-shadow",

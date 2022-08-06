@@ -9,14 +9,14 @@ export default {
   locale_filename: "index.js", // name of js file containing locales inside @/tenants/{tenant}/locale/
   layout_filename: "EsclateLayout.vue", // name of vue file containing locales inside @/tenants/{tenant}/layout/
 
-  modules: [
-    {
-      module: "dashboard",
-      icon: "Template",
-      text: "core.dashboard",
-      routeName: "ViewDashboard",
-    },
-  ],
+  // modules: [
+  //   {
+  //     module: "dashboard",
+  //     icon: "Template",
+  //     text: "core.dashboard",
+  //     routeName: "ViewDashboard",
+  //   },
+  // ],
 
   // Add more or override routes
   routes: [],

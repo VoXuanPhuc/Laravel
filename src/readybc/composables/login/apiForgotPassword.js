@@ -1,4 +1,4 @@
-import { validateParams } from "../api/validateParams"
+import { validateParams } from "../helpers/validateParams"
 import { constructQuery } from "../api/constructQuery"
 import { resolveFetcherErrors } from "../api/resolveFetcherErrors"
 import { resolveAuthQueryMutationErrors } from "../api/resolveAuthQueryMutationErrors"

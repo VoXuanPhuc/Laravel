@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import router from "@/router"
-import store from "@/store"
+import { useGlobalStore } from "@/stores/global"
 
 /** Format data */
 const formatData = (value, dateFormat) => {
@@ -28,9 +28,10 @@ const capitalize = (str) => {
 
 /** Goto router name */
 const goto = (routerName, { params, query } = {}) => {
+  const globalStore = useGlobalStore()
   // Set default language params
   const defaultParams = {
-    lang: store.state?.locale || "en",
+    lang: globalStore.locale || "en",
   }
   router.push({
     name: routerName,

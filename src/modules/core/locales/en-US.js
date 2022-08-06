@@ -1,12 +1,19 @@
 export default {
   core: {
+    // Sidebar menu
     dashboard: "Dashboard",
     users: "Users",
     organizations: "Organizations",
     report: "Report",
+    resources: "Resources",
+    suppliers: "Suppliers",
+    industries: "Industries",
+    activities: "Activities",
     reports: "Reports",
     settings: "Settings",
     logout: "Log Out",
+
+    // Others
     edit: "Edit",
     delete: "Delete",
     required: "This field is required!",
@@ -19,7 +26,7 @@ export default {
     sameAs: "This field does not match",
     noNumber: "This field can't contain number",
     phone: "Please enter a valid Phone Number",
-    noDataHere: "No data here",
+    noDataHere: "No data found",
     notifications: "Notifications",
     credentials: "Credentials",
     name: "Name",
@@ -115,5 +122,6 @@ export default {
     SEMI_ANNUALLY: "Semi Annually",
     ANNUALLY: "Annually",
     download: "Download",
+    copyLinkSuccess: "Copied",
   },
 }

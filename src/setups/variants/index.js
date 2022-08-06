@@ -25,6 +25,9 @@ import EcLabel from "./EcLabel"
 // import EcIcon from "./EcIcon"
 import LayoutAuth from "./LayoutAuth"
 import ViewLogin from "./ViewLogin"
+import RSidebar from "./RSidebar"
+import RSidebarMenu from "./RSidebarMenu"
+import RLayoutDefault from "./RLayoutDefault"
 
 const variants = {
   EcButton,
@@ -54,6 +57,9 @@ const variants = {
   // EcIcon,
   LayoutAuth,
   ViewLogin,
+  RSidebar,
+  RSidebarMenu,
+  RLayoutDefault,
 }
 
 export { variants }

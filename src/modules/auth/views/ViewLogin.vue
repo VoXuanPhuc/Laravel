@@ -12,7 +12,7 @@
     </EcBox>
     <EcBox :class="variantCls.form">
       <RFormInput
-        v-model="form.email"
+        v-model="form.username"
         :class="variantCls.email.class"
         componentName="EcInputText"
         :label="$t('auth.email')"
@@ -21,9 +21,9 @@
         :variant="variantCls.email.variant"
         :dark="variantCls.email.isDark"
         iconPrefix="Mail"
-        :validator="$v"
-        field="form.email"
-        @input="$v.form.email.$touch()"
+        :validator="v"
+        field="form.username"
+        @input="v.form.username.$touch()"
         @keypress.enter="handleClickLogin()"
         data-test="inputEmail"
       />
@@ -36,9 +36,9 @@
         :variant="variantCls.password.variant"
         :dark="variantCls.password.isDark"
         iconPrefix="LockClosed"
-        :validator="$v"
+        :validator="v"
         field="form.password"
-        @input="$v.form.password.$touch()"
+        @input="v.form.password.$touch()"
         @keypress.enter="handleClickLogin()"
         data-test="inputPassword"
       />
@@ -60,7 +60,7 @@
           {{ $t("auth.forgotPassword") }}
         </EcButton>
       </EcFlex>
-      <EcFlex v-else class="h-12 items-center">
+      <EcFlex v-else class="items-center h-12">
         <EcSpinner variant="primary" type="dots" />
       </EcFlex>
     </EcBox>
@@ -68,36 +68,45 @@
 </template>
 
 <script>
-import { required, email } from "@vuelidate/validators"
-import { mapState } from "vuex"
 import LayoutAuth from "./../components/LayoutAuth"
-import { apiToken } from "@/readybc/composables/login/apiToken"
-import { fetcher } from "../api/fetcher"
-import { handleErrorForUser } from "../api/handleErrorForUser"
-import dayjs from "dayjs"
-import useVuelidate from "@vuelidate/core"
+import EcSpinner from "@/components/EcSpinner/index.vue"
+import { useGlobalStore } from "@/stores/global"
+import { useLoginStore } from "../stores/useLogin"
+import { storeToRefs } from "pinia"
 
 export default {
   name: "ViewLogin",
   inject: ["getComponentVariants"],
   components: {
     LayoutAuth,
+    EcSpinner,
   },
   data() {
     return {
-      $v: useVuelidate(),
-      form: {
-        email: "",
-        password: "",
-      },
       isLoading: false,
+      error: null,
+    }
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    const loginStore = useLoginStore()
+    const { form, v } = storeToRefs(loginStore)
+
+    return {
+      globalStore,
+      loginStore,
+      form,
+      v,
     }
   },
   computed: {
-    ...mapState({
-      tenantId: (state) => state.tenantId,
-      clientId: (state) => state.clientId,
-    }),
+    tenantId() {
+      return this.globalStore.getTenantId
+    },
+    clientId() {
+      return this.globalStore.getClientId
+    },
 
     variants() {
       return (
@@ -111,70 +120,36 @@ export default {
       return this.variants?.el || {}
     },
   },
-  validations() {
-    return {
-      form: {
-        email: {
-          required,
-          email,
-        },
-        password: {
-          required,
-        },
-      },
-    }
-  },
   methods: {
     async handleClickLogin() {
-      // this.$v.form.$touch()
-      // if (this.$v.form.$invalid) return
-
-      // Show loading indicator
-      this.isLoading = true
-      // Get token
-      await this.login()
-      // Hide loading indicator
-      this.isLoading = false
-      // Get previous path that was entered while user was logged in
-      // If exists, go to previous path after log in
-      // Else go to Dashboard
-      if (window.PATH) {
-        this.$router.push(window.PATH)
-      } else {
-        this.$router.push({
-          name: "ViewDashboard",
-        })
-      }
-    },
-    async login() {
-      const variables = {
-        tenantId: this.tenantId,
-        clientId: this.clientId,
-        username: this.form.email,
-        password: this.form.password,
+      console.log(this.globalStore.getTenantId)
+      this.v.form.$touch()
+      if (this.v.form.$invalid) {
+        return
       }
 
-      const { data, error } = await apiToken({
-        variables,
-        fetcher,
-      })
-      if (!error) {
-        const { accessToken, error: tokenError, expiresIn } = data
-        if (!tokenError) {
-          // Save token to localStorage
-          localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, accessToken)
-          localStorage.setItem(process.env.VUE_APP_TOKEN_EXPIRES, dayjs().add(expiresIn, "second"))
+      try {
+        // Show loading indicator
+        this.isLoading = true
+        // Get token
+        await this.loginStore.login()
+        // Hide loading indicator
+        this.isLoading = false
+        // Get previous path that was entered while user was logged in
+        // If exists, go to previous path after log in
+        // Else go to Dashboard
+
+        if (window.PATH) {
+          this.$router.push(window.PATH)
         } else {
-          this.$store.dispatch("addToastMessage", {
-            type: "error",
-            content: {
-              type: "message",
-              text: this.$t(`auth.${tokenError}`),
-            },
+          this.$router.push({
+            name: "ViewDashboard",
           })
         }
-      } else {
-        handleErrorForUser({ error, $t: this.$t })
+      } catch (error) {
+        // Hide loading indicator
+        this.isLoading = false
+        this.error = error?.message
       }
     },
     handleClickForgotPassword() {

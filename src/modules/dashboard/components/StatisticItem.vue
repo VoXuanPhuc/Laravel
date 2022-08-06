@@ -5,7 +5,7 @@
       <EcIcon width="32" height="32" class="relative" :class="`${info.iconColor}`" :icon="info.icon" />
     </EcFlex>
     <EcBox class="mt-4 lg:mt-0 lg:ml-6">
-      <EcText class="font-medium text-c0-300 text-xs">
+      <EcText class="font-medium text-cBlack text-sm">
         {{ info.label }}
       </EcText>
       <EcFlex class="items-center mt-2">
@@ -13,9 +13,9 @@
           {{ info.count }}
         </EcText>
         <EcBox v-if="info.navigation" class="ml-2">
-          <JButton variant="transparent-rounded" @click="handleClickAdd">
+          <EcButton variant="transparent-rounded" @click="handleClickAdd">
             <EcIcon icon="PlusCircle" width="20" height="20" />
-          </JButton>
+          </EcButton>
         </EcBox>
       </EcFlex>
     </EcBox>

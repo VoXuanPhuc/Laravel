@@ -21,6 +21,7 @@ export default [
       isPublic: true,
     },
   },
+
   {
     path: "/forgot-password",
     component: ViewForgotPassword,

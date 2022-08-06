@@ -1,8 +1,7 @@
-let apiNotifications = function ({ variables, fetcher, fragment }) {
-  // TODO: Implement code logic here
-  console.log(variables)
-  console.log(fetcher)
-  console.log(fragment)
+import fetcher from "@/modules/core/api/fetcher"
+
+const apiNotifications = async function ({ variables, fragment }) {
+  return fetcher.get("/notifications")
 }
 
 export { apiNotifications }

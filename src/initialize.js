@@ -1,20 +1,24 @@
 import router from "./router"
-import store from "./store"
+import { useGlobalStore } from "./stores/global"
 import { i18n } from "@/setups/i18nConfig"
 
 const fetchConfig = async ({ tenantId, clientId }) => {
+  const globalStore = useGlobalStore()
+
   try {
     const config = await import(`@/tenants/${tenantId}/configs/${clientId}.js`)
+
     return config.default
     // eslint-disable-next-line no-empty
   } catch (error) {
-    store.dispatch("addToastMessage", {
+    globalStore.addToastMessage({
       type: "error",
       content: {
         type: "message",
         text: `TenantId: ${tenantId} and clientId: ${clientId} combination does not exist`,
       },
     })
+
     console.groupCollapsed("%c Tenant config file does not exist", "padding: 1px 6px 1px 0px; background: yellow; color: black")
     console.log(`tenantId: ${tenantId}`)
     console.log(`clientId: ${clientId}`)
@@ -86,8 +90,10 @@ const initializeTheme = async ({ tenantId, filename }) => {
 
 // Initialize locale
 const initializeLocales = async () => {
+  const globalStore = useGlobalStore()
+
   // Set preferred locales based on what's in localStorage
-  store.dispatch("setLocale", window.localStorage?.readyBCAdminLocale || "en-US")
+  globalStore.setLocale(window.localStorage?.readyBCAdminLocale || "en-US")
 }
 
 /** Register new vuex modules or override existing ones **/
@@ -95,12 +101,12 @@ const initializeStore = async ({ tenantId }) => {
   try {
     const module = await import(`@/tenants/${tenantId}/store/index.js`)
     const moduleNames = Object.keys(module?.default)
-    const moduleObjects = Object.values(module?.default)
+    // const moduleObjects = Object.values(module?.default)
     moduleNames.forEach((name, index) => {
-      store.registerModule(name, {
-        namespaced: true,
-        ...moduleObjects[index],
-      })
+      // store.registerModule(name, {
+      //   namespaced: true,
+      //   ...moduleObjects[index],
+      // })
     })
   } catch (error) {
     console.groupCollapsed("%c Tenant store file does not exist", "padding: 1px 6px 1px 0px; background: yellow; color: black")
@@ -112,18 +118,19 @@ const initializeStore = async ({ tenantId }) => {
 
 // Initialize tenant
 const initializeTenant = async ({ tenantId, clientId }) => {
+  const globalStore = useGlobalStore()
   console.log("%c Initializing", "padding: 1px 6px 1px 0px; background: green; color: white")
 
   // Save tenantId and clientId in store and in localStorage
   // Rule of thumb is to access tenantId/clientId from store as for some other auth strategies they will not be accessible in localStorage
-  store.dispatch("setTenantId", tenantId)
-  store.dispatch("setClientId", clientId)
+  globalStore.setTenantId(tenantId)
+  globalStore.setClientId(clientId)
 
   // fetch config based on tenantId and clientId
   const config = await fetchConfig({ tenantId, clientId })
 
   // Save settings in store
-  store.commit("setTenantSettings", config)
+  globalStore.setTenantSettings(config)
 
   // Get tenant data
   const themeFilename = config?.theme_filename
@@ -132,8 +139,12 @@ const initializeTenant = async ({ tenantId, clientId }) => {
   const dateFormat = config?.dateFormat
   const dateTimeFormat = config?.dateTimeFormat
 
-  if (dateFormat) store.commit("setDateFormat", dateFormat)
-  if (dateTimeFormat) store.commit("setDateTimeFormat", dateTimeFormat)
+  if (dateFormat) {
+    globalStore.setDateFormat(dateFormat)
+  }
+  if (dateTimeFormat) {
+    globalStore.setDateTimeFormat(dateTimeFormat)
+  }
 
   // Initialize theme, routes, locales
   await initializeStore({ tenantId })

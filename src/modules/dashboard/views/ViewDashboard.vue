@@ -7,18 +7,24 @@
 
 <script>
 import StatisticList from "./../components/StatisticList.vue"
-import { useDashboard } from "./../use/useDashboard"
+import useDashboardStore from "../stores/useDashboard"
+import { storeToRefs } from "pinia"
 
 export default {
   name: "ViewDashboard",
   components: { StatisticList },
   setup() {
-    const { state, send, statisticList } = useDashboard()
+    const dashboardStore = useDashboardStore()
+
+    const { statisticList } = storeToRefs(dashboardStore)
+
     return {
-      state,
-      send,
+      dashboardStore,
       statisticList,
     }
+  },
+  created() {
+    this.dashboardStore.fillData()
   },
 }
 </script>

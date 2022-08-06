@@ -1,6 +1,6 @@
 import { createI18n } from "vue-i18n"
 import enUS from "@/locales/en-US"
-import store from "../store/global"
+import { useGlobalStore } from "@/stores/global"
 
 const locale = "en-US"
 const loadedLanguages = []
@@ -21,6 +21,8 @@ export function setI18nLanguage(lang) {
 }
 
 export function loadLanguageAsync(lang) {
+  const globalStore = useGlobalStore()
+
   // <-- If language is already loaded -->
   if (loadedLanguages.includes(lang)) {
     // If the same language
@@ -29,7 +31,7 @@ export function loadLanguageAsync(lang) {
   }
 
   // <-- Else start loading deafult & tenant locale -->
-  const tenantId = store?.state?.tenantId ?? null
+  const tenantId = globalStore.getTenantId ?? null
   let defaultMessages = {}
   let tenantMessages = {}
 

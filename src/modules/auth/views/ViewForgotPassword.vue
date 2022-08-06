@@ -1,35 +1,31 @@
 <template>
   <LayoutAuth>
-    <EcHeadline variant="h1" as="h1" class="mb-6 lg:text-4xl text-c0-50">
+    <EcHeadline variant="h1" as="h1" class="mb-6 lg:text-4xl">
       {{ computedTitle }}
     </EcHeadline>
-    <EcText class="mb-12 leading-tight text-c0-50">
+    <EcText class="text-c1-200 mb-12 leading-tight">
       {{ computedLabel }}
     </EcText>
     <EcBox v-if="!isLoading" class="w-full max-w-md">
       <RFormInput
         v-show="!isFinish"
         v-model="formEmail"
-        class="mb-12 text-c0-50"
+        class="mb-12"
         componentName="EcInputText"
         :label="$t('auth.email')"
         type="email"
         variant="primary-lg"
         dark
         iconPrefix="Mail"
-        :validator="v"
+        :validator="v$"
         field="formEmail"
-        @input="v.formEmail.$touch()"
+        @input="v$.formEmail.$touch()"
       />
       <EcFlex>
-        <EcButton v-show="!isFinish" variant="primary" class="mr-5 hover:text-c0-50 hover:bg-c0-900" @click="handleClickSend">
+        <EcButton v-show="!isFinish" variant="primary" class="mr-5" @click="handleClickSend">
           {{ $t("auth.send") }}
         </EcButton>
-        <EcButton
-          :variant="isFinish ? 'primary' : 'transparent'"
-          class="text-c0-50 hover:bg-c0-900"
-          @click="handleClickBackToLogin"
-        >
+        <EcButton :variant="isFinish ? 'primary' : 'transparent'" @click="handleClickBackToLogin">
           {{ $t("auth.backToLogin") }}
         </EcButton>
       </EcFlex>
@@ -42,7 +38,8 @@
 
 <script>
 import LayoutAuth from "./../components/LayoutAuth"
-import { useForgotPassword } from "./../use/useForgotPassword"
+import { useForgotPassword } from "../stores/useForgotPassword"
+import { storeToRefs } from "pinia"
 
 export default {
   name: "ViewForgotPassword",
@@ -50,23 +47,25 @@ export default {
     LayoutAuth,
   },
   setup() {
-    const { state, send, v, formEmail } = useForgotPassword()
+    const forgotPasswordStore = useForgotPassword()
+
+    const { v$, formEmail } = storeToRefs(forgotPasswordStore)
+
     return {
-      state,
-      send,
-      v,
+      forgotPasswordStore,
+      v$,
       formEmail,
     }
   },
   computed: {
     isLoading() {
-      return this.state.matches("fetching")
+      return false
     },
     isFinish() {
-      return !this.state.matches("formFilling") && !this.state.matches("fetching")
+      return false
     },
     isSuccess() {
-      return this.state.matches("success")
+      return false
     },
     computedTitle() {
       return this.isFinish ? (this.isSuccess ? this.$t("auth.success") : this.$t("auth.fail")) : this.$t("auth.forgotPassword")
@@ -83,10 +82,10 @@ export default {
     handleClickSend() {
       this.v.$touch()
       if (this.v.$invalid) return
-      this.send("SEND_MAIL")
+      this.forgotPasswordStore.sendForgotEmail()
     },
     handleClickBackToLogin() {
-      this.send("BACK_TO_LOGIN")
+      this.forgotPasswordStore.toLoginPage()
     },
   },
 }

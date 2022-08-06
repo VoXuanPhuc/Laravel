@@ -1,8 +1,9 @@
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "@/router"
-import store from "./store"
-// import useVuelidate from "@vuelidate/core"
+import pinia from "@/stores/pinia"
+import useVuelidate from "@vuelidate/core"
+import { checkAuthGuard } from "@/router/guards"
 import "@/assets/css/tailwind.css"
 
 // Get component variants
@@ -26,12 +27,18 @@ const clientId = urlParams.get("clientId") || localStorage.getItem("readyBCAdmin
 
 const app = createApp(App)
 
+// Need to use Pinia first to avoid initializeTenant global store use error
+app.use(pinia)
+
+// Check auth guard
+checkAuthGuard(router)
+
 // we initialize tenant before mounting app
 initializeTenant({ tenantId, clientId }).then(({ variants, i18n }) => {
   app.use(router)
   app.use(i18n)
-  app.use(store)
-  // app.use(useVuelidate({ $lazy: true, $autoDirty: true, $scope: true }))
+
+  app.use(useVuelidate({ $lazy: true, $autoDirty: true, $scope: true }))
 
   globalComponentsRegistration(app)
   directivesRegistration(app)

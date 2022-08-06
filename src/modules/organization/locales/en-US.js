@@ -1,0 +1,27 @@
+export default {
+  organization: {
+    organizations: "Organizations",
+    name: "Name",
+    code: "Code",
+    email: "Email",
+    active: "Active",
+    add: "Add",
+    createdAt: "Created At",
+    search: "Search",
+    deleteOrganization: "Delete organization",
+    noteDeleteOrganization:
+      "You can permanently delete the organization from database. This action cannot be reverted and you cannot restore the record anymore.",
+    newOrganization: "New Organization",
+    create: "Create",
+    cancel: "Cancel",
+    yes: "Yes",
+    no: "No",
+    createOrganizationSuccess: "Organization has been created successfully!",
+    confirmToDelete: "Confirm to Delete?",
+    youAreGoingToDelete: "You are going to delete",
+    organization: "organization",
+    actionCannotBeRevert: "This action cannot be reverted. The record will be deleted permanently.",
+    delete: "Delete",
+    source: "Source",
+  },
+}
