@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 use Laravel\Lumen\Http\Request;
+use function Sodium\add;
 
 class ResponseHandlerMiddleware
 {

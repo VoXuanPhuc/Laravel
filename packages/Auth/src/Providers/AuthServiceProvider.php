@@ -14,7 +14,7 @@ class AuthServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/web.php');
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/api.php');
         $this->loadMigrationsFrom(__DIR__ .'/../Database/Migrations');
-
+        $this->loadTranslationsFrom( __DIR__ . '/../Resources/lang', 'auth' );
 
 
         //Authentication

@@ -2,6 +2,7 @@
 namespace Encoda\AWSCognito\Services;
 
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
+use Encoda\Auth\Exceptions\UserNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
@@ -29,7 +30,8 @@ class CognitoUserService extends CognitoBaseService
     /**
      * @param $username
      * @param $password
-     * @return \Aws\Result|false
+     * @return array
+     * @throws UserNotFoundException
      */
     public function authenticate( $username, $password ) {
 
@@ -49,15 +51,23 @@ class CognitoUserService extends CognitoBaseService
         }
         catch ( CognitoIdentityProviderException $exception ) {
 
-            if ($exception->getAwsErrorCode() === self::RESET_REQUIRED ||
-                $exception->getAwsErrorCode() === self::USER_NOT_FOUND) {
+            if ($exception->getAwsErrorCode() === self::RESET_REQUIRED ) {
+                //TODO: Handle reset required and other exceptions here
                 return false;
             }
 
-            throw $exception;
+            throw new UserNotFoundException();
         }
 
-        return $response->get('AuthenticationResult');
+        $authResult = $response->get('AuthenticationResult');
+
+        //Transform result
+        return [
+            'accessToken' => $authResult['AccessToken'],
+            'expiresIn' => $authResult['ExpiresIn'],
+            'idToken' => $authResult['IdToken'],
+            'refreshToken' => $authResult['RefreshToken'],
+        ];
     }
 
     /**

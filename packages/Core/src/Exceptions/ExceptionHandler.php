@@ -29,6 +29,7 @@ class ExceptionHandler extends Handler
             }
 
             $json = [
+                'status' => $statusCode,
                 'success' => false,
                 'error' => [
                     'code' => $statusCode,
@@ -41,7 +42,7 @@ class ExceptionHandler extends Handler
                 $json['error']['trace'] =  $exception->getTraceAsString();
             }
 
-            return response()->json($json, (int)$statusCode );
+            return response()->json($json, $statusCode);
         }
 
         return parent::render($request, $exception);

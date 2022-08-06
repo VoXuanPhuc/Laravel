@@ -88,7 +88,7 @@ class CORSService implements CORSServiceInterface
      * @param Request $request
      * @return Response
      */
-    public function handlePreflightRequest(Request $request): Response
+    public function handlePreflightRequest(Request $request)
     {
         $response = new Response();
 
@@ -173,11 +173,11 @@ class CORSService implements CORSServiceInterface
 
     /**
      * @param Request  $request
-     * @param Response $response
+     * @param $response
      *
      * @return Response
      */
-    protected function setAccessControlAllowOriginHeader(Request $request, Response $response): Response
+    protected function setAccessControlAllowOriginHeader(Request $request, $response)
     {
         $origin = $request->headers->get('Origin');
 

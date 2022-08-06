@@ -46,6 +46,9 @@ RUN a2ensite identity-service
 RUN a2enmod rewrite
 RUN a2enmod headers
 
+# Allow app to write files
+RUN chmod -R 777 /var/www/html/identity-service/storage
+
 # Expose port and start apache2 server
 EXPOSE ${PORT}
 

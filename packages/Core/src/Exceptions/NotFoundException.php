@@ -3,6 +3,7 @@
 namespace Encoda\Core\Exceptions;
 
 use Encoda\Core\Http\HttpStatus\HttpStatusCode;
+use Throwable;
 
 class NotFoundException extends BaseException
 {
