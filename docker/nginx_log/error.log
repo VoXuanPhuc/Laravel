@@ -1,0 +1,96 @@
+2022/08/08 02:44:34 [notice] 18#18: using the "epoll" event method
+2022/08/08 02:44:34 [notice] 18#18: nginx/1.21.6
+2022/08/08 02:44:34 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 02:44:34 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 02:44:34 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 02:44:34 [notice] 18#18: start worker processes
+2022/08/08 02:44:34 [notice] 18#18: start worker process 19
+2022/08/08 02:44:34 [notice] 18#18: start worker process 20
+2022/08/08 02:44:34 [notice] 18#18: start worker process 21
+2022/08/08 02:44:34 [notice] 18#18: start worker process 22
+2022/08/08 02:44:34 [notice] 18#18: start worker process 23
+2022/08/08 02:44:34 [notice] 18#18: start worker process 24
+2022/08/08 02:44:34 [notice] 18#18: start worker process 25
+2022/08/08 02:44:34 [notice] 18#18: start worker process 26
+2022/08/08 02:50:30 [crit] 19#19: *1 connect() to unix:/run/php/php7.4-fpm.sock failed (2: No such file or directory) while connecting to upstream, client: 172.18.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 02:52:40 [notice] 18#18: using the "epoll" event method
+2022/08/08 02:52:40 [notice] 18#18: nginx/1.21.6
+2022/08/08 02:52:40 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 02:52:40 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 02:52:40 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 02:52:40 [notice] 18#18: start worker processes
+2022/08/08 02:52:40 [notice] 18#18: start worker process 19
+2022/08/08 02:52:40 [notice] 18#18: start worker process 20
+2022/08/08 02:52:40 [notice] 18#18: start worker process 21
+2022/08/08 02:52:40 [notice] 18#18: start worker process 22
+2022/08/08 02:52:40 [notice] 18#18: start worker process 23
+2022/08/08 02:52:40 [notice] 18#18: start worker process 24
+2022/08/08 02:52:40 [notice] 18#18: start worker process 25
+2022/08/08 02:52:40 [notice] 18#18: start worker process 26
+2022/08/08 02:55:19 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.19.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:00:32 [notice] 18#18: using the "epoll" event method
+2022/08/08 03:00:32 [notice] 18#18: nginx/1.21.6
+2022/08/08 03:00:32 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 03:00:32 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 03:00:32 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 03:00:32 [notice] 18#18: start worker processes
+2022/08/08 03:00:32 [notice] 18#18: start worker process 19
+2022/08/08 03:00:32 [notice] 18#18: start worker process 20
+2022/08/08 03:00:32 [notice] 18#18: start worker process 21
+2022/08/08 03:00:32 [notice] 18#18: start worker process 22
+2022/08/08 03:00:32 [notice] 18#18: start worker process 23
+2022/08/08 03:00:32 [notice] 18#18: start worker process 24
+2022/08/08 03:00:32 [notice] 18#18: start worker process 25
+2022/08/08 03:00:32 [notice] 18#18: start worker process 26
+2022/08/08 03:00:56 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:00:57 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:00:58 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:01:53 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:03:29 [notice] 18#18: using the "epoll" event method
+2022/08/08 03:03:29 [notice] 18#18: nginx/1.21.6
+2022/08/08 03:03:29 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 03:03:29 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 03:03:29 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 03:03:29 [notice] 18#18: start worker processes
+2022/08/08 03:03:29 [notice] 18#18: start worker process 19
+2022/08/08 03:03:29 [notice] 18#18: start worker process 20
+2022/08/08 03:03:29 [notice] 18#18: start worker process 21
+2022/08/08 03:03:29 [notice] 18#18: start worker process 22
+2022/08/08 03:03:29 [notice] 18#18: start worker process 23
+2022/08/08 03:03:29 [notice] 18#18: start worker process 24
+2022/08/08 03:03:29 [notice] 18#18: start worker process 25
+2022/08/08 03:03:29 [notice] 18#18: start worker process 26
+2022/08/08 03:03:33 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24" while reading response header from upstream, client: 172.20.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:12:31 [notice] 18#18: using the "epoll" event method
+2022/08/08 03:12:31 [notice] 18#18: nginx/1.21.6
+2022/08/08 03:12:31 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 03:12:31 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 03:12:31 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 03:12:31 [notice] 18#18: start worker processes
+2022/08/08 03:12:31 [notice] 18#18: start worker process 19
+2022/08/08 03:12:31 [notice] 18#18: start worker process 20
+2022/08/08 03:12:31 [notice] 18#18: start worker process 21
+2022/08/08 03:12:31 [notice] 18#18: start worker process 22
+2022/08/08 03:12:31 [notice] 18#18: start worker process 23
+2022/08/08 03:12:31 [notice] 18#18: start worker process 24
+2022/08/08 03:12:31 [notice] 18#18: start worker process 25
+2022/08/08 03:12:31 [notice] 18#18: start worker process 26
+2022/08/08 03:12:35 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17" while reading response header from upstream, client: 172.21.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:12:48 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17" while reading response header from upstream, client: 172.21.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:15:08 [error] 20#20: *4 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17" while reading response header from upstream, client: 172.21.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:15:42 [error] 20#20: *4 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17" while reading response header from upstream, client: 172.21.0.1, server: miduner.local, request: "GET /products HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"
+2022/08/08 03:22:43 [notice] 18#18: using the "epoll" event method
+2022/08/08 03:22:43 [notice] 18#18: nginx/1.21.6
+2022/08/08 03:22:43 [notice] 18#18: built by gcc 8.3.0 (Debian 8.3.0-6) 
+2022/08/08 03:22:43 [notice] 18#18: OS: Linux 5.10.16.3-microsoft-standard-WSL2
+2022/08/08 03:22:43 [notice] 18#18: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/08/08 03:22:43 [notice] 18#18: start worker processes
+2022/08/08 03:22:43 [notice] 18#18: start worker process 19
+2022/08/08 03:22:43 [notice] 18#18: start worker process 20
+2022/08/08 03:22:43 [notice] 18#18: start worker process 21
+2022/08/08 03:22:43 [notice] 18#18: start worker process 22
+2022/08/08 03:22:43 [notice] 18#18: start worker process 23
+2022/08/08 03:22:43 [notice] 18#18: start worker process 24
+2022/08/08 03:22:43 [notice] 18#18: start worker process 25
+2022/08/08 03:22:43 [notice] 18#18: start worker process 26
+2022/08/08 03:23:23 [error] 19#19: *1 FastCGI sent in stderr: "PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17" while reading response header from upstream, client: 172.22.0.1, server: miduner.local, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/run/php/php7.4-fpm.sock:", host: "localhost"

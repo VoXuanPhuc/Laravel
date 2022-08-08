@@ -1,0 +1,26 @@
+[08-Aug-2022 02:52:40] NOTICE: fpm is running, pid 17
+[08-Aug-2022 02:52:40] NOTICE: ready to handle connections
+[08-Aug-2022 02:52:40] NOTICE: systemd monitor interval set to 10000ms
+[08-Aug-2022 02:55:19] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:00:32] NOTICE: fpm is running, pid 17
+[08-Aug-2022 03:00:32] NOTICE: ready to handle connections
+[08-Aug-2022 03:00:32] NOTICE: systemd monitor interval set to 10000ms
+[08-Aug-2022 03:00:56] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:00:57] WARNING: [pool www] child 28 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:00:58] WARNING: [pool www] child 29 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:01:53] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:03:29] NOTICE: fpm is running, pid 17
+[08-Aug-2022 03:03:29] NOTICE: ready to handle connections
+[08-Aug-2022 03:03:29] NOTICE: systemd monitor interval set to 10000ms
+[08-Aug-2022 03:03:33] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0". You are running 7.4.28. in /var/www/html/vendor/composer/platform_check.php on line 24"
+[08-Aug-2022 03:12:31] NOTICE: fpm is running, pid 17
+[08-Aug-2022 03:12:31] NOTICE: ready to handle connections
+[08-Aug-2022 03:12:31] NOTICE: systemd monitor interval set to 10000ms
+[08-Aug-2022 03:12:35] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17"
+[08-Aug-2022 03:12:48] WARNING: [pool www] child 28 said into stderr: "NOTICE: PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17"
+[08-Aug-2022 03:15:08] WARNING: [pool www] child 29 said into stderr: "NOTICE: PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17"
+[08-Aug-2022 03:15:42] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17"
+[08-Aug-2022 03:22:43] NOTICE: fpm is running, pid 17
+[08-Aug-2022 03:22:43] NOTICE: ready to handle connections
+[08-Aug-2022 03:22:43] NOTICE: systemd monitor interval set to 10000ms
+[08-Aug-2022 03:23:23] WARNING: [pool www] child 27 said into stderr: "NOTICE: PHP message: PHP Parse error:  syntax error, unexpected '|', expecting variable (T_VARIABLE) in /var/www/html/vendor/nunomaduro/termwind/src/Functions.php on line 17"

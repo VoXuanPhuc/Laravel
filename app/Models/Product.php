@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $table = 'products';
+    protected $primaryKey = 'id';
+    protected $dateFormat = 'h:m:s';
+
     protected $fillable = [
         'name', 'detail'
     ];
