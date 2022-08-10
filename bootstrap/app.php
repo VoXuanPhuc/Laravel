@@ -64,6 +64,7 @@ $app->configure('config');
 $app->configure('cognito');
 $app->configure('auth');
 $app->configure('cors');
+$app->configure('permission');
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,8 @@ $app->configure('cors');
 
  $app->routeMiddleware([
      'auth' => Encoda\Auth\Http\Middlewares\AuthMiddleware::class,
+     'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+     'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
  ]);
 
 /*
@@ -109,8 +112,11 @@ $app->register( Encoda\Core\Providers\FormRequestProvider::class );
 $app->register( Encoda\Auth\Providers\AuthServiceProvider::class );
 $app->register( Encoda\Identity\Providers\IdentityServiceProvider::class );
 $app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
-$app->register( \Encoda\CORS\Providers\CORSServiceProvider::class );
+$app->register( Encoda\CORS\Providers\CORSServiceProvider::class );
+$app->register( Encoda\Rbac\Providers\RbacServiceProvider::class );
+$app->register(Spatie\Permission\PermissionServiceProvider::class);
 
+$app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 
 /**
  * Lang

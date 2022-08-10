@@ -23,7 +23,6 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-
     /**
      * @return UserContract[]
      */
@@ -40,7 +39,6 @@ class UserController extends Controller
 
         return $this->userService->createUser( $request );
     }
-
 
     /**
      * @param UpdateUserRequest $request
@@ -72,4 +70,5 @@ class UserController extends Controller
     public function confirmSignup( Request $request ) {
         return $this->userService->confirmSignup( $request );
     }
+
 }
