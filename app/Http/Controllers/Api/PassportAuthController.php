@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PassportAuthController extends Controller
 {
@@ -29,7 +30,7 @@ class PassportAuthController extends Controller
     }
 
 
-    public function  login(Request $request)
+    public function login(Request $request)
     {
         $user = [
             'email' => $request->email,
@@ -37,10 +38,21 @@ class PassportAuthController extends Controller
         ];
 
         if (auth()->attempt($user)) {
-            $token = auth()->user()->createToken('Laravel9PassportAuth')->accessToken;
-            return response()->json(['token' => $token], 200);
+            $userLogin = Auth::user();
+            $token = $userLogin->createToken('myapp')->accessToken;
+            $response = [
+                "user" => $userLogin,
+                "access_token" => $token
+            ];
+            return response()->json($response, 200);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->token()->revoke();
+        return response()->json('logout');
     }
 }

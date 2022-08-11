@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PassportAuthController;
 use App\Http\Controllers\Api\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +20,10 @@ Route::post('login', [PassportAuthController::class, 'login']);
 
 //Route::resource('products', ProductController::class);
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
 
     Route::resource('products', ProductController::class);
+    Route::post('logout', [PassportAuthController::class, 'logout']);
+
 });
