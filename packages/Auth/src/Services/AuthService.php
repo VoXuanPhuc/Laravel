@@ -2,51 +2,24 @@
 
 namespace Encoda\Auth\Services;
 
+use Encoda\Auth\Interfaces\AuthServiceInterface;
 use Encoda\Core\Exceptions\BadRequestException;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
 use Encoda\Identity\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
 
-    protected UserServiceInterface $userService;
 
-    public function __construct(UserServiceInterface $cognitoUserService )
+    public function getToken($username, $password)
     {
-        $this->userService = $cognitoUserService;
+        // TODO: Implement getToken() method.
     }
 
-
-    /**
-     * @param Request $request
-     * @return \Aws\Result|false
-     * @throws BadRequestException
-     */
-    public function authenticate( Request $request)
+    public function authenticate(\Illuminate\Http\Request $request)
     {
-        if( empty( $request->username ) || empty( $request->password ) ) {
-
-            throw new BadRequestException( __('auth::app.login.credentials_are_required') );
-        }
-
-        return $this->getToken( $request->username, $request->password );
-    }
-
-
-    /**
-     * @param $username
-     * @param $password
-     * @return \Aws\Result|false
-     */
-    protected function getToken( $username, $password )
-    {
-        return $this->userService->authenticate( $username, $password );
-    }
-
-    public function signup( CreateUserRequest $signupRequest )
-    {
-        return $this->userService->createUser( $signupRequest );
+        // TODO: Implement authenticate() method.
     }
 }

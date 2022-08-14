@@ -12,15 +12,13 @@ class UserService implements UserServiceInterface
 {
 
     protected UserRepositoryInterface $userRepository;
-    protected CognitoUserService $cognitoUserService;
 
     public function __construct(
         UserRepositoryInterface $userRepository,
-        CognitoUserService $cognitoUserService
+        protected CognitoUserService $cognitoUserService,
     )
     {
         $this->userRepository = $userRepository;
-        $this->cognitoUserService = $cognitoUserService;
     }
 
 
@@ -45,7 +43,7 @@ class UserService implements UserServiceInterface
     public function updateUser( UpdateUserRequest $request, $id )
     {
 
-        $this->userRepository->update( $request->all(), $id );
+        return $this->userRepository->update( $request->all(), $id );
     }
 
     /**
@@ -75,6 +73,6 @@ class UserService implements UserServiceInterface
 
     public function authenticate($username, $password)
     {
-        // TODO: Implement authenticate() method.
+       return $this->cognitoUserService->authenticate( $username, $password );
     }
 }

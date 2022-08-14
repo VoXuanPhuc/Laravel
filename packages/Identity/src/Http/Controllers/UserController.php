@@ -5,12 +5,14 @@ namespace Encoda\Identity\Http\Controllers;
 use Encoda\Identity\Contracts\UserContract;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
 use Encoda\Identity\Http\Requests\User\UpdateUserRequest;
+use Encoda\Identity\Services\Interfaces\AdminUserServiceInterface;
 use Encoda\Identity\Services\Interfaces\UserServiceInterface;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
 
+    protected AdminUserServiceInterface $adminService;
     protected UserServiceInterface $userService;
 
     /**
@@ -43,9 +45,10 @@ class UserController extends Controller
     /**
      * @param UpdateUserRequest $request
      * @param $id
+     * @return mixed
      */
     public function update( UpdateUserRequest $request, $id ) {
-        return $this->userService->updateUser( $request );
+        return $this->userService->updateUser( $request, $id );
     }
 
     /**

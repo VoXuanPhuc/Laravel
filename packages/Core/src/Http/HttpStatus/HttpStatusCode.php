@@ -92,6 +92,7 @@ interface HttpStatusCode
         self::BAD_GATEWAY,
         self::SERVICE_UNAVAILABLE,
         self::GATEWAY_TIMEOUT,
-        self::HTTP_VERSION_NOT_SUPPORTED
+        self::HTTP_VERSION_NOT_SUPPORTED,
+        self::UNPROCESSABLE_ENTITY,
     ];
 }

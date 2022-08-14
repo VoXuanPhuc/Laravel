@@ -2,10 +2,17 @@
 
 namespace Encoda\Identity\Services\Interfaces;
 
+use Encoda\Identity\Http\Requests\Admin\AdminCreateUserRequest;
 use Illuminate\Http\Request;
 
-interface AdminServiceInterface
+interface AdminUserServiceInterface
 {
+
+    public function adminGetUser( $username );
+
+    public function adminCreateUser( AdminCreateUserRequest $request );
+
+    public function adminUpdateUser( $username, array $data = [] );
 
     public function disableUser( $username );
 
@@ -13,11 +20,11 @@ interface AdminServiceInterface
 
     public function resetUserPassword( Request $request, $username );
 
-    public function listUserGroups( $username );
-
     public function addUserToGroup( Request $request, $groupId );
 
     public function removeUserFromGroup(Request $request, $groupId);
 
     public function confirmSignup(Request $request);
+
+    public function deleteUser($id);
 }

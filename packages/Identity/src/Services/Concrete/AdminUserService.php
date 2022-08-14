@@ -1,11 +1,12 @@
 <?php
 
-namespace Encoda\Identity\Services\Concrete\Database;
+namespace Encoda\Identity\Services\Concrete;
 
-use Encoda\Identity\Services\Interfaces\AdminServiceInterface;
+use Encoda\Identity\Http\Requests\Admin\AdminCreateUserRequest;
+use Encoda\Identity\Services\Interfaces\AdminUserServiceInterface;
 use Illuminate\Http\Request;
 
-class AdminService implements AdminServiceInterface
+class AdminUserService implements AdminUserServiceInterface
 {
 
 
@@ -42,5 +43,25 @@ class AdminService implements AdminServiceInterface
     public function confirmSignup(Request $request)
     {
         // TODO: Implement configmSignup() method.
+    }
+
+    public function adminGetUser($username)
+    {
+        // TODO: Implement adminGetUser() method.
+    }
+
+    public function adminCreateUser( AdminCreateUserRequest $request )
+    {
+        // TODO: Implement adminCreateUser() method.
+    }
+
+    public function adminUpdateUser( $username, array $data = [] )
+    {
+        // TODO: Implement adminUpdateUser() method.
+    }
+
+    public function deleteUser($id)
+    {
+        // TODO: Implement deleteUser() method.
     }
 }

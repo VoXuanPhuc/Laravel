@@ -25,6 +25,9 @@ class AuthServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        //Register more providers
+        $this->app->register( ServiceBindingProvider::class );
+
         $this->app->singleton( AWSCognitoClient::class, function( $app ) {
 
             $cognitoIdentityProviderClient = App::make( CognitoIdentityProviderClient::class );

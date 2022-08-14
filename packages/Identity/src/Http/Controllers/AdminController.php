@@ -2,19 +2,35 @@
 
 namespace Encoda\Identity\Http\Controllers;
 
-use Encoda\Identity\Services\Interfaces\AdminServiceInterface;
+use Encoda\Identity\Http\Requests\Admin\AdminCreateUserRequest;
+use Encoda\Identity\Services\Interfaces\AdminUserServiceInterface;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
 
-    private AdminServiceInterface $adminService;
+    private AdminUserServiceInterface $adminService;
 
-    public function __construct(AdminServiceInterface $adminService )
+    public function __construct(AdminUserServiceInterface $adminService )
     {
         $this->adminService = $adminService;
     }
 
+
+    /**
+     * @param AdminCreateUserRequest $request
+     * @return mixed
+     */
+    public function createUser( AdminCreateUserRequest $request ) {
+        return $this->adminService->adminCreateUser( $request );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function deleteUser( $id ) {
+        return $this->adminService->deleteUser( $id );
+    }
 
     /**
      * @param Request $request

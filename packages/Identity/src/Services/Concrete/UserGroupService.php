@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoda\Identity\Services\Concrete\Cognito;
+namespace Encoda\Identity\Services\Concrete;
 
 use Encoda\Identity\Http\Requests\UserGroup\CreateUserGroupRequest;
 use Encoda\Identity\Http\Requests\UserGroup\UpdateUserGroupRequest;
@@ -8,7 +8,7 @@ use Encoda\Identity\Contracts\UserGroupContract;
 use Encoda\Identity\Repositories\Interfaces\UserGroupRepositoryInterface;
 use Encoda\Identity\Services\Interfaces\UserGroupServiceInterface;
 
-class IdentityCognitoUserGroupService implements UserGroupServiceInterface
+class UserGroupService implements UserGroupServiceInterface
 {
 
 

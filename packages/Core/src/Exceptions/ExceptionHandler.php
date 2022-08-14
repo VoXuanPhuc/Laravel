@@ -22,6 +22,9 @@ class ExceptionHandler extends Handler
 
             $statusCode = !in_array( $exception->getCode(), HttpStatusCode::STATUS_CODES ) ? HttpStatusCode::INTERNAL_SERVER_ERROR : $exception->getCode();
 
+            if( property_exists( $exception, 'status') && in_array( $exception->status, HttpStatusCode::STATUS_CODES  ) ) {
+                $statusCode = $exception->status;
+            }
             //Get the original http code from exception if exists
             if( $exception instanceof  HttpException ) {
                 /** @var HttpException $exception */

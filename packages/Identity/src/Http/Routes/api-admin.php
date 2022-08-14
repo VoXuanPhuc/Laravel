@@ -30,6 +30,16 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
 
 
     /**======= Users ======*/
+
+    Route::post('/admin/users', [
+        'as' => 'admin.user.create',
+        'uses' => AdminController::class . '@createUser'
+    ]);
+    Route::delete('/admin/users/{id}', [
+        'as' => 'admin.user.create',
+        'uses' => AdminController::class . '@deleteUser'
+    ]);
+
     Route::post('/admin/user/confirmation', [
         'as' => 'admin.user.confirmation',
         'uses' => AdminController::class . '@confirmSignup'

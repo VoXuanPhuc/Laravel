@@ -3,6 +3,8 @@ namespace Encoda\AWSCognito\Services;
 
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Encoda\Auth\Exceptions\UserNotFoundException;
+use Encoda\AWSCognito\Client\AWSCognitoClient;
+use Encoda\AWSCognito\Models\CognitoUser;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
@@ -23,9 +25,14 @@ class CognitoUserService extends CognitoBaseService
         'custom:client_id',
         'given_name',
         'family_name',
-        'email_verified'
+        'email_verified',
+
     ];
 
+    public function __construct(AWSCognitoClient $client)
+    {
+        parent::__construct($client);
+    }
 
     /**
      * @param $username
@@ -71,12 +78,17 @@ class CognitoUserService extends CognitoBaseService
     }
 
     /**
-     * @param $username
-     * @param $password
-     * @param array $attributes
-     * @return \Aws\Result
+     * @param array $data
+     * @return CognitoUser
      */
-    public function register($username, $password, array $attributes = [] ) {
+    public function register( array $data = [] ) {
+
+        $username = $data['username'];
+        $password = $data['password'];
+
+        // User attributes
+        $attributes['given_name'] = $data['firstName'];
+        $attributes['family_name'] = $data['lastName'];
 
         //Always set client id to custom attributes
         $attributes['custom:client_id'] = $this->cognitoClient->getClientId();
@@ -98,7 +110,12 @@ class CognitoUserService extends CognitoBaseService
             throw $e;
         }
 
-        return $response;
+        return new CognitoUser(
+            [
+                'id' => $response->get('UserSub'),
+            ]
+        );
+
     }
 
     /**
@@ -156,25 +173,28 @@ class CognitoUserService extends CognitoBaseService
      * @param array $attributes
      * @param string $filter
      * @param int $limit
-     * @param int $pagination
-     * @return \Aws\Result
+     * @param int|string $pagination
+     * @return array
      */
-    public function listUsers( $attributes = [], $filter = '', $limit = 20, $pagination = '1' ) {
+    public function listUsers(array $attributes = [], string $filter = '', int $limit = 60, int|string $pagination = '' ): array
+    {
 
         $result = $this->cognitoClient->getClient()->listUsers([
                     'AttributesToGet' => empty( $attributes ) ? $this->defaultAttributes : $attributes,
                     'Filter' => $filter,
-                    'Limit' => $limit,
+                   // 'Limit' => $limit,
                    // 'PaginationToken' => $pagination,
                     'UserPoolId' => $this->cognitoClient->getUserPoolId(),
                 ]);
 
-        return $result->get('Users');
+        $listUsers = [];
+        foreach ( $result->get('Users') as $cognitoUser ) {
+            array_push( $listUsers, CognitoUser::transformUserFromList( $cognitoUser ) );
+        }
+
+        return $listUsers;
     }
 
-    /**
-     * @return \Aws\Result
-     */
     public function delete( $token )
     {
         $result = $this->cognitoClient->getClient()->deleteUser(
@@ -183,23 +203,8 @@ class CognitoUserService extends CognitoBaseService
             ]
         );
 
-        return $result;
+        return $result->get('@metadata');
     }
 
-    /**
-     * @param $username
-     * @return \Aws\Resulty
-     */
-    public function adminGetUser( $username )
-    {
-        $result = $this->cognitoClient->getClient()->adminGetUser(
-            [
-                'Username' => $username,
-                'UserPoolId' => $this->cognitoClient->getUserPoolId(),
-            ]
-        );
-
-        return $result;
-    }
 
 }

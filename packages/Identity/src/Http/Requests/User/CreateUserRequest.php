@@ -19,7 +19,7 @@ class CreateUserRequest extends FormRequest
             'username'     => 'required|max:255',
             'password'  => 'required|min:8|max:255',
             'confirmPassword'  => ['required', new ConfirmPasswordMatchValidation( $this->get('password'), $this->get('confirmPassword'))],
-            'firstName' => ['']
+            'firstName' => ['required'],
         ];
     }
 }

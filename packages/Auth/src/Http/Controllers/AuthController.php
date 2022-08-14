@@ -1,6 +1,7 @@
 <?php
 namespace Encoda\Auth\Http\Controllers;
 
+use Encoda\Auth\Interfaces\AuthServiceInterface;
 use Encoda\Auth\Services\AuthService;
 use Encoda\Core\Exceptions\BadRequestException;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
@@ -9,12 +10,12 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
-    protected AuthService $authService;
+    protected AuthServiceInterface $authService;
 
     /**
-     * @param AuthService $authService
+     * @param AuthServiceInterface $authService
      */
-    public function __construct( AuthService $authService )
+    public function __construct( AuthServiceInterface $authService )
     {
         $this->authService = $authService;
     }
@@ -22,13 +23,11 @@ class AuthController extends Controller
     /**
      * @param Request $request
      * @return mixed|null
-     * @throws BadRequestException
      */
     public function login( Request $request ) {
 
-        $response = $this->authService->authenticate( $request );
+        return $this->authService->authenticate( $request );
 
-        return $response;
     }
 
     /**
@@ -36,19 +35,13 @@ class AuthController extends Controller
      * @throws BadRequestException
      */
     public function getAccessToken(Request $request) {
+
+
         return $this->login($request);
     }
 
-    /**
-     * @param CreateUserRequest $signupRequest
-     * @return \Aws\Result|false
-     */
+
     public function signup( CreateUserRequest $signupRequest ) {
-
-
-        $response = $this->authService->signup( $signupRequest );
-
-        return $response;
     }
 
     /**
