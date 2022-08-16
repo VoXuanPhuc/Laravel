@@ -1,17 +1,45 @@
 import fetcher from "@/modules/core/api/fetcher"
 
-export const getRoles = async function ({ variables, fragment }) {
+/**
+ * Get Roles
+ * @returns
+ */
+export const fetchRoles = async () => {
   return fetcher.get("/identity/api/v1/roles")
 }
 
-export const createRole = async function ({ variables }) {
-  return fetcher.post("/identity/api/v1/roles", variables)
+/**
+ * Create new Role
+ * @param {*} payload
+ * @returns
+ */
+export const createRole = async (payload) => {
+  return fetcher.post("/identity/api/v1/roles", payload)
 }
 
-export const updateRole = async function ({ roleId, variables }) {
-  return fetcher.post(`/identity/api/v1/roles/${roleId}`, variables)
+/**
+ * Update Role
+ * @param {*} uid
+ * @param {*} payload
+ * @returns
+ */
+export const updateRole = async (uid, payload) => {
+  return fetcher.post(`/identity/api/v1/roles/${uid}`, payload)
 }
 
-export const deleteRole = async function (roleId) {
-  return fetcher.delete(`/identity/api/v1/roles/${roleId}`)
+/**
+ *
+ * @param {*} uid
+ * @returns
+ */
+export const fetchRoleDetail = (uid) => {
+  return fetcher.get(`/identity/api/v1/roles/${uid}`)
+}
+
+/**
+ *
+ * @returns
+ */
+export const deleteRole = (uid) => {
+  return fetcher.delete(`/identity/api/v1/roles/${uid}`)
 }

@@ -37,7 +37,7 @@ export default [
     },
   },
   {
-    path: "/users/permission-groups",
+    path: "/users/roles",
     component: ViewRoles,
     name: "ViewRoles",
     props: true,
@@ -46,7 +46,7 @@ export default [
     },
   },
   {
-    path: "/users/permission-groups/new",
+    path: "/users/roles/new",
     component: ViewRoleNew,
     name: "ViewRoleNew",
     props: true,
@@ -55,7 +55,7 @@ export default [
     },
   },
   {
-    path: "/users/permission-groups/:id",
+    path: "/users/roles/:uid",
     component: ViewRoleDetail,
     name: "ViewRoleDetail",
     props: true,

@@ -9,6 +9,8 @@ const useDashboardStore = defineStore("dashboard", () => {
   const notificationNum = ref(10)
   const userNum = ref(0)
 
+  const { t } = useI18n()
+
   const statisticList = computed(() => [
     {
       name: "organizations",
@@ -51,8 +53,6 @@ const useDashboardStore = defineStore("dashboard", () => {
       },
     },
   ])
-
-  const { t } = useI18n()
 
   // Fetch Data
   async function fetchOrganization() {

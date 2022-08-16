@@ -7,7 +7,7 @@
       @focus="emit('focus')"
       @blur="emit('blur')"
     >
-      <option v-if="allowSelectNothing" :value="null">{{ placeholder }}</option>
+      <option v-if="allowSelectNothing" value="">{{ placeholder }}</option>
       <option v-else-if="!iOS" :value="null" disabled selected hidden>
         {{ placeholder }}
       </option>

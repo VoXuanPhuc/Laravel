@@ -7,11 +7,12 @@ export default {
     manageUsers: "Manage Users",
     associatedEntity: "User Detail",
     deleteUser: "Delete User",
-    deleteFullNote: "The delete action will deactive the user, you can re-active user later.",
+    deleteFullNote:
+      "You can permanently delete the user from database. This action cannot be reverted and you cannot restore the record anymore.",
 
     confirmToDelete: "Confirm to Delete",
     cfDeleteNote: "You are going to delete ",
-    cfDeleteNote2: "The delete action will deactive the user, you can re-active user later.",
+    cfDeleteNote2: "This action cannot be reverted. The record will be deleted permanently.",
     optional: "Optional",
 
     label: {
@@ -19,7 +20,8 @@ export default {
       entityName: "Entity Name",
       code: "Code",
       emailConfirmedStatus: "Email confirmation",
-      status: "Status",
+      active: "Active",
+      status: "Confirmation Status",
       createdAt: "Created At",
 
       name: "Name",
@@ -65,6 +67,14 @@ export default {
       permissionGroup: "Permission Group",
       createdAt: "Created on",
       clear: "Clear",
+    },
+  },
+  role: {
+    label: {
+      key: "Key",
+      name: "Name",
+      description: "Description",
+      createdAt: "Created At",
     },
   },
 }

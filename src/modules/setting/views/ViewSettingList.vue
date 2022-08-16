@@ -153,7 +153,7 @@
 </template>
 <script>
 import { computed, nextTick, readonly, ref, onMounted } from "vue"
-import { useStore } from "vuex"
+// import { useStore } from "vuex"
 import { useI18n } from "vue-i18n"
 import { fetcher, handleErrorForUser } from "../api"
 import { requiredIf, minLength } from "@vuelidate/validators"
@@ -165,7 +165,7 @@ export default {
 
   setup() {
     const { locale, t } = useI18n()
-    const store = useStore()
+    // const store = useStore()
     const globalStore = useGlobalStore()
     const isEntityModalOpen = ref(false)
     const isPasswordModalOpen = ref(false)
@@ -334,7 +334,7 @@ export default {
         handleErrorForUser({ error, $t: t })
         return
       } else {
-        store.dispatch("addToastMessage", {
+        this.globalStore.addToastMessage({
           type: "success",
           content: {
             type: "message",
@@ -356,7 +356,7 @@ export default {
     }
 
     function handleUpdateLocale() {
-      store.dispatch("setLocale", selectedLocale.value)
+      this.globalStore.setLocale(selectedLocale.value)
       nextTick(() => {
         closeLangModal()
       })

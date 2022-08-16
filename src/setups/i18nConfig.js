@@ -8,6 +8,7 @@ const loadedLanguages = []
 // Create i18n
 const i18n = createI18n({
   locale, // set locale
+  legacy: false,
   fallbackLocale: "en-US",
   messages: {
     "en-US": enUS,

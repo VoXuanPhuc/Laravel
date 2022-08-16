@@ -43,6 +43,7 @@ export default {
     cancel: "Cancel",
     update: "Update",
     add: "Add",
+    back: "Back",
     confirm: "Confirm",
     type: "Type",
     value: "Value",

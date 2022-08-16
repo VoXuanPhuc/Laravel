@@ -4,27 +4,37 @@
       <EcBox class="w-full max-w-3xl mb-10">
         <!-- Headline -->
         <EcFlex class="justify-between w-full mb-4 item-center">
-          <EcHeadline as="h2" variant="h2" class="capitalize">{{ $t("update") }} {{ currentPermissionGroup.name }}</EcHeadline>
+          <EcHeadline as="h3" variant="h3" class="capitalize"> {{ $t("core.update") }} {{ currentRole.name }} </EcHeadline>
+
           <div>
-            <EcButton variant="tertiary" @click="$router.back()">{{ $t("back") }}</EcButton>
+            <EcButton variant="tertiary" @click="$router.back()">{{ $t("core.back") }}</EcButton>
           </div>
         </EcFlex>
 
         <!-- List of permissions -->
         <EcBox class="w-full p-4 border rounded border-c0-200 bg-cWhite">
-          <div v-for="permission in computedPermissions" :key="permission.id" class="flex items-center justify-between mb-4">
-            <span>{{ permission.id ? permission.id : permission.name }}</span>
+          <!-- Loading -->
+          <EcSpinner v-if="isLoading" type="dots" />
+          <!-- Multi select box for permissions -->
+          <div
+            v-for="permissionGroup in computedPermissionsByGroup"
+            :key="permissionGroup.id"
+            class="flex items-center justify-between mt-4 mb-4"
+          >
+            <span>{{ permissionGroup.groupName }}</span>
             <EcBox class="w-7/12">
               <EcMultiSelect
-                :options="permission.options"
-                :modelValue="permission.targetType"
-                @update:modelValue="handleInput({ permission: permission, payload: $event })"
+                :options="permissionGroup.availablePermissions"
+                :modelValue="permissionGroup.associatedPermissions"
+                @update:modelValue="
+                  handlePermissionInputChange({
+                    permissionGroupId: permissionGroup.groupId,
+                    changedPermissions: $event,
+                  })
+                "
               />
             </EcBox>
           </div>
-
-          <!-- Loading -->
-          <EcSpinner v-if="isLoading" type="dots" />
         </EcBox>
       </EcBox>
     </EcFlex>
@@ -32,20 +42,16 @@
 </template>
 
 <script>
-// import {
-//   apiPermissions,
-//   apiPermissionGroups,
-//   apiAddPermissionToPermissionGroup,
-//   apiRemovePermissionFromPermissionGroup,
-// } from "@covergo/cover-composables"
-import { handleErrorForUser } from "../api"
+import { useRoleDetail } from "../use/useRoleDetail"
+import { usePermissions } from "../use/usePermissions"
+
 export default {
-  name: "ViewPermissionGroupDetail",
+  name: "ViewRoleDetail",
   props: {
     /**
-     * Id of permissionGroup user wants to update
+     * Id of Role user wants to update
      */
-    id: {
+    uid: {
       type: String,
       required: true,
     },
@@ -56,144 +62,135 @@ export default {
        * List of all available permissions
        * Is fetched once in created and is cached here
        */
-      allPermissions: [],
+      allPermissionsByGroup: [],
 
       /**
        * Permission group that users is currently updating
        */
 
-      currentPermissionGroup: {},
+      currentRole: {
+        permissions: [],
+      },
 
       isLoading: false,
     }
   },
+  setup() {
+    const { getRoleDetail, roleAddPermission, roleRemovePermission } = useRoleDetail()
+    const { getPermissionsWithGroup } = usePermissions()
+
+    return {
+      getRoleDetail,
+      getPermissionsWithGroup,
+      roleAddPermission,
+      roleRemovePermission,
+    }
+  },
   computed: {
-    computedPermissions() {
+    // Transform all permission by group to display
+    computedPermissionsByGroup() {
       // Go through list of all permissions
-      // Find if particular permissions is assigned to currentPermissionGroup
+      // Find if particular permissions is assigned to currentRole
       // If it is, append property isSelected=true so that we can show it's added
       // Also figure out what targetIds permission has so that we know if it's "all" or "" version
-      return this.allPermissions.map((permission) => {
-        // Find if permission from allPermissions is in the currentPermissionGroup
-        const found = this.currentPermissionGroup.targettedPermissions?.find((item) => item.permission.id === permission.id)
-
+      return this.allPermissionsByGroup.map((permissionGroup) => {
+        // Find if permission from allPermissionsByGroup is in the currentRole
         return {
-          id: permission.id,
-          name: permission.name,
-          description: permission.description,
-          options: this.decideOptionsAvailable(permission.targetIds),
-          targetType: found?.targetIds?.map((item) => ({ name: item, value: item })),
+          groupId: permissionGroup.id,
+          groupName: permissionGroup.name,
+          groupDesc: permissionGroup.description,
+          availablePermissions: this.transformAvailableOptions(permissionGroup.permissions),
+          associatedPermissions: this.currentRole?.permissions
+            .filter((associatedPermission) => {
+              return associatedPermission.group_id === permissionGroup.id
+            })
+            .map((associatedPermission) => {
+              return {
+                uid: associatedPermission.uid,
+                name: associatedPermission.label,
+                value: associatedPermission.name,
+              }
+            }),
         }
       })
     },
   },
   mounted() {
-    // this.fetchPermissions()
-    // this.fetchPermissionsOfGroup()
+    this.fetchRoleDetail()
+    this.fetchPermissions()
   },
   methods: {
+    // Get Role detail
+    async fetchRoleDetail() {
+      this.isLoading = true
+
+      const { uid } = this.$route.params
+
+      this.currentRole = await this.getRoleDetail(uid)
+
+      this.isLoading = false
+    },
+
+    // Fetch permissions with group
     async fetchPermissions() {
-      // this.isLoading = true
-      // const { error, data } = await apiPermissions({ fetcher })
-
-      // if (error) {
-      //   handleErrorForUser({ error, $t: this.$t })
-      //   this.isLoading = false
-      //   return
-      // }
-
-      // this.allPermissions = data.filter((item) => !["clientId", "groups", "role"].includes(item.id))
+      this.isLoading = true
+      this.allPermissionsByGroup = await this.getPermissionsWithGroup()
       this.isLoading = false
     },
 
-    async fetchPermissionsOfGroup() {
-      // const variables = {
-      //   where: { id: this.id },
-      // }
-      // this.isLoading = true
-      // const { error, data } = await apiPermissionGroups({ variables, fetcher })
-      // this.isLoading = false
+    // Handle Permission multiple selectbox value change
+    async handlePermissionInputChange({ permissionGroupId, changedPermissions }) {
+      this.isLoading = true
 
-      // if (error) {
-      //   handleErrorForUser({ error, $t: this.$t })
-      //   this.isLoading = false
-      //   return
-      // }
+      const associatedPermissionsByGroup = this.associatedPermissionsByGroup(permissionGroupId)
+      const associatedPermissionsByGroupIds = this.associatedPermissionsByGroup(permissionGroupId).map(
+        (associatedPermission) => associatedPermission.uid
+      )
 
-      // this.currentPermissionGroup = data[0]
+      // =========== Check if the user has added permission item to group
+
+      const addedPermissionItems = changedPermissions.filter((changedItem) => {
+        return !associatedPermissionsByGroupIds.includes(changedItem.uid)
+      })
+
+      // If there has an added permission item then send request to server
+      if (addedPermissionItems.length > 0) {
+        await this.roleAddPermission(this.currentRole.uid, addedPermissionItems[0].uid)
+      }
+
+      // ========= Check if the user has removed permission item out of group
+      const selectedPermissionIds = changedPermissions.map((changedItem) => changedItem.uid)
+      const removedPermissionItems = associatedPermissionsByGroup.filter((associatedPermission) => {
+        return !selectedPermissionIds.includes(associatedPermission.uid)
+      })
+
+      if (removedPermissionItems.length > 0) {
+        await this.roleRemovePermission(this.currentRole.uid, removedPermissionItems[0].uid)
+      }
+
+      await this.fetchRoleDetail()
       this.isLoading = false
     },
-    async addPermission(permissionId, targetId) {
-      // const variables = {
-      //   id: this.id,
-      //   permissionId,
-      //   targetId,
-      // }
-      // const { error } = await apiAddPermissionToPermissionGroup({ variables, fetcher })
 
-      const error = null
-      if (error) {
-        handleErrorForUser({ error, $t: this.$t })
-        this.isLoading = false
-      }
-    },
-    async removePermission(permissionId, targetId) {
-      // const variables = {
-      //   id: this.id,
-      //   permissionId,
-      //   targetId,
-      // }
-      // const { error } = await apiRemovePermissionFromPermissionGroup({ variables, fetcher })
-      const error = null
-      if (error) {
-        handleErrorForUser({ error, $t: this.$t })
-        this.isLoading = false
-      }
-    },
-    async handleInput({ permission, payload }) {
-      // targetIds of the current permission
-      // const currentTargetIds = this.currentPermissionGroup?.targettedPermissions?.find(
-      //   (item) => item.permission.id === permission.id
-      // )?.targetIds
-      // const selectedIds = payload.map((item) => item.value)
-      // if (!currentTargetIds) {
-      //   await this.addPermission(permission.id, selectedIds?.[0])
-      // } else {
-      //   // compare two arrays above by getting difference in two arrays
-      //   // get the added or removed item
-      //   const removedValue = currentTargetIds?.filter((x) => !selectedIds?.includes(x))
-      //   const addedValue = selectedIds?.filter((x) => !currentTargetIds?.includes(x))
-      //   if (removedValue?.length > 0) {
-      //     console.log("removing permission")
-      //     await this.removePermission(permission.id, removedValue[0])
-      //   } else if (addedValue?.length > 0) {
-      //     console.log("adding permission")
-      //     await this.addPermission(permission.id, addedValue[0])
-      //   }
-      // }
-      // this.fetchPermissionsOfGroup()
-    },
-    decideOptionsAvailable(targetIds) {
-      const output = [
-        {
-          name: "{creatorRights}",
-          value: "{creatorRights}",
-        },
-        {
-          name: "{entityId}",
-          value: "{entityId}",
-        },
-      ]
-
-      if (targetIds?.includes("all")) {
-        output.push({
-          name: "all",
-          value: "all",
-        })
-      }
+    // To name => value array for multiple selectbox
+    transformAvailableOptions(permissions) {
+      const output = permissions.map((permission) => {
+        return {
+          uid: permission.uid,
+          name: permission.label,
+          value: permission.name,
+        }
+      })
 
       return output
     },
-  },
+
+    // Associated permission by group
+    associatedPermissionsByGroup(permissionGroupId) {
+      return this.currentRole?.permissions.filter((associatedPermission) => {
+        return associatedPermission.group_id === permissionGroupId
+      })
+    },
+  }, // End methods
 }
 </script>

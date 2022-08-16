@@ -2,22 +2,40 @@
   <RLayout title="New Role">
     <EcBox variant="card-1" class="max-w-2xl px-4 mt-8 sm:px-10">
       <EcFlex class="flex-wrap max-w-md">
-        <EcBox class="w-full mb-6">
+        <!-- Role key -->
+        <EcBox class="w-full mb-6 hidden">
           <RFormInput
-            v-model="v.name.$model"
+            v-model="form.name"
             componentName="EcInputText"
-            :label="$t('user.label.name')"
-            :validator="v"
-            field="name"
+            :label="$t('role.label.key')"
+            :validator="v$"
+            field="form.name"
+            disabled="true"
+            placeholder="Auto generate from Name"
           />
         </EcBox>
+
+        <!-- Role label -->
         <EcBox class="w-full mb-6">
           <RFormInput
-            v-model="v.description.$model"
+            v-model="form.label"
+            componentName="EcInputText"
+            :label="$t('role.label.name')"
+            :validator="v$"
+            field="form.label"
+            @input="handleRoleNameInput"
+          />
+        </EcBox>
+
+        <!-- Role desc -->
+        <EcBox class="w-full mb-6">
+          <RFormInput
+            v-model="form.description"
             componentName="EcInputText"
             :label="$t('user.label.description')"
-            :validator="v"
-            field="description"
+            :validator="v$"
+            field="form.description"
+            @input="v$.form.description.$touch()"
           />
         </EcBox>
       </EcFlex>
@@ -40,47 +58,57 @@
 <script>
 import { ref } from "vue"
 import { useRouter } from "vue-router"
-import useVuelidate from "@vuelidate/core"
-import { required, alpha } from "@vuelidate/validators"
-// import { apiCreatePermissionGroup } from "@covergo/cover-composables"
-import { handleErrorForUser } from "../api"
+import { useRoleNew } from "../use/useRoleNew"
 
 export default {
-  name: "ViewPermissionGroupNew",
+  name: "ViewRoleNew",
   setup() {
-    const name = ref("")
-    const description = ref("")
+    const { form, v$, createNewRole } = useRoleNew()
+
     const isLoading = ref(false)
     const router = useRouter()
 
-    const rules = {
-      name: { required, alpha },
-      description: { required, alpha },
+    return {
+      form,
+      v$,
+      createNewRole,
+      isLoading,
+      router,
     }
-    const v = useVuelidate(rules, { name, description })
+  },
 
-    const handleSubmit = async () => {
-      // const variables = {
-      //   createPermissionGroupInput: { name: name.value, description: description.value },
-      // }
-      isLoading.value = true
-      // const { error } = await apiCreatePermissionGroup({ variables, fetcher })
-      const error = null
-      if (error) {
-        handleErrorForUser({ error, $t: this.$t })
-        this.isLoading = false
+  methods: {
+    handleRoleNameInput(e) {
+      this.form.name = e.target.value.replace(/\s+/g, "-").toLowerCase()
+      this.v$.form.label.$touch()
+    },
+    async handleSubmit() {
+      // Validate first
+      this.v$.form.$touch()
+      if (this.v$.form.$invalid) {
         return
       }
 
-      isLoading.value = false
-      router.push({ name: "ViewRoles" })
-    }
+      this.isLoading = true
 
-    const handleCancel = () => {
-      router.push({ name: "ViewRoles" })
-    }
+      const payload = {
+        name: this.form.name,
+        label: this.form.label,
+        description: this.form.description,
+        tenant_id: 1,
+      }
+      debugger
 
-    return { name, description, isLoading, handleSubmit, handleCancel, v }
+      await this.createNewRole(payload)
+
+      this.isLoading = false
+      this.router.push({ name: "ViewRoles" })
+    },
+
+    // Redirect to role list if cancel
+    handleCancel() {
+      this.router.push({ name: "ViewRoles" })
+    },
   },
 }
 </script>

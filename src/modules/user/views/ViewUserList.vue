@@ -55,21 +55,30 @@
             {{ formatData(item.username) }}
           </RTableCell>
           <RTableCell>
-            <EcText class="w-32" :variant="getStatusType(item.isEmailConfirmed)">
-              {{ getStatusLabel(item.isEmailConfirmed) }}
+            <EcText class="w-32" :variant="getEmailConfirmationStatusType(item.isEmailConfirmed)">
+              {{ getEmailConfirmationStatus(item.isEmailConfirmed) }}
             </EcText>
           </RTableCell>
 
           <!-- Status -->
           <RTableCell>
-            <EcText class="w-32" :variant="getStatusType(item.status)">
+            <EcText class="w-64" :variant="getStatusType(item.status)">
               {{ item.status }}
             </EcText>
           </RTableCell>
+
+          <!-- Is Active -->
+          <RTableCell>
+            <EcText class="w-32" :variant="getStatusType(item.isActive)">
+              {{ item.isActive ? "Enabled" : "Disabled" }}
+            </EcText>
+          </RTableCell>
+
           <!-- Datetime -->
           <RTableCell class="pr-20">
             {{ formatData(item.createdAt, dateTimeFormat) }}
           </RTableCell>
+
           <!-- Action -->
           <RTableCell :isTruncate="false" variant="gradient" :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }">
             <EcFlex class="items-center justify-center h-full">
@@ -137,10 +146,9 @@ export default {
       isSearched: false,
       headerData: [
         { label: this.$t("user.label.emailOrUsername") },
-        // { label: this.$t("user.label.entityName") },
-        // { label: this.$t("user.label.code") },
         { label: this.$t("user.label.emailConfirmedStatus") },
         { label: this.$t("user.label.status") },
+        { label: this.$t("user.label.active") },
         { label: this.$t("user.label.createdAt") },
       ],
       isLoading: false,
@@ -226,15 +234,23 @@ export default {
       this.isFilter = !this.isFilter
     },
 
+    getEmailConfirmationStatus(value) {
+      return value === "true" ? "Confirmed" : "UnConfirmed"
+    },
+
+    getEmailConfirmationStatusType(value) {
+      return value === "true" ? "pill-cSuccess-inv" : "pill-c1"
+    },
+
     getStatusType(value) {
       // if (value === "pending") return "pill-c1"
       if (value === "UNCONFIRMED") {
         return "pill-disabled"
       }
       if (value === "CONFIRMED") {
-        return "pill-cSuccess"
+        return "pill-cSuccess-inv"
       }
-      return value ? "pill-cSuccess" : "pill-c1"
+      return value ? "pill-cSuccess-inv" : "pill-c1"
     },
 
     getStatusLabel(value) {

@@ -17,6 +17,11 @@
           :label="this.$t('user.label.firstName')"
           type="text"
           required="true"
+          @change="
+            (event) => {
+              form.firstName = event.target.value
+            }
+          "
         />
       </EcBox>
     </EcFlex>
@@ -30,6 +35,11 @@
           :label="this.$t('user.label.lastName')"
           type="text"
           required="true"
+          @input="
+            (event) => {
+              form.lastName = event.target.value
+            }
+          "
         />
       </EcBox>
     </EcFlex>
@@ -57,12 +67,23 @@ export default {
     modalEditUserDetailOpen: Boolean,
   },
 
+  data() {
+    const form = {
+      firstName: "",
+      lastName: "",
+    }
+
+    return {
+      form,
+    }
+  },
+
   methods: {
     triggerUpdateUser() {
       debugger
       const data = {
-        firstName: this.firstName,
-        lastName: this.lastName,
+        firstName: this.form.firstName,
+        lastName: this.form.lastName,
       }
       this.$emit("handleUpdateUserDetail", data)
     },

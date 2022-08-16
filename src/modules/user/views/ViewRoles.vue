@@ -14,10 +14,10 @@
       </EcButton>
     </EcFlex>
 
-    <RTable :list="permissionGroups" :isLoading="isLoading" class="mt-6 lg:mt-10">
+    <RTable :list="roles" :isLoading="isLoading" class="mt-6 lg:mt-10">
       <template #header>
         <RTableHeaderRow>
-          <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx">
+          <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx" class="font-semibold">
             {{ h.label }}
           </RTableHeaderCell>
           <RTableHeaderCell variant="gradient" />
@@ -26,20 +26,20 @@
       <template v-slot="{ item, last, first }">
         <RTableRow>
           <RTableCell :class="{ 'rounded-tl-lg': first, 'rounded-bl-lg': last }">
-            {{ formatData(item.name) }}
+            {{ formatData(item.label) }}
           </RTableCell>
           <RTableCell>
             {{ formatData(item.description) }}
           </RTableCell>
           <RTableCell class="pr-20">
-            {{ formatData(item.createdAt, dateTimeFormat) }}
+            {{ formatData(item.created_at, dateTimeFormat) }}
           </RTableCell>
           <RTableCell variant="gradient" :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }">
             <EcFlex class="items-center justify-center h-full">
-              <EcButton variant="transparent-rounded" @click="goToPermissionGroupDetail(item.id)">
+              <EcButton variant="transparent-rounded" @click="goToRoleDetail(item.uid)">
                 <EcIcon class="text-c0-300" icon="Eye" width="20" height="20" />
               </EcButton>
-              <EcButton variant="transparent-rounded" @click="handleDelete(item.id)">
+              <EcButton variant="transparent-rounded" @click="handleClickIconDelete(item.uid)">
                 <EcIcon class="text-cError-500" icon="trash" width="20" height="20" />
               </EcButton>
             </EcFlex>
@@ -49,7 +49,7 @@
     </RTable>
   </RLayout>
 
-  <!-- Modal Delete Permission Group -->
+  <!-- Modal Delete Role -->
   <teleport to="#layer3">
     <EcModalSimple :isVisible="showDeleteRoleModal" variant="center-3xl">
       <EcBox class="text-center">
@@ -64,8 +64,8 @@
             {{ $t("user.cfDeleteNote2") }}
           </EcText>
         </EcBox>
-        <EcFlex v-if="!isDeletePolicyLoading" class="justify-center mt-10">
-          <EcButton variant="warning" @click="deletePermissionGroup">
+        <EcFlex v-if="!isDeleteRoleLoading" class="justify-center mt-10">
+          <EcButton variant="warning" @click="handleDeleteRole">
             {{ $t("user.button.delete") }}
           </EcButton>
           <EcButton class="ml-3" variant="tertiary-outline" @click="toggleDeleteModal">
@@ -83,8 +83,8 @@
 <script>
 import UserSubMenu from "../components/UserSubMenu"
 import { formatData } from "@/modules/core/composables"
-// import { apiPermissionGroups, apiDeletePermissionGroup } from "@covergo/cover-composables"
-import { handleErrorForUser } from "../api"
+import { useRoleList } from "../use/useRoleList"
+import { useGlobalStore } from "@/stores/global"
 
 export default {
   name: "ViewRoles",
@@ -92,65 +92,72 @@ export default {
   data() {
     return {
       isLoading: false,
-      permissionGroups: [],
+      isDeleteRoleLoading: false,
+      roles: [],
       selectedId: null,
       showDeleteRoleModal: false,
       headerData: [
-        { label: this.$t("user.label.name") },
-        { label: this.$t("user.label.description") },
-        { label: this.$t("user.label.createdAt") },
+        { label: this.$t("role.label.name") },
+        { label: this.$t("role.label.description") },
+        { label: this.$t("role.label.createdAt") },
       ],
+    }
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+    const { getRoles, deleteRole } = useRoleList()
+
+    return {
+      globalStore,
+      getRoles,
+      deleteRole,
     }
   },
   computed: {
     dateTimeFormat() {
-      return this.$store.state.dateTimeFormat
+      return this.globalStore.getDateTimeFormat
     },
   },
   mounted() {
-    this.fetchPermissionGroups()
+    this.fetchRoles()
   },
   methods: {
     formatData,
-    async fetchPermissionGroups() {
-      // this.isLoading = true
-      // const { error, data } = await apiPermissionGroups({ fetcher })
-      // if (error) {
-      //   handleErrorForUser({ error, $t: this.$t })
-      //   this.isLoading = false
-      //   return
-      // }
+    async fetchRoles() {
+      this.isLoading = true
 
-      // this.permissionGroups = data.reverse()
+      const data = await this.getRoles()
+
+      this.roles = data
       this.isLoading = false
     },
-    async deletePermissionGroup() {
-      // const variables = {
-      //   id: this.selectedId,
-      // }
-      // const { error } = await apiDeletePermissionGroup({ variables, fetcher })
-      const error = null
-      if (error) {
-        handleErrorForUser({ error, $t: this.$t })
-        this.isLoading = false
-        return
-      }
 
+    /**
+     * Handle the event when user click delete on modal
+     */
+    async handleDeleteRole() {
+      await this.deleteRole(this.selectedId)
       this.toggleDeleteModal()
       this.selectedId = null
-      this.fetchPermissionGroups()
+      this.fetchRoles()
     },
-    goToPermissionGroupDetail(id) {
+
+    /**
+     * Go to role detail
+     * @param {*} uid
+     */
+    goToRoleDetail(uid) {
       this.$router.push({
         name: "ViewRoleDetail",
-        params: { id },
+        params: { uid },
       })
     },
     handleCreate() {
       this.$router.push({ name: "ViewRoleNew" })
     },
-    handleDelete(id) {
-      this.selectedId = id
+    handleClickIconDelete(uid) {
+      this.selectedId = uid
       this.toggleDeleteModal()
     },
     toggleDeleteModal() {

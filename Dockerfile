@@ -1,5 +1,5 @@
 # ---- Base Node ----
-FROM node:buster AS base
+FROM node:latest AS base
 # Create app directory
 WORKDIR /app
 
@@ -7,10 +7,9 @@ WORKDIR /app
 FROM base AS dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json /app/
-# To ensure github packages will be installed
-COPY .npmrc /app/
+
 # install app dependencies including 'devDependencies'
-RUN npm ci
+RUN yarn install
 
 # ---- Copy Files/Build ----
 FROM dependencies AS build
@@ -19,7 +18,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 # --- Releases ----
 FROM nginx:stable-alpine AS release

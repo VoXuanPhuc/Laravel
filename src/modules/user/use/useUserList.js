@@ -1,5 +1,5 @@
 import { reactive, ref, toRefs } from "vue"
-import * as api from "../api/fetcher"
+import * as api from "../api/userFetcher"
 import { useI18n } from "vue-i18n"
 import { useGlobalStore } from "@/stores/global"
 import { handleErrorForUser } from "../api"
