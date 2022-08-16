@@ -2,13 +2,22 @@
 
 namespace Encoda\AWSCognito\Models;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Lumen\Auth\Authorizable;
 use Symfony\Component\Serializer\Serializer;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class CognitoBaseModel implements  Jsonable
+class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, Jsonable
 {
 
-     public function __construct( $attributes = [] )
+    use Authenticatable, Authorizable, HasFactory;
+
+    protected string $primaryKey = 'id';
+
+    public function __construct($attributes = [] )
      {
         $this->fill( $attributes );
      }
@@ -29,4 +38,7 @@ class CognitoBaseModel implements  Jsonable
      }
 
 
+     protected function getKeyName() {
+         return $this->primaryKey;
+     }
  }

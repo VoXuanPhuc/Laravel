@@ -4,12 +4,12 @@ namespace Encoda\Rbac\Repositories\Concrete\Database;
 
 use Encoda\Core\Eloquent\Repository;
 use Encoda\Core\Exceptions\BadRequestException;
+use Encoda\Rbac\Models\Permission;
 use Encoda\Rbac\Repositories\Interfaces\PermissionRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Event;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Spatie\Permission\Models\Permission;
 
 class PermissionRepository extends Repository implements PermissionRepositoryInterface
 {

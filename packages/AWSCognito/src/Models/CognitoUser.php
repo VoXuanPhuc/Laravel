@@ -2,11 +2,16 @@
 
 namespace Encoda\AWSCognito\Models;
 
+use Illuminate\Support\Collection;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
+
 class CognitoUser extends  CognitoBaseModel
 {
 
     public $id;
     public $username;
+    public $password;
     public $firstName;
     public $lastName;
     public $clientId;
@@ -16,6 +21,7 @@ class CognitoUser extends  CognitoBaseModel
     public $isActive;
     public $role;
     public $token;
+    public $remember_token;
 
 
     protected function fetchRole() {
@@ -115,4 +121,7 @@ class CognitoUser extends  CognitoBaseModel
         return $user;
     }
 
+    public function getDirectPermissions()
+    {
+    }
 }

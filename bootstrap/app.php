@@ -88,8 +88,8 @@ $app->configure('permission');
 
  $app->routeMiddleware([
      'auth' => Encoda\Auth\Http\Middlewares\AuthMiddleware::class,
-     'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-     'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+     'permission' => \Encoda\Rbac\Middlewares\PermissionMiddleware::class,
+     'role'       => \Encoda\Rbac\Middlewares\RoleMiddleware::class,
  ]);
 
 /*

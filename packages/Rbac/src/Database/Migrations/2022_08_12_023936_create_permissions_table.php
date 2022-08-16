@@ -26,8 +26,18 @@ return new class extends Migration
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id'); // permission id
+            $table->string('uid', 255 );
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
+            $table->string('label');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->foreignId('group_id');
+
+            $table->foreign('group_id')
+                ->references('id')
+                ->on('permission_groups')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);

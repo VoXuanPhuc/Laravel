@@ -4,6 +4,7 @@ namespace Encoda\Rbac\Repositories\Concrete\Database;
 
 use Encoda\Core\Eloquent\Repository;
 use Encoda\Core\Exceptions\BadRequestException;
+use Encoda\Rbac\Models\Role;
 use Encoda\Rbac\Repositories\Interfaces\PermissionRepositoryInterface;
 use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
 use Error;
@@ -12,7 +13,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Event;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Spatie\Permission\Models\Role;
 
 class RoleRepository extends Repository implements RoleRepositoryInterface
 {

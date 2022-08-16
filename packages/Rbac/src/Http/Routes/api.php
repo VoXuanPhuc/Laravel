@@ -4,6 +4,7 @@
  */
 
 use Encoda\Rbac\Http\Controllers\PermissionController;
+use Encoda\Rbac\Http\Controllers\PermissionGroupController;
 use Encoda\Rbac\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
@@ -60,6 +61,13 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
     Route::post('/roles/{id}/permissions-deletion', [
         'as' => 'roles-permissions.delete',
         'uses' => RoleController::class . '@removeRolePermission'
+    ]);
+
+    /** ========= Permission Group ========= */
+    /** =================Permission================ */
+    Route::get('/permissions-by-group', [
+        'as' => 'permission-group.list-permission',
+        'uses' => PermissionGroupController::class . '@listPermissionByGroup'
     ]);
 
     /** =================Permission================ */
