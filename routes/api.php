@@ -22,8 +22,12 @@ Route::post('login', [PassportAuthController::class, 'login']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::get('get-user', [PassportAuthController::class, 'userInfo']);
+    Route::get('logout', [PassportAuthController::class, 'logout']);
 
     Route::resource('products', ProductController::class);
-    Route::post('logout', [PassportAuthController::class, 'logout']);
+    Route::put('assign-product/{product}', [ProductController::class, 'assignProductToUser']);
+    Route::put('update-status-product/{product}', [ProductController::class, 'updateStatusProduct']);
+
+    Route::get('products-user', [ProductController::class, 'productsOfUser']);
 
 });

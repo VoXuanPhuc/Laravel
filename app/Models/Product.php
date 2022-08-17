@@ -12,6 +12,11 @@ class Product extends Model
     protected $dateFormat = 'h:m:s';
 
     protected $fillable = [
-        'name', 'detail'
+        'name', 'detail', 'status', 'created_by', 'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
