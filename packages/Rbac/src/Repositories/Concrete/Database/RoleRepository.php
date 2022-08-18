@@ -171,7 +171,7 @@ class RoleRepository extends Repository implements RoleRepositoryInterface
      */
     private function getRole($roleId)
     {
-        $role = $this->model->find($roleId);
+        $role = $this->findOneByField('uid', $roleId);
 
         if (empty($role)) {
             return throw new BadRequestException('Role is not found');
