@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -26,7 +27,7 @@ return new class extends Migration
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id'); // permission id
-            $table->string('uid', 255 );
+            $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('label');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
@@ -38,9 +39,14 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
+
             $table->timestamps();
+            $table->softDeletesTz();
 
             $table->unique(['name', 'guard_name']);
+
+            // Indexes
+            $table->index('uid');
         });
 
         app('cache')
@@ -56,5 +62,9 @@ return new class extends Migration
     public function down()
     {
 
+        $tableNames = config('permission.table_names');
+        if( Schema::hasTable( $tableNames['permissions'] ) ) {
+            Schema::drop( $tableNames['permissions'] );
+        }
     }
 };

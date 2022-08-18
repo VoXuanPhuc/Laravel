@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
+    protected $tableName = 'permission_groups';
     /**
      * Run the migrations.
      *
@@ -30,6 +32,8 @@ return new class extends Migration
      */
     public function down()
     {
-
+        if( Schema::hasTable( $this->tableName ) ) {
+            Schema::drop( $this->tableName );
+        }
     }
 };

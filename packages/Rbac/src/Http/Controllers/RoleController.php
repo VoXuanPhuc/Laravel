@@ -4,7 +4,7 @@ namespace Encoda\Rbac\Http\Controllers;
 
 use Encoda\Rbac\Http\Requests\Role\CreateRoleRequest;
 use Encoda\Rbac\Http\Requests\Role\UpdateRoleRequest;
-use Encoda\Rbac\Http\Requests\RolePermission\RolePermissionRequest;
+
 use Encoda\Rbac\Services\Interfaces\RoleServiceInterface;
 
 class RoleController extends Controller
@@ -31,12 +31,12 @@ class RoleController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return mixed
      */
-    public function find($id)
+    public function detail( $uid )
     {
-        return $this->roleService->getRole($id);
+        return $this->roleService->getRole( $uid );
     }
 
     /**
@@ -50,12 +50,12 @@ class RoleController extends Controller
 
     /**
      * @param UpdateRoleRequest $request
-     * @param $id
+     * @param $uid
      * @return mixed
      */
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, $uid)
     {
-        return $this->roleService->updateRole($request, $id);
+        return $this->roleService->updateRole($request, $uid);
     }
 
     /**
@@ -65,45 +65,5 @@ class RoleController extends Controller
     public function delete($id)
     {
         return $this->roleService->deleteRole($id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @param $id
-     * @return mixed
-     */
-    public function createRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleService->createRolePermission($request, $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @param $id
-     * @return mixed
-     */
-    public function checkRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleService->checkRolePermission($request, $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @param $id
-     * @return mixed
-     */
-    public function removeRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleService->removeRolePermission($request, $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @param $id
-     * @return mixed
-     */
-    public function updateRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleService->updateRolePermission($request, $id);
     }
 }

@@ -10,7 +10,7 @@ class NotFoundException extends BaseException
 
     public function __construct($message = "", $code = HttpStatusCode::NOT_FOUND, Throwable $previous = null)
     {
-        $message = __('core::app.exception.not_found') ?? $message ;
+        $message = $message ?: __('core::app.exception.not_found') ;
         parent::__construct($message, $code, $previous);
     }
 }

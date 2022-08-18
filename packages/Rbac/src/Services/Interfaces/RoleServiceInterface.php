@@ -14,15 +14,8 @@ interface RoleServiceInterface
 
     public function createRole(CreateRoleRequest $request);
 
-    public function updateRole(UpdateRoleRequest $request, $id);
+    public function updateRole(UpdateRoleRequest $request, $uid);
 
-    public function deleteRole($id);
+    public function deleteRole($uid);
 
-    public function createRolePermission(RolePermissionRequest $request, $id);
-
-    public function checkRolePermission(RolePermissionRequest $request, $id);
-
-    public function removeRolePermission(RolePermissionRequest $request, $id);
-
-    public function updateRolePermission(RolePermissionRequest $request, $id);
 }

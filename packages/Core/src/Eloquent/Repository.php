@@ -6,9 +6,8 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Prettus\Repository\Traits\CacheableRepository;
 
-abstract class Repository extends BaseRepository implements CacheableInterface
+abstract class Repository extends BaseRepository
 {
-    use CacheableRepository;
 
     /**
      * Find data by field and value
@@ -42,9 +41,10 @@ abstract class Repository extends BaseRepository implements CacheableInterface
     /**
      * Find data by id
      *
-     * @param  int  $id
-     * @param  array  $columns
+     * @param int $id
+     * @param array $columns
      * @return mixed
+     * @throws RepositoryException
      */
     public function find($id, $columns = ['*'])
     {

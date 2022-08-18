@@ -2,23 +2,31 @@
 
 namespace Encoda\Rbac\Services\Concrete\Database;
 
+use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Rbac\Http\Requests\Role\CreateRoleRequest;
 use Encoda\Rbac\Http\Requests\Role\UpdateRoleRequest;
 use Encoda\Rbac\Http\Requests\RolePermission\RolePermissionRequest;
 use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
+use Encoda\Rbac\Services\Concrete\Cache\PermissionRegistrar;
 use Encoda\Rbac\Services\Interfaces\RoleServiceInterface;
 
 class RoleService implements RoleServiceInterface
 {
 
     protected RoleRepositoryInterface $roleRepository;
+    protected PermissionRegistrar $permissionRegistrar;
 
     /**
      * @param RoleRepositoryInterface $roleRepository
+     * @param PermissionRegistrar $permissionRegistrar
      */
-    public function __construct( RoleRepositoryInterface $roleRepository )
+    public function __construct(
+        RoleRepositoryInterface $roleRepository,
+        PermissionRegistrar $permissionRegistrar,
+    )
     {
         $this->roleRepository = $roleRepository;
+        $this->permissionRegistrar = $permissionRegistrar;
     }
 
     /**
@@ -44,61 +52,50 @@ class RoleService implements RoleServiceInterface
      */
     public function createRole(CreateRoleRequest $request)
     {
-        return $this->roleRepository->create($request->all());
+        $role = $this->roleRepository->create($request->all());
+
+        // Clear cache
+        $this->permissionRegistrar->forgetCachedPermissions();
+
+        return $role;
     }
 
     /**
      * @param UpdateRoleRequest $request
-     * @param $id
+     * @param $uid
      * @return mixed
+     * @throws NotFoundException
      */
-    public function updateRole(UpdateRoleRequest $request, $id)
+    public function updateRole(UpdateRoleRequest $request, $uid)
     {
-        return $this->roleRepository->update($request->all(), $id);
+        $role = $this->roleRepository->findByUid( $uid );
+
+        if( !$role ) {
+            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+        }
+
+        $role = $this->roleRepository->update( $request->all(), $role->id );
+
+        // Clear cache
+        $this->permissionRegistrar->forgetCachedPermissions();
+
+        return $role;
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return int
+     * @throws NotFoundException
      */
-    public function deleteRole($id)
+    public function deleteRole($uid)
     {
-        return $this->roleRepository->delete($id);
+        $role = $this->roleRepository->findByUid( $uid );
+
+        if( !$role ) {
+            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+        }
+
+        return $this->roleRepository->delete( $role->id );
     }
 
-    /**
-     * @param RolePermissionRequest $request
-     * @return mixed
-     */
-    public function createRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleRepository->createRolePermission($request->all(), $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @return mixed
-     */
-    public function checkRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleRepository->checkRolePermission($request->all(), $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @return void
-     */
-    public function removeRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleRepository->removeRolePermission($request->all(), $id);
-    }
-
-    /**
-     * @param RolePermissionRequest $request
-     * @return mixed
-     */
-    public function updateRolePermission(RolePermissionRequest $request, $id)
-    {
-        return $this->roleRepository->updateRolePermission($request->all(), $id);
-    }
 }

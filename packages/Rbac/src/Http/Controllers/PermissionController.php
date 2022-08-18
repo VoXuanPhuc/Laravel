@@ -31,12 +31,12 @@ class PermissionController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return mixed
      */
-    public function find($id)
+    public function detail($uid)
     {
-        return $this->permissionService->getPermission($id);
+        return $this->permissionService->getPermission($uid);
     }
 
     /**
@@ -50,20 +50,20 @@ class PermissionController extends Controller
 
     /**
      * @param UpdatePermissionRequest $request
-     * @param $id
+     * @param $uid
      * @return mixed
      */
-    public function update(UpdatePermissionRequest $request, $id)
+    public function update(UpdatePermissionRequest $request, $uid)
     {
-        return $this->permissionService->updatePermission($request, $id);
+        return $this->permissionService->updatePermission($request, $uid);
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return bool
      */
-    public function delete($id)
+    public function delete($uid)
     {
-        return $this->permissionService->deletePermission($id);
+        return $this->permissionService->deletePermission($uid);
     }
 }

@@ -6,20 +6,21 @@
 use Encoda\Rbac\Http\Controllers\PermissionController;
 use Encoda\Rbac\Http\Controllers\PermissionGroupController;
 use Encoda\Rbac\Http\Controllers\RoleController;
+use Encoda\Rbac\Http\Controllers\RolePermissionController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
 Route::group( ['prefix' => '/identity/api/v1/'] , function() {
 
-    /** =================Role================ */
+    /** ================= ROLES================ */
     Route::get('/roles', [
         'as' => 'roles.list',
         'uses' => RoleController::class . '@list'
     ]);
 
-    Route::get('/roles/{id}', [
-        'as' => 'roles.details',
-        'uses' => RoleController::class . '@find'
+    Route::get('/roles/{uid}', [
+        'as' => 'roles.detail',
+        'uses' => RoleController::class . '@detail'
     ]);
 
     Route::post('/roles', [
@@ -27,58 +28,43 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
         'uses' => RoleController::class . '@create'
     ]);
 
-    Route::put('/roles/{id}', [
+    Route::put('/roles/{uid}', [
         'as' => 'roles.update',
         'uses' => RoleController::class . '@update'
     ]);
 
-    Route::delete('/roles/{id}', [
+    Route::delete('/roles/{uid}', [
         'as' => 'roles.delete',
         'uses' => RoleController::class . '@delete'
     ]);
 
-    Route::post('/roles-permissions', [
-        'as' => 'roles-permissions.create',
-        'uses' => RoleController::class . '@createRolePermission'
-    ]);
-
     /** =========== Role Permission ======== */
-    Route::post('/roles/{id}/permissions-creation', [
-        'as' => 'roles-permissions.create',
-        'uses' => RoleController::class . '@createRolePermission'
+    Route::get('/roles/{uid}/permissions', [
+        'as' => 'roles.list-associated-permission',
+        'uses' => RolePermissionController::class . '@roleListAssociatedPermissions'
     ]);
 
-    Route::post('/roles/{id}/permissions-check', [
-        'as' => 'roles-permissions.check',
-        'uses' => RoleController::class . '@checkRolePermission'
+    Route::put('/roles/{roleUid}/permissions', [
+        'as' => 'roles.sync-permissions',
+        'uses' => RolePermissionController::class . '@roleSyncPermissions'
     ]);
 
-    Route::post('/roles/{id}/permissions-updation', [
-        'as' => 'roles-permissions.update',
-        'uses' => RoleController::class . '@updateRolePermission'
-    ]);
-
-    Route::post('/roles/{id}/permissions-deletion', [
-        'as' => 'roles-permissions.delete',
-        'uses' => RoleController::class . '@removeRolePermission'
-    ]);
-
-    /** ========= Permission Group ========= */
+    /** ========= PERMISSION GROUP ========= */
     /** =================Permission================ */
     Route::get('/permissions-by-group', [
         'as' => 'permission-group.list-permission',
         'uses' => PermissionGroupController::class . '@listPermissionByGroup'
     ]);
 
-    /** =================Permission================ */
+    /** ================= PERMISSIONS ================ */
     Route::get('/permissions', [
         'as' => 'permissions.list',
         'uses' => PermissionController::class . '@list'
     ]);
 
-    Route::get('/permissions/{id}', [
-        'as' => 'permissions.details',
-        'uses' => PermissionController::class . '@find'
+    Route::get('/permissions/{uid}', [
+        'as' => 'permissions.detail',
+        'uses' => PermissionController::class . '@detail'
     ]);
 
     Route::post('/permissions', [
@@ -86,12 +72,12 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
         'uses' => PermissionController::class . '@create'
     ]);
 
-    Route::put('/permissions/{id}', [
+    Route::put('/permissions/{uid}', [
         'as' => 'permissions.update',
         'uses' => PermissionController::class . '@update'
     ]);
 
-    Route::delete('/permissions/{id}', [
+    Route::delete('/permissions/{uid}', [
         'as' => 'permissions.delete',
         'uses' => PermissionController::class . '@delete'
     ]);

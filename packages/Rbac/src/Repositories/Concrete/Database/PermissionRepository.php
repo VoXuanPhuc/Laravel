@@ -53,7 +53,7 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
 
         Event::dispatch( 'identity.permission.create.after' );
 
-        return $permission;
+        return $permission->refresh();
     }
 
     /**
@@ -96,4 +96,14 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
         return $permission;
     }
 
+
+    /**
+     * @param $uid
+     * @param string[] $column
+     * @return mixed
+     */
+    public function findByUid($uid, $column = ['*'])
+    {
+        return $this->findOneByField('uid', $uid, $column );
+    }
 }

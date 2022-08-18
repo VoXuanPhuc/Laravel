@@ -62,5 +62,9 @@ return new class extends Migration
     public function down()
     {
 
+        $tableNames = config('permission.table_names');
+        if( Schema::hasTable( $tableNames['model_has_permissions'] ) ) {
+            Schema::drop( $tableNames['model_has_permissions'] );
+        }
     }
 };
