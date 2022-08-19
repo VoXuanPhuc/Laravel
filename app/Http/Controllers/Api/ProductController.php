@@ -41,6 +41,7 @@ class ProductController extends Controller
         $productRes = Product::where('id', $product)->update([
             "name" => $productReq->name,
             "detail" => $productReq->detail,
+            "status" => $productReq->status,
             "updated_at" => \DB::raw('CURRENT_TIMESTAMP')
         ]);
         return response()->json(["isSuccess" => true, "product" => $productRes], 200);
@@ -81,6 +82,7 @@ class ProductController extends Controller
         $productUpdated = Product::where('id', $product)->update(
             ['status' => !$currentStatus]
         );
-        return response()->json(["isSuccess" => true, "product" => $productUpdated], 200);
+        $products = Product::paginate(5);
+        return response()->json(["isSuccess" => true, "products" => $products], 200);
     }
 }
