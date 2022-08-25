@@ -2,6 +2,7 @@
 
 namespace Encoda\Rbac\Services\Concrete\Database;
 
+use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Rbac\Http\Requests\Permission\CreatePermissionRequest;
 use Encoda\Rbac\Http\Requests\Permission\UpdatePermissionRequest;
 use Encoda\Rbac\Repositories\Interfaces\PermissionRepositoryInterface;
@@ -30,12 +31,19 @@ class PermissionService implements PermissionServiceInterface
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return mixed
+     * @throws NotFoundException
      */
-    public function getPermission($id)
+    public function getPermission($uid)
     {
-        return $this->permissionRepository->find($id);
+        $permission = $this->permissionRepository->findByUid($uid);
+
+        if( !$permission ) {
+            throw new NotFoundException( __('rbac::app.permission.not_found' ));
+        }
+
+        return $permission;
     }
 
     /**
@@ -49,20 +57,25 @@ class PermissionService implements PermissionServiceInterface
 
     /**
      * @param UpdatePermissionRequest $request
-     * @param $id
+     * @param $uid
      * @return mixed
+     * @throws NotFoundException
      */
-    public function updatePermission(UpdatePermissionRequest $request, $id)
+    public function updatePermission(UpdatePermissionRequest $request, $uid)
     {
-        return $this->permissionRepository->update($request->all(), $id);
+        $permission = $this->getPermission( $uid );
+        return $this->permissionRepository->update($request->all(), $permission->id );
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return bool|null
+     * @throws NotFoundException
      */
-    public function deletePermission($id)
+    public function deletePermission($uid)
     {
-        return $this->permissionRepository->delete($id);
+        $permission = $this->getPermission( $uid );
+
+        return $this->permissionRepository->delete($permission->id);
     }
 }

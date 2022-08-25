@@ -27,7 +27,7 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
      */
     public function all($columns = ['*'])
     {
-        return $this->model->all($columns);
+        return parent::all( $columns );
     }
 
     /**
@@ -38,18 +38,19 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
      */
     public function find($id, $columns = ['*'])
     {
-        return $this->getPermission($id);
+        return parent::find( $id, $columns );
     }
 
     /**
      * @param array $attributes
      * @return LengthAwarePaginator|\Illuminate\Support\Collection|mixed
+     * @throws ValidatorException
      */
     public function create(array $attributes)
     {
         Event::dispatch( 'identity.permission.create.before' );
 
-        $permission = $this->model->create( $attributes );
+        $permission = parent::create( $attributes );
 
         Event::dispatch( 'identity.permission.create.after' );
 
@@ -60,40 +61,32 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
      * @param array $attributes
      * @param $id
      * @return LengthAwarePaginator|\Illuminate\Support\Collection|mixed
-     * @throws BadRequestException
      * @throws ValidatorException
      */
     public function update(array $attributes, $id)
     {
-        $this->getPermission($id);
+        Event::dispatch( 'identity.permission.update.before' );
 
-        return parent::update($attributes, $id);
+        $permission = parent::update($attributes, $id);
+
+        Event::dispatch( 'identity.permission.update.after' );
+
+        return $permission;
     }
 
     /**
      * @param $id
      * @return int
-     * @throws BadRequestException
      */
     public function delete($id)
     {
-        return $this->getPermission($id)->delete();
-    }
+        Event::dispatch( 'identity.permission.delete.before' );
 
-    /**
-     * @param $id
-     * @return mixed
-     * @throws BadRequestException
-     */
-    private function getPermission($id)
-    {
-        $permission = $this->model->find($id);
+        $result =  parent::delete( $id );
 
-        if (empty($permission)) {
-            throw new BadRequestException("Permission is not found");
-        }
+        Event::dispatch( 'identity.permission.delete.after' );
 
-        return $permission;
+        return $result;
     }
 
 

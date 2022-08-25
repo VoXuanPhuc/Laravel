@@ -4,11 +4,11 @@ namespace Encoda\Rbac\Services\Concrete\Database;
 
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Rbac\Http\Requests\Role\RoleSyncPermissionsRequest;
+use Encoda\Rbac\Http\Requests\RolePermission\RoleAddPermissionRequest;
 use Encoda\Rbac\Models\Role;
 use Encoda\Rbac\Repositories\Interfaces\PermissionRepositoryInterface;
 use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
 use Encoda\Rbac\Services\Interfaces\RolePermissionServiceInterface;
-use Laravel\Lumen\Http\Request;
 
 class RolePermissionService implements RolePermissionServiceInterface
 {
@@ -26,37 +26,37 @@ class RolePermissionService implements RolePermissionServiceInterface
      * @return mixed
      * @throws NotFoundException
      */
-    public function listAssociatedPermissions(string $roleUid)
+    public function listAssociatedPermissions(string $roleUid): mixed
     {
         $role = $this->roleRepository->findByUid( $roleUid );
 
         if( !$role ) {
-            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+            throw new NotFoundException(__('rbac::app.role.not_found'));
         }
 
         return $role->permissions;
     }
 
     /**
-     * @param Request $request
+     * @param RoleAddPermissionRequest $request
      * @param string $roleUid
      * @return Role
      * @throws NotFoundException
      */
-    public function roleAddPermission(Request $request, string $roleUid)
+    public function roleAddPermission(RoleAddPermissionRequest $request, string $roleUid): Role
     {
         /** @var Role $role */
         $role = $this->roleRepository->findByUid( $roleUid );
 
         if( !$role ) {
-            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+            throw new NotFoundException(__('rbac::app.role.not_found'));
         }
 
         // Get permission
-        $permission = $this->permissionRepository->findByUid( $request->permissionUid );
+        $permission = $this->permissionRepository->findByUid( $request->permission_uid );
 
         if( !$permission ) {
-            throw new NotFoundException(__('rbac::app.role.permission_not_found'));
+            throw new NotFoundException(__('rbac::app.permission.not_found'));
         }
 
         if( !$role->hasPermissionTo( $permission ) ) {
@@ -75,20 +75,20 @@ class RolePermissionService implements RolePermissionServiceInterface
      * @return Role
      * @throws NotFoundException
      */
-    public function roleRemovePermission(string $roleUid, string $permissionUid )
+    public function roleRemovePermission(string $roleUid, string $permissionUid ): Role
     {
         /** @var Role $role */
         $role = $this->roleRepository->findByUid( $roleUid );
 
         if( !$role ) {
-            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+            throw new NotFoundException(__('rbac::app.role.not_found'));
         }
 
         // Get permission
         $permission = $this->permissionRepository->findByUid( $permissionUid );
 
         if( !$permission ) {
-            throw new NotFoundException(__('rbac::app.role.permission_not_found'));
+            throw new NotFoundException(__('rbac::app.role.not_found'));
         }
 
         if( !$role->hasPermissionTo( $permission ) ) {
@@ -108,23 +108,23 @@ class RolePermissionService implements RolePermissionServiceInterface
      * @return Role
      * @throws NotFoundException
      */
-    public function roleSyncPermissions(RoleSyncPermissionsRequest $request, string $roleUid)
+    public function roleSyncPermissions(RoleSyncPermissionsRequest $request, string $roleUid): Role
     {
         /** @var Role $role */
         $role = $this->roleRepository->findByUid( $roleUid );
 
         if( !$role ) {
-            throw new NotFoundException(__('rbac::app.role.role_not_found'));
+            throw new NotFoundException(__('rbac::app.role.not_found'));
         }
 
         $permissions = [];
 
-        foreach ( $request->get('permissionUids') as $permissionUid ) {
+        foreach ( $request->permission_uids  as $permissionUid ) {
             if( $permission = $this->permissionRepository->findByUid( $permissionUid ) ) {
                 array_push( $permissions, $permission );
             }
             else {
-                throw new NotFoundException(__('rbac::app.role.permission_not_found'));
+                throw new NotFoundException(__('rbac::app.role.not_found'));
             }
         }
 

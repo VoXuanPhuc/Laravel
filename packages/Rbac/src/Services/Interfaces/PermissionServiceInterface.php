@@ -9,11 +9,11 @@ interface PermissionServiceInterface
 {
     public function listPermissions();
 
-    public function getPermission($id);
+    public function getPermission($uid);
 
     public function createPermission(CreatePermissionRequest $request);
 
-    public function updatePermission(UpdatePermissionRequest $request, $id);
+    public function updatePermission(UpdatePermissionRequest $request, $uid);
 
-    public function deletePermission($id);
+    public function deletePermission($uid);
 }

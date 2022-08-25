@@ -2,7 +2,11 @@
 namespace Encoda\Rbac\Models;
 
 use Encoda\Rbac\Contract\RoleContract;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * @property Collection $permissions
+ */
 class Role extends \Spatie\Permission\Models\Role implements RoleContract
 {
 
@@ -19,4 +23,12 @@ class Role extends \Spatie\Permission\Models\Role implements RoleContract
     ];
 
     public static $snakeAttributes = false;
+
+
+    /**
+     * @return Collection
+     */
+    public function getpermissions() {
+        return $this->permissions;
+    }
 }

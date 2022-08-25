@@ -3,6 +3,8 @@
 namespace Encoda\Rbac\Http\Controllers;
 
 use Encoda\Rbac\Http\Requests\Role\RoleSyncPermissionsRequest;
+use Encoda\Rbac\Http\Requests\RolePermission\RoleAddPermissionRequest;
+use Encoda\Rbac\Http\Requests\RolePermission\RolePermissionRequest;
 use Encoda\Rbac\Services\Interfaces\RolePermissionServiceInterface;
 use Laravel\Lumen\Http\Request;
 
@@ -23,12 +25,20 @@ class RolePermissionController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RoleAddPermissionRequest $request
      * @param string $roleUid
      */
-    public function roleAddPermission( Request $request, string $roleUid ) {
+    public function roleAddPermission( RoleAddPermissionRequest $request, string $roleUid ) {
 
-        $this->rolePermissionService->roleAddPermission( $request, $roleUid );
+        return $this->rolePermissionService->roleAddPermission( $request, $roleUid );
+    }
+
+    /**
+     * @param string $roleUid
+     * @param string $permissionUid
+     */
+    public function roleRemovePermission( string $roleUid, string $permissionUid ) {
+        return $this->rolePermissionService->roleRemovePermission( $roleUid, $permissionUid );
     }
 
     /**

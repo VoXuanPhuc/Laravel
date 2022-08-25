@@ -59,11 +59,11 @@ class RoleController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $uid
      * @return bool
      */
-    public function delete($id)
+    public function delete($uid)
     {
-        return $this->roleService->deleteRole($id);
+        return $this->roleService->deleteRole($uid);
     }
 }

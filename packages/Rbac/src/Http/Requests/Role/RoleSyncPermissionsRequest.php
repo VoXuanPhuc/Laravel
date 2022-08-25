@@ -4,10 +4,11 @@ namespace Encoda\Rbac\Http\Requests\Role;
 
 use Encoda\Core\Http\Requests\FormRequest;
 
+/**
+ * @property array $permission_uids
+ */
 class RoleSyncPermissionsRequest extends FormRequest
 {
-
-    public array $permissionUids = [];
 
     protected function rules(): array
     {

@@ -3,23 +3,23 @@
 namespace Encoda\Rbac\Models;
 
 use Encoda\Rbac\Contract\PermissionContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Permission extends \Spatie\Permission\Models\Permission implements PermissionContract
 {
 
-    protected $guarded = [
-        'id',
-    ];
-
     protected $fillable = [
-        'uid',
         'name',
         'label',
-        'guard_name',
         'group_id',
+        'guard_name',
     ];
 
-    public function group() {
+    /**
+     * @return BelongsTo
+     */
+    public function group(): BelongsTo
+    {
         return $this->belongsTo( PermissionGroup::class );
     }
 }

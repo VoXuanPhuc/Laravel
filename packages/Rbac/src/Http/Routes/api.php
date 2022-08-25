@@ -39,12 +39,26 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
     ]);
 
     /** =========== Role Permission ======== */
+    // Get list permissions which associated with role by role uid
     Route::get('/roles/{uid}/permissions', [
         'as' => 'roles.list-associated-permission',
         'uses' => RolePermissionController::class . '@roleListAssociatedPermissions'
     ]);
 
-    Route::put('/roles/{roleUid}/permissions', [
+    // Associate a permission to role
+    Route::put( '/roles/{roleUid}/permissions', [
+        'as' => 'roles.role-add-permission',
+        'uses' => RolePermissionController::class . '@roleAddPermission'
+    ] );
+
+    // Remove associated a permission from role
+    Route::delete( '/roles/{roleUid}/permissions/{permissionUid}', [
+        'as' => 'roles.role-remove-permission',
+        'uses' => RolePermissionController::class . '@roleRemovePermission'
+    ] );
+
+    // Sync permissions to role with a list of permissions
+    Route::patch('/roles/{roleUid}/permissions', [
         'as' => 'roles.sync-permissions',
         'uses' => RolePermissionController::class . '@roleSyncPermissions'
     ]);

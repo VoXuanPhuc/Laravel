@@ -20,7 +20,9 @@ class PermissionGroupService implements PermissionGroupServiceInterface
 
     public function listPermissionByGroup()
     {
-        return PermissionGroup::with('permissions')->get();
+        return $this->permissionGroupRepository
+            ->with('permissions')
+            ->all();
 
     }
 }
