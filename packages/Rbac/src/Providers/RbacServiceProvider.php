@@ -3,6 +3,7 @@
 namespace Encoda\Rbac\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\PermissionServiceProvider;
 
 class RbacServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,8 @@ class RbacServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->register( PermissionServiceProvider::class );
+
         //Repositories binding
         $this->app->register(RepositoriesBindingProvider::class );
 

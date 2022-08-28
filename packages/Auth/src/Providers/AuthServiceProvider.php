@@ -3,6 +3,9 @@ namespace Encoda\Auth\Providers;
 
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
+use Encoda\Identity\Services\Concrete\UserService;
+use Encoda\Identity\Services\Interfaces\UserServiceInterface;
+use Illuminate\Auth\GenericUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -18,8 +21,11 @@ class AuthServiceProvider extends \Illuminate\Support\ServiceProvider
 
 
         //Authentication
-        $this->app['auth']->viaRequest('cognito', function ( Request $request ) {
+        $this->app['auth']->viaRequest('cognito-token', function ( Request $request ) {
             $jwt = $request->bearerToken();
+
+            $userService = $this->app->make(UserServiceInterface::class);
+
         });
     }
 

@@ -4,8 +4,6 @@
  */
 
 use Encoda\Auth\Http\Controllers\AuthController;
-use Encoda\Auth\Http\Controllers\UserController;
-use Encoda\Auth\Http\Controllers\UserGroupController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 

@@ -2,11 +2,13 @@
 
 namespace Encoda\AWSCognito\Models;
 
+use Encoda\Rbac\Models\Permission;
+use Encoda\Rbac\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
-use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
-class CognitoUser extends  CognitoBaseModel
+class CognitoUser extends CognitoBaseModel
 {
 
     public $id;
@@ -19,14 +21,14 @@ class CognitoUser extends  CognitoBaseModel
     public $createdAt;
     public $status;
     public $isActive;
-    public $role;
     public $token;
     public $remember_token;
 
+    protected $linkedUser;
 
     protected function fetchRole() {
         $this->role = [
-            'id' => 'ahihi-123',
+            'uid' => '24a4dfa8-1f0d-11ed-b5bb-0242ac120005',
             'name' => 'Admin',
         ];
     }
@@ -36,8 +38,7 @@ class CognitoUser extends  CognitoBaseModel
         return $this->role;
     }
 
-
-    /**
+    /**s
      * @param $cognitoUser
      * @param string $attributeKey
      * @return CognitoUser
@@ -121,7 +122,4 @@ class CognitoUser extends  CognitoBaseModel
         return $user;
     }
 
-    public function getDirectPermissions()
-    {
-    }
 }

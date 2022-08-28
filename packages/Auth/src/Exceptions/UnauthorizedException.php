@@ -9,9 +9,9 @@ use Throwable;
 class UnauthorizedException extends BaseException
 {
 
-    public function __construct($message = HttpStatusCode::UNAUTHORIZED, $code = 0, Throwable $previous = null)
+    public function __construct($message = '', $code = HttpStatusCode::UNAUTHORIZED, Throwable $previous = null)
     {
-        $message = $message ?: 'auth::app.login.unauthorized_exception';
+        $message = $message ?: __('auth::app.login.unauthorized_exception');
         parent::__construct($message, $code, $previous);
     }
 }

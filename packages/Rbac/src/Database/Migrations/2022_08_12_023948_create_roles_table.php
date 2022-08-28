@@ -29,7 +29,8 @@ return new class extends Migration
             $table->bigIncrements('id'); // role id
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string( 'tenant_id',255 );
-            $table->string('name');       // For MySQL 8.0 use string('name', 125);
+            $table->string('name')->nullable(false);       // For MySQL 8.0 use string('name', 125);
+            $table->string('label')->nullable(false);
             $table->string('description')->nullable(true);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();

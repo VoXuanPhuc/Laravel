@@ -12,7 +12,12 @@ class ServiceBindingProvider extends ServiceProvider
 
     public function boot()
     {
+        if( config('config.identity_pool.driver') == 'cognito' ) {
+            $this->app->bind( AuthServiceInterface::class, CognitoAuthService::class );
+        }
+        else {
+            $this->app->bind( AuthServiceInterface::class, AuthService::class );
+        }
 
-        $this->app->bind( AuthServiceInterface::class, CognitoAuthService::class );
     }
 }

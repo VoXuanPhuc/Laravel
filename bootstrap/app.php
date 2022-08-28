@@ -65,6 +65,7 @@ $app->configure('cognito');
 $app->configure('auth');
 $app->configure('cors');
 $app->configure('permission');
+$app->configure('jwt');
 
 /*
 |--------------------------------------------------------------------------
@@ -103,9 +104,6 @@ $app->configure('permission');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
 $app->register( Encoda\Core\Providers\CoreServiceProvider::class );
 $app->register( Encoda\Core\Providers\BaseConcordServiceProvider::class );
 $app->register( Encoda\Core\Providers\FormRequestProvider::class );
@@ -114,7 +112,7 @@ $app->register( Encoda\Identity\Providers\IdentityServiceProvider::class );
 $app->register( Encoda\AWSCognito\Providers\AwsCognitoServiceProvider::class );
 $app->register( Encoda\CORS\Providers\CORSServiceProvider::class );
 $app->register( Encoda\Rbac\Providers\RbacServiceProvider::class );
-$app->register(Spatie\Permission\PermissionServiceProvider::class);
+$app->register( Encoda\Jwt\Providers\JwtServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 

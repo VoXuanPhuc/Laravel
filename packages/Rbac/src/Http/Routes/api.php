@@ -7,10 +7,18 @@ use Encoda\Rbac\Http\Controllers\PermissionController;
 use Encoda\Rbac\Http\Controllers\PermissionGroupController;
 use Encoda\Rbac\Http\Controllers\RoleController;
 use Encoda\Rbac\Http\Controllers\RolePermissionController;
+use Encoda\Rbac\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
-Route::group( ['prefix' => '/identity/api/v1/'] , function() {
+Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , function() {
+
+    /** ========== USER ROLES ================= */
+    Route::patch( '/users/{userUid}/roles', [
+        'as' => 'roles.assign-role-to-user',
+        'uses' => UserRoleController::class . '@assignRoleToUser'
+    ]);
+
 
     /** ================= ROLES================ */
     Route::get('/roles', [

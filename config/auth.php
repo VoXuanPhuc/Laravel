@@ -15,27 +15,19 @@ return [
             'provider' => 'client-api',
         ],
         'api' => [
-            'driver' => 'cognito',
+            'driver' =>  config('config.identity_pool.guard'),
             'provider' => 'users',
         ],
 
     ],
 
-//    'providers' => [
-//
-//        'admin-api' => [
-//            'driver' => 'jwt',
-//            'model' => \Encoda\Identity\Models\Cognito\CognitoUser::class
-//        ],
-//        'client-api' => [
-//            'driver' => 'jwt',
-//            'model' => \Encoda\Identity\Models\Cognito\CognitoUser::class
-//        ],
-//        'api' => [
-//            'driver' => 'jwt',
-//            'model' => \Encoda\Identity\Models\Cognito\CognitoUser::class
-//        ],
-//    ],
+    'providers' => [
+
+        'users' => [
+            'driver' => 'eloquent',
+            'model'  =>  \Encoda\Identity\Models\Database\User::class,
+        ]
+    ],
 
     'passwords' => [
         'api' => [
