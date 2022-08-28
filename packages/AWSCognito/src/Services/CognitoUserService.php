@@ -5,6 +5,7 @@ use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Encoda\Auth\Exceptions\UserNotFoundException;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
 use Encoda\AWSCognito\Models\CognitoUser;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 
@@ -110,12 +111,19 @@ class CognitoUserService extends CognitoBaseService
             throw $e;
         }
 
-        return new CognitoUser(
+        $cognitoUser = new CognitoUser(
             [
                 'id' => $response->get('UserSub'),
+                'username' => $username,
+                'firstName' => $data['firstName'],
+                'lastName' => $data['lastName'],
             ]
         );
 
+        $cognitoUser->password = $password;
+
+
+        return $cognitoUser;
     }
 
     /**

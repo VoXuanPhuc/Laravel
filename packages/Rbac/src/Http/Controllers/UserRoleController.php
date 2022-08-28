@@ -11,8 +11,12 @@ class UserRoleController extends Controller
     {
     }
 
+    /**
+     * @param Request $request
+     * @param $userUid
+     */
     public function assignRoleToUser( Request $request, $userUid ) {
-        $this->userRoleService->assignUserRole( $userUid, $request );
+        return $this->userRoleService->assignUserRole( $request, $userUid  );
     }
 
 }

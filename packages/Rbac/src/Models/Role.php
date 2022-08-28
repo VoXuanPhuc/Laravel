@@ -18,6 +18,7 @@ class Role extends \Spatie\Permission\Models\Role implements RoleContract
         'uid',
         'tenant_id',
         'name',
+        'label',
         'description',
         'guard_name',
     ];

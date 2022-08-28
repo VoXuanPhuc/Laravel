@@ -9,13 +9,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Encoda\Identity\Contracts\UserContract;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, UserContract, JWTSubject
 {
+    use HasRoles;
     use Authenticatable, Authorizable, HasFactory;
 
     protected $fillable = [
+        'uid',
         'first_name',
         'last_name',
         'gender',
@@ -41,6 +44,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'api_token',
         'remember_token',
     ];
+
         /**
      * @return mixed
      */

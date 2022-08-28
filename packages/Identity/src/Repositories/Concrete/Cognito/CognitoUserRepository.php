@@ -38,11 +38,11 @@ class CognitoUserRepository extends CognitoIdentityBaseRepository implements Use
      */
     public function create(array $attributes)
     {
-        Event::dispatch( 'identity.user.create.before' );
+        Event::dispatch( 'identity.cognito.user.create.before' );
 
        $user = $this->cognitoUserService->register( $attributes );
 
-        Event::dispatch( 'identity.user.create.after' );
+        Event::dispatch( 'identity.cognito.user.create.after', $user );
         return $user;
     }
 

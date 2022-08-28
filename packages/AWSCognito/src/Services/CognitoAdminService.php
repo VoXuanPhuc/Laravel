@@ -7,6 +7,7 @@ use Encoda\AWSCognito\Enums\CognitoErrorCode;
 use Encoda\AWSCognito\Models\CognitoUser;
 use Encoda\Core\Exceptions\BadRequestException;
 use Exception;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class CognitoAdminService extends CognitoBaseService
@@ -74,13 +75,14 @@ class CognitoAdminService extends CognitoBaseService
             ],
         ];
 
+        $tempPassword = $this->generateTempPassword();
         try {
             $result = $this->cognitoClient->getClient()->adminCreateUser(
                 [
                     'UserAttributes' => $transformedAttributes,
                     'Username' => $data['username'],
                     'UserPoolId' => $this->cognitoClient->getUserPoolId(),
-                    'TemporaryPassword' => $this->generateTempPassword(),
+                    'TemporaryPassword' => $tempPassword,
                 ]
             );
         }
@@ -102,7 +104,12 @@ class CognitoAdminService extends CognitoBaseService
 
         }
 
-        return CognitoUser::transformFromAdminCreateUser($result->get('User') );
+        $cognitoUser = CognitoUser::transformFromAdminCreateUser($result->get('User') );
+        $cognitoUser->password = $tempPassword;
+
+        Event::dispatch( 'identity.cognito.user.create.after', $cognitoUser );
+
+        return $cognitoUser;
     }
 
 

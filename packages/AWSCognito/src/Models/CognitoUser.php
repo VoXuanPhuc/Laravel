@@ -2,11 +2,8 @@
 
 namespace Encoda\AWSCognito\Models;
 
-use Encoda\Rbac\Models\Permission;
-use Encoda\Rbac\Models\Role;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
-use Spatie\Permission\Traits\HasRoles;
+use Encoda\Identity\Models\Database\User;
+use Illuminate\Support\Facades\Hash;
 
 class CognitoUser extends CognitoBaseModel
 {
@@ -24,18 +21,23 @@ class CognitoUser extends CognitoBaseModel
     public $token;
     public $remember_token;
 
+    /**
+     * @var CognitoUser $linkedUser
+     */
     protected $linkedUser;
 
-    protected function fetchRole() {
-        $this->role = [
-            'uid' => '24a4dfa8-1f0d-11ed-b5bb-0242ac120005',
-            'name' => 'Admin',
-        ];
-    }
+    protected array $ignores = [
+        'linkedUser'
+    ];
 
+
+    /**
+     * @return mixed
+     */
     public function getRole() {
-        $this->fetchRole();
-        return $this->role;
+
+        $linkedUserRole = $this->getLinkedUser()->roles->first();
+        return $linkedUserRole?->toArray();
     }
 
     /**s
@@ -103,6 +105,7 @@ class CognitoUser extends CognitoBaseModel
     {
 
         $attributes = [];
+
         foreach ( $cognitoUser[$attributeKey]  as $attribute ) {
             $attributes[$attribute['Name']] = $attribute['Value'];
         }
@@ -122,4 +125,47 @@ class CognitoUser extends CognitoBaseModel
         return $user;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLinkedUser()
+    {
+        $this->linkedUser = User::where('uid', $this->id )->first();
+
+        //Fall back to email
+        if( !$this->linkedUser ) {
+            $this->linkedUser = User::where('email', $this->username )->first();
+
+            if( $this->linkedUser ) {
+                $this->linkedUser->uid = $this->id;
+                $this->linkedUser->save();
+            }
+        }
+
+        //  If user not found then create linked user
+        if( !$this->linkedUser ) {
+            $this->createLinkedUser();
+        }
+
+        return $this->linkedUser;
+    }
+
+    /**
+     * Create linked user
+     */
+    protected function createLinkedUser() {
+
+        $user = new User([
+
+            'uid' => $this->id,
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'email' => $this->username,
+            'password' => Hash::make( $this->password ),
+        ]);
+
+        $user->save();
+
+        $this->linkedUser = $user;
+    }
 }

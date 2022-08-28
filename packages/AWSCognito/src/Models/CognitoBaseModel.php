@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Lumen\Auth\Authorizable;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -22,6 +23,8 @@ class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, 
     use Authenticatable, Authorizable, HasFactory;
 
     protected string $primaryKey = 'id';
+
+    protected array $ignores = [];
 
     public function __construct($attributes = [] )
      {
@@ -40,7 +43,7 @@ class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, 
          /** @var Serializer $serializer */
          $serializer = app(Serializer::class);
 
-         return $serializer->serialize( $this, 'json' );
+         return $serializer->serialize( $this, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES  => $this->ignores] );
      }
 
 

@@ -19,6 +19,8 @@ class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        // Other providers
+        $this->app->register( EventServiceProvider::class );
         //Repositories binding
         $this->app->register(RepositoriesBindingProvider::class );
 

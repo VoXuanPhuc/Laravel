@@ -5,6 +5,7 @@ namespace Encoda\Rbac\Services\Concrete\Database;
 use Encoda\AWSCognito\Models\CognitoUser;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Identity\Contracts\UserContract;
+use Encoda\Identity\Models\Database\User;
 use Encoda\Identity\Services\Interfaces\UserServiceInterface;
 use Encoda\Rbac\Services\Interfaces\RoleServiceInterface;
 use Encoda\Rbac\Services\Interfaces\UserRoleServiceInterface;
@@ -23,12 +24,17 @@ class UserRoleService implements UserRoleServiceInterface
     /**
      * @param $userUid
      * @param Request $request
+     * @return CognitoUser|User
      * @throws NotFoundException
      */
-    public function assignUserRole($userUid, Request $request )
+    public function assignUserRole(Request $request, $userUid  )
     {
-        /** @var CognitoUser $user */
+        /** @var User $user */
         $user = $this->userService->getUser( $userUid );
+
+        if( $user instanceof CognitoUser && method_exists( $user, 'getLinkedUser') ) {
+            $user = $user->getLinkedUser();
+        }
 
         if( !$user ) {
             throw new NotFoundException(__('rbac::app.user.not_found'));
@@ -36,6 +42,8 @@ class UserRoleService implements UserRoleServiceInterface
 
         $role = $this->roleService->getRole( $request->get('role_uid') );
 
-        $user->assignRole( $role );
+        $user->syncRoles( [$role ]);
+
+        return $user;
     }
 }
