@@ -6,6 +6,7 @@ use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Encoda\AWSCognito\Enums\CognitoErrorCode;
 use Encoda\AWSCognito\Models\CognitoUser;
 use Encoda\Core\Exceptions\BadRequestException;
+use Encoda\Core\Exceptions\NotFoundException;
 use Exception;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
@@ -156,7 +157,7 @@ class CognitoAdminService extends CognitoBaseService
         }
         catch ( CognitoIdentityProviderException $e ) {
             if( $e->getAwsErrorCode() == CognitoErrorCode::USER_NOT_FOUND ) {
-                return new BadRequestException('User not found' );
+                throw new NotFoundException('User not found' );
             }
 
             throw $e;
