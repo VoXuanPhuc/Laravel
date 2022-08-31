@@ -43,6 +43,9 @@ import RSearchBox from "@/modules/core/components/common/RSearchBox"
 import RTabs from "@/modules/core/components/common/RTabs"
 import REditableField from "@/modules/core/components/common/REditableField"
 import RDatePickerAdvanced from "@/modules/core/components/common/RDatePickerAdvanced"
+import RDroppableZone from "@/modules/core/components/common/RDroppableZone"
+import RFileRow from "@/modules/core/components/common/RFileRow"
+import RUploadFiles from "@/modules/core/components/common/RUploadFiles"
 
 // Table
 import RTable from "@/modules/core/components/RTable/RTable"
@@ -106,6 +109,9 @@ const coreComponents = {
   RTabs,
   REditableField,
   RDatePickerAdvanced,
+  RDroppableZone,
+  RFileRow,
+  RUploadFiles,
 }
 
 // Inject variant resolver function into base components

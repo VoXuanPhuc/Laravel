@@ -40,7 +40,7 @@
       <EcFlex class="flex-wrap max-w-md">
         <EcBox class="w-full sm:w-full mb-6">
           <RFormInput
-            v-model="form.role"
+            v-model="form.roleId"
             componentName="EcSelect"
             :label="$t('user.label.role')"
             placeholder="Please select"
@@ -104,14 +104,17 @@ export default {
 
   methods: {
     async fetchRoles() {
+      this.isLoading = true
       const roles = await this.getRoles()
 
       this.roleOptions = roles.map((role) => {
         return {
           name: role.label,
-          value: role.name,
+          value: role.uid,
         }
       })
+
+      this.isLoading = false
     },
 
     async handleClickCreate() {

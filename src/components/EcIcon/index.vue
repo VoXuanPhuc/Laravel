@@ -1,5 +1,5 @@
 <template>
-  <component :width="width" :height="height" :is="icon" />
+  <component :width="width" :height="height" :is="icon" :title="title" />
 </template>
 
 <script>
@@ -20,6 +20,10 @@ export default {
       default: "24",
     },
     height: {
+      type: String,
+      default: "24",
+    },
+    title: {
       type: String,
       default: "24",
     },

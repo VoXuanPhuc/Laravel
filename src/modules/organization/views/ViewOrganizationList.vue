@@ -10,6 +10,7 @@
           {{ $t("organization.add") }}
         </EcButton>
       </EcFlex>
+      <!-- Search box -->
       <EcFlex class="flex-grow justify-end items-center w-full md:w-auto">
         <RSearchBox
           v-model="searchQuery"
@@ -21,43 +22,10 @@
         />
       </EcFlex>
     </EcFlex>
-    <RTable :list="organizationList" :isLoading="isLoading" class="mt-6 lg:mt-10">
-      <!-- Table Header -->
-      <template #header>
-        <RTableHeaderRow>
-          <RTableHeaderCell v-for="header in organizationHeader" :key="header.name">
-            {{ header.label }}
-          </RTableHeaderCell>
-          <RTableHeaderCell variant="gradient" />
-        </RTableHeaderRow>
-      </template>
-      <!-- Table Body -->
-      <template v-slot="{ item, last, first }">
-        <RTableRow>
-          <RTableCell :class="{ 'rounded-tl-lg': first, 'rounded-bl-lg': last }" class="text-c1-500 font-medium">
-            <EcText class="inline-block cursor-pointer hover:underline select-none" @click="handleClickOrganization(item)">
-              {{ formatData(item.name) }}
-            </EcText>
-          </RTableCell>
-          <RTableCell>
-            {{ formatData(item.internalCode) }}
-          </RTableCell>
-          <RTableCell :class="item.isActive ? 'text-cSuccess-500' : 'text-cError-500'">
-            {{ item.isActive ? "Yes" : "No" }}
-          </RTableCell>
-          <RTableCell class="pr-20">
-            {{ formatData(item.createdAt, dateTimeFormat) }}
-          </RTableCell>
-          <RTableCell variant="gradient" :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }">
-            <EcFlex class="justify-center items-center h-full">
-              <EcButton variant="transparent-rounded" @click="handleClickOrganization(item)">
-                <EcIcon width="20" height="20" class="text-c0-300" icon="Eye" />
-              </EcButton>
-            </EcFlex>
-          </RTableCell>
-        </RTableRow>
-      </template>
-    </RTable>
+
+    <!-- Organization List -->
+    <OrganizationList :listData="organizationList" />
+
     <!-- Pagination -->
     <EcFlex class="mt-8 flex-col sm:mt-12 sm:flex-row" variant="basic">
       <RPaginationStatus class="mb-4 sm:mb-0" :currentPage="currentPage" :totalCount="totalItems" :limit="limit" />
@@ -70,14 +38,13 @@
 import debounce from "lodash/debounce"
 import { formatData } from "@/modules/core/composables"
 import { useOrganizationList } from "./../use/useOrganizationList"
-// import { mapState } from "vuex"
+import OrganizationList from "../components/OrganizationList.vue"
 
 export default {
   name: "ViewOrganizationListing",
   setup() {
     const { state, send, searchQuery, organizationHeader, organizationList, totalItems, skip, limit, currentPage } =
       useOrganizationList()
-
     return {
       state,
       send,
@@ -116,7 +83,7 @@ export default {
     handleClickAddOrganization() {
       // Go to New Participant Page
       this.$router.push({
-        name: "ViewOrganizationCreate",
+        name: "ViewOrganizationNew",
       })
     },
     handleClickOrganization(item) {
@@ -136,5 +103,6 @@ export default {
       return "-"
     },
   },
+  components: { OrganizationList },
 }
 </script>

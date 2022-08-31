@@ -20,7 +20,7 @@ const useDashboardStore = defineStore("dashboard", () => {
       iconColor: "text-c1-500",
       count: organizationNum.value,
       navigation: {
-        name: "ViewOrganizationCreate",
+        name: "ViewOrganizationNew",
       },
     },
     {
