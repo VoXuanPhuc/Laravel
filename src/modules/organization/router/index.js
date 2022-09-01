@@ -1,6 +1,7 @@
-import ViewOrganizationList from "../views/ViewOrganizationList.vue"
-import ViewOrganizationDetail from "../views/ViewOrganizationDetail.vue"
-import ViewOrganizationNew from "../views/ViewOrganizationNew.vue"
+import ViewOrganizationList from "../views/organization/ViewOrganizationList.vue"
+import ViewOrganizationDetail from "../views/organization/ViewOrganizationDetail.vue"
+import ViewOrganizationNew from "../views/organization/ViewOrganizationNew.vue"
+import ViewOrganizationManagement from "../views/organization/ViewOrganizationManagement.vue"
 
 export default [
   {
@@ -25,6 +26,15 @@ export default [
     path: "/organization/new",
     component: ViewOrganizationNew,
     name: "ViewOrganizationNew",
+    props: true,
+    meta: {
+      module: "organization",
+    },
+  },
+  {
+    path: "/organization/management",
+    component: ViewOrganizationManagement,
+    name: "ViewOrganizationManagement",
     props: true,
     meta: {
       module: "organization",

@@ -1,11 +1,11 @@
 <template>
   <EcFlex class="flex-col lg:flex-row mt-4 lg:mt-8">
     <!-- Left Column -->
-    <EcBox class="lg:w-7/12 lg:pr-4 mb-8">
+    <EcBox :class="leftCls">
       <slot name="left" />
     </EcBox>
     <!-- Right Column -->
-    <EcBox class="lg:w-5/12 lg:pl-4">
+    <EcBox :class="rightCls">
       <slot name="right" />
     </EcBox>
     <EcBox v-if="isLoading" v-scroll-lock="true" class="fixed z-50 top-0 left-0 w-full h-full bg-c0-900 bg-opacity-25">
@@ -20,6 +20,14 @@
 export default {
   name: "RLayoutTwoCol",
   props: {
+    leftCls: {
+      type: String,
+      default: "lg:w-7/12 lg:pr-4 mb-8",
+    },
+    rightCls: {
+      type: String,
+      default: "lg:w-5/12 lg:pl-4",
+    },
     isLoading: {
       type: Boolean,
       default: false,

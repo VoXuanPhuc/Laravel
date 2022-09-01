@@ -37,11 +37,11 @@
 <script>
 import debounce from "lodash/debounce"
 import { formatData } from "@/modules/core/composables"
-import { useOrganizationList } from "./../use/useOrganizationList"
-import OrganizationList from "../components/OrganizationList.vue"
+import { useOrganizationList } from "./../../use/organization/useOrganizationList"
+import OrganizationList from "../../components/organization/OrganizationList.vue"
 
 export default {
-  name: "ViewOrganizationListing",
+  name: "ViewOrganizationList",
   setup() {
     const { state, send, searchQuery, organizationHeader, organizationList, totalItems, skip, limit, currentPage } =
       useOrganizationList()

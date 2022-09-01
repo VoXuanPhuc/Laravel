@@ -214,7 +214,7 @@
 </template>
 
 <script>
-import { useOrganizationCreate } from "../use/useOrganizationNew"
+import { useOrganizationCreate } from "../../use/organization/useOrganizationNew"
 import { goto } from "@/modules/core/composables"
 import EcBox from "@/components/EcBox/index.vue"
 import EcText from "@/components/EcText/index.vue"

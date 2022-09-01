@@ -26,7 +26,7 @@
         <!-- View -->
 
         <EcBox v-if="organization.name" class="ml-2">
-          <EcButton variant="transparent-rounded" @click="handleClickView" title="Manage Organization">
+          <EcButton variant="transparent-rounded" @click="handleClickManageOrganization" title="Manage Organization">
             <EcIcon class="text-c0-500" icon="Eye" width="20" height="20" />
           </EcButton>
         </EcBox>
@@ -62,7 +62,13 @@ export default {
         },
       })
     },
-    handleClickView() {},
+    handleClickManageOrganization() {
+      goto("ViewOrganizationManagement", {
+        params: {
+          organizationId: this.organization?.id,
+        },
+      })
+    },
   },
 }
 </script>

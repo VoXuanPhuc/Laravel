@@ -270,7 +270,7 @@
 </template>
 
 <script>
-import { useOrganizationDetail } from "./../use/useOrganizationDetail"
+import { useOrganizationDetail } from "./../../use/organization/useOrganizationDetail"
 import { goto } from "@/modules/core/composables"
 import useVuelidate from "@vuelidate/core"
 import { required } from "@vuelidate/validators"
