@@ -78,6 +78,19 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => PermissionGroupController::class . '@listPermissionByGroup'
     ]);
 
+    Route::post('/permission-groups', [
+        'as' => 'permission-group.create-permission-group',
+        'uses' => PermissionGroupController::class . '@create'
+    ]);
+    Route::put('/permission-groups/{id}', [
+        'as' => 'permission-group.update-permission-group',
+        'uses' => PermissionGroupController::class . '@update'
+    ]);
+    Route::delete('/permission-groups/{id}', [
+        'as' => 'permission-group.delete-permission-group',
+        'uses' => PermissionGroupController::class . '@delete'
+    ]);
+
     /** ================= PERMISSIONS ================ */
     Route::get('/permissions', [
         'as' => 'permissions.list',

@@ -9,6 +9,11 @@ class PermissionGroup extends Model
 {
     protected $table = 'permission_groups';
 
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
     /**
      * @return HasMany
      */

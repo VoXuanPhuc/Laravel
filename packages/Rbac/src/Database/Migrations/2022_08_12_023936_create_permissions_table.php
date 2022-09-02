@@ -30,14 +30,15 @@ return new class extends Migration
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('label');
+            $table->string('description')->nullable(true);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
-            $table->foreignId('group_id');
+            $table->foreignId('group_id')->nullable(true);
 
             $table->foreign('group_id')
                 ->references('id')
                 ->on('permission_groups')
                 ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
 
             $table->timestamps();
