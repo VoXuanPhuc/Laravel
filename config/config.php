@@ -17,5 +17,6 @@ return [
         'driver' => env('IDENTITY_POOL', 'eloquent'),
         'guard' => env('IDENTITY_GUARD', 'jwt'),
     ],
+    'pagination_size' => 15
 
 ];

@@ -1,6 +1,7 @@
 <?php
 namespace Encoda\Core\Providers;
 
+use Encoda\Core\Commands\StorageLink;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -27,6 +28,23 @@ class CoreServiceProvider extends  ServiceProvider
 
             return new Serializer($normalizers, $encoders);
         });
+    }
+
+
+    /**
+     * Register
+     */
+    public function register()
+    {
+        $this->registerCommands();
+    }
+
+    protected function registerCommands() {
+        if ( $this->app->runningInConsole() ) {
+            $this->commands([
+                StorageLink::class,
+            ]);
+        }
     }
 
 }
