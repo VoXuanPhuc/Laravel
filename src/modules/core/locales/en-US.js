@@ -70,6 +70,7 @@ export default {
     or: "or",
     browse: "Browse",
     documents: "Documents",
+    default_dir: "misc",
     noFiles: "There are no files yet",
     noFiles_upload: "No file to upload",
     dragDropHere: "Drag and Drop Files Here",

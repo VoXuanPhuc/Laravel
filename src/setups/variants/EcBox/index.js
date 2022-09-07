@@ -30,4 +30,9 @@ export default {
       root: "border border-c1-500 px-4 py-5 md:px-8 md:py-10 rounded-lg shadow-5 bg-cWhite",
     },
   },
+  "card-6": {
+    el: {
+      root: "bg-c1-100 rounded-lg shadow-2 p-6 border border-c1-500",
+    },
+  },
 }

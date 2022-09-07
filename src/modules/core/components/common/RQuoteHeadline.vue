@@ -14,7 +14,7 @@ import { useRoute } from "vue-router"
 import { useGlobalStore } from "@/stores/global"
 import { useI18n } from "vue-i18n"
 export default {
-  name: "CQuoteHeadline",
+  name: "RQuoteHeadline",
 
   setup() {
     const route = useRoute()

@@ -3,6 +3,7 @@ import EcButton from "@/components/EcButton"
 import EcCheckbox from "@/components/EcCheckbox"
 import EcCheckboxGroup from "@/components/EcCheckboxGroup"
 import EcDatePicker from "@/components/EcDatePicker"
+import EcColorPicker from "@/components/EcColorPicker"
 import EcHtmlRenderer from "@/components/EcHtmlRenderer"
 import EcInputDateOfBirth from "@/components/EcInputDateOfBirth"
 import EcInputLongText from "@/components/EcInputLongText"
@@ -46,6 +47,7 @@ import RDatePickerAdvanced from "@/modules/core/components/common/RDatePickerAdv
 import RDroppableZone from "@/modules/core/components/common/RDroppableZone"
 import RFileRow from "@/modules/core/components/common/RFileRow"
 import RUploadFiles from "@/modules/core/components/common/RUploadFiles"
+import RLoading from "@/modules/core/components/common/RLoading"
 
 // Table
 import RTable from "@/modules/core/components/RTable/RTable"
@@ -75,6 +77,7 @@ const baseComponents = {
   EcModalSimple,
   EcCalendar,
   EcDatePicker,
+  EcColorPicker,
   EcMultiSelect,
   EcBox,
   EcFlex,
@@ -99,6 +102,7 @@ const coreComponents = {
   RPagination,
   RPaginationStatus,
   RSearchBox,
+  RLoading,
 
   RTable,
   RTableAction,

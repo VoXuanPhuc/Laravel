@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import { defineStore } from "pinia"
 import { useRouter } from "vue-router"
 import { loadLanguageAsync } from "./../setups/i18nConfig"
@@ -78,6 +79,22 @@ export const useGlobalStore = defineStore("global", {
       }
     },
 
+    /**
+     *
+     * @param {*} message
+     */
+    addSuccessToastMessage(message) {
+      this.addToastMessage({ type: "success", content: message })
+    },
+
+    /**
+     *
+     * @param {*} message
+     */
+    addErrorToastMessage(message) {
+      this.addToastMessage({ type: "error", content: message })
+    },
+
     // Set Me
     async setMe(payload) {
       if (payload) {
@@ -117,6 +134,42 @@ export const useGlobalStore = defineStore("global", {
     // setDateTimeFormat
     setDateTimeFormat(payload) {
       this.dateTimeFormat = payload
+    },
+
+    /**
+     *
+     * @param {*} dateStr
+     * @returns
+     */
+    formatDate(dateStr) {
+      if (!dateStr) return "-"
+
+      // If dayjs || Date object
+      if (this.dateFormat) {
+        const dayObj = dayjs(dateStr)
+        if (dayObj.$d.toString() !== "Invalid Date") {
+          return dayObj.format(this.dateFormat)
+        }
+      }
+      return dateStr
+    },
+
+    /**
+     *
+     * @param {*} dateTimeStr
+     * @returns
+     */
+    formatDateTime(dateTimeStr) {
+      if (!dateTimeStr) return "-"
+
+      // If dayjs || Date object
+      if (this.dateFormat) {
+        const dayObj = dayjs(dateTimeStr)
+        if (dayObj.$d.toString() !== "Invalid Date") {
+          return dayObj.format(this.dateTimeFormat)
+        }
+      }
+      return dateTimeStr
     },
 
     // Logout

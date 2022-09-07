@@ -1,40 +1,40 @@
 <template>
   <EcBox
     :variant="cardVariant"
-    class="mb-4 mr-3 lg:inline-flex lg:flex-grow lg:w-auto hover:cursor-pointer"
+    class="mb-2 p-2 mr-3 lg:inline-flex lg:flex-grow lg:w-auto hover:cursor-pointer"
     style="min-width: 12rem"
-    @click="$emit('handleCardChange', division.uid)"
+    @click="$emit('handleDivisionCardChange', division)"
   >
-    <EcFlex class="relative justify-center items-center p-4 rounded-full w-32 h-auto overflow-hidden">
-      <EcText class="text-5xl">
-        <img :src="divisionAvatar(division.name)" />
-      </EcText>
+    <EcFlex class="relative justify-center items-center rounded-full w-24 h-auto overflow-hidden">
+      <EcBox>
+        <img :src="this.generateAvatar(division.name, division.avatar_color)" />
+      </EcBox>
     </EcFlex>
-    <EcBox class="mt-4 lg:mt-0 lg:ml-6">
-      <EcText class="font-medium text-2xl text-cBlack">
+    <EcBox class="mt-2 lg:mt-0 lg:ml-6">
+      <EcText class="font-semibold text-md text-cBlack">
         {{ division.name }}
       </EcText>
 
       <EcText class="font-medium text-c0-500 text-sm mt-2">
         Status:
-        <span :class="statusText(division.isActive)">{{ division.isActive ? "Active" : "Inactive" }}</span>
+        <span :class="statusText(division.is_active)">{{ division.is_active ? "Active" : "Inactive" }}</span>
       </EcText>
-      <EcText class="font-medium text-c0-500 text-sm mt-2"> Created at: {{ division.createdAt }}</EcText>
+      <EcText class="font-medium text-c0-500 text-sm mt-2"> {{ globalStore.formatDate(division.created_at) }}</EcText>
 
       <!-- Actions -->
       <EcFlex class="items-center mt-2">
         <!-- Edit -->
         <EcBox v-if="division.name" class="ml-2">
           <EcButton variant="transparent-rounded" @click="handleClickEdit" title="Edit">
-            <EcIcon icon="Pencil" width="20" height="20" class="text-cError-500" />
+            <EcIcon icon="Pencil" width="20" height="20" class="text-c1-800" />
           </EcButton>
         </EcBox>
 
         <!-- View -->
 
         <EcBox v-if="division.name" class="ml-2">
-          <EcButton variant="transparent-rounded" @click="handleClickManageOrganization" title="Manage Division">
-            <EcIcon class="text-c0-500" icon="Eye" width="20" height="20" />
+          <EcButton variant="transparent-rounded" @click="handleClickManageDivision" title="Manage Division">
+            <EcIcon class="text-c0-500" icon="Folder" width="20" height="20" />
           </EcButton>
         </EcBox>
 
@@ -45,9 +45,10 @@
 </template>
 
 <script>
-import EcBox from "@/components/EcBox/index.vue"
 import { goto } from "@/modules/core/composables"
-import EcText from "@/components/EcText/index.vue"
+import { generateAvatar } from "../../use/division/useDivisionAvatar"
+import { useGlobalStore } from "@/stores/global"
+
 export default {
   name: "DivisionListCardItem",
   props: {
@@ -55,38 +56,59 @@ export default {
       type: Boolean,
       default: false,
     },
+    organization: {
+      type: Object,
+      default: () => {},
+    },
     division: {
       type: Object,
       default: () => {},
     },
   },
 
-  components: { EcBox, EcText },
+  setup() {
+    const globalStore = useGlobalStore()
+
+    return {
+      generateAvatar,
+      globalStore,
+    }
+  },
   computed: {
     cardVariant() {
-      return this.isActive ? "card-2" : "card-1"
+      return this.isActive ? "card-6" : "card-2"
     },
   },
   methods: {
+    /**
+     *
+     * @param {*} status
+     */
     statusText(status) {
       return status ? "font-bold text-cSuccess-500" : "font-bold text-cError-500"
     },
 
-    divisionAvatar(divisionName) {
-      const avartarLetter = divisionName.substr(0, 2)
-      return `https://ui-avatars.com/api/?name=${avartarLetter}&background=random`
-    },
+    /**
+     * Click edit
+     */
     handleClickEdit() {
-      goto("ViewOrganizationDetail", {
+      goto("ViewDivisionDetail", {
         params: {
-          organizationId: this.organization?.id,
+          organizationUid: this.organization?.uid,
+          divisionUid: this.division?.uid,
         },
       })
     },
-    handleClickManageOrganization() {
-      goto("ViewOrganizationManagement", {
+
+    /**
+     * Click manage organization
+     */
+    handleClickManageDivision() {
+      debugger
+      goto("ViewBusinessUnitList", {
         params: {
-          organizationId: this.organization?.id,
+          organizationUid: this.organization?.uid,
+          divisionUid: this.division?.uid,
         },
       })
     },

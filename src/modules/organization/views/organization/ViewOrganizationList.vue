@@ -24,7 +24,8 @@
     </EcFlex>
 
     <!-- Organization List -->
-    <OrganizationList :listData="organizationList" />
+    <OrganizationList v-if="!isLoading" :listData="organizationList" />
+    <RLoading v-else />
 
     <!-- Pagination -->
     <EcFlex class="mt-8 flex-col sm:mt-12 sm:flex-row" variant="basic">
@@ -39,17 +40,26 @@ import debounce from "lodash/debounce"
 import { formatData } from "@/modules/core/composables"
 import { useOrganizationList } from "./../../use/organization/useOrganizationList"
 import OrganizationList from "../../components/organization/OrganizationList.vue"
+import { ref } from "vue"
+import RLoading from "@/modules/core/components/common/RLoading.vue"
 
 export default {
   name: "ViewOrganizationList",
-  setup() {
-    const { state, send, searchQuery, organizationHeader, organizationList, totalItems, skip, limit, currentPage } =
-      useOrganizationList()
+  data() {
     return {
-      state,
-      send,
+      isLoading: false,
+    }
+  },
+
+  setup() {
+    const { searchQuery, getOrganizationList, totalItems, skip, limit, currentPage } = useOrganizationList()
+
+    const organizationList = ref([])
+
+    
+    return {
       searchQuery,
-      organizationHeader,
+      getOrganizationList,
       organizationList,
       totalItems,
       skip,
@@ -57,28 +67,22 @@ export default {
       currentPage,
     }
   },
-  computed: {
-    // ...mapState({
-    //   dateTimeFormat: (state) => state.dateTimeFormat,
-    // }),
-    isLoading() {
-      return false // return this.state.matches("reading.fetching")
-    },
-  },
+
   watch: {
-    currentPage() {
-      this.send("FILTER")
-    },
+    currentPage() {},
   },
+
+  mounted() {
+    this.fetchOrganizations()
+  },
+
   methods: {
     formatData,
     onFilter: debounce(function () {
       this.currentPage = 1
-      this.send("FILTER")
     }, 400),
     handleClearSearch() {
       this.searchQuery = ""
-      this.send("FILTER")
     },
     handleClickAddOrganization() {
       // Go to New Participant Page
@@ -95,14 +99,15 @@ export default {
         },
       })
     },
-    getEmail(contacts) {
-      if (contacts) {
-        const email = contacts.find((x) => x.type === "email")
-        return email?.value
-      }
-      return "-"
+
+    async fetchOrganizations() {
+      this.isLoading = true
+      const response = await this.getOrganizationList()
+      this.organizationList = response.data
+      
+      this.isLoading = false
     },
   },
-  components: { OrganizationList },
+  components: { OrganizationList, RLoading },
 }
 </script>

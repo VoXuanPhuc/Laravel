@@ -13,6 +13,7 @@
       ref="fileInput"
       class="absolute top-0 left-0 invisible w-full h-full"
       type="file"
+      :disabled="disabled"
       :accept="accept.map((ext) => `.${ext}`).join(', ')"
       :multiple="multiple && html5"
       @input="handleInputChange"
@@ -65,6 +66,10 @@ export default {
     files: {
       type: Array,
       default: () => [],
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

@@ -95,6 +95,7 @@ export default {
     Industry: lazyLoad("Industry"),
     Activity: lazyLoad("Activity"),
     Dashboard: lazyLoad("Dashboard"),
+    Folder: lazyLoad("Folder"),
     X: lazyLoad("X"),
   },
 }

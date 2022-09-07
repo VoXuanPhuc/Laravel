@@ -2,6 +2,7 @@ import EcButton from "./EcButton"
 import EcCheckbox from "./EcCheckbox"
 import EcCheckboxGroup from "./EcCheckboxGroup"
 import EcDatePicker from "./EcDatePicker"
+import EcColorPicker from "./EcColorPicker"
 // import EcHtmlRenderer from "./EcHtmlRenderer"
 import EcInputDateOfBirth from "./EcInputDateOfBirth"
 import EcInputLongText from "./EcInputLongText"
@@ -48,6 +49,7 @@ const variants = {
   EcModalSimple,
   EcCalendar,
   EcDatePicker,
+  EcColorPicker,
   EcMultiSelect,
   EcBox,
   EcFlex,

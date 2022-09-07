@@ -7,7 +7,15 @@
         <!-- Logo -->
         <EcFlex class="flex-wrap max-w-full">
           <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
-            <RUploadFiles :filesOf="fileOf" :entityId="entityId" :documentTitle="logoTitle" />
+            <RUploadFiles
+              :documentTitle="logoTitle"
+              :maxFileNum="1"
+              :isImage="true"
+              :isUploadOnSelect="true"
+              :dir="'organization/logo'"
+              dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
+              @handleSignleFileUploaded="handleLogoUploaded"
+            />
           </EcBox>
         </EcFlex>
 
@@ -29,7 +37,7 @@
         <EcFlex class="flex-wrap max-w-md">
           <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
             <RFormInput
-              v-model="form.isActive"
+              v-model="form.is_active"
               componentName="EcToggle"
               :label="$t('organization.active')"
               showLabel
@@ -56,19 +64,23 @@
 
         <!-- Friendly URL -->
         <EcFlex class="flex-wrap max-w-full">
-          <EcBox class="w-2/12 mb-6">
-            <RFormInput
-              v-model="form.friendlyUrl"
-              componentName="EcInputText"
-              :label="$t('organization.friendlyUrl')"
-              :validator="v$"
-              field="form.address"
-              placeholder="will be generated if empty"
-              @input="v$.form.address.$touch()"
-            />
+          <EcBox class="w-3/12 mb-6">
+            <EcFlex>
+              <!-- unique id for url -->
+              <RFormInput
+                v-model="form.friendly_url"
+                componentName="EcInputText"
+                :label="$t('organization.friendlyUrl')"
+                :validator="v$"
+                field="form.address"
+                placeholder="will be generated if empty"
+                @input="v$.form.friendly_url.$touch()"
+              />
+            </EcFlex>
           </EcBox>
           <EcFlex class="items-center">
             <EcText>.readybc.com</EcText>
+            <EcSpinner v-if="isCheckingFriendlyUrl" class="ml-4" variant="basic" />
           </EcFlex>
         </EcFlex>
 
@@ -76,7 +88,7 @@
         <EcFlex class="flex-wrap max-w-full">
           <EcBox class="w-6/12 mb-6 sm:pr-6">
             <EcText class="mb-2">Industries</EcText>
-            <EcMultiSelect :options="industries" />
+            <EcMultiSelect v-model="form.industries" :options="industries" :valueKey="'uid'" @input="v$.form.industries" />
           </EcBox>
         </EcFlex>
 
@@ -104,13 +116,13 @@
         <EcFlex class="flex-wrap max-w-full">
           <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
             <RFormInput
-              v-model="form.owner.firstName"
+              v-model="form.owner.first_name"
               componentName="EcInputText"
               :rows="2"
               :label="$t('organization.owner.firstName')"
               :validator="v$"
-              field="form.owner.firstName"
-              @input="v$.form.owner.firstName.$touch()"
+              field="form.owner.first_name"
+              @input="v$.form.owner.first_name.$touch()"
             />
           </EcBox>
         </EcFlex>
@@ -121,13 +133,13 @@
         <EcFlex class="flex-wrap max-w-full">
           <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
             <RFormInput
-              v-model="form.owner.lastName"
+              v-model="form.owner.last_name"
               componentName="EcInputText"
               :rows="2"
               :label="$t('organization.owner.lastName')"
               :validator="v$"
-              field="form.owner.lastName"
-              @input="v$.form.owner.lastName.$touch()"
+              field="form.owner.last_name"
+              @input="v$.form.owner.last_name.$touch()"
             />
           </EcBox>
         </EcFlex>
@@ -187,15 +199,15 @@
 
     <!-- Modals create success and move to portal -->
     <teleport to="#layer2">
-      <EcModalSimple :isVisible="isModalCreatedOrgSuccess" variant="center-3xl" @overlay-click="handleCancelViewNewOrganization">
+      <EcModalSimple :isVisible="isModalCreatedOrgSuccess" variant="center-3xl">
         <EcBox class="text-center">
           <EcBox>
             <EcHeadline as="h3" variant="h3" class="text-cSuccess-500 text-md">
-              <EcText class="text-lg">Organisation successfully created!</EcText>
-              <EcText class="text-lg"> Do you want to visit the client portal now? </EcText>
+              <EcText class="text-lg"> {{ $t("organization.createOrganizationSuccess") }} </EcText>
+              <EcText class="text-lg"> {{ $t("organization.visitNewOrganization") }} </EcText>
             </EcHeadline>
 
-            <EcText class="text-2xl text-cError-500"> New Organization name </EcText>
+            <EcText class="text-2xl text-cError-500"> {{ this.organization.name }} </EcText>
           </EcBox>
 
           <!-- Actions -->
@@ -216,64 +228,100 @@
 <script>
 import { useOrganizationCreate } from "../../use/organization/useOrganizationNew"
 import { goto } from "@/modules/core/composables"
-import EcBox from "@/components/EcBox/index.vue"
-import EcText from "@/components/EcText/index.vue"
+import { useIndustry } from "../../use/industry/useIndustry"
+import { ref } from "vue"
 
 export default {
   name: "ViewOrganizationNew",
   data() {
     return {
+      isLoading: false,
+      isCheckingFriendlyUrl: false,
       logoTitle: "Logo",
-      industries: [
-        {
-          name: "Manufacturing",
-          value: "manu",
-        },
-        {
-          name: "IT",
-          value: "it",
-        },
-        {
-          name: "Retail",
-          value: "retail",
-        },
-      ],
       isModalCreatedOrgSuccess: false,
     }
   },
+
+  mounted() {
+    this.fetchIndustries()
+  },
   setup() {
-    const { v$, form } = useOrganizationCreate()
+    const { v$, form, createOrganization } = useOrganizationCreate()
+    const { getIndustries, getTransformedIndustries } = useIndustry()
+    const industries = ref([])
+
     const fileOf = "organization"
     const entityId = "1"
     return {
       v$,
       form,
+      createOrganization,
       fileOf,
       entityId,
+      getIndustries,
+      getTransformedIndustries,
+      industries,
     }
   },
-  computed: {
-    isLoading() {
-      return false
-    },
-  },
+  computed: {},
   methods: {
-    handleClickCreate() {
-      this.v$.$touch()
-      if (this.v$.$invalid) return
-      console.log("create")
-      this.isModalCreatedOrgSuccess = true
+    /**
+     * Fetch industries
+     */
+    async fetchIndustries() {
+      this.industries = await this.getIndustries()
     },
 
+    /**
+     * Creaate orgranization
+     */
+    async handleClickCreate() {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
+        return
+      }
+
+      this.isLoading = true
+      const response = await this.createOrganization(this.form)
+
+      this.isLoading = false
+
+      debugger
+      if (response && response.uid) {
+        this.organization = response
+        this.isModalCreatedOrgSuccess = true
+      }
+    },
+
+    /**
+     * Back to organization list
+     */
     handleClickCancel() {
       goto("ViewOrganizationList")
     },
 
-    handleVisitNewOrganization() {},
+    /**
+     * Go to Organization management
+     */
+    handleVisitNewOrganization() {
+      goto("ViewOrganizationManagement", {
+        params: {
+          organizationId: this.organization?.uid,
+        },
+      })
+    },
+
+    /***
+     * Cancel to view new Organization
+     */
     handleCancelViewNewOrganization() {
-      this.isModalCreatedOrgSuccess = false
+      goto("ViewOrganizationList")
+    },
+
+    /** Handle uploaded logo */
+    handleLogoUploaded(result) {
+      this.form.logo_path = result.url
     },
   },
-  components: { EcBox, EcText },
 }
 </script>

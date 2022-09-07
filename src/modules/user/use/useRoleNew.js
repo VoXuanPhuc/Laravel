@@ -34,7 +34,6 @@ export const useRoleNew = () => {
     try {
       const { data } = await api.createRole(payload)
 
-      debugger
       if (!data || data.error) {
         throw new Error(data.error)
       }

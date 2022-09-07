@@ -35,7 +35,7 @@ export default {
       validator(value) {
         return value === null || value === true || value === false
       },
-      reguired: true,
+      required: true,
       default: false,
     },
     disabled: {
