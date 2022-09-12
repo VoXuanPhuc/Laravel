@@ -9,6 +9,9 @@ class CreateDivisionRequest extends FormRequest
 
     protected function rules(): array
     {
-        return [];
+        return [
+            'name' => 'required',
+            'description' => 'required'
+        ];
     }
 }

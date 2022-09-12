@@ -3,9 +3,12 @@
 namespace Encoda\Organization\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessUnit extends Model
 {
+
+    use SoftDeletes;
 
     protected $table = 'business_units';
 
