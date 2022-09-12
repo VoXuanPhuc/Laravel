@@ -68,6 +68,10 @@ export default {
       createdAt: "Created on",
       clear: "Clear",
     },
+
+    errors: {
+      listUser: "Unable to get list user data",
+    },
   },
   role: {
     label: {

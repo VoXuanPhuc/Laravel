@@ -49,7 +49,7 @@ const initializeVariants = async ({ tenantId, filename }) => {
     tenantVariants = tenantVariants?.variants
     const dynamicKeys = Object.keys(tenantVariants)
     // override default variants based on passed in variant from tenant
-    // example: if tenant variant has JButton object with "primary-lg" variant. It will only override the "primary-lg" variant in JButton
+    // example: if tenant variant has EcButton object with "primary-lg" variant. It will only override the "primary-lg" variant in JButton
     dynamicKeys.map((key) => (defaultVariants[key] = { ...defaultVariants[key], ...tenantVariants[key] }))
     return defaultVariants
   } catch (error) {

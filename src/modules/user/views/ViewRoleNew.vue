@@ -97,7 +97,6 @@ export default {
         description: this.form.description,
         tenant_id: 1,
       }
-      debugger
 
       await this.createNewRole(payload)
 

@@ -80,7 +80,6 @@ export default {
 
   methods: {
     triggerUpdateUser() {
-      debugger
       const data = {
         firstName: this.form.firstName,
         lastName: this.form.lastName,

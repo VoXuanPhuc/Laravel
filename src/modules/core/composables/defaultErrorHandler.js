@@ -28,7 +28,7 @@ export function defaultErrorHandler(error = {}) {
       type: "error",
       content: {
         type: "message",
-        text: i18n.global.t("errors.network"),
+        text: i18n.global.t("errors.system"),
       },
     })
     return

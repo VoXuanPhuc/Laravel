@@ -26,5 +26,10 @@ export default {
     invalid_grant: "Invalid username or password",
     tenantId: "Tenant ID",
     missingTenantId: "Tenant ID is missing from the URL!",
+
+    // Errors
+    errors: {
+      login: "Unable to login",
+    },
   },
 }

@@ -2,7 +2,7 @@ import { ref } from "vue"
 
 // import { useRouter } from "vue-router"
 import useVuelidate from "@vuelidate/core"
-import { required } from "@vuelidate/validators"
+import { required, email } from "@vuelidate/validators"
 import * as api from "../../api/organizationFetcher"
 import { useGlobalStore } from "@/stores/global"
 
@@ -29,7 +29,7 @@ export function useOrganizationCreate() {
       owner: {
         first_name: { required },
         last_name: { required },
-        email: { required },
+        email: { required, email },
         phone: { required },
       },
       industries: { required },

@@ -43,7 +43,7 @@ export function useUserList() {
 
       return data
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error ? error?.message : this.$t("user.errors.listUser"))
     }
   }
 

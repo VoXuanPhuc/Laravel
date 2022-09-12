@@ -104,7 +104,6 @@ export default {
      * Click manage organization
      */
     handleClickManageDivision() {
-      debugger
       goto("ViewBusinessUnitList", {
         params: {
           organizationUid: this.organization?.uid,

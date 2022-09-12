@@ -38,13 +38,13 @@ export const useLoginStore = defineStore("login", () => {
       })
 
       if (!data || !data.accessToken) {
-        throw new Error(this.$t("auth.login"))
+        throw new Error(this.$t("auth.errors.login"))
       }
 
       localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, data.accessToken)
       localStorage.setItem(process.env.VUE_APP_TOKEN_EXPIRES, dayjs().add(data.expiresIn, "second"))
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error ? error?.message : this.$t("auth.errors.login"))
     }
   }
 

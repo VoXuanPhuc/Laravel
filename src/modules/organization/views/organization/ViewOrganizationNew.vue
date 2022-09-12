@@ -247,20 +247,17 @@ export default {
   },
   setup() {
     const { v$, form, createOrganization } = useOrganizationCreate()
-    const { getIndustries, getTransformedIndustries } = useIndustry()
+    const { getIndustries } = useIndustry()
     const industries = ref([])
+    const organization = ref({})
 
-    const fileOf = "organization"
-    const entityId = "1"
     return {
       v$,
       form,
       createOrganization,
-      fileOf,
-      entityId,
       getIndustries,
-      getTransformedIndustries,
       industries,
+      organization,
     }
   },
   computed: {},
@@ -286,7 +283,6 @@ export default {
 
       this.isLoading = false
 
-      debugger
       if (response && response.uid) {
         this.organization = response
         this.isModalCreatedOrgSuccess = true
@@ -306,7 +302,7 @@ export default {
     handleVisitNewOrganization() {
       goto("ViewOrganizationManagement", {
         params: {
-          organizationId: this.organization?.uid,
+          organizationUid: this.organization?.uid,
         },
       })
     },

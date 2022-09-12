@@ -17,7 +17,7 @@ export const useDivisionNew = () => {
   const rules = {
     form: {
       name: { required },
-      description: {},
+      description: { required },
     },
   }
 

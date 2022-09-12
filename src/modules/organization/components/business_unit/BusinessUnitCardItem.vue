@@ -133,7 +133,6 @@ export default {
      * Click edit business unit
      */
     handleClickEdit() {
-      debugger
       goto("ViewBusinessUnitDetail", {
         params: {
           organizationUid: this.organizationUid,

@@ -359,7 +359,6 @@ export default {
       const org = await this.updateOrganization(this.organization.uid, this.organization)
 
       if (org && org.uid) {
-        debugger
         this.organization = org
       }
       this.isUpdateLoading = false

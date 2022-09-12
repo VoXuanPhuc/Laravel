@@ -84,7 +84,13 @@ export const useGlobalStore = defineStore("global", {
      * @param {*} message
      */
     addSuccessToastMessage(message) {
-      this.addToastMessage({ type: "success", content: message })
+      this.addToastMessage({
+        type: "success",
+        content: {
+          type: "message",
+          text: message,
+        },
+      })
     },
 
     /**
@@ -92,7 +98,17 @@ export const useGlobalStore = defineStore("global", {
      * @param {*} message
      */
     addErrorToastMessage(message) {
-      this.addToastMessage({ type: "error", content: message })
+      if (!message) {
+        message = "Opps! Some error has occured"
+      }
+
+      this.addToastMessage({
+        type: "error",
+        content: {
+          type: "message",
+          text: message,
+        },
+      })
     },
 
     // Set Me

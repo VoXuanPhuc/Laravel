@@ -20,7 +20,7 @@ export const useBusinessUnitDetail = () => {
       division: {
         uid: { required },
       },
-      description: {},
+      description: { required },
     },
   }
 

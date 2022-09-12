@@ -15,7 +15,7 @@ export const useDivisionDetail = () => {
   const rules = {
     division: {
       name: { required },
-      description: {},
+      description: { required },
     },
   }
 
