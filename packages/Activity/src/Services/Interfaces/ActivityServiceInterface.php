@@ -15,6 +15,4 @@ interface ActivityServiceInterface
 
     public function updateActivity(UpdateActivityRequest $request, $uid);
 
-    public function deleteActivity($uid);
-
 }

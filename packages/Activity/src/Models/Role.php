@@ -2,20 +2,11 @@
 
 namespace Encoda\Activity\Models;
 
-use Encoda\Activity\Contract\UtilityContract;
-use Illuminate\Database\Eloquent\Model;
+use Encoda\Activity\Contract\RoleContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Utility extends Model implements UtilityContract
+class Role extends \Encoda\Rbac\Models\Role implements RoleContract
 {
-    use SoftDeletes;
-    
-    protected $fillable = [
-        'uid',
-        'name',
-        'description',
-    ];
     
     /**
      * The attributes that should be hidden for arrays.
@@ -27,7 +18,7 @@ class Utility extends Model implements UtilityContract
         'updated_at',
         'deleted_at'
     ];
-
+    
     /**
      * @return BelongsToMany
      */
@@ -35,4 +26,5 @@ class Utility extends Model implements UtilityContract
     {
         return $this->belongsToMany(Activity::class);
     }
+    
 }

@@ -35,8 +35,8 @@ class ActivityService implements ActivityServiceInterface
      * @param $uid
      * @return mixed
      */
-   public function getActivity($uid)
-    {
+   public function getActivity($uid): mixed
+   {
         return $this->activityRepository->findByUid($uid);
     }
 
@@ -44,7 +44,7 @@ class ActivityService implements ActivityServiceInterface
      * @param CreateActivityRequest $request
      * @return mixed
      */
-    public function createActivity(CreateActivityRequest $request)
+    public function createActivity(CreateActivityRequest $request): mixed
     {
         return $this->activityRepository->create($request->all());
     }
@@ -54,17 +54,9 @@ class ActivityService implements ActivityServiceInterface
      * @param $uid
      * @return mixed
      */
-    public function updateActivity(UpdateActivityRequest $request, $uid)
+    public function updateActivity(UpdateActivityRequest $request, $uid): mixed
     {
         return $this->activityRepository->update($request->all(), $uid);
     }
 
-    /**
-     * @param $uid
-     * @return int
-     */
-    public function deleteActivity($uid): int
-    {
-        return $this->activityRepository->delete($uid);
-    }
 }

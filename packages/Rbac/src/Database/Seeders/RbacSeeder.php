@@ -9,6 +9,7 @@ class RbacSeeder extends \Illuminate\Database\Seeder
             [
                 PermissionGroupSeeder::class,
                 PermissionSeeder::class,
+                RoleSeeder::class,
             ]
         );
     }

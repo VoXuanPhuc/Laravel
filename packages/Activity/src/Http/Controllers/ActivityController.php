@@ -15,30 +15,40 @@ class ActivityController extends Controller
     {
         $this->activityService = $activityService;
     }
-
-    public function list()
+    
+    /**
+     * @return mixed
+     */
+    public function list(): mixed
     {
         return $this->activityService->listActivities();
     }
-
-    public function detail($uid)
+    
+    /**
+     * @param $uid
+     * @return mixed
+     */
+    public function show($uid): mixed
     {
         return $this->activityService->getActivity($uid);
     }
-
-    public function store(CreateActivityRequest $request)
+    
+    /**
+     * @param CreateActivityRequest $request
+     * @return mixed
+     */
+    public function store(CreateActivityRequest $request): mixed
     {
         return $this->activityService->createActivity($request);
     }
-
-    public function update(UpdateActivityRequest $request, $uid)
+    
+    /**
+     * @param UpdateActivityRequest $request
+     * @param $uid
+     * @return mixed
+     */
+    public function update(UpdateActivityRequest $request, $uid): mixed
     {
         return $this->activityService->updateActivity($request, $uid);
     }
-
-    public function delete($uid)
-    {
-        return $this->activityService->deleteActivity($uid);
-    }
-
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-    protected string $tableName = 'activity_remote_accesses';
+    protected string $tableName = 'activity_device';
 
     /**
      * Run the migrations.
@@ -16,9 +16,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_remote_accesses', function (Blueprint $table) {
+        Schema::create('activity_device', function (Blueprint $table) {
             $table->foreignId('activity_id');
-            $table->foreignId('remote_access_id');
+            $table->foreignId('device_id');
             $table->timestamps();
 
             $table->foreign('activity_id')
@@ -26,9 +26,9 @@ return new class extends Migration
                 ->on('activities')
                 ->onDelete('cascade');
 
-            $table->foreign('remote_access_id')
+            $table->foreign('device_id')
                 ->references('id')
-                ->on('remote_accesses')
+                ->on('devices')
                 ->onDelete('cascade');
         });
     }
