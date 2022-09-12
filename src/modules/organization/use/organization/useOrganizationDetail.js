@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import { required } from "@vuelidate/validators"
+import { required, email } from "@vuelidate/validators"
 import * as api from "../../api/organizationFetcher"
 import useVuelidate from "@vuelidate/core"
 import { useGlobalStore } from "@/stores/global"
@@ -24,7 +24,7 @@ export function useOrganizationDetail() {
       owner: {
         first_name: { required },
         last_name: { required },
-        email: { required },
+        email: { required, email },
         phone: { required },
       },
     },

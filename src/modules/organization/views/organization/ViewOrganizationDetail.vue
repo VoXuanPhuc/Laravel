@@ -204,7 +204,7 @@
               {{ $t("organization.update") }}
             </EcButton>
             <EcButton class="ml-4" variant="tertiary-outline" @click="handleCancelUpdateOrganization">
-              {{ $t("organization.cancel") }}
+              {{ $t("organization.back") }}
             </EcButton>
           </EcFlex>
 

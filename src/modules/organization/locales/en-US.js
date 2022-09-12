@@ -20,6 +20,7 @@ export default {
     newOrganization: "New Organization",
     create: "Create",
     cancel: "Cancel",
+    back: "Back",
     yes: "Yes",
     no: "No",
     createOrganizationSuccess: "Organization has been created successfully!",
