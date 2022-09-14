@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RemoteAccess extends Model implements RemoteAccessContract
+class RemoteAccessFactor extends Model implements RemoteAccessContract
 {
     use SoftDeletes;
     
@@ -23,9 +23,11 @@ class RemoteAccess extends Model implements RemoteAccessContract
      * @var array
      */
     protected $hidden = [
+        'id',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'pivot',
     ];
 
     /**

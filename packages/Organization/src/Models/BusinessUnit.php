@@ -2,6 +2,7 @@
 
 namespace Encoda\Organization\Models;
 
+use Encoda\Activity\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,5 +40,13 @@ class BusinessUnit extends Model
      */
     public function division() {
         return $this->belongsTo( Division::class );
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
     }
 }

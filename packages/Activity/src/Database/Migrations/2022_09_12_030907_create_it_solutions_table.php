@@ -17,20 +17,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('it_solutions', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('location')->nullable(true);
             $table->string('data_type')->nullable(true);
             $table->foreignId('activity_id');
+            $table->softDeletesTz();
             $table->timestamps();
-
+            
             $table->foreign('activity_id')
                 ->references('id')
                 ->on('activities')
-                ->onDelete('cascade');
-
-            $table->softDeletesTz();
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
             // Indexes
             $table->index('uid');

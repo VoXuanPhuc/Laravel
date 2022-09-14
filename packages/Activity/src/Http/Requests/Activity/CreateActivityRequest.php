@@ -11,15 +11,15 @@ class CreateActivityRequest extends FormRequest
     {
         return [
             'name' => 'required|max:125',
-            'role_ids' => 'required',
+            'role_uids' => 'required',
             'is_remoted' => 'required',
-            'utility_ids' => 'required',
-            'remote_access_ids' => 'required',
+            'utility_uids' => 'required',
+            'remote_access_factor_uids' => 'required',
             'number_of_location' => 'required',
-            'application_ids'  => 'required',
+            'application_uids'  => 'required',
             'data_type' => 'required',
-            'storage' => 'required',
-            'device_ids' => 'required',
+            'location' => 'required',
+            'device_uids' => 'required',
         ];
     }
 }

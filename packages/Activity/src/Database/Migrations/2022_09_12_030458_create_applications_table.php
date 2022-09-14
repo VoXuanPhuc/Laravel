@@ -17,14 +17,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');
             $table->string('description')->nullable(true);
-            $table->timestamps();
-
             $table->softDeletesTz();
+            $table->timestamps();
 
             // Indexes
             $table->index('uid');

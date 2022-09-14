@@ -11,7 +11,7 @@ class ActivitySeeder extends Seeder
             [
                 ApplicationSeeder::class,
                 DeviceSeeder::class,
-                RemoteAccessSeeder::class,
+                RemoteAccessFactorSeeder::class,
                 UtilitySeeder::class,
             ]
         );

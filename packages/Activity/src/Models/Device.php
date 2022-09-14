@@ -23,9 +23,11 @@ class Device extends Model implements DeviceContract
      * @var array
      */
     protected $hidden = [
+        'id',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'pivot',
     ];
 
     /**

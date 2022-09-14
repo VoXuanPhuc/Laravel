@@ -3,7 +3,9 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
+use Encoda\Organization\Models\BusinessUnit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,10 +15,23 @@ class Activity extends Model implements ActivityContract
     use SoftDeletes;
     
     protected $fillable = [
-        'uid',
         'name',
         'description',
+        'is_remoted',
         'number_of_location',
+        'division_id',
+        'business_unit_id',
+    ];
+    
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id',
+        'division_id',
+        'business_unit_id',
     ];
     
     /**
@@ -54,9 +69,9 @@ class Activity extends Model implements ActivityContract
     /**
      * @return BelongsToMany
      */
-    public function remoteAccesses(): BelongsToMany
+    public function remoteAccessesFactors(): BelongsToMany
     {
-        return $this->belongsToMany(RemoteAccess::class);
+        return $this->belongsToMany(RemoteAccessFactor::class);
     }
 
     /**
@@ -65,6 +80,14 @@ class Activity extends Model implements ActivityContract
     public function utilities(): BelongsToMany
     {
         return $this->belongsToMany(Utility::class);
+    }
+    
+    /**
+     * @return BelongsTo
+     */
+    public function businessUnit(): BelongsTo
+    {
+        return $this->belongsTo(BusinessUnit::class);
     }
 
 }

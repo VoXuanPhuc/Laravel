@@ -23,9 +23,11 @@ class Application extends Model implements ApplicationContract
      * @var array
      */
     protected $hidden = [
+        'id',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'pivot',
     ];
     
     /**

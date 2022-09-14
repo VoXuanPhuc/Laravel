@@ -19,7 +19,6 @@ class ITSolution extends Model implements ITSolutionContract
     protected $table = 'it_solutions';
     
     protected $fillable = [
-        'uid',
         'location',
         'data_type',
         'activity_id',
@@ -31,6 +30,8 @@ class ITSolution extends Model implements ITSolutionContract
      * @var array
      */
     protected $hidden = [
+        'id',
+        'activity_id',
         'created_at',
         'updated_at',
         'deleted_at'

@@ -14,9 +14,11 @@ class Role extends \Encoda\Rbac\Models\Role implements RoleContract
      * @var array
      */
     protected $hidden = [
+        'id',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
+        'pivot',
     ];
     
     /**

@@ -2,9 +2,11 @@
 
 namespace Encoda\Organization\Models;
 
+use Encoda\Activity\Models\Activity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -66,5 +68,14 @@ class Organization extends Model
      */
     public function business_units() {
         return $this->hasMany( BusinessUnit::class );
+    }
+    
+    /**
+     * Get all the activities for the organization.
+     * @return HasManyThrough
+     */
+    public function activities(): HasManyThrough
+    {
+        return $this->hasManyThrough(Activity::class, BusinessUnit::class);
     }
 }

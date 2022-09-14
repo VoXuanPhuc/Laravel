@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-    protected string $tableName = 'remote_accesses';
+    protected string $tableName = 'remote_access_factors';
 
     /**
      * Run the migrations.
@@ -17,14 +17,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('remote_accesses', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');
             $table->string('description')->nullable(true);
-            $table->timestamps();
-
             $table->softDeletesTz();
+            $table->timestamps();
 
             // Indexes
             $table->index('uid');

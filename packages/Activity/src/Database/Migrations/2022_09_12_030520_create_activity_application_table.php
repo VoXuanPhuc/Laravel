@@ -16,7 +16,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activity_application', function (Blueprint $table) {
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->foreignId('activity_id');
             $table->foreignId('application_id');
             $table->timestamps();
@@ -24,12 +24,14 @@ return new class extends Migration
             $table->foreign('activity_id')
                 ->references('id')
                 ->on('activities')
-                ->onDelete('cascade');
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
             $table->foreign('application_id')
                 ->references('id')
                 ->on('applications')
-                ->onDelete('cascade');
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
