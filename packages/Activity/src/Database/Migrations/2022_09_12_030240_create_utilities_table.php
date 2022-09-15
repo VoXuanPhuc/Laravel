@@ -22,9 +22,16 @@ return new class extends Migration
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');
             $table->string('description')->nullable(true);
+            $table->foreignId('organization_id');
             $table->softDeletesTz();
             $table->timestamps();
-
+    
+            $table->foreign('organization_id')
+                ->references('id')
+                ->on('organizations')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            
             // Indexes
             $table->index('uid');
 

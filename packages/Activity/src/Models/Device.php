@@ -11,6 +11,10 @@ class Device extends Model implements DeviceContract
 {
     use SoftDeletes;
     
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'uid',
         'name',

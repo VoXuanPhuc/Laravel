@@ -11,6 +11,10 @@ class RemoteAccessFactor extends Model implements RemoteAccessContract
 {
     use SoftDeletes;
     
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'uid',
         'name',

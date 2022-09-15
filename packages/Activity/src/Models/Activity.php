@@ -14,10 +14,24 @@ class Activity extends Model implements ActivityContract
 {
     use SoftDeletes;
     
+    const CREATED = 1;
+    const IN_PROGRESS = 2;
+    const FINISHED = 3;
+    
+    const ACTIVITY_INFO = 1; //Activity info
+    const ACTIVITY_REMOTE_ACCESS_FACTOR = 2; //Activity remote access factor
+    const ACTIVITY_SOFTWARE_EQUIPMENT = 3; //Software and equipment
+    
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'name',
         'description',
         'is_remoted',
+        'status',
+        'step',
         'number_of_location',
         'division_id',
         'business_unit_id',
@@ -40,6 +54,14 @@ class Activity extends Model implements ActivityContract
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+    
+    /**
+     * @return BelongsToMany
+     */
+    public function alternativeRoles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'activity_alternative_role', 'activity_id', 'alternative_role_id');
     }
 
     /**

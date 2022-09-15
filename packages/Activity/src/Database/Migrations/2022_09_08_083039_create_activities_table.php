@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('description')->nullable(true);
             $table->integer('number_of_location')->nullable(true);
             $table->tinyInteger('is_remoted');
+            $table->tinyInteger('status');
+            $table->tinyInteger('step');
             $table->foreignId('division_id');
             $table->foreignId('business_unit_id');
             $table->softDeletesTz();

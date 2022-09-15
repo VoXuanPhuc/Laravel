@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoda\Activity\Repositories\Concrete\Database;
+namespace Encoda\Activity\Repositories\Concrete;
 
 use Encoda\Activity\Models\Device;
 use Encoda\Activity\Repositories\Interfaces\DeviceRepositoryInterface;

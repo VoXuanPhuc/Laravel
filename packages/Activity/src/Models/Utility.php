@@ -11,6 +11,10 @@ class Utility extends Model implements UtilityContract
 {
     use SoftDeletes;
     
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'uid',
         'name',

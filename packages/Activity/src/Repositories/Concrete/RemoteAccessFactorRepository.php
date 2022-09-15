@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoda\Activity\Repositories\Concrete\Database;
+namespace Encoda\Activity\Repositories\Concrete;
 
 use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Repositories\Interfaces\RemoteAccessFactorRepositoryInterface;

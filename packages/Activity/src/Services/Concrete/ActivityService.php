@@ -1,10 +1,11 @@
 <?php
 
-namespace Encoda\Activity\Services\Concrete\Database;
+namespace Encoda\Activity\Services\Concrete;
 
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
+use Encoda\Activity\Repositories\Interfaces\AlternativeRoleRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\ApplicationRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\DeviceRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\RemoteAccessFactorRepositoryInterface;
@@ -12,14 +13,12 @@ use Encoda\Activity\Repositories\Interfaces\UtilityRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 use Encoda\Core\Exceptions\BadRequestException;
 use Encoda\Core\Exceptions\NotFoundException;
-use Encoda\Organization\Services\Concrete\OrganizationService;
 use Encoda\Organization\Services\Interfaces\BusinessUnitServiceInterface;
 use Encoda\Organization\Services\Interfaces\DivisionServiceInterface;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 
 class ActivityService implements ActivityServiceInterface
 {
@@ -29,6 +28,7 @@ class ActivityService implements ActivityServiceInterface
         protected DivisionServiceInterface $divisionService,
         protected BusinessUnitServiceInterface $businessUnitService,
         protected RoleRepositoryInterface $roleRepository,
+        protected AlternativeRoleRepositoryInterface $alternativeRoleRepository,
         protected UtilityRepositoryInterface $utilityRepository,
         protected RemoteAccessFactorRepositoryInterface $remoteAccessFactorRepository,
         protected DeviceRepositoryInterface $deviceRepository,
@@ -47,12 +47,12 @@ class ActivityService implements ActivityServiceInterface
     public function listActivities($organizationUid, $divisionUid, $businessUnitUid): mixed
     {
         $businessUnit = $this->businessUnitService->getBusinessUnit($organizationUid, $divisionUid, $businessUnitUid);
-    
-        if( $businessUnit ) {
-            return $businessUnit->activities()->paginate(config('config.pagination_size'));
+        
+        if (empty($businessUnit)) {
+            return [];
         }
     
-        return [];
+        return $businessUnit->activities()->with('businessUnit')->paginate(config('config.pagination_size'));
     }
     
     /**
@@ -76,12 +76,12 @@ class ActivityService implements ActivityServiceInterface
        );
     
        if( !$activity ) {
-           throw new NotFoundException( __('activity::app.activity.not_found') );
+           throw new NotFoundException( __('activity::app.activity.not_found'));
        }
     
        return $activity->load(['businessUnit', 'roles', 'utilities', 'remoteAccessesFactors', 'applications', 'iTSolution', 'devices']);
    }
-    
+   
     /**
      * @param CreateActivityRequest $request
      * @param $organizationUid
@@ -101,6 +101,7 @@ class ActivityService implements ActivityServiceInterface
        );
        
        $roleIds = $this->getRoleIds($request->get('role_uids'));
+       $alternativeRoleIds = $this->getAlternativeRoleIds($request->get('alternative_role_uids'));
        $utilityIds = $this->getUtilityIds($request->get('utility_uids'));
        $remoteAccessFactorIds = $this->getRemoteAccessFactorIds($request->get('remote_access_factor_uids'));
        $applicationIds = $this->getApplicationIds($request->get('application_uids'));
@@ -110,9 +111,8 @@ class ActivityService implements ActivityServiceInterface
         
         DB::beginTransaction();
         try {
-            Event::dispatch( 'identity.activity.create.before' );
             $activity = $this->activityRepository->create($request->only($this->activityRepository->getFillable()));
-            $this->syncPivotTables($activity, $roleIds, $utilityIds, $remoteAccessFactorIds, $applicationIds, $deviceIds);
+            $this->syncPivotTables($activity, $roleIds, $alternativeRoleIds, $utilityIds, $remoteAccessFactorIds, $applicationIds, $deviceIds);
             $activity->iTSolution()->create($iTSolution);
         } catch (Exception $e) {
             DB::rollback();
@@ -120,7 +120,6 @@ class ActivityService implements ActivityServiceInterface
         }
     
         DB::commit();
-        Event::dispatch( 'identity.activity.create.after' );
        
         return $activity->load('businessUnit');
    }
@@ -146,6 +145,7 @@ class ActivityService implements ActivityServiceInterface
         );
     
         $roleIds = $this->getRoleIds($request->get('role_uids'));
+        $alternativeRoleIds = $this->getAlternativeRoleIds($request->get('alternative_role_uids'));
         $utilityIds = $this->getUtilityIds($request->get('utility_uids'));
         $remoteAccessFactorIds = $this->getRemoteAccessFactorIds($request->get('remote_access_factor_uids'));
         $applicationIds = $this->getApplicationIds($request->get('application_uids'));
@@ -158,9 +158,8 @@ class ActivityService implements ActivityServiceInterface
         DB::beginTransaction();
     
         try {
-            Event::dispatch( 'identity.activity.update.before');
             $activity = $this->activityRepository->update($request->only($this->activityRepository->getFillable()), $activity->id);
-            $this->syncPivotTables($activity, $roleIds, $utilityIds, $remoteAccessFactorIds, $applicationIds, $deviceIds);
+            $this->syncPivotTables($activity, $roleIds, $alternativeRoleIds, $utilityIds, $remoteAccessFactorIds, $applicationIds, $deviceIds);
             $activity->iTSolution()->update($iTSolution);
         } catch (Exception $e) {
             DB::rollback();
@@ -168,7 +167,6 @@ class ActivityService implements ActivityServiceInterface
         }
     
         DB::commit();
-        Event::dispatch( 'identity.activity.update.after' );
         
         return $activity->load(['roles', 'utilities', 'remoteAccessesFactors', 'applications', 'iTSolution', 'devices']);
     }
@@ -188,8 +186,6 @@ class ActivityService implements ActivityServiceInterface
     
         DB::beginTransaction();
         try {
-            Event::dispatch( 'identity.activity.delete.before' );
-            
             $activity->iTSolution()->delete();
             $this->activityRepository->delete($activity->id);
         }
@@ -199,7 +195,6 @@ class ActivityService implements ActivityServiceInterface
         }
         
         DB::commit();
-        Event::dispatch( 'identity.activity.delete.after' );
         
         return true;
     }
@@ -208,15 +203,17 @@ class ActivityService implements ActivityServiceInterface
     /**
      * @param $activity
      * @param array $roleIds
+     * @param array $alternativeRoleIds
      * @param array $utilityIds
      * @param array $remoteAccessFactorIds
      * @param array $applicationIds
      * @param array $deviceIds
      * @return void
      */
-    private function syncPivotTables($activity, array $roleIds, array $utilityIds, array $remoteAccessFactorIds, array $applicationIds, array $deviceIds): void
+    private function syncPivotTables($activity, array $roleIds, array $alternativeRoleIds, array $utilityIds, array $remoteAccessFactorIds, array $applicationIds, array $deviceIds): void
     {
         $activity->roles()->sync($roleIds);
+        $activity->alternativeRoles()->sync($alternativeRoleIds);
         $activity->utilities()->sync($utilityIds);
         $activity->remoteAccessesFactors()->sync($remoteAccessFactorIds);
         $activity->applications()->sync($applicationIds);
@@ -231,6 +228,16 @@ class ActivityService implements ActivityServiceInterface
     {
          $roles = $this->roleRepository->findWhereIn('uid', $roleUIds, 'id');
          return $this->fillDataToArray($roles);
+    }
+    
+    /**
+     * @param array $alternativeRoleIds
+     * @return array
+     */
+    private function getAlternativeRoleIds(array $alternativeRoleIds): array
+    {
+        $alternativeRoles = $this->alternativeRoleRepository->findWhereIn('uid', $alternativeRoleIds, 'id');
+        return $this->fillDataToArray($alternativeRoles);
     }
     
     /**

@@ -3,7 +3,7 @@
 namespace Encoda\Activity\Providers;
 
 use Carbon\Laravel\ServiceProvider;
-use Encoda\Activity\Services\Concrete\Database\ActivityService;
+use Encoda\Activity\Services\Concrete\ActivityService;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 
 class ServiceBindingProvider extends ServiceProvider

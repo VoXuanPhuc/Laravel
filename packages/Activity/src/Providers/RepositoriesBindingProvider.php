@@ -3,12 +3,14 @@
 namespace Encoda\Activity\Providers;
 
 use Carbon\Laravel\ServiceProvider;
-use Encoda\Activity\Repositories\Concrete\Database\ActivityRepository;
-use Encoda\Activity\Repositories\Concrete\Database\ApplicationRepository;
-use Encoda\Activity\Repositories\Concrete\Database\DeviceRepository;
-use Encoda\Activity\Repositories\Concrete\Database\RemoteAccessFactorRepository;
-use Encoda\Activity\Repositories\Concrete\Database\UtilityRepository;
+use Encoda\Activity\Repositories\Concrete\ActivityRepository;
+use Encoda\Activity\Repositories\Concrete\AlternativeRoleRepository;
+use Encoda\Activity\Repositories\Concrete\ApplicationRepository;
+use Encoda\Activity\Repositories\Concrete\DeviceRepository;
+use Encoda\Activity\Repositories\Concrete\RemoteAccessFactorRepository;
+use Encoda\Activity\Repositories\Concrete\UtilityRepository;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
+use Encoda\Activity\Repositories\Interfaces\AlternativeRoleRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\ApplicationRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\DeviceRepositoryInterface;
 use Encoda\Activity\Repositories\Interfaces\RemoteAccessFactorRepositoryInterface;
@@ -24,5 +26,6 @@ class RepositoriesBindingProvider extends ServiceProvider
         $this->app->bind( RemoteAccessFactorRepositoryInterface::class, RemoteAccessFactorRepository::class );
         $this->app->bind( ApplicationRepositoryInterface::class, ApplicationRepository::class );
         $this->app->bind( DeviceRepositoryInterface::class, DeviceRepository::class );
+        $this->app->bind( AlternativeRoleRepositoryInterface::class, AlternativeRoleRepository::class );
     }
 }

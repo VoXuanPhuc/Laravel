@@ -18,6 +18,10 @@ class ITSolution extends Model implements ITSolutionContract
      */
     protected $table = 'it_solutions';
     
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'location',
         'data_type',

@@ -11,6 +11,10 @@ class Application extends Model implements ApplicationContract
 {
     use SoftDeletes;
     
+    protected $guarded = [
+        'id',
+    ];
+    
     protected $fillable = [
         'uid',
         'name',
