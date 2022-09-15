@@ -42,6 +42,7 @@
       </EcBox>
     </EcBox>
     <EcBox class="mb-0 mt-auto relative">
+      <!-- Settings button -->
       <EcButton
         variant="wrapper"
         :class="[
@@ -75,6 +76,8 @@
           </EcText>
         </EcBox>
       </EcButton>
+
+      <!-- Logout button -->
       <EcButton variant="wrapper" :class="[variantCls.button.for, variantCls.button.wrapper]" @click="handleClickLogout()">
         <EcBox :class="[variantCls.button.box, { 'flex-row-reverse': menuDirection === 'rtl' }]">
           <EcIcon
@@ -181,7 +184,7 @@ export default {
       {
         module: "report",
         icon: "ChartSquareBar",
-        text: "Report",
+        text: "core.report",
         routeName: "ViewReport",
       },
       // {
@@ -214,6 +217,10 @@ export default {
       return props.unreadNotification < 15 ? props.unreadNotification : "*"
     })
 
+    /**
+     *
+     * @param {*} item
+     */
     const handleClickMenuItem = (item) => {
       router.push({
         name: item.routeName,

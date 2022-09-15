@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" :class="variantCls.root" style="min-height: 2.5rem">
+  <div class="relative" :class="variantCls.root" style="min-height: 2rem">
     <!-- Color Label -->
     <div :class="variantCls.input">
       {{ computedLabel }}

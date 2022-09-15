@@ -2,6 +2,7 @@ import core from "@/modules/core/locales/en-US"
 import auth from "@/modules/auth/locales/en-US"
 import dashboard from "@/modules/dashboard/locales/en-US"
 import organization from "@/modules/organization/locales/en-US"
+import activity from "@/modules/activity/locales/en-US"
 import user from "@/modules/user/locales/en-US"
 import setting from "@/modules/setting/locales/en-US"
 
@@ -10,6 +11,7 @@ export default {
   ...auth,
   ...dashboard,
   ...organization,
+  ...activity,
   ...user,
   ...setting,
 

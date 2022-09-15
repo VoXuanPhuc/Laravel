@@ -13,7 +13,14 @@
     </div>
 
     <!-- Middle -->
-    <div :class="variantCls.counter">{{ computedValue }}</div>
+    <input
+      type="text"
+      :class="variantCls.counter"
+      :value="computedValue"
+      v-on="{
+        input: (event) => $emit('update:modelValue', event.target.value),
+      }"
+    />
 
     <!-- Button + -->
     <div
@@ -36,7 +43,7 @@ export default {
       type: String,
       default: "default",
     },
-    value: {
+    modelValue: {
       required: true,
       default: "",
       validator(val) {
@@ -71,8 +78,8 @@ export default {
 
   computed: {
     computedValue() {
-      if (!this.value) return parseFloat(this.min).toFixed(this.decimalPlaces)
-      return parseFloat(this.value).toFixed(this.decimalPlaces)
+      if (!this.modelValue) return parseFloat(this.min).toFixed(this.decimalPlaces)
+      return parseFloat(this.modelValue).toFixed(this.decimalPlaces)
     },
 
     variantCls() {
@@ -85,6 +92,7 @@ export default {
     },
   },
 
+  emits: ["update:modelValue"],
   methods: {
     emit(...args) {
       if (!this.disabled) {
@@ -92,30 +100,36 @@ export default {
       }
     },
 
+    inputValue(value) {
+      if (value < this.min) value = this.min
+
+      this.$emit("update:modelValue", value)
+    },
+
     decrease() {
       if (this.disabled) return
 
-      let value = parseFloat(this.value)
+      let value = parseFloat(this.modelValue)
       value = isNaN(value) ? this.min : value
       value = value - this.step
 
       // If value is lower than min, show min
       if (value < this.min) value = this.min
 
-      this.$emit("input", parseFloat(value.toFixed(this.decimalPlaces)))
+      this.$emit("update:modelValue", parseFloat(value.toFixed(this.decimalPlaces)))
     },
 
     increase() {
       if (this.disabled) return
 
-      let value = parseFloat(this.value)
+      let value = parseFloat(this.modelValue)
       value = isNaN(value) ? this.min : value
       value = value + this.step
 
       // If value is lower than max, show max
       if (value > this.max) value = this.max
 
-      this.$emit("input", parseFloat(value.toFixed(this.decimalPlaces)))
+      this.$emit("update:modelValue", parseFloat(value.toFixed(this.decimalPlaces)))
     },
   },
 }

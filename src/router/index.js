@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import auth from "@/modules/auth/router/index"
 import dashboard from "@/modules/dashboard/router/index"
 import organization from "@/modules/organization/router/index"
+import activity from "@/modules/activity/router/index"
 import user from "@/modules/user/router/index"
 import setting from "@/modules/setting/router/index"
 
@@ -15,6 +16,7 @@ const routes = [
   ...auth,
   ...dashboard,
   ...organization,
+  ...activity,
   ...user,
   ...setting,
 ]

@@ -324,6 +324,24 @@ export default {
       iconSuffixHeight: "27",
     },
   },
+  "primary-rounded": {
+    el: {
+      root: "flex items-center leading-tight bg-c1-800 p-1 text-cWhite rounded-full text-sm focus:outline-none hover:shadow",
+      left: "",
+      middle: "",
+      right: "",
+      iconPrefix: "",
+      iconSuffix: "",
+    },
+    assets: {
+      iconPrefixName: "",
+      iconPrefixWidth: "24",
+      iconPrefixHeight: "24",
+      iconSuffixName: "",
+      iconSuffixWidth: "24",
+      iconSuffixHeight: "24",
+    },
+  },
   "tertiary-rounded": {
     el: {
       root: "flex items-center leading-tight bg-c0-100 p-1 rounded-full text-cWhite text-sm w-auto focus:outline-none hover:shadow",

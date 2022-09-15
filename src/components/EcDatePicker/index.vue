@@ -1,5 +1,5 @@
 <template>
-  <div v-click-outside="hideCalendar" class="relative" :class="variantCls.root" style="min-height: 2.5rem">
+  <div v-click-outside="hideCalendar" class="relative" :class="variantCls.root" style="min-height: 2rem">
     <!-- Date Label -->
     <div :class="variantCls.input" @click="toggleCalendar">
       {{ computedLabel }}

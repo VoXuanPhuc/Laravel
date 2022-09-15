@@ -3,7 +3,7 @@
     v-click-outside="hideOptions"
     class="relative flex justify-between items-center"
     :class="variantCls.root"
-    style="min-height: 2.5rem"
+    style="min-height: 2rem"
     @click="handleClickSelect($event)"
   >
     <!-- Tags -->

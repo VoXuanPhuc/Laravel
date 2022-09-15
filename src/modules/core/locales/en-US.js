@@ -113,6 +113,7 @@ export default {
     noName: "No Name",
     title: "Title",
     pleaseSelect: "Please Select",
+    age: "Age",
     list: "List",
     addRow: "Add Row",
     remove: "Remove",

@@ -7,7 +7,7 @@ export default {
       tag: "px-2 py-1 m-1 rounded bg-c1-800 text-cWhite",
       tagSingle: "px-2 py-1 m-1 rounded bg-c1-800 text-cWhite w-full flex justify-between",
       tagRemove: "ml-2",
-      input: "bg-c0-100 border-b border-c0-300 apperance-none px-5 w-full h-10 focus:outline-none",
+      input: "bg-c0-100 border-b border-c0-300 apperance-none px-5 w-full h-8 focus:outline-none",
       placeholder: "text-c0-500 px-5 pointer-events-none",
       options: "bg-cWhite border border-c0-300 shadow",
       optionsStyles: "max-height: 12rem; top: 100%; left: -1px; right: -1px",
