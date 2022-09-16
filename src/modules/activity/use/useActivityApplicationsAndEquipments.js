@@ -1,6 +1,6 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
-import { required } from "@vuelidate/validators"
+import { helpers, required } from "@vuelidate/validators"
 import * as api from "../api/activityFetcher"
 import { useGlobalStore } from "@/stores/global"
 import { useI18n } from "vue-i18n"
@@ -10,8 +10,8 @@ export function useActivityApplicationsAndEquipments() {
   const { t } = useI18n()
 
   const form = ref({
-    applications: [""],
-    equipments: [""],
+    applications: [{ uid: "" }],
+    equipments: [{ uid: "" }],
 
     it_solution: {
       data: "",
@@ -25,8 +25,18 @@ export function useActivityApplicationsAndEquipments() {
         data: { required },
         location: { required },
       },
-      applications: { required },
-      equipments: { required },
+      applications: {
+        required,
+        $each: helpers.forEach({
+          uid: { required },
+        }),
+      },
+      equipments: {
+        required,
+        $each: helpers.forEach({
+          uid: { required },
+        }),
+      },
     },
   }
 

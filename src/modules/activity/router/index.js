@@ -3,8 +3,19 @@ import ViewActivityNew from "../views/ViewActivityNew"
 import ViewActivityDetail from "../views/ViewActivityDetail"
 import ViewActivityRemoteAccess from "../views/ViewActivityRemoteAccess"
 import ViewActivityApplication from "../views/ViewActivityApplication"
+import ViewActivityUpdateRemoteAccess from "../views/ViewActivityUpdateRemoteAccess"
+import ViewActivityUpdateApplication from "../views/ViewActivityUpdateApplication"
 
 export default [
+  {
+    path: "/organizations/first-organization/activities",
+    component: ViewActivityList,
+    name: "ViewActivityList",
+    props: true,
+    meta: {
+      module: "activity",
+    },
+  },
   {
     path: "/orgainizations/:organizationUid/activities",
     component: ViewActivityList,
@@ -36,6 +47,17 @@ export default [
   },
 
   {
+    path: "/activities/new/:uid",
+    component: ViewActivityNew,
+    name: "ViewActivityNewBack",
+    props: true,
+    meta: {
+      isPublic: true,
+      module: "activity",
+    },
+  },
+
+  {
     path: "/activities/:uid",
     component: ViewActivityDetail,
     name: "ViewActivityDetail",
@@ -45,6 +67,8 @@ export default [
       module: "activity",
     },
   },
+
+  // For create new
 
   {
     path: "/activities/:uid/remote-accesses",
@@ -61,6 +85,30 @@ export default [
     path: "/activities/:uid/applications",
     component: ViewActivityApplication,
     name: "ViewActivityApplication",
+    props: true,
+    meta: {
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
+  // For update
+
+  {
+    path: "/activities/:uid/update-remote-accesses",
+    component: ViewActivityUpdateRemoteAccess,
+    name: "ViewActivityUpdateRemoteAccess",
+    props: true,
+    meta: {
+      isPublic: true,
+      module: "activity",
+    },
+  },
+
+  {
+    path: "/activities/:uid/update-applications",
+    component: ViewActivityUpdateApplication,
+    name: "ViewActivityUpdateApplication",
     props: true,
     meta: {
       module: "activity",

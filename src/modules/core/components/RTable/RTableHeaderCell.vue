@@ -16,7 +16,7 @@ export default {
   computed: {
     headerCellClass() {
       return {
-        "text-sm text-c1-800 h-12 px-6 py-2 text-left whitespace-no-wrap font-medium": true,
+        "text-sm text-c1-800 h-12 px-6 py-2 text-left whitespace-no-wrap font-semibold": true,
         "absolute top-0 right-0 px-8": this.variant === "gradient",
       }
     },

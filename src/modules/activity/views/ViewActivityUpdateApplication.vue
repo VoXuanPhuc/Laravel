@@ -4,21 +4,13 @@
     <EcFlex class="items-center flex-wrap">
       <EcFlex class="items-center justify-between w-full flex-wrap lg:w-auto lg:mr-4">
         <EcHeadline class="text-cBlack mr-4 mb-3 lg:mb-0">
-          {{ $t("activity.title.newActivity") }}
+          {{ $t("activity.title.editActivity") }}
         </EcHeadline>
       </EcFlex>
     </EcFlex>
 
     <!-- Body -->
     <EcBox variant="card-1" class="width-full mt-8 px-4 sm:px-10">
-      <!-- Title and cancel button -->
-      <EcFlex>
-        <EcText class="w-11/12 font-bold text-lg mb-4">{{ $t("activity.title.software") }}</EcText>
-        <EcButton class="mx-auto mr-0 my-auto mt-0" variant="tertiary-rounded" title="Cancel" @click="handleOpenCancelModal">
-          <EcIcon class="text-sm text-cError-500" icon="X" />
-        </EcButton>
-      </EcFlex>
-
       <!-- Applications -->
       <EcBox class="w-full mb-8">
         <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
@@ -161,7 +153,6 @@
         </EcBox>
       </EcBox>
       <!-- End Equipments -->
-
       <!-- End body -->
     </EcBox>
 
@@ -221,6 +212,7 @@ export default {
 
     const applications = ref([])
     const equipments = ref([])
+
     const STEP_APPLICATION = 3
 
     return {
@@ -247,11 +239,8 @@ export default {
      * Filter software
      */
     filteredApplications() {
-      const selectedAppUids = this.form.applications.map((app) => {
-        return app.uid
-      })
       return this.applications.map((app) => {
-        app.disabled = selectedAppUids.includes(app.uid)
+        app.disabled = this.form.applications.includes(app.uid)
 
         return app
       })
@@ -261,12 +250,8 @@ export default {
      * Filter equipments
      */
     filteredEquipments() {
-      const selectedEquipmentUids = this.form.equipments.map((equ) => {
-        return equ.uid
-      })
-
       return this.equipments.map((equipment) => {
-        equipment.disabled = selectedEquipmentUids.includes(equipment.uid)
+        equipment.disabled = this.form.equipments.includes(equipment.uid)
 
         return equipment
       })
@@ -284,12 +269,12 @@ export default {
 
       const { uid } = this.$route.params
       this.isLoading = true
-
       this.form.step = this.STEP_APPLICATION
+
       const response = await this.updateApplicationAnEquipments(this.form, uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityList, 1000)
+        setTimeout(this.redirectToActivityList, 2000)
       }
       this.isLoading = false
     },
@@ -337,7 +322,12 @@ export default {
      * Back to Activity list
      */
     handleClickBack() {
-      goto("ViewActivityRemoteAccess")
+      const { uid } = this.$route.params
+      goto("ViewActivityUpdateRemoteAccess", {
+        params: {
+          uid: uid,
+        },
+      })
     },
 
     /**

@@ -3,6 +3,24 @@ export default {
     activities: "Activities",
 
     search: "Search",
+    associatedEntity: "Activity Detail",
+    deleteFullNote:
+      "You can permanently delete the activity from database. This action cannot be reverted and you cannot restore the record anymore.",
+
+    confirmToDelete: "Confirm to Delete",
+    cfDeleteNote: "You are going to delete ",
+    cfDeleteNote2: "This action cannot be reverted. The record will be deleted permanently.",
+    optional: "Optional",
+    context: "Context",
+
+    label: {
+      businessUnit: "Business Unit",
+      entityName: "Entity Name",
+      activityName: "Activity Name",
+      status: "Status",
+      createdAt: "Created At",
+      step: "Step",
+    },
 
     labels: {
       yes: "Yes",
@@ -10,7 +28,7 @@ export default {
       name: "Name of activity",
       description: "Description",
       roles: "Who is required to deliver this function?",
-      alternative_roles: "Alternate roles that could delive this function?",
+      alternative_roles: "Alternate roles that could deliver this function?",
       min_people: "Minimum number of people that could support this function?",
       wfh: "Can this be delivered remotely (WFH?)",
       utilities: "Utilities required to support function",
@@ -32,8 +50,23 @@ export default {
       cancel: "Cancel",
       close: "Close",
     },
+
+    button: {
+      exportActivities: "Export Activities",
+      timeImpactAnalysis: "Time Impact Analysis",
+      addActivity: "Add activity ",
+      create: "Create",
+      update: "Update",
+      edit: "Edit",
+      view: "View",
+      confirm: "Confirm",
+      cancel: "Cancel",
+      delete: "Delete",
+      deleteActivity: "Delete Activity",
+    },
     title: {
       newActivity: "New Activity",
+      editActivity: "Update Activity",
       activityDetail: "Activity Detail",
       remote: "Remote access",
       software: "Software / Technology",
@@ -43,18 +76,25 @@ export default {
 
     messages: {
       updatedActivity: "Updated activity, redirect to activity list...",
+      createSuccess: "Create activity successfully!",
+      deleteSuccess: "Activity has been delete successfully!",
+      code: "Code",
     },
     // Errors
     errors: {
       updateActivity: "Error to update activity, please retry",
-      login: "Unable get list of Activities",
+      listActivity: "Unable get list of Activities",
     },
 
     division: {
       label: "Division",
+      uid: "uid",
+      name: "Division",
     },
     bu: {
       label: "Business Unit",
+      uid: "uid",
+      name: "Business Unit",
     },
   },
 }

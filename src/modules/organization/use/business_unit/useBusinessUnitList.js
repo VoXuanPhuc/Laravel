@@ -20,7 +20,7 @@ export const useBusinessUnitList = () => {
 
   const tenantBusinessUnits = async () => {
     try {
-      const { data } = await api.fetchDivision()
+      const { data } = await api.fetchBusinessUnitList()
 
       return data
     } catch (error) {}

@@ -73,27 +73,23 @@
         <EcSpinner v-if="isLoadingBusinessUnits"></EcSpinner>
       </EcFlex>
 
-      <!-- Roles -->
-      <EcFlex class="flex-wrap max-w-full mb-8">
-        <EcBox class="w-full">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.roles") }}</EcLabel>
+      <!-- Roles select -->
+      <EcBox class="w-full mb-8">
+        <EcLabel class="text-sm"> {{ $t("activity.labels.roles") }}</EcLabel>
 
-          <!-- Role select -->
-          <EcFlex class="items-center mb-2 w-full" v-for="(role, index) in form.roles" :key="index">
-            <EcBox class="w-full sm:w-6/12 sm:pr-6">
-              <RFormInput
-                v-model="form.roles[index]"
-                componentName="EcSelect"
-                :options="filteredRoles"
-                :valueKey="'uid'"
-                :nameKey="'label'"
-                :validator="v$"
-                field="form.roles[index]"
-                @input="v$.form.roles.$touch()"
-              />
-
-              <!-- Add new role slot -->
-            </EcBox>
+        <!-- Role row -->
+        <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.roles" :key="index">
+          <EcFlex class="items-center">
+            <RFormInput
+              class="w-full sm:w-6/12 sm:pr-6"
+              v-model="form.roles[index].uid"
+              componentName="EcSelect"
+              :options="filteredRoles"
+              :valueKey="'uid'"
+              :nameKey="'label'"
+              :validator="v$"
+              field="form.roles[index].uid"
+            />
 
             <!-- Loading roles -->
             <EcSpinner v-if="isLoadingRoles" class="ml-2"></EcSpinner>
@@ -117,31 +113,41 @@
             >
               <EcIcon icon="Plus" />
             </EcButton>
+            <!-- End role select -->
           </EcFlex>
-          <!-- End role select -->
+
+          <!-- Error message -->
+          <EcBox v-if="v$.form.roles.$errors?.length > 0">
+            <EcText
+              class="text-sm text-cError-500 text-left"
+              v-for="error in v$.form.roles.$each.$response.$errors[index].uid"
+              :key="error"
+            >
+              {{ error.$message }}
+            </EcText>
+          </EcBox>
+          <!-- Add new role slot -->
         </EcBox>
+      </EcBox>
+      <!-- End Role Select -->
 
-        <!-- Add more roles -->
-      </EcFlex>
-      <!-- End add more role -->
+      <!-- Alternative roles select -->
+      <EcBox class="w-full mb-8" v-if="filteredAlternativeRoles.length > 0">
+        <EcLabel class="text-sm"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
 
-      <!-- Alternative Roles -->
-      <EcFlex v-if="filteredAlternativeRoles.length > 0" class="flex-wrap max-w-full mb-8">
-        <EcBox class="w-full">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
-
-          <!-- Alternative Role select -->
-          <EcFlex class="items-center w-full mt-2" v-for="(role, index) in form.alternative_roles" :key="index">
-            <EcBox class="w-full sm:w-6/12 sm:pr-6">
-              <RFormInput
-                componentName="EcSelect"
-                :options="filteredAlternativeRoles"
-                :valueKey="'uid'"
-                :nameKey="'label'"
-                field="form.alternative_roles[index]"
-              />
-              <!-- Add new alternative role slot -->
-            </EcBox>
+        <!-- Alternative Role row -->
+        <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.alternative_roles" :key="index">
+          <EcFlex class="items-center">
+            <RFormInput
+              class="w-full sm:w-6/12 sm:pr-6"
+              v-model="form.alternative_roles[index].uid"
+              componentName="EcSelect"
+              :options="filteredAlternativeRoles"
+              :valueKey="'uid'"
+              :nameKey="'label'"
+              :validator="v$"
+              field="form.alternative_roles[index].uid"
+            />
 
             <!-- Loading roles -->
             <EcSpinner v-if="isLoadingRoles" class="ml-2"></EcSpinner>
@@ -165,13 +171,23 @@
             >
               <EcIcon icon="Plus" />
             </EcButton>
+            <!-- End alternative role select -->
           </EcFlex>
-          <!-- End role select -->
-        </EcBox>
 
-        <!-- Add more roles -->
-      </EcFlex>
-      <!-- End add more alternative role -->
+          <!-- Error message -->
+          <EcBox v-if="v$.form.alternative_roles.$errors?.length > 0">
+            <EcText
+              class="text-sm text-cError-500 text-left"
+              v-for="error in v$.form.alternative_roles.$each.$response.$errors[index].uid"
+              :key="error"
+            >
+              {{ error.$message }}
+            </EcText>
+          </EcBox>
+          <!-- Add new role slot -->
+        </EcBox>
+      </EcBox>
+      <!-- End Alternative Roles Select -->
 
       <!-- Min people -->
       <EcFlex class="flex-wrap max-w-full mb-8">
@@ -205,21 +221,21 @@
       </EcFlex>
 
       <!-- Utilities -->
-      <EcFlex class="flex-wrap max-w-full mb-8">
-        <EcBox class="w-full">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.utilities") }}</EcLabel>
+      <EcBox class="w-full mb-8">
+        <EcLabel class="text-sm"> {{ $t("activity.labels.utilities") }}</EcLabel>
 
-          <!-- Utilities select -->
-          <EcFlex class="items-center w-full mt-2" v-for="(role, index) in form.utilities" :key="index">
-            <EcBox class="w-full sm:w-6/12 sm:pr-6">
-              <RFormInput
-                v-model="form.utilities[index]"
-                componentName="EcSelect"
-                :options="filteredUtilities"
-                :valueKey="'uid'"
-              />
-              <!-- Add new role slot -->
-            </EcBox>
+        <!-- Utility row -->
+        <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.utilities" :key="index">
+          <EcFlex class="items-center">
+            <RFormInput
+              class="w-full sm:w-6/12 sm:pr-6"
+              v-model="form.utilities[index].uid"
+              componentName="EcSelect"
+              :options="filteredUtilities"
+              :valueKey="'uid'"
+              :validator="v$"
+              field="form.utilities[index].uid"
+            />
 
             <!-- Loading utilities -->
             <EcSpinner v-if="isLoadingUtilities" class="ml-2"></EcSpinner>
@@ -234,7 +250,7 @@
               <EcIcon class="text-c1-300" icon="X" />
             </EcButton>
 
-            <!-- Add  more utility button -->
+            <!-- Add button -->
             <EcButton
               v-if="index == form.utilities.length - 1 && form.utilities.length < utilities.length"
               class="ml-2"
@@ -243,13 +259,23 @@
             >
               <EcIcon icon="Plus" />
             </EcButton>
-
-            <!-- End Add  more utility button -->
+            <!-- End role select -->
           </EcFlex>
-          <!-- End role select -->
+
+          <!-- Error message -->
+          <EcBox v-if="v$.form.utilities.$errors?.length > 0">
+            <EcText
+              class="text-sm text-cError-500 text-left"
+              v-for="error in v$.form.utilities.$each.$response.$errors[index].uid"
+              :key="error"
+            >
+              {{ error.$message }}
+            </EcText>
+          </EcBox>
+          <!-- Add new role slot -->
         </EcBox>
-      </EcFlex>
-      <!-- End add more alternative role -->
+      </EcBox>
+      <!-- End Utilities Select -->
 
       <!-- End body -->
     </EcBox>
@@ -286,12 +312,14 @@
 import { goto } from "@/modules/core/composables"
 import { useRoleList } from "@/modules/user/use/useRoleList"
 import { useActivityNew } from "../use/useActivityNew"
+import { useActivityDetail } from "../use/useActivityDetail"
 import { useUtilities } from "@/readybc/composables/use/useUtilities"
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useDivisionList } from "@/modules/organization/use/division/useDivisionList"
 import { useGlobalStore } from "@/stores/global"
 import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
 import _ from "lodash"
+import EcBox from "@/components/EcBox/index.vue"
 
 export default {
   name: "ViewActivityNew",
@@ -309,6 +337,14 @@ export default {
       businessUnits: [],
     }
   },
+
+  beforeMount() {
+    const { uid } = this.$route.params
+
+    if (uid) {
+      this.fetchActivity()
+    }
+  },
   mounted() {
     this.fetchRoles()
     this.fetchUtilities()
@@ -318,6 +354,7 @@ export default {
   setup() {
     const globalStore = useGlobalStore()
     // Pre-loaded
+    const { getActivity, updateActivity } = useActivityDetail()
     const { adminGetDivisions } = useDivisionList()
     const { adminGetBusinessUnitsByOrg } = useBusinessUnitList()
 
@@ -327,6 +364,8 @@ export default {
 
     return {
       // Pre load
+      getActivity,
+      updateActivity,
       getRoles,
       getUtilities,
       adminGetDivisions,
@@ -343,8 +382,12 @@ export default {
      * Filtered roles
      */
     filteredRoles() {
+      const selectedRoleUids = this.form.roles.map((r) => {
+        return r.uid
+      })
+
       return this.roles.map((role) => {
-        role.disabled = this.form.roles.includes(role.uid)
+        role.disabled = selectedRoleUids.includes(role.uid)
 
         return role
       })
@@ -354,12 +397,16 @@ export default {
      * Filtered alternative roles
      */
     filteredAlternativeRoles() {
+      const selectedAlternativeRoleUids = this.form.roles.map((r) => {
+        return r.uid
+      })
+
       return this.filteredRoles
         .filter((role) => {
           return !role.disabled
         })
         .map((role) => {
-          role.disabled = this.form.alternative_roles.includes(role.uid)
+          role.disabled = selectedAlternativeRoleUids.includes(role.uid)
 
           return role
         })
@@ -395,7 +442,7 @@ export default {
      * Add more role
      */
     handleAddMoreRole() {
-      this.form.roles.push("")
+      this.form.roles.push({ uid: "" })
     },
     /**
      * Remove item in array
@@ -409,7 +456,7 @@ export default {
      * Add more alternative role
      */
     handleAddMoreAlternativeRole() {
-      this.form.alternative_roles.push("")
+      this.form.alternative_roles.push({ uid: "" })
     },
     /**
      * Remove item in array
@@ -423,7 +470,7 @@ export default {
      * Add more alternative role
      */
     handleAddMoreUtility() {
-      this.form.utilities.push("")
+      this.form.utilities.push({ uid: "" })
     },
     /**
      * Remove item in array
@@ -443,9 +490,16 @@ export default {
         return
       }
 
+      const { uid } = this.$route.params
+
       this.isLoading = true
 
-      const response = await this.createNewActivity(this.form)
+      let response = null
+      if (uid) {
+        response = await this.updateActivity(this.form, uid)
+      } else {
+        response = await this.createNewActivity(this.form)
+      }
 
       this.isLoading = false
 
@@ -472,6 +526,57 @@ export default {
       this.isModalCancelOpen = false
     },
     // =========== PRE-LOAD -------//
+
+    /**
+     * Fetch Activity
+     */
+    async fetchActivity() {
+      const { uid } = this.$route.params
+      this.isLoading = true
+
+      const response = await this.getActivity(uid)
+
+      if (response && response.uid) {
+        this.transformData(response)
+      }
+      this.isLoading = false
+    },
+
+    /**
+     *
+     * @param {*} response
+     */
+    transformData(response) {
+      // Activity detail
+
+      this.form.name = response.name
+      this.form.min_people = response.min_people
+      this.form.is_remote = response.is_remote
+
+      if (response.division) {
+        this.form.division = response.division
+      }
+
+      if (response.business_unit) {
+        this.form.business_unit = response.business_unit
+      }
+
+      // Roles
+      if (response.roles.length > 0) {
+        this.form.roles = response.roles
+      }
+
+      // Alternative Roles
+      if (response.alternative_roles.length > 0) {
+        this.form.alternative_roles = response.alternative_roles
+      }
+
+      // Utilities
+      if (response.utilities.length > 0) {
+        this.form.utilities = response.utilities
+      }
+    },
+
     /**
      * Fetch roles
      */
@@ -490,7 +595,7 @@ export default {
     async fetchUtilities() {
       this.isLoadingUtilities = true
       const response = await this.getUtilities()
-      debugger
+
       if (response && response.data) {
         this.utilities = response.data
       }
@@ -524,6 +629,6 @@ export default {
       this.isLoadingBusinessUnits = false
     },
   },
-  components: { ModalCancelAddActivity },
+  components: { ModalCancelAddActivity, EcBox },
 }
 </script>

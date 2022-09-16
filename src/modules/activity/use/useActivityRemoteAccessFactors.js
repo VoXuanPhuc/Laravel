@@ -1,6 +1,6 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
-import { required } from "@vuelidate/validators"
+// import { helpers, required } from "@vuelidate/validators"
 import * as api from "../api/activityFetcher"
 import { useGlobalStore } from "@/stores/global"
 
@@ -8,12 +8,16 @@ export function useActivityRemoteAccessFactors() {
   const globalStore = useGlobalStore()
 
   const form = ref({
-    remote_access_factors: [""],
+    remote_access_factors: [{ uid: "" }],
   })
 
   const rules = {
     form: {
-      remote_access_factors: { required },
+      remote_access_factors: {
+        // $each: helpers.forEach({
+        //   uid: { required },
+        // }),
+      },
       on_site_requires: {},
     },
   }

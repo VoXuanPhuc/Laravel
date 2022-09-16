@@ -33,6 +33,7 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
+import { useActivityDetail } from "../use/useActivityDetail"
 
 export default {
   name: "ModalCancelAddActivity",
@@ -53,12 +54,33 @@ export default {
   mounted() {
     window.addEventListener("beforeunload", this.leaving)
   },
+  setup() {
+    const { cancelActivity } = useActivityDetail()
+
+    return {
+      cancelActivity,
+    }
+  },
   methods: {
     /**
      * Cancel add new activity
      */
-    handleCancelAddNewActivity() {
-      goto("ViewActivityList")
+    async handleCancelAddNewActivity() {
+      const { uid } = this.$route.params
+
+      if (!uid) {
+        goto("ViewActivityList")
+
+        return
+      }
+
+      this.isCancelLoading = true
+      const response = await this.cancelActivity(uid)
+
+      if (response) {
+        goto("ViewActivityList")
+      }
+      this.isCancelLoading = false
     },
 
     /**

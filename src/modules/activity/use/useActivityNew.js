@@ -1,6 +1,6 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
-import { required, numeric, minValue, helpers, minLength } from "@vuelidate/validators"
+import { required, numeric, minValue, helpers } from "@vuelidate/validators"
 import * as api from "../api/activityFetcher"
 import { useGlobalStore } from "@/stores/global"
 
@@ -10,9 +10,9 @@ export function useActivityNew() {
   const form = ref({
     division: {},
     business_unit: {},
-    roles: [""],
-    alternative_roles: [""],
-    utilities: [""],
+    roles: [{ uid: "" }],
+    alternative_roles: [{ uid: "" }],
+    utilities: [{ uid: "" }],
     min_people: 1,
     is_remote: true,
   })
@@ -24,13 +24,20 @@ export function useActivityNew() {
       min_people: {
         required,
         numeric,
-        minValue: minValue(1),
+        minValueLength: minValue(1),
       },
       is_remote: { required },
       roles: {
         required,
         $each: helpers.forEach({
-          minLength: minLength(1),
+          uid: { required },
+        }),
+      },
+      alternative_roles: {},
+      utilities: {
+        required,
+        $each: helpers.forEach({
+          uid: { required },
         }),
       },
     },

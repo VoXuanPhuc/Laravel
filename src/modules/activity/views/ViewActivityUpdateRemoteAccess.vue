@@ -4,21 +4,13 @@
     <EcFlex class="items-center flex-wrap">
       <EcFlex class="items-center justify-between w-full flex-wrap lg:w-auto lg:mr-4">
         <EcHeadline class="text-cBlack mr-4 mb-3 lg:mb-0">
-          {{ $t("activity.title.newActivity") }}
+          {{ $t("activity.title.editActivity") }}
         </EcHeadline>
       </EcFlex>
     </EcFlex>
 
     <!-- Body -->
     <EcBox variant="card-1" class="width-full mt-8 px-4 sm:px-10">
-      <!-- Title and cancel button -->
-      <EcFlex>
-        <EcText class="w-11/12 font-bold text-lg mb-4">{{ $t("activity.title.remote") }}</EcText>
-        <EcButton class="mx-auto mr-0 my-auto mt-0" variant="tertiary-rounded" title="Cancel" @click="handleOpenCancelModal">
-          <EcIcon class="text-sm text-cError-500" icon="X" />
-        </EcButton>
-      </EcFlex>
-
       <!-- Remote factors -->
       <EcBox class="w-full mb-8">
         <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
@@ -143,10 +135,10 @@ export default {
   setup() {
     // PRE-LOAD
     const { getRemoteAccessFactors } = useRemoteAccessFactors()
+
     const { form, v$, updateActivityRemoteAccess } = useActivityRemoteAccessFactors()
     const { getActivity } = useActivityDetail()
     const STEP_REMOTE_ACCESSES = 2
-
     return {
       form,
       v$,
@@ -181,19 +173,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * Creaate Activity
-     */
-    async handleClickCreate() {
-      this.v$.$touch()
-      if (this.v$.$invalid) {
-        return
-      }
-      this.isLoading = true
-      // const response = await this.createActivity(this.form)
-      this.isLoading = false
-    },
-
     // =========== REMOTE ACCESS FACTORS ================ //
     /**
      * Add more alternative role
@@ -222,14 +201,13 @@ export default {
       const { uid } = this.$route.params
 
       this.isLoading = true
-
       this.form.step = this.STEP_REMOTE_ACCESSES
 
       const response = await this.updateActivityRemoteAccess(this.form, uid)
       this.isLoading = false
 
       if (response && response.uid) {
-        goto("ViewActivityApplication", {
+        goto("ViewActivityUpdateApplication", {
           params: {
             uid: response.uid,
           },
@@ -242,7 +220,7 @@ export default {
      */
     handleClickBack() {
       const { uid } = this.$route.params
-      goto("ViewActivityNewBack", {
+      goto("ViewActivityDetail", {
         params: {
           uid: uid,
         },
