@@ -8,12 +8,22 @@ use Encoda\Core\Eloquent\Repository;
 
 class UtilityRepository extends Repository implements UtilityRepositoryInterface
 {
-    
+
     /**
      * @inheritDoc
      */
     public function model(): string
     {
         return Utility::class;
+    }
+
+    /**
+     * @param $uid
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function findByUid($uid, $columns = ['*'])
+    {
+        return $this->findOneByField( 'uid', $uid, $columns );
     }
 }

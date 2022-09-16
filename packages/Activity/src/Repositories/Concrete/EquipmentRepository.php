@@ -2,11 +2,11 @@
 
 namespace Encoda\Activity\Repositories\Concrete;
 
-use Encoda\Activity\Models\RemoteAccessFactor;
-use Encoda\Activity\Repositories\Interfaces\RemoteAccessFactorRepositoryInterface;
+use Encoda\Activity\Models\Equipment;
+use Encoda\Activity\Repositories\Interfaces\EquipmentRepositoryInterface;
 use Encoda\Core\Eloquent\Repository;
 
-class RemoteAccessFactorRepository extends Repository implements RemoteAccessFactorRepositoryInterface
+class EquipmentRepository extends Repository implements EquipmentRepositoryInterface
 {
 
     /**
@@ -14,7 +14,7 @@ class RemoteAccessFactorRepository extends Repository implements RemoteAccessFac
      */
     public function model(): string
     {
-        return RemoteAccessFactor::class;
+        return Equipment::class;
     }
 
     /**

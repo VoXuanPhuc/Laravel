@@ -6,6 +6,9 @@ use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
 use Encoda\Core\Eloquent\Repository;
 use Encoda\Core\Exceptions\NotFoundException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class ActivityRepository extends Repository implements ActivityRepositoryInterface
 {
@@ -17,7 +20,19 @@ class ActivityRepository extends Repository implements ActivityRepositoryInterfa
     {
         return Activity::class;
     }
-    
+
+    /**
+     * @param array $attributes
+     * @return LengthAwarePaginator|Collection|mixed
+     * @throws ValidatorException
+     */
+    public function create(array $attributes)
+    {
+        $activity = parent::create($attributes);
+
+        return $activity->refresh();
+    }
+
     /**
      * @param $uid
      * @param string[] $column
@@ -27,11 +42,11 @@ class ActivityRepository extends Repository implements ActivityRepositoryInterfa
     public function findByUid($uid, $column = ['*']): mixed
     {
         $activity = $this->findOneByField('uid', $uid, $column);
-    
+
         if (!$activity) {
             throw new NotFoundException( __('activity::app.activity.not_found') );
         }
-    
+
         return $activity;
     }
 }

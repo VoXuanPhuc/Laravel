@@ -2,14 +2,16 @@
 
 namespace Encoda\Activity\Models;
 
-use Encoda\Activity\Contract\RemoteAccessContract;
+use Encoda\Activity\Contract\DeviceContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RemoteAccessFactor extends Model implements RemoteAccessContract
+class Equipment extends Model implements DeviceContract
 {
     use SoftDeletes;
+
+    protected $table = 'equipments';
 
     protected $guarded = [
         'id',
@@ -21,7 +23,6 @@ class RemoteAccessFactor extends Model implements RemoteAccessContract
         'description',
     ];
 
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -29,7 +30,6 @@ class RemoteAccessFactor extends Model implements RemoteAccessContract
      */
     protected $hidden = [
         'id',
-        'organization_id',
         'created_at',
         'updated_at',
         'deleted_at',

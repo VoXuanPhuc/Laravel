@@ -16,36 +16,36 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
             'as' => 'activities.list',
             'uses' => AdminActivityController::class . '@index'
         ]);
-    
+
         Route::get('/activities/{uid}', [
             'as' => 'activities.detail',
             'uses' => AdminActivityController::class . '@detail'
         ]);
-    
+
         Route::post('/activities', [
             'as' => 'activities.create',
             'uses' => AdminActivityController::class . '@create'
         ]);
-    
+
         Route::put('/activities/{uid}', [
             'as' => 'activities.update',
             'uses' => AdminActivityController::class . '@update'
         ]);
-    
+
         Route::delete('/activities/{uid}', [
             'as' => 'activities.delete',
             'uses' => AdminActivityController::class . '@delete'
         ]);
     });
-    
+
     Route::get('/organizations/{organizationUid}/activities', [
         'as' => 'organizations.activities',
         'uses' =>  AdminActivityController::class. '@getOrgActivities'
     ]);
-    
+
     Route::get('/organizations/{organizationUid}/divisions/{divisionUid}/activities', [
         'as' => 'divisions.activities',
         'uses' =>  AdminActivityController::class. '@getDivisionActivities'
     ]);
-    
+
 });

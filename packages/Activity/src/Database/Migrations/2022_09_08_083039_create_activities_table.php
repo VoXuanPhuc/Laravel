@@ -22,21 +22,22 @@ return new class extends Migration
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('name');
             $table->string('description')->nullable(true);
-            $table->integer('number_of_location')->nullable(true);
-            $table->tinyInteger('is_remoted');
-            $table->tinyInteger('status');
-            $table->tinyInteger('step');
-            $table->foreignId('division_id');
-            $table->foreignId('business_unit_id');
+            $table->string('on_site_requires')->nullable(true);
+            $table->boolean('is_remote')->default(false);
+            $table->integer('min_people')->default(1);
+            $table->tinyInteger('status')->default(\Encoda\Activity\Models\Activity::CREATED);
+            $table->tinyInteger('step')->default(\Encoda\Activity\Models\Activity::STEP_ACTIVITY_INFO);
+            $table->foreignId('division_id')->nullable(true);
+            $table->foreignId('business_unit_id')->nullable(true);
             $table->softDeletesTz();
             $table->timestamps();
-    
+
             $table->foreign('division_id')
                 ->references('id')
                 ->on('divisions')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-    
+
             $table->foreign('business_unit_id')
                 ->references('id')
                 ->on('business_units')

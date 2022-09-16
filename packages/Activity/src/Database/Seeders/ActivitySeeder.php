@@ -10,7 +10,7 @@ class ActivitySeeder extends Seeder
         $this->call(
             [
                 ApplicationSeeder::class,
-                DeviceSeeder::class,
+                EquipmentSeeder::class,
                 RemoteAccessFactorSeeder::class,
                 UtilitySeeder::class,
             ]

@@ -2,12 +2,13 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
 
-    protected string $tableName = 'activity_device';
+    protected string $tableName = 'equipments';
 
     /**
      * Run the migrations.
@@ -17,21 +18,24 @@ return new class extends Migration
     public function up()
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->foreignId('activity_id');
-            $table->foreignId('device_id');
+            $table->bigIncrements('id');
+            $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
+            $table->string('name');
+            $table->string('description')->nullable(true);
+            $table->foreignId('organization_id');
+            $table->softDeletesTz();
             $table->timestamps();
 
-            $table->foreign('activity_id')
+            $table->foreign('organization_id')
                 ->references('id')
-                ->on('activities')
+                ->on('organizations')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->foreign('device_id')
-                ->references('id')
-                ->on('devices')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+            // Indexes
+            $table->index('uid');
+
+            $table->unique(['name']);
         });
     }
 

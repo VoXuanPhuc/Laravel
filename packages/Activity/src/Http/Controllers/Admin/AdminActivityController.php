@@ -16,7 +16,7 @@ class AdminActivityController extends Controller
     {
         $this->activityService = $activityService;
     }
-    
+
     /**
      * @param $organizationUid
      * @param $divisionUid
@@ -27,31 +27,27 @@ class AdminActivityController extends Controller
     {
         return $this->activityService->listActivities($organizationUid, $divisionUid, $businessUnitUid);
     }
-    
+
     /**
      * @param $organizationUid
-     * @param $divisionUid
-     * @param $businessUnitUid
      * @param $uid
      * @return mixed
      */
-    public function detail($organizationUid, $divisionUid, $businessUnitUid, $uid): mixed
+    public function detail($organizationUid, $uid): mixed
     {
-        return $this->activityService->getActivity($organizationUid, $divisionUid, $businessUnitUid, $uid);
+        return $this->activityService->getActivity($organizationUid, $uid);
     }
-    
+
     /**
      * @param CreateActivityRequest $request
      * @param $organizationUid
-     * @param $divisionUid
-     * @param $businessUnitUid
      * @return mixed
      */
-    public function create(CreateActivityRequest $request, $organizationUid, $divisionUid, $businessUnitUid): mixed
+    public function create(CreateActivityRequest $request, $organizationUid ): mixed
     {
-        return $this->activityService->createActivity($request, $organizationUid, $divisionUid, $businessUnitUid);
+        return $this->activityService->createActivity($request, $organizationUid );
     }
-    
+
     /**
      * @param UpdateActivityRequest $request
      * @param $organizationUid
@@ -64,7 +60,7 @@ class AdminActivityController extends Controller
     {
         return $this->activityService->updateActivity($request, $organizationUid, $divisionUid, $businessUnitUid, $uid);
     }
-    
+
     /**
      * @param $organizationUid
      * @param $divisionUid
@@ -76,7 +72,7 @@ class AdminActivityController extends Controller
     {
         return $this->activityService->deleteActivity($organizationUid, $divisionUid, $businessUnitUid, $uid);
     }
-    
+
     /**
      * @param $organizationUid
      * @return mixed
@@ -85,7 +81,7 @@ class AdminActivityController extends Controller
     {
         return $this->activityService->getOrgActivities($organizationUid);
     }
-    
+
     /**
      * @param $organizationUid
      * @param $divisionUid

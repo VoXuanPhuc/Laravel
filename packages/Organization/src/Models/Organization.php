@@ -3,12 +3,17 @@
 namespace Encoda\Organization\Models;
 
 use Encoda\Activity\Models\Activity;
+use Encoda\Activity\Models\Application;
+use Encoda\Activity\Models\Equipment;
+use Encoda\Activity\Models\RemoteAccessFactor;
+use Encoda\Activity\Models\Utility;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property string $uid
@@ -69,7 +74,7 @@ class Organization extends Model
     public function business_units() {
         return $this->hasMany( BusinessUnit::class );
     }
-    
+
     /**
      * Get all the activities for the organization.
      * @return HasManyThrough
@@ -77,5 +82,33 @@ class Organization extends Model
     public function activities(): HasManyThrough
     {
         return $this->hasManyThrough(Activity::class, BusinessUnit::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function applications() {
+        return $this->hasMany( Application::class );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function equipments() {
+        return $this->hasMany( Equipment::class );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function utilities() {
+        return $this->hasMany( Utility::class );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function remoteAccessFactors() {
+        return $this->hasMany( RemoteAccessFactor::class );
     }
 }
