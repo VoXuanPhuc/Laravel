@@ -25,6 +25,7 @@ import EcText from "@/components/EcText"
 import EcHeadline from "@/components/EcHeadline"
 import EcLabel from "@/components/EcLabel"
 import EcIcon from "@/components/EcIcon"
+import EcTooltip from "@/components/EcTooltip"
 
 // Project components
 import RMessage from "@/modules/core/components/common/RMessage"
@@ -85,6 +86,7 @@ const baseComponents = {
   EcHeadline,
   EcLabel,
   EcIcon,
+  EcTooltip,
 }
 
 const coreComponents = {

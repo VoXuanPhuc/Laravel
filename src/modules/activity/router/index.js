@@ -1,9 +1,19 @@
 import ViewActivityList from "../views/ViewActivityList"
 import ViewActivityNew from "../views/ViewActivityNew"
-import ViewActivityNewStep2 from "../views/ViewActivityNewStep2"
-import ViewActivityNewStep3 from "../views/ViewActivityNewStep3"
+import ViewActivityDetail from "../views/ViewActivityDetail"
+import ViewActivityRemoteAccess from "../views/ViewActivityRemoteAccess"
+import ViewActivityApplication from "../views/ViewActivityApplication"
 
 export default [
+  {
+    path: "/orgainizations/:organizationUid/activities",
+    component: ViewActivityList,
+    name: "ViewOrganizationActivityList",
+    props: true,
+    meta: {
+      module: "activity",
+    },
+  },
   {
     path: "/activities",
     component: ViewActivityList,
@@ -26,9 +36,9 @@ export default [
   },
 
   {
-    path: "/activities/new/step-2",
-    component: ViewActivityNewStep2,
-    name: "ViewActivityNewStep2",
+    path: "/activities/:uid",
+    component: ViewActivityDetail,
+    name: "ViewActivityDetail",
     props: true,
     meta: {
       isPublic: true,
@@ -37,9 +47,20 @@ export default [
   },
 
   {
-    path: "/activities/new/step-3",
-    component: ViewActivityNewStep3,
-    name: "ViewActivityNewStep3",
+    path: "/activities/:uid/remote-accesses",
+    component: ViewActivityRemoteAccess,
+    name: "ViewActivityRemoteAccess",
+    props: true,
+    meta: {
+      isPublic: true,
+      module: "activity",
+    },
+  },
+
+  {
+    path: "/activities/:uid/applications",
+    component: ViewActivityApplication,
+    name: "ViewActivityApplication",
     props: true,
     meta: {
       module: "activity",

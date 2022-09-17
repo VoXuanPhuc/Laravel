@@ -7,18 +7,7 @@ export function useUtilities() {
    */
   const getUtilities = async () => {
     try {
-      const { datax } = await api.fetchUtilities()
-      const data = [
-        {
-          uid: "12343",
-          name: "Electricity",
-        },
-        {
-          uid: "1234e33",
-          name: "Internet",
-        },
-      ]
-      console.log(datax)
+      const { data } = await api.fetchUtilities()
       return data
     } catch (error) {
       return error

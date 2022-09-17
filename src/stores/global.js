@@ -14,6 +14,7 @@ export const useGlobalStore = defineStore("global", {
     tenantSettings: null,
     me: null,
     availableLocales: [],
+    organizationId: "6529bd8a-304f-11ed-8505-0242ac120006",
   }),
 
   setup(props) {

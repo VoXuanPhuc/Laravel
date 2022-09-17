@@ -24,7 +24,7 @@
         <EcBox class="w-full">
           <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
 
-          <!-- Role select -->
+          <!-- Remote access factor select -->
           <EcFlex class="items-center mb-2 w-full" v-for="(role, index) in form.remote_access_factors" :key="index">
             <EcBox class="w-full sm:w-6/12 sm:pr-6">
               <RFormInput
@@ -35,7 +35,7 @@
                 :validator="v$"
                 field="form.remote_access_factors[index]"
               />
-              <!-- Add new remte access factors slot -->
+              <!-- Add new remote access factors slot -->
             </EcBox>
 
             <!-- Loading remote access factor -->
@@ -74,12 +74,12 @@
       <EcFlex class="flex-wrap max-w-full mb-8">
         <EcBox class="w-full sm:w-6/12 sm:pr-6">
           <RFormInput
-            v-model="form.unable_enable_remote"
+            v-model="form.on_site_requires"
             componentName="EcInputText"
             :label="$t('activity.labels.unableEnableRemote')"
             :validator="v$"
             field="form.unable_enable_remote"
-            @input="v$.form.unable_enable_remote.$touch()"
+            @input="v$.form.on_site_requires.$touch()"
           />
         </EcBox>
       </EcFlex>
@@ -113,16 +113,18 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
-import { ref } from "vue"
-import { useActivityNewStep2 } from "../use/useActivityNewStep2"
+import { useRemoteAccessFactors } from "@/readybc/composables/use/useRemoteAccessFactors"
+import { useActivityRemoteAccessFactors } from "../use/useActivityRemoteAccessFactors"
+import { useActivityDetail } from "../use/useActivityDetail"
 import EcButton from "@/components/EcButton/index.vue"
 import EcIcon from "@/components/EcIcon/index.vue"
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 
 export default {
-  name: "ViewActivityNewStep2",
+  name: "ViewActivityRemoteAccess",
   data() {
     return {
+      activityUid: null,
       isModalCancelOpen: false,
       isLoading: false,
       isLoadingRemoteAccessFactors: false,
@@ -130,15 +132,22 @@ export default {
     }
   },
   setup() {
-    const { form, v$ } = useActivityNewStep2()
-    const roles = ref([])
+    // PRE-LOAD
+    const { getRemoteAccessFactors } = useRemoteAccessFactors()
+
+    const { form, v$, updateActivityRemoteAccess } = useActivityRemoteAccessFactors()
+    const { getActivity } = useActivityDetail()
+
     return {
       form,
       v$,
-      roles,
+      getRemoteAccessFactors,
+      updateActivityRemoteAccess,
+      getActivity,
     }
   },
   mounted() {
+    this.fetchActivity()
     this.fetchRemoteAccessFactors()
   },
   computed: {
@@ -186,12 +195,26 @@ export default {
     /**
      * Next to step 3
      */
-    handleClickNext() {
+    async handleClickNext() {
       // this.v$.$touch()
       // if (this.v$.$invalid) {
       //   return
       // }
-      goto("ViewActivityNewStep3")
+
+      const { uid } = this.$route.params
+
+      this.isLoading = true
+
+      const response = await this.updateActivityRemoteAccess(this.form, uid)
+      this.isLoading = false
+
+      if (response && response.uid) {
+        goto("ViewActivityApplication", {
+          params: {
+            uid: response.uid,
+          },
+        })
+      }
     },
 
     /**
@@ -216,19 +239,48 @@ export default {
     },
 
     // ======== PRE-LOAD ======/
+    /**
+     * Fetch activity
+     */
+    async fetchActivity() {
+      const { uid } = this.$route.params
+
+      this.isLoading = true
+
+      const response = await this.getActivity(uid)
+
+      if (response && response.uid) {
+        this.transformFormData(response)
+      }
+
+      this.isLoading = false
+    },
+
+    /**
+     * Transform data to form
+     * @param {*} response
+     */
+    transformFormData(response) {
+      this.form.on_site_requires = response.on_site_requires
+
+      if (response.remote_access_factors.length > 0) {
+        this.form.remote_access_factors = response.remote_access_factors.map((remoteAccessFactor) => {
+          return remoteAccessFactor.uid
+        })
+      }
+    },
+
+    /**
+     * Fetch remote access factors
+     */
     async fetchRemoteAccessFactors() {
       this.isLoadingRemoteAccessFactors = true
 
-      this.remoteAccessFactors = [
-        {
-          uid: "234343",
-          name: "Internet",
-        },
-        {
-          uid: "12334",
-          name: "Banking Token",
-        },
-      ]
+      const response = await this.getRemoteAccessFactors()
+
+      if (response && response.data) {
+        this.remoteAccessFactors = response.data
+      }
 
       this.isLoadingRemoteAccessFactors = false
     },

@@ -19,21 +19,21 @@
         </EcButton>
       </EcFlex>
 
-      <!-- Softwares -->
+      <!-- Applications -->
       <EcFlex class="flex-wrap max-w-full mb-8">
         <EcBox class="w-full">
           <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
 
           <!-- Softwares select -->
-          <EcFlex class="items-center mb-2 w-full" v-for="(role, index) in form.softwares" :key="index">
+          <EcFlex class="items-center mb-2 w-full" v-for="(role, index) in form.applications" :key="index">
             <EcBox class="w-full sm:w-6/12 sm:pr-6">
               <RFormInput
-                v-model="form.softwares[index]"
+                v-model="form.applications[index]"
                 componentName="EcSelect"
-                :options="filteredSoftwares"
+                :options="filteredApplications"
                 :valueKey="'uid'"
                 :validator="v$"
-                field="form.softwares[index]"
+                field="form.applications[index]"
               />
               <!-- Add new Software slot -->
             </EcBox>
@@ -43,25 +43,25 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.softwares.length - 1"
+              v-if="index !== form.applications?.length - 1"
               class="ml-2"
               variant="tertiary-rounded"
-              @click="handleRemoveSoftware(index)"
+              @click="handleRemoveApplication(index)"
             >
               <EcIcon class="text-c1-300" icon="X" />
             </EcButton>
 
             <!-- Add button -->
             <EcButton
-              v-if="index == form.softwares.length - 1 && form.softwares.length < softwares.length"
+              v-if="index == form.applications.length - 1 && form.applications.length < applications.length"
               class="ml-2"
               variant="primary-rounded"
-              @click="handleAddMoreSoftware"
+              @click="handleAddMoreApplication"
             >
               <EcIcon icon="Plus" />
             </EcButton>
           </EcFlex>
-          <!-- End Softwares select -->
+          <!-- End Applications select -->
         </EcBox>
 
         <!-- End Softwares select -->
@@ -75,23 +75,23 @@
         <EcFlex class="flex-wrap max-w-full mb-8">
           <EcBox class="w-full sm:w-4/12 sm:pr-6">
             <RFormInput
-              v-model="form.it.data"
+              v-model="form.it_solution.data"
               componentName="EcInputText"
               :label="$t('activity.labels.data')"
               :validator="v$"
-              field="form.it.data"
-              @input="v$.form.it.data.$touch()"
+              field="form.it_solution.data"
+              @input="v$.form.it_solution.data.$touch()"
             />
           </EcBox>
 
           <EcBox class="w-full sm:w-4/12 sm:pr-6">
             <RFormInput
-              v-model="form.it.location"
+              v-model="form.it_solution.location"
               componentName="EcInputText"
               :label="$t('activity.labels.storageLocation')"
               :validator="v$"
-              field="form.it.location"
-              @input="v$.form.it.location.$touch()"
+              field="form.it_solution.location"
+              @input="v$.form.it_solution.location.$touch()"
             />
           </EcBox>
         </EcFlex>
@@ -154,7 +154,7 @@
           {{ $t("activity.buttons.back") }}
         </EcButton>
 
-        <EcButton variant="primary" class="ml-4" @click="handleClickCreate">
+        <EcButton variant="primary" class="ml-4" @click="handleClickNext">
           {{ $t("activity.buttons.finish") }}
         </EcButton>
       </EcFlex>
@@ -173,13 +173,15 @@
 <script>
 import { goto } from "@/modules/core/composables"
 import { ref } from "vue"
-import { useActivityNewStep3 } from "../use/useActivityNewStep3"
-import EcBox from "@/components/EcBox/index.vue"
-import EcLabel from "@/components/EcLabel/index.vue"
+import { useApplications } from "@/readybc/composables/use/useApplications"
+import { useEquipments } from "@/readybc/composables/use/useEquipments"
+import { useActivityApplicationsAndEquipments } from "../use/useActivityApplicationsAndEquipments"
+
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
+import { useActivityDetail } from "../use/useActivityDetail"
 
 export default {
-  name: "ViewActivityNewStep3",
+  name: "ViewActivityApplication",
   data() {
     return {
       isModalCancelOpen: false,
@@ -189,21 +191,33 @@ export default {
     }
   },
   setup() {
-    const { form, v$ } = useActivityNewStep3()
+    // PRE LOAD
 
-    const softwares = ref([])
+    const { getApplications } = useApplications()
+    const { getEquipments } = useEquipments()
+
+    // Functions
+    const { form, v$, updateApplicationAnEquipments } = useActivityApplicationsAndEquipments()
+    const { getActivity } = useActivityDetail()
+
+    const applications = ref([])
     const equipments = ref([])
 
     return {
       form,
       v$,
-      softwares,
+      applications,
       equipments,
+      getActivity,
+      getApplications,
+      getEquipments,
+      updateApplicationAnEquipments,
     }
   },
 
   mounted() {
-    this.fetchSoftwares()
+    this.fetchActivity()
+    this.fetchApplications()
     this.fetchEquipments()
   },
 
@@ -211,11 +225,11 @@ export default {
     /**
      * Filter software
      */
-    filteredSoftwares() {
-      return this.softwares.map((software) => {
-        software.disabled = this.form.softwares.includes(software.uid)
+    filteredApplications() {
+      return this.applications.map((app) => {
+        app.disabled = this.form.applications.includes(app.uid)
 
-        return software
+        return app
       })
     },
 
@@ -234,32 +248,47 @@ export default {
     /**
      * Creaate Activity
      */
-    async handleClickCreate() {
+    async handleClickNext() {
       this.v$.$touch()
       if (this.v$.$invalid) {
         return
       }
+
+      const { uid } = this.$route.params
       this.isLoading = true
-      // const response = await this.createActivity(this.form)
+
+      const response = await this.updateApplicationAnEquipments(this.form, uid)
+
+      if (response && response.uid) {
+        setTimeout(this.redirectToActivityList, 2000)
+      }
       this.isLoading = false
     },
-    // =========== SOFTWARE ================ //
+
+    /**
+     * Redirect to activity list
+     */
+    redirectToActivityList() {
+      goto("ViewActivityList")
+    },
+
+    // =========== APPLICATIONS ================ //
     /**
      * Add more alternative role
      */
-    handleAddMoreSoftware() {
-      this.form.softwares.push("")
+    handleAddMoreApplication() {
+      this.form.applications.push("")
     },
 
     /**
      * Remove item in array
      * @param {*} index
      */
-    handleRemoveSoftware(index) {
-      this.form.softwares.splice(index, 1)
+    handleRemoveApplication(index) {
+      this.form.applications.splice(index, 1)
     },
 
-    // =========== SOFTWARE ================ //
+    // =========== EQUIPMENTS ================ //
 
     /**
      * Add equipment
@@ -279,7 +308,7 @@ export default {
      * Back to Activity list
      */
     handleClickBack() {
-      goto("ViewActivityNewStep2")
+      goto("ViewActivityRemoteAccess")
     },
 
     /**
@@ -299,37 +328,75 @@ export default {
     // ======== Pre-load =======//
 
     /**
-     * Software
+     * Fetch Activity
      */
-    async fetchSoftwares() {
-      this.softwares = [
-        {
-          uid: "234343",
-          name: "NAB Internet Banking",
-        },
-        {
-          uid: "12334",
-          name: "Software package #2",
-        },
-      ]
+    async fetchActivity() {
+      const { uid } = this.$route.params
+
+      this.isLoading = true
+
+      const response = await this.getActivity(uid)
+
+      if (response && response.uid) {
+        this.transformFormData(response)
+      }
+
+      this.isLoading = false
     },
 
     /**
-     * Equipment
+     * Transform data
+     */
+    transformFormData(response) {
+      // IT Solution
+      debugger
+      if (response.it_solution) {
+        this.form.it_solution = response.it_solution
+      }
+
+      // Applications
+      if (response.applications.length > 0) {
+        this.form.applications = response.applications.map((app) => {
+          return app.uid
+        })
+      }
+
+      // Equipments
+      if (response.equipments.length > 0) {
+        this.form.equipments = response.equipments.map((equipment) => {
+          return equipment.uid
+        })
+      }
+    },
+
+    /**
+     * Applications
+     */
+    async fetchApplications() {
+      this.isLoadingSoftwares = true
+      const response = await this.getApplications()
+
+      if (response && response.data) {
+        this.applications = response.data
+      }
+
+      this.isLoadingSoftwares = false
+    },
+
+    /**
+     * Equipments
      */
     async fetchEquipments() {
-      this.equipments = [
-        {
-          uid: "234343",
-          name: "Laptop/PC",
-        },
-        {
-          uid: "12334",
-          name: "SIM Card",
-        },
-      ]
+      this.isLoadingEquipments = true
+      const response = await this.getEquipments()
+
+      if (response && response.data) {
+        this.equipments = response.data
+      }
+
+      this.isLoadingEquipments = false
     },
   },
-  components: { EcBox, EcLabel, ModalCancelAddActivity },
+  components: { ModalCancelAddActivity },
 }
 </script>

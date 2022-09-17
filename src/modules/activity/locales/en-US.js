@@ -8,6 +8,7 @@ export default {
       yes: "Yes",
       no: "No",
       name: "Name of activity",
+      description: "Description",
       roles: "Who is required to deliver this function?",
       alternative_roles: "Alternate roles that could delive this function?",
       min_people: "Minimum number of people that could support this function?",
@@ -40,9 +41,20 @@ export default {
       cancelQuestion: "Do you wish to cancel doing activity?",
     },
 
+    messages: {
+      updatedActivity: "Updated activity, redirect to activity list...",
+    },
     // Errors
     errors: {
+      updateActivity: "Error to update activity, please retry",
       login: "Unable get list of Activities",
+    },
+
+    division: {
+      label: "Division",
+    },
+    bu: {
+      label: "Business Unit",
     },
   },
 }

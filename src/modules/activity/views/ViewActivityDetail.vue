@@ -212,12 +212,7 @@
           <!-- Utilities select -->
           <EcFlex class="items-center w-full mt-2" v-for="(role, index) in form.utilities" :key="index">
             <EcBox class="w-full sm:w-6/12 sm:pr-6">
-              <RFormInput
-                v-model="form.utilities[index]"
-                componentName="EcSelect"
-                :options="filteredUtilities"
-                :valueKey="'uid'"
-              />
+              <RFormInput componentName="EcSelect" :options="filteredUtilities" :valueKey="'uid'" />
               <!-- Add new role slot -->
             </EcBox>
 
@@ -323,7 +318,7 @@ export default {
 
     const { getRoles } = useRoleList()
     const { getUtilities } = useUtilities()
-    const { form, v$, createNewActivity } = useActivityNew()
+    const { form, v$ } = useActivityNew()
 
     return {
       // Pre load
@@ -331,7 +326,6 @@ export default {
       getUtilities,
       adminGetDivisions,
       adminGetBusinessUnitsByOrg,
-      createNewActivity,
       form,
       v$,
       globalStore,
@@ -390,6 +384,18 @@ export default {
     },
   },
   methods: {
+    /**
+     * Creaate Activity
+     */
+    async handleClickCreate() {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
+        return
+      }
+      this.isLoading = true
+      // const response = await this.createActivity(this.form)
+      this.isLoading = false
+    },
     // =========== ROLES ================ //
     /**
      * Add more role
@@ -437,25 +443,16 @@ export default {
      * Create next to create activity
      *
      */
-    async handleClickNext() {
+    handleClickNext() {
       this.v$.$touch()
       if (this.v$.$invalid) {
         return
       }
-
-      this.isLoading = true
-
-      const response = await this.createNewActivity(this.form)
-
-      this.isLoading = false
-
-      if (response && response.uid) {
-        goto("ViewActivityRemoteAccess", {
-          params: {
-            uid: response.uid,
-          },
-        })
-      }
+      goto("ViewActivityRemoteAccess", {
+        params: {
+          uid: 1234,
+        },
+      })
     },
 
     /**
@@ -490,9 +487,8 @@ export default {
     async fetchUtilities() {
       this.isLoadingUtilities = true
       const response = await this.getUtilities()
-      debugger
-      if (response && response.data) {
-        this.utilities = response.data
+      if (response) {
+        this.utilities = response
       }
       this.isLoadingUtilities = false
     },

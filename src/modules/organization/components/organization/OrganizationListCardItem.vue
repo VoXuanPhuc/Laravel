@@ -34,6 +34,16 @@
         </EcBox>
 
         <!-- End view -->
+
+        <!-- View -->
+
+        <EcBox v-if="organization.name" class="ml-2">
+          <EcButton variant="transparent-rounded" @click="handleClickViewActivities" title="Activities">
+            <EcIcon class="text-c0-500" icon="Activity" width="20" height="20" />
+          </EcButton>
+        </EcBox>
+
+        <!-- End view -->
       </EcFlex>
     </EcBox>
   </EcBox>
@@ -63,6 +73,9 @@ export default {
       return status ? "font-bold text-cSuccess-500" : "font-bold text-cError-500"
     },
 
+    /**
+     * Edit organization
+     */
     handleClickEdit() {
       goto("ViewOrganizationDetail", {
         params: {
@@ -70,8 +83,23 @@ export default {
         },
       })
     },
+
+    /**
+     * Manage organization
+     */
     handleClickManageOrganization() {
       goto("ViewOrganizationManagement", {
+        params: {
+          organizationUid: this.organization?.uid,
+        },
+      })
+    },
+
+    /**
+     * View Activity list
+     */
+    handleClickViewActivities() {
+      goto("ViewOrganizationActivityList", {
         params: {
           organizationUid: this.organization?.uid,
         },
