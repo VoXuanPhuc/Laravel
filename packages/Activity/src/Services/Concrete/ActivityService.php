@@ -4,7 +4,7 @@ namespace Encoda\Activity\Services\Concrete;
 
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
-use Encoda\Activity\Http\Requests\Activity\SaveSoftwareAndEquipmentRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
@@ -71,7 +71,7 @@ class ActivityService implements ActivityServiceInterface
            throw new NotFoundException( __('activity::app.activity.not_found'));
        }
 
-       return $activity->load(['businessUnit', 'roles', 'utilities', 'remoteAccessesFactors', 'applications', 'itSolution', 'equipments']);
+       return $activity->load(['businessUnit', 'roles', 'utilities', 'remoteAccessFactors', 'applications', 'itSolution', 'equipments']);
    }
 
     /**
@@ -82,6 +82,21 @@ class ActivityService implements ActivityServiceInterface
      */
    public function createActivity(CreateActivityRequest $request, $organizationUid ): mixed
    {
+
+       // Division or Business Unit
+       if( empty( $request->division['uid'] ) && empty( $request->business_unit['uid'] ) ) {
+           throw new BadRequestException('Activity must belong to a divsion or business unit');
+       }
+
+       if( !empty( $request->division['uid'] ) ) {
+           $division = $this->divisionService->getDivision( $organizationUid, $request->division['uid']);
+           $request->merge( ['division_id' => $division->id] );
+       }
+
+       if( !empty( $request->business_unit['uid'] ) ) {
+           $business = $this->businessUnitService->getBusinessUnitWithoutDivision( $organizationUid, $request->business_unit['uid']);
+           $request->merge( ['business_unit_id' => $business->id] );
+       }
 
        try{
 
@@ -111,7 +126,7 @@ class ActivityService implements ActivityServiceInterface
        }
 
 
-       return $activity->load(['roles','alternativeRoles', 'utilities']);
+       return $activity->load(['division','businessUnit','roles','alternativeRoles', 'utilities']);
 
    }
 
@@ -125,6 +140,22 @@ class ActivityService implements ActivityServiceInterface
      */
    public function updateActivity(UpdateActivityRequest $request,$organizationUid, $uid): mixed
     {
+
+        // Division or Business Unit
+        if( empty( $request->division['uid'] ) && empty( $request->business_unit['uid'] ) ) {
+            throw new BadRequestException('Activity must belong to a divsion or business unit');
+        }
+
+        if( !empty( $request->division['uid'] ) ) {
+            $division = $this->divisionService->getDivision( $organizationUid, $request->division['uid']);
+            $request->merge( ['division_id' => $division->id] );
+        }
+
+        if( !empty( $request->business_unit['uid'] ) ) {
+            $business = $this->businessUnitService->getBusinessUnitWithoutDivision( $organizationUid, $request->business_unit['uid']);
+            $request->merge( ['business_unit_id' => $business->id] );
+        }
+
 
         $activity = $this->getActivity( $organizationUid, $uid );
 
@@ -156,7 +187,7 @@ class ActivityService implements ActivityServiceInterface
         }
 
 
-        return $activity->load(['roles','alternativeRoles', 'utilities']);
+        return $activity->load(['division','businessUnit','roles','alternativeRoles', 'utilities']);
     }
 
     /**
@@ -201,7 +232,7 @@ class ActivityService implements ActivityServiceInterface
         $activity->roles()->sync($roleIds);
         $activity->alternativeRoles()->sync($alternativeRoleIds);
         $activity->utilities()->sync($utilityIds);
-        $activity->remoteAccessesFactors()->sync($remoteAccessFactorIds);
+        $activity->remoteAccessFactors()->sync($remoteAccessFactorIds);
         $activity->applications()->sync($applicationIds);
         $activity->devices()->sync($deviceIds);
     }
@@ -321,7 +352,7 @@ class ActivityService implements ActivityServiceInterface
 
             // Remote access factor
             $remoteAccessFactorIds = $this->getRemoteAccessFactorIds( $request->remote_access_factors );
-            $activity->remoteAccessesFactors()->sync( $remoteAccessFactorIds );
+            $activity->remoteAccessFactors()->sync( $remoteAccessFactorIds );
 
                    }
         catch ( Throwable $e ) {
@@ -333,7 +364,7 @@ class ActivityService implements ActivityServiceInterface
         return $activity->refresh();
     }
 
-    public function saveSoftwareAndEquipments(SaveSoftwareAndEquipmentRequest $request, $organizationUid, $activityUid)
+    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $organizationUid, $activityUid)
     {
         /** @var Activity $activity */
         $activity = $this->getActivity( $organizationUid, $activityUid );
@@ -349,7 +380,7 @@ class ActivityService implements ActivityServiceInterface
             $activity->equipments()->sync( $equipmentIds );
 
             // IT solution
-            $activity->itSolution()->updateOrCreate( $request->it_solution );
+            $activity->itSolution()->updateOrCreate( ['uid' => $request->it_solution['uid'] ?? '' ], $request->it_solution );
         }
         catch ( Throwable $e ) {
 

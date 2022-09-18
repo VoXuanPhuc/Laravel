@@ -4,6 +4,7 @@ namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
 use Encoda\Organization\Models\BusinessUnit;
+use Encoda\Organization\Models\Division;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -99,7 +100,7 @@ class Activity extends Model implements ActivityContract
     /**
      * @return BelongsToMany
      */
-    public function remoteAccessesFactors(): BelongsToMany
+    public function remoteAccessFactors(): BelongsToMany
     {
         return $this->belongsToMany(RemoteAccessFactor::class);
     }
@@ -110,6 +111,13 @@ class Activity extends Model implements ActivityContract
     public function utilities(): BelongsToMany
     {
         return $this->belongsToMany(Utility::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function division() : BelongsTo {
+        return $this->belongsTo( Division::class );
     }
 
     /**

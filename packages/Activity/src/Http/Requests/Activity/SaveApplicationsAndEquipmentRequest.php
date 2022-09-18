@@ -9,7 +9,7 @@ use Encoda\Core\Http\Requests\FormRequest;
  * @property $equipments[]
  * @property $it_solution
  */
-class SaveSoftwareAndEquipmentRequest extends FormRequest
+class SaveApplicationsAndEquipmentRequest extends FormRequest
 {
 
 

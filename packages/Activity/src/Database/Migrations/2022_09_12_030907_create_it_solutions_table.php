@@ -21,11 +21,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->uuid( 'uid')->default(DB::raw('(UUID())'))->unique();
             $table->string('location')->nullable(true);
-            $table->string('data_type')->nullable(true);
+            $table->string('data')->nullable(true);
             $table->foreignId('activity_id');
             $table->softDeletesTz();
             $table->timestamps();
-            
+
             $table->foreign('activity_id')
                 ->references('id')
                 ->on('activities')

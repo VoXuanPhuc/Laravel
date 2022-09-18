@@ -4,7 +4,7 @@ namespace Encoda\Activity\Services\Interfaces;
 
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
-use Encoda\Activity\Http\Requests\Activity\SaveSoftwareAndEquipmentRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 
 interface ActivityServiceInterface
@@ -25,6 +25,6 @@ interface ActivityServiceInterface
 
     public function saveRemoteAccessFactors( SaveRemoteAccessRequest $request, $organizationUid, $activityUid );
 
-    public function saveSoftwareAndEquipments( SaveSoftwareAndEquipmentRequest $request, $organizationUid, $activityUid );
+    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $organizationUid, $activityUid );
 
 }

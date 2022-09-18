@@ -42,9 +42,9 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => ActivityController::class . '@saveRemoteAccessFactors'
     ]);
 
-    Route::put('/activities/{activityUid}/software-and-equipments', [
-        'as' => 'activities.software-and-equipments.update',
-        'uses' => ActivityController::class . '@saveSoftwareAndEquipments'
+    Route::put('/activities/{activityUid}/applications-and-equipments', [
+        'as' => 'activities.applications-and-equipments.update',
+        'uses' => ActivityController::class . '@saveApplicationsAndEquipments'
     ]);
 
 

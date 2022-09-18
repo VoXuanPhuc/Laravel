@@ -142,4 +142,21 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
         return $organization->business_units()->with('division')->paginate(config('config.pagination_size'));
     }
+
+    /**
+     * @param $organizationUid
+     * @param $uid
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function getBusinessUnitWithoutDivision($organizationUid, $uid)
+    {
+        $businessUnit = $this->businessUnitRepository->findOneByField('uid', $uid );
+
+        if( !$businessUnit ) {
+            throw new NotFoundException( __('org::app.business_unit.not_found') );
+        }
+
+        return $businessUnit->load('division');
+    }
 }

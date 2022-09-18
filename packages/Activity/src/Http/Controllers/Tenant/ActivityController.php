@@ -5,7 +5,7 @@ namespace Encoda\Activity\Http\Controllers\Tenant;
 use Encoda\Activity\Http\Controllers\Controller;
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
-use Encoda\Activity\Http\Requests\Activity\SaveSoftwareAndEquipmentRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 
@@ -63,12 +63,12 @@ class ActivityController extends Controller
     }
 
     /**
-     * @param SaveSoftwareAndEquipmentRequest $request
+     * @param SaveApplicationsAndEquipmentRequest $request
      * @param $activityUid
      * @return mixed
      */
-    public function saveSoftwareAndEquipments( SaveSoftwareAndEquipmentRequest $request, $activityUid ) {
+    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $activityUid ) {
 
-        return $this->activityService->saveSoftwareAndEquipments( $request, $this->getTenant()->uid, $activityUid );
+        return $this->activityService->saveApplicationsAndEquipments( $request, $this->getTenant()->uid, $activityUid );
     }
 }

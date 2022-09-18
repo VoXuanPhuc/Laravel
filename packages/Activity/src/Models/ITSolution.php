@@ -10,24 +10,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ITSolution extends Model implements ITSolutionContract
 {
     use SoftDeletes;
-    
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'it_solutions';
-    
+
     protected $guarded = [
         'id',
     ];
-    
+
     protected $fillable = [
         'location',
-        'data_type',
+        'data',
         'activity_id',
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -40,7 +40,7 @@ class ITSolution extends Model implements ITSolutionContract
         'updated_at',
         'deleted_at'
     ];
-    
+
     /**
      * @return BelongsTo
      */
