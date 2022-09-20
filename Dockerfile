@@ -29,7 +29,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . /var/www/html/identity-service
 
 # Composer install
-RUN composer install
+RUN composer install --no-cache
 RUN composer update --no-scripts
 RUN composer dump-autoload
 

@@ -71,7 +71,18 @@ class ActivityService implements ActivityServiceInterface
            throw new NotFoundException( __('activity::app.activity.not_found'));
        }
 
-       return $activity->load(['businessUnit', 'roles', 'utilities', 'remoteAccessFactors', 'applications', 'itSolution', 'equipments']);
+       return $activity->load(
+           [
+               'division',
+               'businessUnit',
+               'roles',
+               'alternativeRoles',
+               'utilities',
+               'remoteAccessFactors',
+               'applications',
+               'itSolution',
+               'equipments'
+           ]);
    }
 
     /**
@@ -110,7 +121,7 @@ class ActivityService implements ActivityServiceInterface
            $activity->roles()->sync( $roleIds );
 
            // Alternative roles
-           $alternativeRoleIds = $this->getRoleIds( $request->alternative_roles );
+           $alternativeRoleIds = $this->getAlternativeRoleIds( $request->alternative_roles );
            $activity->alternativeRoles()->sync( $alternativeRoleIds );
 
            // Utilities
@@ -218,83 +229,85 @@ class ActivityService implements ActivityServiceInterface
 
 
     /**
-     * @param $activity
-     * @param array $roleIds
-     * @param array $alternativeRoleIds
-     * @param array $utilityIds
-     * @param array $remoteAccessFactorIds
-     * @param array $applicationIds
-     * @param array $deviceIds
-     * @return void
+     * @param array $roles
+     * @return array
      */
-    private function syncPivotTables($activity, array $roleIds, array $alternativeRoleIds, array $utilityIds, array $remoteAccessFactorIds, array $applicationIds, array $deviceIds): void
+    private function getRoleIds(array $roles): array
     {
-        $activity->roles()->sync($roleIds);
-        $activity->alternativeRoles()->sync($alternativeRoleIds);
-        $activity->utilities()->sync($utilityIds);
-        $activity->remoteAccessFactors()->sync($remoteAccessFactorIds);
-        $activity->applications()->sync($applicationIds);
-        $activity->devices()->sync($deviceIds);
+
+         $roleObjs = $this->roleRepository->findWhereIn('uid',
+             array_map(function ($role){
+                 return $role['uid'];
+             }, $roles),
+             'id');
+         return $this->fillDataToArray($roleObjs);
     }
 
     /**
-     * @param array $roleUIds
+     * @param array $alternativeRoles
      * @return array
      */
-    private function getRoleIds(array $roleUIds): array
+    private function getAlternativeRoleIds(array $alternativeRoles): array
     {
-         $roles = $this->roleRepository->findWhereIn('uid', $roleUIds, 'id');
-         return $this->fillDataToArray($roles);
+        $alternativeRoleObjs = $this->alternativeRoleRepository->findWhereIn('uid',
+            array_map(function ($role){
+                return $role['uid'];
+            }, $alternativeRoles),
+             'id');
+        return $this->fillDataToArray($alternativeRoleObjs);
     }
 
     /**
-     * @param array $alternativeRoleIds
+     * @param array $utilities
      * @return array
      */
-    private function getAlternativeRoleIds(array $alternativeRoleIds): array
+    private function getUtilityIds(array $utilities): array
     {
-        $alternativeRoles = $this->alternativeRoleRepository->findWhereIn('uid', $alternativeRoleIds, 'id');
-        return $this->fillDataToArray($alternativeRoles);
+        $utilityObjs = $this->utilityRepository->findWhereIn(
+        'uid',
+            array_map(function ($u){
+                return $u['uid'];
+            }, $utilities),
+    'id');
+        return $this->fillDataToArray($utilityObjs);
     }
 
     /**
-     * @param array $utilityUIds
+     * @param array $remoteAccessFactors
      * @return array
      */
-    private function getUtilityIds(array $utilityUIds): array
+    private function getRemoteAccessFactorIds(array $remoteAccessFactors): array
     {
-        $utilities = $this->utilityRepository->findWhereIn('uid', $utilityUIds, 'id');
-        return $this->fillDataToArray($utilities);
+        $remoteAccessFactorObjs = $this->remoteAccessFactorRepository->findWhereIn('uid', array_map(function($raf){
+            return $raf['uid'];
+        }, $remoteAccessFactors),
+'id');
+
+        return $this->fillDataToArray($remoteAccessFactorObjs);
     }
 
     /**
-     * @param array $remoteAccessFactorUIds
+     * @param array $applications
      * @return array
      */
-    private function getRemoteAccessFactorIds(array $remoteAccessFactorUIds): array
+    private function getApplicationIds(array $applications): array
     {
-        $remoteAccessFactors = $this->remoteAccessFactorRepository->findWhereIn('uid', $remoteAccessFactorUIds, 'id');
-        return $this->fillDataToArray($remoteAccessFactors);
+        $applicationObjs = $this->applicationRepository->findWhereIn('uid', array_map( function($app) {
+            return $app['uid'];
+        }, $applications ), 'id');
+        return $this->fillDataToArray($applicationObjs);
     }
 
     /**
-     * @param array $applicationUIds
+     * @param array $devices
      * @return array
      */
-    private function getApplicationIds(array $applicationUIds): array
+    private function getEquipmentIds(array $devices): array
     {
-        $applications = $this->applicationRepository->findWhereIn('uid', $applicationUIds, 'id');
-        return $this->fillDataToArray($applications);
-    }
-
-    /**
-     * @param array $deviceUIds
-     * @return array
-     */
-    private function getEquipmentIds(array $deviceUIds): array
-    {
-        $devices = $this->equipmentRepository->findWhereIn('uid', $deviceUIds, 'id');
-        return $this->fillDataToArray($devices);
+        $deviceObjs = $this->equipmentRepository->findWhereIn('uid', array_map( function($equipment) {
+            return $equipment['uid'];
+        }, $devices ), 'id');
+        return $this->fillDataToArray($deviceObjs);
     }
 
     /**
@@ -364,12 +377,24 @@ class ActivityService implements ActivityServiceInterface
         return $activity->refresh();
     }
 
+    /**
+     * @param SaveApplicationsAndEquipmentRequest $request
+     * @param $organizationUid
+     * @param $activityUid
+     * @return Activity
+     * @throws NotFoundException
+     * @throws ServerErrorException
+     */
     public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $organizationUid, $activityUid)
     {
         /** @var Activity $activity */
         $activity = $this->getActivity( $organizationUid, $activityUid );
 
         try {
+
+            // Update activity
+            $this->activityRepository->update( $request->all(), $activity->id );
+
 
             // Applications
             $applicationIds = $this->getApplicationIds( $request->applications );
@@ -389,5 +414,23 @@ class ActivityService implements ActivityServiceInterface
         }
 
         return $activity->refresh();
+    }
+
+    /**
+     * @throws NotFoundException|ServerErrorException
+     */
+    public function permanentDelete($organizationUid, $uid )
+    {
+        /** @var Activity $activity */
+        $activity = $this->getActivity( $organizationUid, $uid );
+
+        try {
+            $activity->forceDelete();
+        }
+        catch (Throwable $e) {
+            throw new ServerErrorException('Unable to cancel activity');
+        }
+
+        return true;
     }
 }

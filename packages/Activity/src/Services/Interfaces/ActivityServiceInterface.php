@@ -27,4 +27,6 @@ interface ActivityServiceInterface
 
     public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $organizationUid, $activityUid );
 
+    public function permanentDelete( $organizationUid, $uid );
+
 }

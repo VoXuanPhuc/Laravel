@@ -52,6 +52,18 @@ class ActivityController extends Controller
         return $this->activityService->updateActivity( $request, $this->getTenant()->uid, $uid );
     }
 
+
+    public function delete( $uid ) {
+        return [];
+    }
+
+    /**
+     * @param $uid
+     * @return mixed
+     */
+    public function permanentDelete( $uid ) {
+        return $this->activityService->permanentDelete( $this->getTenant()->uid, $uid );
+    }
     /**
      * @param SaveRemoteAccessRequest $request
      * @param $activityUid

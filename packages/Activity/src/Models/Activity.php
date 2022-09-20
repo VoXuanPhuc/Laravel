@@ -38,6 +38,7 @@ class Activity extends Model implements ActivityContract
         'step',
         'on_site_requires',
         'division_id',
+        'min_people',
         'business_unit_id',
     ];
 

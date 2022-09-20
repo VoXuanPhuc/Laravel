@@ -35,6 +35,10 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'as' => 'activities.delete',
         'uses' => ActivityController::class . '@delete'
     ]);
+    Route::delete('/activities/{uid}/permanent', [
+        'as' => 'activities.delete',
+        'uses' => ActivityController::class . '@permanentDelete'
+    ]);
 
     //======= ACTIVITY AND RELATIONSHIP =========/
     Route::put('/activities/{activityUid}/remote-access-factors', [
