@@ -20,7 +20,7 @@ export const useBusinessUnitList = () => {
 
   const tenantBusinessUnits = async () => {
     try {
-      const { data } = await api.fetchBusinessUnitList()
+      const { data } = await api.fetchBusinessUnitListByOrg()
 
       return data
     } catch (error) {}

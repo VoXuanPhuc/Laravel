@@ -355,8 +355,8 @@ export default {
     const globalStore = useGlobalStore()
     // Pre-loaded
     const { getActivity, updateActivity } = useActivityDetail()
-    const { adminGetDivisions } = useDivisionList()
-    const { adminGetBusinessUnitsByOrg } = useBusinessUnitList()
+    const { adminGetDivisions, tenantGetDivisions } = useDivisionList()
+    const { adminGetBusinessUnitsByOrg, tenantBusinessUnits } = useBusinessUnitList()
 
     const { getRoles } = useRoleList()
     const { getUtilities } = useUtilities()
@@ -369,7 +369,9 @@ export default {
       getRoles,
       getUtilities,
       adminGetDivisions,
+      tenantGetDivisions,
       adminGetBusinessUnitsByOrg,
+      tenantBusinessUnits,
       createNewActivity,
       form,
       v$,
@@ -607,7 +609,7 @@ export default {
      */
     async fetchDivisions() {
       this.isLoadingDivisions = true
-      const response = await this.adminGetDivisions(this.globalStore.organizationId)
+      const response = await this.tenantGetDivisions()
       if (response && response.data) {
         this.divisions = response.data
       }
@@ -619,7 +621,7 @@ export default {
      */
     async fetchBusinessUnits() {
       this.isLoadingBusinessUnits = true
-      const response = await this.adminGetBusinessUnitsByOrg(this.globalStore.organizationId)
+      const response = await this.tenantBusinessUnits()
 
       this.isLoading = false
 
