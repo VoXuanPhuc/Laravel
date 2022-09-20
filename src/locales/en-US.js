@@ -4,6 +4,7 @@ import dashboard from "@/modules/dashboard/locales/en-US"
 import organization from "@/modules/organization/locales/en-US"
 import activity from "@/modules/activity/locales/en-US"
 import resource from "@/modules/resource/locales/en-US"
+import industry from "@/modules/industry/locales/en-US"
 import user from "@/modules/user/locales/en-US"
 import setting from "@/modules/setting/locales/en-US"
 
@@ -14,6 +15,7 @@ export default {
   ...organization,
   ...activity,
   ...resource,
+  ...industry,
   ...user,
   ...setting,
 

@@ -5,6 +5,7 @@ import dashboard from "@/modules/dashboard/router/index"
 import organization from "@/modules/organization/router/index"
 import activity from "@/modules/activity/router/index"
 import resource from "@/modules/resource/router/index"
+import industry from "@/modules/industry/router/index"
 import user from "@/modules/user/router/index"
 import setting from "@/modules/setting/router/index"
 
@@ -19,6 +20,7 @@ const routes = [
   ...organization,
   ...activity,
   ...resource,
+  ...industry,
   ...user,
   ...setting,
 ]
