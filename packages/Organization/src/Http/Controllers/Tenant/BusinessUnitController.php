@@ -29,6 +29,14 @@ class BusinessUnitController extends Controller
         return  $this->businessUnitService->listBusinessUnit( $this->getTenant()->uid, $divisionUid );
     }
 
+    /**
+     * @return mixed
+     */
+    public function businessUnitByOrg() {
+
+        return  $this->businessUnitService->listBusinessUnitByOrg( $this->getTenant()->uid );
+    }
+
     public function detail( $divisionUid, $uid ) {
         return $this->businessUnitService->getBusinessUnit( $this->getTenant()->uid, $divisionUid, $uid );
     }

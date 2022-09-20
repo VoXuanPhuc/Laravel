@@ -41,6 +41,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
 
 
     /** =========== Business Unit routing ====== */
+    Route::get('/business-units', [
+        'as' => 'business-units.list',
+        'uses' =>  BusinessUnitController::class. '@businessUnitByOrg'
+    ]);
+
     Route::group(['prefix' => 'divisions/{divisionUid}'], function() {
 
         Route::get('/business-units', [
