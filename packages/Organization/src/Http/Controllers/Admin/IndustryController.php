@@ -2,65 +2,51 @@
 
 namespace Encoda\Organization\Http\Controllers\Admin;
 
-use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Organization\Http\Controllers\Controller;
 use Encoda\Organization\Http\Requests\Industry\IndustryRequest;
-use Encoda\Organization\Repositories\IndustryRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
-use Prettus\Validator\Exceptions\ValidatorException;
+use Encoda\Organization\Services\Interfaces\IndustryServiceInterface;
 
 class IndustryController extends Controller
 {
 
-    public function __construct( protected IndustryRepository $industryRepository )
+    public function __construct( protected IndustryServiceInterface $industryService )
     {
     }
 
     public function index() {
-        return $this->industryRepository->all();
+        return $this->industryService->listIndustry();
+    }
+
+    /**
+     * @param $uid
+     * @return mixed
+     */
+    public function detail( $uid ) {
+        return $this->industryService->getIndustry($uid);
     }
 
     /**
      * @param IndustryRequest $request
-     * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
+     * @return mixed
      */
     public function create( IndustryRequest $request ) {
-        return $this->industryRepository->create( $request->all() );
+        return $this->industryService->createIndustry($request);
     }
 
     /**
      * @param IndustryRequest $request
      * @param $uid
-     * @return LengthAwarePaginator|Collection|mixed
-     * @throws NotFoundException
-     * @throws ValidatorException
+     * @return mixed
      */
     public function update( IndustryRequest $request, $uid ) {
-
-        $industry = $this->industryRepository->findByUid( $uid );
-
-        if( !$industry ) {
-            throw  new NotFoundException('Industry not found');
-        }
-
-        return $this->industryRepository->update( $request->all(), $industry->id );
+        return $this->industryService->updateIndustry($request, $uid);
     }
 
     /**
      * @param $uid
-     * @return int
-     * @throws NotFoundException
+     * @return number
      */
     public function delete( $uid ) {
-
-        $industry = $this->industryRepository->findByUid( $uid );
-
-        if( !$industry ) {
-            throw  new NotFoundException('Industry not found');
-        }
-
-        return $this->industryRepository->delete( $industry->id );
+        return $this->industryService->deleteIndustry($uid);
     }
 }

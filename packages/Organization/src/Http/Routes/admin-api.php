@@ -122,6 +122,11 @@ Route::group( ['prefix' => '/identity/api/v1/admin', 'middleware' => 'auth'] , f
         'uses' =>  IndustryController::class. '@index'
     ]);
 
+    Route::get('/industries/{uid}', [
+        'as' => 'industries.detail',
+        'uses' =>  IndustryController::class. '@detail'
+    ]);
+
     Route::post('/industries', [
         'as' => 'industries.create',
         'uses' =>  IndustryController::class. '@create'

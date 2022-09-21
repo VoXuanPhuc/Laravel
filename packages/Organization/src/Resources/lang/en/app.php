@@ -14,5 +14,4 @@ return [
     'business_unit' => [
         'not_found' => 'Division not found',
     ],
-
 ];
