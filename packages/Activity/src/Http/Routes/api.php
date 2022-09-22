@@ -26,6 +26,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => ActivityController::class . '@create'
     ]);
 
+    Route::get('/activities/download/all', [
+        'as' => 'activities.download',
+        'uses' => ActivityController::class . '@export'
+    ]);
+
     Route::put('/activities/{uid}', [
         'as' => 'activities.update',
         'uses' => ActivityController::class . '@update'

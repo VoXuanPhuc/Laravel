@@ -12,6 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property $uid
+ * @property $name
+ * @property $description
+ * @property $min_people
+ * @property $is_remote
+ * @property $on_site_requires
+ * @property $status
+ * @property $step
+ */
 class Activity extends Model implements ActivityContract
 {
     use SoftDeletes;

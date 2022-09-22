@@ -7,6 +7,7 @@ use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
+use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 
 class ActivityController extends Controller
@@ -82,5 +83,14 @@ class ActivityController extends Controller
     public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $activityUid ) {
 
         return $this->activityService->saveApplicationsAndEquipments( $request, $this->getTenant()->uid, $activityUid );
+    }
+
+
+    /**
+     * @param string $range
+     * @return mixed
+     */
+    public function export( $range = 'all' ) {
+        return $this->activityService->export( $this->getTenant(), $range );
     }
 }

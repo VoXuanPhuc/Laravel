@@ -2,6 +2,7 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
+use Encoda\Activity\Exports\ActivityExport;
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
@@ -25,6 +26,7 @@ use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
 
 class ActivityService implements ActivityServiceInterface
@@ -433,4 +435,24 @@ class ActivityService implements ActivityServiceInterface
 
         return true;
     }
+
+    /**
+     * @param $organization
+     * @param string $divisionUid
+     * @param string $businessUnitUid
+     * @param string $range
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export($organization, $divisionUid = '', $businessUnitUid = '', $range = 'all')
+    {
+        $fileName = 'Activities_'. time(). '.xlsx';
+
+        $data = $this->activityRepository->with(['division','businessUnit','roles','alternativeRoles', 'utilities'])->all();
+
+        $export = new ActivityExport( $data );
+
+        return Excel::download( $export, $fileName );
+    }
+
+
 }

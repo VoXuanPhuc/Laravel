@@ -116,6 +116,7 @@ $app->register( Encoda\Jwt\Providers\JwtServiceProvider::class );
 $app->register( Encoda\Organization\Providers\OrganizationServiceProvider::class );
 $app->register( Encoda\EDocs\Providers\DocumentServiceProvider::class );
 $app->register( Encoda\Activity\Providers\ActivityServiceProvider::class );
+$app->register( \Maatwebsite\Excel\ExcelServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 

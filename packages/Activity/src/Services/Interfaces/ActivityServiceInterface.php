@@ -29,4 +29,6 @@ interface ActivityServiceInterface
 
     public function permanentDelete( $organizationUid, $uid );
 
+    public function export( $organization, $divisionUid = '', $businessUnitUid = '', $range = 'all' );
+
 }
