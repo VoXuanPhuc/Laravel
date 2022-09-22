@@ -24,8 +24,27 @@ export const updateApplicationAdnEquipment = async (payload, uid) => {
   return fetcher.put(`identity/api/v1/activities/${uid}/applications-and-equipments`, payload)
 }
 
+/**
+ *
+ * Get list activity
+ * @returns
+ */
 export const fetchActivities = async () => {
   return fetcher.get(`/identity/api/v1/activities`)
+}
+
+/**
+ * Download activities
+ * @returns
+ */
+export const downloadActivities = async (divisionUid, businessUnitUid) => {
+  var query = new URLSearchParams()
+  query.append("divisionUid", divisionUid)
+  query.append("businessUnitUid", businessUnitUid)
+
+  return fetcher.get(`/identity/api/v1/activities/download/all?` + query.toString(), {
+    responseType: "blob",
+  })
 }
 
 export const fetchActivityListByOrganizationUid = async (organizationUid) => {

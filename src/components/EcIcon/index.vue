@@ -97,6 +97,7 @@ export default {
     Dashboard: lazyLoad("Dashboard"),
     Folder: lazyLoad("Folder"),
     X: lazyLoad("X"),
+    Spinner: lazyLoad("Spinner"),
   },
 }
 </script>

@@ -12,16 +12,38 @@
     <!-- Filter-->
     <EcBox class="xl:grid-cols-2 lg:grid-cols-1 grid sm:grid-cols-1 md:grid-cols-1 gap-2 mt-8 lg:mt-16">
       <EcBox class="grid grid-cols-5 lg:mt-2">
-        <label class="text-start mt-2">{{ $t("activity.context") }}</label>
+        <EcLabel class="text-start mt-2">{{ $t("activity.context") }}</EcLabel>
         <EcFlex class="col-span-4 grid grid-cols-2 gap-2">
-          <!-- division-->
-          <EcSelect v-model="selectedDivision" :options="this.divisions" :valueKey="$t('activity.division.uid')" />
-          <!--business-unit-->
-          <EcSelect v-model="selectedBU" :options="[]" :placeholder="$t('activity.bu.name')" :valueKey="$t('activity.bu.uid')" />
+          <!-- Division-->
+          <RFormInput
+            class="w-full"
+            v-model="selectedDivision"
+            componentName="EcSelect"
+            :options="divisions"
+            :valueKey="'uid'"
+            :allowSelectNothing="true"
+            :placeholder="$t('activity.placeholders.division')"
+          />
+
+          <!-- Business-unit-->
+          <RFormInput
+            class="w-full"
+            v-model="selectedBU"
+            componentName="EcSelect"
+            :options="businessUnits"
+            :valueKey="'uid'"
+            :allowSelectNothing="true"
+            :placeholder="$t('activity.placeholders.bu')"
+          />
         </EcFlex>
       </EcBox>
       <EcBox class="lg:flex-wrap grid sm:grid-cols-1 md:grid-cols-3 gap-2">
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="DocumentDownload" variant="primary-sm">
+        <EcButton
+          class="mb-3 lg:mb-0"
+          :iconPrefix="exportAcctivityIcon"
+          variant="primary-sm"
+          @click="handleClickDownloadActivities"
+        >
           {{ $t("activity.button.exportActivities") }}
         </EcButton>
         <EcButton class="mb-3 lg:mb-0" iconPrefix="ChartSquareBar" variant="primary-sm">
@@ -119,19 +141,35 @@ import { useActivityList } from "@/modules/activity/use/useActivityList"
 import { useDivisionList } from "@/modules/activity/use/useDivisionList"
 import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
+import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
+import { ref } from "vue"
 
 export default {
   name: "ViewActivityList",
   setup() {
     const globalStore = useGlobalStore()
+    const {
+      getActivityList,
+      downloadActivities,
+      fetchActivityListByDivisionUid,
+      activities,
+      t,
+      totalItems,
+      skip,
+      limit,
+      currentPage,
+    } = useActivityList()
 
-    const { getActivityList, fetchActivityListByDivisionUid, activities, t, totalItems, skip, limit, currentPage } =
-      useActivityList()
-    const { fetchDivisionList, divisions } = useDivisionList()
+    const divisions = ref([])
+    const businessUnits = ref([])
+
+    const { fetchDivisionList } = useDivisionList()
+    const { tenantBusinessUnits } = useBusinessUnitList()
 
     return {
       globalStore,
       getActivityList,
+      downloadActivities,
       activities,
       t,
       skip,
@@ -139,10 +177,13 @@ export default {
       currentPage,
       totalItems,
       fetchDivisionList,
+      tenantBusinessUnits,
       divisions,
+      businessUnits,
       fetchActivityListByDivisionUid,
     }
   },
+
   data() {
     return {
       headerData: [
@@ -155,41 +196,45 @@ export default {
       selectedDivision: null,
       selectedBU: null,
       isLoading: false,
+      isDivisionLoading: false,
+      isBusinessUnitLoading: false,
+      isDownloading: false,
     }
   },
 
   mounted() {
-    this.fetchActivity()
+    this.fetchActivities()
     this.fetchDivisions()
+    this.fetchBusinessUnits()
   },
 
   computed: {
     dateTimeFormat() {
       return this.globalStore.dateTimeFormat
     },
+
+    exportAcctivityIcon() {
+      return this.isDownloading ? "Spinner" : "DocumentDownload"
+    },
   },
 
   watch: {
     currentPage() {},
   },
-
   methods: {
     formatData,
-
     /**
      * fetch activities
      * @returns {Promise<void>}
      */
-    async fetchActivity() {
+    async fetchActivities() {
       this.isLoading = true
       const activityRes = await this.getActivityList()
-
       if (activityRes && activityRes.data) {
         this.activities = activityRes.data
       }
       this.isLoading = false
     },
-
     /**
      * convert activity status to string status
      * @param value
@@ -198,7 +243,6 @@ export default {
     getActivityStatus(value) {
       return value === 1 ? "Created" : value === 2 ? "In Progress" : "Finished"
     },
-
     /**
      * get class property
      * @param value
@@ -207,24 +251,27 @@ export default {
     getActivityConfirmationStatusType(value) {
       return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
     },
-
     getActivityStep(value) {
       return value === 1 ? "Basic info" : value === 2 ? "Remote access" : "Equipments"
     },
-
     getActivityConfirmationStepType(value) {
       return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
     },
-
     // Handle events
-
+    /**
+     * Download
+     */
+    async handleClickDownloadActivities() {
+      this.isDownloading = true
+      await this.downloadActivities(this.selectedDivision, this.selectedBU)
+      this.isDownloading = false
+    },
     /**
      * Add new activity
      */
     handleClickAddActivity() {
       goto("ViewActivityNew")
     },
-
     /**
      *
      * @param {*} actitivtyUid
@@ -236,13 +283,34 @@ export default {
         },
       })
     },
-
     // ==== PRE-LOAD ==========
+
+    /**
+     * Fetch Division
+     */
     async fetchDivisions() {
-      this.isLoading = true
+      this.isDivisionLoading = true
       const divisionRes = await this.fetchDivisionList()
-      this.divisions = divisionRes.data
-      this.isLoading = false
+
+      if (divisionRes && divisionRes.data) {
+        this.divisions = divisionRes.data
+      }
+
+      this.isDivisionLoading = false
+    },
+
+    /**
+     * Fetch BU
+     */
+    async fetchBusinessUnits() {
+      this.isBusinessUnitLoading = true
+      const buRes = await this.tenantBusinessUnits()
+
+      if (buRes && buRes.data) {
+        this.businessUnits = buRes.data
+      }
+
+      this.isBusinessUnitLoading = false
     },
   },
 }

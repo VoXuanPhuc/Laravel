@@ -16,7 +16,10 @@ export function useActivityList() {
 
   const { t } = useI18n()
 
-  // Fetch activities lists
+  /**
+   *
+   * @returns
+   */
   async function getActivityList() {
     try {
       const { data } = await api.fetchActivities()
@@ -27,6 +30,11 @@ export function useActivityList() {
     }
   }
 
+  /**
+   *
+   * @param {*} divisionUid
+   * @returns
+   */
   async function fetchActivityListByDivisionUid(divisionUid) {
     try {
       const { data } = await api.fetchActivityListByDivisionUid(this.$t("activity.firstOrganizationId"), divisionUid)
@@ -37,8 +45,35 @@ export function useActivityList() {
     }
   }
 
+  /**
+   * Download activities
+   * @returns
+   */
+  async function downloadActivities(divisionUid, businessUnitUid) {
+    try {
+      const { data } = await api.downloadActivities(divisionUid, businessUnitUid)
+
+      if (!data) {
+        globalStore.addErrorToastMessage(this.$t("activity.errors.download"))
+        return
+      }
+
+      const url = window.URL.createObjectURL(new Blob([data]))
+      const link = document.createElement("a")
+      link.href = url
+
+      link.setAttribute("download", `Activities_${Date.now()}.xlsx`)
+      document.body.appendChild(link)
+      link.click()
+    } catch (error) {
+      globalStore.addErrorToastMessage(error ? error?.message : this.$t("activity.errors.download"))
+      return false
+    }
+  }
+
   return {
     getActivityList,
+    downloadActivities,
     fetchActivityListByDivisionUid,
     activities,
     t,

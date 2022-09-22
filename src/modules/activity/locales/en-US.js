@@ -84,6 +84,12 @@ export default {
     errors: {
       updateActivity: "Error to update activity, please retry",
       listActivity: "Unable get list of Activities",
+      download: "Error occured, please try again",
+    },
+
+    placeholders: {
+      division: "--- Division ---",
+      bu: "--- Business Unit ---",
     },
 
     division: {
