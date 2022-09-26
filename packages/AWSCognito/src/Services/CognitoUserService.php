@@ -5,9 +5,11 @@ use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Encoda\Auth\Exceptions\UserNotFoundException;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
 use Encoda\AWSCognito\Models\CognitoUser;
+use Encoda\Core\Exceptions\BadRequestException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
+use Matrix\Exception;
 
 class CognitoUserService extends CognitoBaseService
 {
@@ -69,6 +71,22 @@ class CognitoUserService extends CognitoBaseService
 
         $authResult = $response->get('AuthenticationResult');
 
+        // Check for login challenge
+        $challengeName = $response->get('ChallengeName');
+
+        if(  strlen( $challengeName ) > 0  ) {
+
+            $challengeParams = $response->get('ChallengeParameters');
+            $userAttributes = json_decode( $challengeParams['userAttributes']);
+            return [
+                'challenge_name' => $challengeName,
+                'session' => $response->get('Session'),
+                'user_uid' => $challengeParams['USER_ID_FOR_SRP'],
+                'first_name' => $userAttributes->given_name,
+
+            ];
+        }
+
         //Transform result
         return [
             'accessToken' => $authResult['AccessToken'],
@@ -126,6 +144,74 @@ class CognitoUserService extends CognitoBaseService
         return $cognitoUser;
     }
 
+
+    /**
+     * @param $data
+     * @return mixed|null
+     */
+    public function changePassword( $data ) {
+        $result = $this->cognitoClient->getClient()->changePassword(
+            [
+                'AccessToken' => $data['token'],
+                'PreviousPassword' => $data['currentPassword'],
+                'ProposedPassword' => $data['newPassword'],
+            ]
+        );
+
+        return $result->get('@metadata');
+    }
+
+    /**
+     * @param $challengeResponses
+     * @return \Aws\Result
+     */
+    public function respondToAuthChallenge( $challengeResponses ) {
+
+        return  $this->cognitoClient->getClient()->respondToAuthChallenge( $challengeResponses );
+
+
+    }
+
+    /**
+     * @param $data
+     * @return array|void
+     * @throws BadRequestException
+     */
+    public function respondForceChangePasswordChallenge( $data ) {
+
+        $challengeResponses = [
+            'ChallengeName'       => 'NEW_PASSWORD_REQUIRED',
+            'ClientId'            => $this->cognitoClient->getClientId(),
+            'ChallengeResponses'  => [
+                'USERNAME'        => $data['username'],
+                'NEW_PASSWORD'    => $data['new_password'],
+                'SECRET_HASH'     => $this->cognitoSecretHash($data['username']),
+                'userAttributes.given_name' => $data['first_name'],
+            ],
+            'Session'             => $data['session_value'],
+        ];
+
+        try {
+            $result = $this->respondToAuthChallenge( $challengeResponses );
+
+            $authResult = $result->get('AuthenticationResult');
+
+            if( $authResult ) {
+                return [
+                    'accessToken' => $authResult['AccessToken'],
+                    'expiresIn' => $authResult['ExpiresIn'],
+                    'idToken' => $authResult['IdToken'],
+                    'refreshToken' => $authResult['RefreshToken'],
+                ];
+            }
+
+        }
+        catch (CognitoIdentityProviderException $e) {
+            Log::error( $e );
+            throw new BadRequestException( $e->getAwsErrorMessage() );
+        }
+
+    }
     /**
      * @param $username
      * @return string
@@ -203,6 +289,10 @@ class CognitoUserService extends CognitoBaseService
         return $listUsers;
     }
 
+    /**
+     * @param $token
+     * @return mixed|null
+     */
     public function delete( $token )
     {
         $result = $this->cognitoClient->getClient()->deleteUser(

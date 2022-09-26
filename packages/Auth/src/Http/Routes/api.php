@@ -22,4 +22,10 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
         'uses' =>  AuthController::class. '@signup'
     ]);
 
+
+    //Change password
+    Route::post('change-password', [
+        'as' => 'auth.change-password',
+        'uses' =>  AuthController::class. '@respondForceChangePasswordChallenge'
+    ]);
 });

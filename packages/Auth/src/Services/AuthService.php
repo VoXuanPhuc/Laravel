@@ -62,4 +62,12 @@ class AuthService implements AuthServiceInterface
             'expires_in' => auth()->factory()->getTTL() * 60
         ];
     }
+
+    /**
+     * @param Request $request
+     */
+    public function respondForceChangePasswordChallenge(\Illuminate\Http\Request $request)
+    {
+        // TODO: Implement changePassword() method.
+    }
 }

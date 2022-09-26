@@ -60,7 +60,7 @@ class CognitoBaseService
      * @param $username
      * @return string
      */
-    protected function cognitoSecretHash($username)
+    public function cognitoSecretHash($username)
     {
         return $this->hash( $username . $this->cognitoClient->getClientId() );
     }
