@@ -1,4 +1,6 @@
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
+import { h, render } from "vue"
+import EcTooltip from "@/components/EcTooltip"
 
 export default (app) => {
   // Click outside
@@ -50,6 +52,18 @@ export default (app) => {
     },
     unmounted(el) {
       enableBodyScroll(el, { reserveScrollBarGap: true })
+    },
+  })
+
+  app.directive("tool-tip", {
+    mounted(element, binding) {
+      element.classList.add("relative")
+      const toolTipComponent = h(EcTooltip, {
+        tooltipText: binding.value.text ? binding.value.text : binding.value,
+        position: binding.value.position ? binding.value.position : "top",
+        style: "position: absolute;",
+      })
+      render(toolTipComponent, element)
     },
   })
 }

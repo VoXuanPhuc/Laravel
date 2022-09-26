@@ -1,5 +1,5 @@
 <template>
-  <span :tooltip="tooltipText" :position="position"><slot /></span>
+  <span :position="position" :tooltip="tooltipText" class="tooltip top-0 left-0 w-full h-full"><slot /></span>
 </template>
 
 <script>
@@ -34,7 +34,10 @@ export default {
       )
     },
   },
-
   methods: {},
 }
 </script>
+
+<style lang="scss">
+@import "tooltip.scss";
+</style>

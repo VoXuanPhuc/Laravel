@@ -69,6 +69,7 @@ $gray: #495057;
     bottom: 100%;
     border-bottom-width: 0;
     border-top-color: $gray;
+
   }
 
   &:not([position]):after,
@@ -86,13 +87,13 @@ $gray: #495057;
 
   /* position: BOTTOM */
   &[position^="bottom"]::before {
-    top: 105%;
+    top: 100%;
     border-top-width: 0;
     border-bottom-color: $gray;
   }
 
   &[position^="bottom"]::after {
-    top: calc(105% + 5px);
+    top: calc(100% + 5px);
   }
 
   &[position^="bottom"]::before,
@@ -106,13 +107,13 @@ $gray: #495057;
     top: 50%;
     border-right-width: 0;
     border-left-color: $gray;
-    left: calc(0em - 5px);
+    left: calc(0em - 7px);
     transform: translate(-0.5em, -50%);
   }
 
   &[position^="left"]::after {
     top: 50%;
-    right: calc(100% + 5px);
+    right: calc(100% + 7px);
     transform: translate(-0.5em, -50%);
   }
 
@@ -121,13 +122,13 @@ $gray: #495057;
     top: 50%;
     border-left-width: 0;
     border-right-color: $gray;
-    right: calc(0em - 5px);
+    right: calc(0em - 7px);
     transform: translate(0.5em, -50%);
   }
 
   &[position^="right"]::after {
     top: 50%;
-    left: calc(100% + 5px);
+    left: calc(100% + 7px);
     transform: translate(0.5em, -50%);
   }
 
