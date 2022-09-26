@@ -4,6 +4,7 @@ import auth from "@/modules/auth/router/index"
 import dashboard from "@/modules/dashboard/router/index"
 import organization from "@/modules/organization/router/index"
 import activity from "@/modules/activity/router/index"
+import resource from "@/modules/resource/router/index"
 import user from "@/modules/user/router/index"
 import setting from "@/modules/setting/router/index"
 
@@ -17,6 +18,7 @@ const routes = [
   ...dashboard,
   ...organization,
   ...activity,
+  ...resource,
   ...user,
   ...setting,
 ]

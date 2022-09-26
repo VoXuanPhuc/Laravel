@@ -8,22 +8,36 @@
     </EcText>
     <EcBox v-if="!isLoading" class="w-full max-w-md">
       <template v-if="!isFinish">
-        <RFormInput
-          v-model.trim="newPassword"
+        <!-- <RFormInput
+          v-model.trim="form.current_password"
           componentName="EcInputText"
           class="mb-5"
           type="password"
-          :label="$t('auth.password')"
+          :label="$t('auth.currentPassword')"
           variant="primary-lg"
           dark
-          iconPrefix="LockClosed"
-          :validator="v"
-          field="newPassword"
-          @input="v.newPassword.$touch()"
+          iconPrefix="Key"
+          :validator="v$"
+          field="form.current_password"
+          @input="v$.form.current_password.$touch()"
+          @keypress.enter="handleClickConfirm"
+        /> -->
+        <RFormInput
+          v-model.trim="form.new_password"
+          componentName="EcInputText"
+          class="mb-5"
+          type="password"
+          :label="$t('auth.newPassword')"
+          variant="primary-lg"
+          dark
+          iconPrefix="Key"
+          :validator="v$"
+          field="form.new_password"
+          @input="v$.form.new_password.$touch()"
           @keypress.enter="handleClickConfirm"
         />
         <RFormInput
-          v-model.trim="confirmPassword"
+          v-model.trim="form.confirm_password"
           componentName="EcInputText"
           class="mb-12"
           type="password"
@@ -31,9 +45,9 @@
           variant="primary-lg"
           dark
           iconPrefix="LockClosed"
-          :validator="v"
-          field="confirmPassword"
-          @input="v.confirmPassword.$touch()"
+          :validator="v$"
+          field="form.confirm_password"
+          @input="v$.form.confirm_password.$touch()"
           @keypress.enter="handleClickConfirm"
         />
         <EcButton variant="primary" @click="handleClickConfirm">
@@ -54,23 +68,49 @@
 
 <script>
 import LayoutAuth from "./../components/LayoutAuth"
+import { useForceChangePassword } from "../use/useForceChangePassword"
+import { goto } from "@/modules/core/composables"
+import { useGlobalStore } from "@/stores/global"
 
 export default {
   name: "ViewNewPassword",
   components: {
     LayoutAuth,
   },
-  setup() {},
+
+  data() {
+    return {
+      isLoading: false,
+      isFinish: false,
+      isSuccess: false,
+    }
+  },
+  setup() {
+    const globalStore = useGlobalStore()
+    const { form, v$, submitChangePassword } = useForceChangePassword()
+
+    return {
+      form,
+      v$,
+      submitChangePassword,
+      globalStore,
+    }
+  },
+
+  mounted() {
+    const { username, firstName, session } = this.$route.params
+
+    this.form.username = username
+    this.form.first_name = firstName
+    this.form.session_value = session
+
+    if (!this.form.username || !this.form.first_name || !this.form.session_value) {
+      this.globalStore.addErrorToastMessage(this.$t("auth.errors.invalidSession"))
+
+      goto("ViewLogin")
+    }
+  },
   computed: {
-    isLoading() {
-      return false
-    },
-    isFinish() {
-      return false
-    },
-    isSuccess() {
-      return false
-    },
     computedTitle() {
       return this.isFinish ? (this.isSuccess ? this.$t("auth.success") : this.$t("auth.fail")) : this.$t("auth.newPassword")
     },
@@ -83,13 +123,32 @@ export default {
     },
   },
   methods: {
-    handleClickConfirm() {
-      this.v.$touch()
-      if (this.v.$invalid) return
-      this.send("CONFIRM_CHANGE")
+    /**
+     * New password
+     */
+    async handleClickConfirm() {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
+        return
+      }
+
+      this.isLoading = true
+      const response = await this.submitChangePassword(this.form)
+
+      this.isLoading = false
+
+      debugger
+      if (response) {
+        this.isSuccess = true
+        setTimeout(this.handleClickBackToLogin, 2000)
+      }
     },
+
+    /**
+     * Back to login
+     */
     handleClickBackToLogin() {
-      this.send("BACK_TO_LOGIN")
+      goto("ViewLogin")
     },
   },
 }

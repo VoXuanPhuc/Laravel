@@ -3,6 +3,7 @@ export default {
     loginTitle: "Login to ReadyBC",
     loginSubtitle: "Business Continuity Made Easy",
     email: "Email",
+    currentPassword: "Current Password",
     password: "Password",
     login: "Login",
     forgotPassword: "Forgot password?",
@@ -16,9 +17,9 @@ export default {
     sendMailFailNote: "Oops something wrong. Please try again later.",
     forgotPasswordNote: "No worries! Please enter your email bellow, we will send you a password recover email.",
     newPassword: "New Password",
-    updatePasswordSuccessNote: "Your password has been update successfully.",
+    updatePasswordSuccessNote: "Your password has been update successfully, redirecting to login...",
     updatePasswordFailNote: "Something wrong when updating your password. Please try again!",
-    updatePasswordNote: "Set a new password for your account.",
+    updatePasswordNote: "You need to change your temporary password before you can login.",
     confirm: "Confirm",
     goToLogin: "Go To Login",
     confirmPassword: "Confirm Password",
@@ -30,6 +31,8 @@ export default {
     // Errors
     errors: {
       login: "Unable to login",
+      changePassword: "Errors occured, change password fail",
+      invalidSession: "Invalid session, you need to retry from Login page.",
     },
   },
 }

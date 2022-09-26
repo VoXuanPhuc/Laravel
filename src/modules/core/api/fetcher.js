@@ -2,13 +2,14 @@ import axios from "axios"
 import { defaultErrorHandler } from "../composables/defaultErrorHandler"
 
 const fetcher = axios.create({
-  baseURL: `${process.env.VUE_APP_BASE_URL}`,
+  baseURL: `https://${window.location.hostname}`,
 })
 
 fetcher.defaults.timeout = 3 * 1000 * 60 // 3 mins
 
 fetcher.interceptors.request.use(
   (config) => {
+    // Set token, will be replace with data from cookie
     const token = localStorage.getItem(process.env.VUE_APP_TOKEN_KEY) || ""
     if (token) {
       config.headers.Authorization = `Bearer ${token}`

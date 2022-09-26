@@ -4,7 +4,7 @@
     <EcFlex class="flex-wrap items-center">
       <EcFlex class="flex-wrap items-center justify-between w-full lg:w-auto lg:mr-4">
         <EcHeadline class="mb-3 mr-4 text-cBlack lg:mb-0">
-          {{ $t("activity.activities") }}
+          {{ $t("resource.resources") }}
         </EcHeadline>
       </EcFlex>
 
@@ -24,28 +24,17 @@
     <!-- Filter-->
     <EcBox class="xl:grid-cols-2 lg:grid-cols-1 grid sm:grid-cols-1 md:grid-cols-1 gap-2 mt-8 lg:mt-16">
       <EcBox class="grid grid-cols-5 lg:mt-2">
-        <EcLabel class="text-start mt-2">{{ $t("activity.context") }}</EcLabel>
+        <EcLabel class="text-start mt-2">{{ $t("resource.filter") }}</EcLabel>
         <EcFlex class="col-span-4 grid grid-cols-2 gap-2">
-          <!-- Division-->
+          <!-- Resource type-->
           <RFormInput
             class="w-full"
             v-model="selectedDivision"
             componentName="EcSelect"
-            :options="divisions"
+            :options="resourceTypes"
             :valueKey="'uid'"
             :allowSelectNothing="true"
-            :placeholder="$t('activity.placeholders.division')"
-          />
-
-          <!-- Business-unit-->
-          <RFormInput
-            class="w-full"
-            v-model="selectedBU"
-            componentName="EcSelect"
-            :options="businessUnits"
-            :valueKey="'uid'"
-            :allowSelectNothing="true"
-            :placeholder="$t('activity.placeholders.bu')"
+            :placeholder="$t('resource.placeholders.category')"
           />
         </EcFlex>
       </EcBox>
@@ -54,17 +43,17 @@
           class="mb-3 lg:mb-0"
           :iconPrefix="exportAcctivityIcon"
           variant="primary-sm"
-          @click="handleClickDownloadActivities"
+          @click="handleClickDownloadResources"
         >
-          {{ $t("activity.button.exportActivities") }}
+          {{ $t("resource.button.exportResources") }}
         </EcButton>
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="ChartSquareBar" variant="primary-sm">
-          {{ $t("activity.button.timeImpactAnalysis") }}
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="UserGroup" variant="primary-sm">
+          {{ $t("resource.button.viewResourceOwners") }}
         </EcButton>
 
-        <!-- Add activity -->
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddActivity">
-          {{ $t("activity.button.addActivity") }}
+        <!-- Add Resource -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddResource">
+          {{ $t("resource.button.addResource") }}
         </EcButton>
       </EcBox>
     </EcBox>
@@ -119,21 +108,21 @@
                 <!-- View action -->
                 <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("activity.button.view") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.button.view") }}</EcText>
                 </EcFlex>
 
                 <!-- Edit action -->
                 <EcFlex
                   class="items-center px-4 py-2 cursor-pointer text-c1-500 hover:bg-c0-100"
-                  @click="handleClickEditActivity(item.uid)"
+                  @click="handleClickEditResource(item.uid)"
                 >
                   <EcIcon class="mr-3" icon="Pencil" />
-                  <EcText class="font-medium">{{ $t("activity.button.edit") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.button.edit") }}</EcText>
                 </EcFlex>
                 <!-- Delete action -->
                 <EcFlex class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="X" />
-                  <EcText class="font-medium">{{ $t("activity.button.delete") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.button.delete") }}</EcText>
                 </EcFlex>
               </RTableAction>
             </EcFlex>
@@ -172,6 +161,7 @@ export default {
       currentPage,
     } = useActivityList()
 
+    const resourceCategories = ref([])
     const divisions = ref([])
     const businessUnits = ref([])
 
@@ -190,6 +180,7 @@ export default {
       totalItems,
       fetchDivisionList,
       tenantBusinessUnits,
+      resourceCategories,
       divisions,
       businessUnits,
       fetchActivityListByDivisionUid,
@@ -199,11 +190,11 @@ export default {
   data() {
     return {
       headerData: [
-        // { label: this.$t("activity.label.businessUnit") },
-        { label: this.$t("activity.label.activityName") },
-        { label: this.$t("activity.label.step") },
-        { label: this.$t("activity.label.status") },
-        { label: this.$t("activity.label.createdAt") },
+        // { label: this.$t("resource.label.businessUnit") },
+        { label: this.$t("resource.label.activityName") },
+        { label: this.$t("resource.label.step") },
+        { label: this.$t("resource.label.status") },
+        { label: this.$t("resource.label.createdAt") },
       ],
       selectedDivision: null,
       selectedBU: null,
@@ -273,7 +264,7 @@ export default {
     /**
      * Download
      */
-    async handleClickDownloadActivities() {
+    async handleClickDownloadResources() {
       this.isDownloading = true
       await this.downloadActivities(this.selectedDivision, this.selectedBU)
       this.isDownloading = false
@@ -281,17 +272,17 @@ export default {
     /**
      * Add new activity
      */
-    handleClickAddActivity() {
-      goto("ViewActivityNew")
+    handleClickAddResource() {
+      goto("ViewResourceNew")
     },
     /**
      *
-     * @param {*} actitivtyUid
+     * @param {*} resourceUid
      */
-    handleClickEditActivity(actitivtyUid) {
-      goto("ViewActivityDetail", {
+    handleClickEditResource(resourceUid) {
+      goto("ViewResourceDetail", {
         params: {
-          uid: actitivtyUid,
+          uid: resourceUid,
         },
       })
     },

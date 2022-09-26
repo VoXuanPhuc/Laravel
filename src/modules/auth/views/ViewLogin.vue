@@ -73,6 +73,7 @@ import EcSpinner from "@/components/EcSpinner/index.vue"
 import { useGlobalStore } from "@/stores/global"
 import { useLoginStore } from "../stores/useLogin"
 import { storeToRefs } from "pinia"
+import { goto } from "@/modules/core/composables"
 
 export default {
   name: "ViewLogin",
@@ -91,13 +92,14 @@ export default {
   setup() {
     const globalStore = useGlobalStore()
     const loginStore = useLoginStore()
-    const { form, v } = storeToRefs(loginStore)
+    const { form, v, CHALLENGE_CHANGE_PASSWORD } = storeToRefs(loginStore)
 
     return {
       globalStore,
       loginStore,
       form,
       v,
+      CHALLENGE_CHANGE_PASSWORD,
     }
   },
   computed: {
@@ -132,7 +134,22 @@ export default {
         // Show loading indicator
         this.isLoading = true
         // Get token
-        await this.loginStore.login()
+        const data = await this.loginStore.login()
+
+        // Check to see if there has nay challenge
+        if (data && data.challenge_name) {
+          switch (data.challenge_name) {
+            case this.loginStore.CHALLENGE_CHANGE_PASSWORD:
+              goto("ViewNewPassword", {
+                params: {
+                  username: data.user_uid,
+                  session: data.session,
+                  firstName: data.first_name,
+                },
+              })
+              return
+          }
+        }
         // Hide loading indicator
         this.isLoading = false
         // Get previous path that was entered while user was logged in

@@ -5,8 +5,13 @@ import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 import * as api from "../api/fetcher"
 import { useGlobalStore } from "@/stores/global"
+import { useI18n } from "vue-i18n"
 
 export const useLoginStore = defineStore("login", () => {
+  const { t } = useI18n()
+
+  const CHALLENGE_CHANGE_PASSWORD = "NEW_PASSWORD_REQUIRED"
+
   const form = ref({
     username: "",
     password: "",
@@ -37,14 +42,18 @@ export const useLoginStore = defineStore("login", () => {
         password: this.form.password,
       })
 
+      if (data && data.challenge_name) {
+        return data
+      }
+
       if (!data || !data.accessToken) {
-        throw new Error(this.$t("auth.errors.login"))
+        throw new Error(t("auth.errors.login"))
       }
 
       localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, data.accessToken)
       localStorage.setItem(process.env.VUE_APP_TOKEN_EXPIRES, dayjs().add(data.expiresIn, "second"))
     } catch (error) {
-      globalStore.addErrorToastMessage(error ? error?.message : this.$t("auth.errors.login"))
+      globalStore.addErrorToastMessage(error ? error?.message : t("auth.errors.login"))
     }
   }
 
@@ -52,5 +61,6 @@ export const useLoginStore = defineStore("login", () => {
     form,
     v,
     login,
+    CHALLENGE_CHANGE_PASSWORD,
   }
 })

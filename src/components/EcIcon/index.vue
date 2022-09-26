@@ -98,6 +98,7 @@ export default {
     Folder: lazyLoad("Folder"),
     X: lazyLoad("X"),
     Spinner: lazyLoad("Spinner"),
+    Key: lazyLoad("Key"),
   },
 }
 </script>

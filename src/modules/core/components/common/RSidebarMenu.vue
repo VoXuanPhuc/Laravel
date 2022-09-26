@@ -228,6 +228,9 @@ export default {
       emit("click-menu-item")
     }
 
+    /**
+     *
+     */
     const handleClickSettings = () => {
       router.push({ name: "ViewSettingList" })
       emit("click-menu-item")
@@ -261,6 +264,10 @@ export default {
     variantCls() {
       return this.variants?.el || {}
     },
+  },
+
+  methods: {
+    async fetchModules() {},
   },
 }
 </script>
