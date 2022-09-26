@@ -21,24 +21,19 @@ class EquipmentService implements EquipmentServiceInterface
     }
 
     /**
-     * @param $organizationUid
      * @return LengthAwarePaginator
      */
-    public function listEquipments($organizationUid)
+    public function listEquipments()
     {
-        /** @var Organization $organization */
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        return $organization->equipments()->paginate(config('config.pagination_size'));
+        return $this->equipmentRepository->paginate(config('config.pagination_size'));
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getEquipment($organizationUid, $uid)
+    public function getEquipment( $uid )
     {
         $equipment = $this->equipmentRepository->findbyUid($uid);
 
@@ -51,17 +46,10 @@ class EquipmentService implements EquipmentServiceInterface
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @return mixed
      */
-    public function createEquipment(Request $request, $organizationUid)
+    public function createEquipment( Request $request )
     {
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        $request->merge([
-            'organization_id' => $organization->id
-        ]);
-
         return $this->equipmentRepository->create( $request->all() );
     }
 
@@ -72,22 +60,21 @@ class EquipmentService implements EquipmentServiceInterface
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateEquipment(Request $request, $organizationUid, $uid)
+    public function updateEquipment( Request $request, $uid )
     {
-        $equipment = $this->getEquipment( $organizationUid, $uid );
+        $equipment = $this->getEquipment( $uid );
 
         return $this->equipmentRepository->update( $request->all(), $equipment->id );
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return int
      * @throws NotFoundException
      */
-    public function deleteEquipment($organizationUid, $uid)
+    public function deleteEquipment( $uid )
     {
-        $equipment = $this->getEquipment( $organizationUid, $uid );
+        $equipment = $this->getEquipment( $uid );
 
         return $this->equipmentRepository->delete( $equipment->id );
     }

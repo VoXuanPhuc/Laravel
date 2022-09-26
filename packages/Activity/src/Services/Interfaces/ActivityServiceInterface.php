@@ -9,26 +9,22 @@ use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 
 interface ActivityServiceInterface
 {
-    public function listActivities($organizationUid );
+    public function listActivities();
 
-    public function getActivity($organizationUid, $uid);
+    public function getActivity($uid);
 
-    public function createActivity(CreateActivityRequest $request, $organizationUid );
+    public function createActivity(CreateActivityRequest $request );
 
-    public function updateActivity(UpdateActivityRequest $request, $organizationUid, $uid);
+    public function updateActivity(UpdateActivityRequest $request, $uid);
 
-    public function deleteActivity($organizationUid, $uid);
+    public function deleteActivity($uid);
 
-    public function getOrgActivities($organizationUid);
+    public function getOrgActivities();
 
-    public function getDivisionActivities($organizationUid, $divisionUid);
+    public function getDivisionActivities( $divisionUid );
 
-    public function saveRemoteAccessFactors( SaveRemoteAccessRequest $request, $organizationUid, $activityUid );
+    public function permanentDelete( $uid );
 
-    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $organizationUid, $activityUid );
-
-    public function permanentDelete( $organizationUid, $uid );
-
-    public function export( $organization, $divisionUid = '', $businessUnitUid = '', $range = 'all' );
+    public function export( $divisionUid = '', $businessUnitUid = '', $range = 'all' );
 
 }

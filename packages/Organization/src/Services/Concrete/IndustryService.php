@@ -4,8 +4,11 @@ namespace Encoda\Organization\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Organization\Http\Requests\Industry\IndustryRequest;
-use Encoda\Organization\Repositories\IndustryRepository;
+use Encoda\Organization\Repositories\Concrete\IndustryRepository;
 use Encoda\Organization\Services\Interfaces\IndustryServiceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class IndustryService implements IndustryServiceInterface
 {
@@ -39,7 +42,7 @@ class IndustryService implements IndustryServiceInterface
 
     /**
      * @param IndustryRequest $request
-     * @return LengthAwarePaginator|Collection|mixed
+     * @return mixed
      * @throws ValidatorException
      */
     public function createIndustry(IndustryRequest $request)

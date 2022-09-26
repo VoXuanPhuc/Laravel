@@ -13,6 +13,9 @@
     "autoload": {
         "psr-4": {
             "Encoda\\Core\\" : "src"
-        }
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
     }
 }

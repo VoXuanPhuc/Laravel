@@ -2,13 +2,17 @@
 
 namespace Encoda\Resource\Models;
 
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Resource\Enums\ResourceStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Resource extends Model
 {
+
+    use SoftDeletes, MultiTenancyModel;
     protected $table = 'resources';
 
     protected $guarded = [

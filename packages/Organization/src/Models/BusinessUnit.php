@@ -3,13 +3,14 @@
 namespace Encoda\Organization\Models;
 
 use Encoda\Activity\Models\Activity;
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessUnit extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, MultiTenancyModel;
 
     protected $table = 'business_units';
 
@@ -41,7 +42,7 @@ class BusinessUnit extends Model
     public function division() {
         return $this->belongsTo( Division::class );
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

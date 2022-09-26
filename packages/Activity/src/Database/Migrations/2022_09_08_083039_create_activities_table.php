@@ -27,10 +27,17 @@ return new class extends Migration
             $table->integer('min_people')->default(1);
             $table->tinyInteger('status')->default(\Encoda\Activity\Models\Activity::CREATED);
             $table->tinyInteger('step')->default(\Encoda\Activity\Models\Activity::STEP_ACTIVITY_INFO);
+            $table->foreignId('organization_id');
             $table->foreignId('division_id')->nullable(true);
             $table->foreignId('business_unit_id')->nullable(true);
             $table->softDeletesTz();
             $table->timestamps();
+
+            $table->foreign('organization_id')
+                ->references('id')
+                ->on('organizations')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
 
             $table->foreign('division_id')
                 ->references('id')

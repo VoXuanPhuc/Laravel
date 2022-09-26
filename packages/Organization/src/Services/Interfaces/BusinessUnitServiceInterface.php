@@ -9,11 +9,11 @@ interface BusinessUnitServiceInterface
 {
 
 
-    public function listBusinessUnit( $organizationUid, $divisionUid );
-    public function listBusinessUnitByOrg( $organizationUid );
-    public function getBusinessUnit( $organizationUid, $divisionUid, $uid );
-    public function getBusinessUnitWithoutDivision( $organizationUid, $uid );
-    public function createBusinessUnit( CreateBusinessUnitRequest $request, $organizationUid, $divisionUid );
-    public function updateBusinessUnit( UpdateBusinessUnitRequest $request, $organizationUid, $divisionUid, $uid );
-    public function deleteBusinessUnit( $organizationUid, $divisionUid, $uid );
+    public function listBusinessUnit( $divisionUid );
+    public function listBusinessUnitByOrg();
+    public function getBusinessUnit( $divisionUid, $uid );
+    public function getBusinessUnitWithoutDivision(  $uid );
+    public function createBusinessUnit( CreateBusinessUnitRequest $request, $divisionUid );
+    public function updateBusinessUnit( UpdateBusinessUnitRequest $request, $divisionUid, $uid );
+    public function deleteBusinessUnit( $divisionUid, $uid );
 }

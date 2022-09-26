@@ -10,6 +10,7 @@ class OrganizationServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
+        $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/global-api.php');
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/web.php');
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/admin-api.php');
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/api.php');

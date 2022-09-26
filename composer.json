@@ -35,12 +35,20 @@
             "Encoda\\Identity\\" : "packages/Identity/src",
             "Encoda\\Rbac\\" : "packages/Rbac/src",
             "Encoda\\Jwt\\" : "packages/Jwt/src",
+            "Encoda\\Dashboard\\" : "packages/Dashboard/src",
+            "Encoda\\Notification\\" : "packages/Notification/src",
+            "Encoda\\Task\\" : "packages/Task/src",
             "Encoda\\Organization\\" : "packages/Organization/src",
             "Encoda\\EDocs\\" : "packages/EDocs/src",
             "Encoda\\Activity\\" : "packages/Activity/src",
             "Encoda\\Resource\\" : "packages/Resource/src",
-            "Encoda\\Excel\\" : "packages/Excel/src"
-        }
+            "Encoda\\Excel\\" : "packages/Excel/src",
+            "Encoda\\PackageTools\\" : "packages/PackageTools/src",
+            "Encoda\\MultiTenancy\\" : "packages/MultiTenancy/src"
+        },
+        "files": [
+            "packages/Core/src/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

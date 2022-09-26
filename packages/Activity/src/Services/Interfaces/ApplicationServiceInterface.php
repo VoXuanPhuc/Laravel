@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 interface ApplicationServiceInterface
 {
 
-    public function listApplications($organizationUid );
+    public function listApplications();
 
-    public function getApplication($organizationUid, $uid);
+    public function getApplication( $uid );
 
-    public function createApplication(Request $request, $organizationUid );
+    public function createApplication( Request $request );
 
-    public function updateApplication(Request $request, $organizationUid, $uid);
+    public function updateApplication( Request $request, $uid);
 
-    public function deleteApplication($organizationUid, $uid);
+    public function deleteApplication( $uid );
 }

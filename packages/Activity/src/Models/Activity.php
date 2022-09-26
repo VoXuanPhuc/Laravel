@@ -3,6 +3,7 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Activity extends Model implements ActivityContract
 {
-    use SoftDeletes;
+    use SoftDeletes, MultiTenancyModel;
 
     const CREATED = 1;
     const IN_PROGRESS = 2;

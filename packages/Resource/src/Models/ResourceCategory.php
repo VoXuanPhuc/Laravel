@@ -2,11 +2,14 @@
 
 namespace Encoda\Resource\Models;
 
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ResourceCategory extends Model
 {
+
+    use MultiTenancyModel;
 
     protected $table = 'resource_categories';
 

@@ -8,13 +8,19 @@ use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Models\Activity;
+use Encoda\Activity\Services\Interfaces\ActivityEquipmentServiceInterface;
+use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 
 class ActivityController extends Controller
 {
 
 
-    public function __construct( protected ActivityServiceInterface $activityService )
+    public function __construct(
+        protected ActivityServiceInterface $activityService,
+        protected ActivityRemoteAccessServiceInterface $remoteAccessService,
+        protected ActivityEquipmentServiceInterface $equipmentService,
+    )
     {
     }
 
@@ -22,35 +28,39 @@ class ActivityController extends Controller
     /**
      * @return mixed
      */
-    public function index() {
-        return $this->activityService->listActivities( $this->getTenant()->uid );
+    public function index(): mixed
+    {
+        return $this->activityService->listActivities();
     }
 
     /**
      * @param $uid
      * @return mixed
      */
-    public function detail( $uid ) {
-        return $this->activityService->getActivity( $this->getTenant()->uid, $uid );
+    public function detail( $uid ): mixed
+    {
+        return $this->activityService->getActivity( $uid );
     }
 
     /**
      * @param CreateActivityRequest $request
-     * @return mixed
+     * @return Activity
      */
-    public function create( CreateActivityRequest $request ) {
+    public function create( CreateActivityRequest $request ): Activity
+    {
 
-        return $this->activityService->createActivity( $request, $this->getTenant()->uid );
+        return $this->activityService->createActivity( $request );
     }
 
     /**
      * @param UpdateActivityRequest $request
      * @param $uid
-     * @return mixed
+     * @return Activity
      */
-    public function update( UpdateActivityRequest $request, $uid ) {
+    public function update( UpdateActivityRequest $request, $uid ): Activity
+    {
 
-        return $this->activityService->updateActivity( $request, $this->getTenant()->uid, $uid );
+        return $this->activityService->updateActivity( $request, $uid );
     }
 
 
@@ -62,27 +72,30 @@ class ActivityController extends Controller
      * @param $uid
      * @return mixed
      */
-    public function permanentDelete( $uid ) {
-        return $this->activityService->permanentDelete( $this->getTenant()->uid, $uid );
+    public function permanentDelete( $uid ): mixed
+    {
+        return $this->activityService->permanentDelete( $uid );
     }
     /**
      * @param SaveRemoteAccessRequest $request
      * @param $activityUid
-     * @return mixed
+     * @return Activity
      */
-    public function saveRemoteAccessFactors( SaveRemoteAccessRequest $request, $activityUid ) {
+    public function saveRemoteAccessFactors( SaveRemoteAccessRequest $request, $activityUid ): Activity
+    {
 
-        return $this->activityService->saveRemoteAccessFactors( $request, $this->getTenant()->uid, $activityUid );
+        return $this->remoteAccessService->saveRemoteAccessFactors( $request, $activityUid );
     }
 
     /**
      * @param SaveApplicationsAndEquipmentRequest $request
      * @param $activityUid
-     * @return mixed
+     * @return Activity
      */
-    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $activityUid ) {
+    public function saveApplicationsAndEquipments(SaveApplicationsAndEquipmentRequest $request, $activityUid ): Activity
+    {
 
-        return $this->activityService->saveApplicationsAndEquipments( $request, $this->getTenant()->uid, $activityUid );
+        return $this->equipmentService->saveApplicationsAndEquipments( $request, $activityUid );
     }
 
 
@@ -90,7 +103,8 @@ class ActivityController extends Controller
      * @param string $range
      * @return mixed
      */
-    public function export( $range = 'all' ) {
+    public function export( string $range = 'all' ): mixed
+    {
         $response = $this->activityService->export( $this->getTenant(), $range );
 
         return $response->deleteFileAfterSend( false );

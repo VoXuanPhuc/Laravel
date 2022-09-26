@@ -18,21 +18,19 @@ class ResourceOwnerService implements \Encoda\Resource\Services\Interfaces\Resou
     }
 
     /**
-     * @param Organization $organization
      * @return mixed
      */
-    public function listResourceOwner($organization)
+    public function listResourceOwner()
     {
-        return $organization->resourceOwners()->paginate( config('config.pagination_size') );
+        return $this->ownerRepository->paginate( config('config.pagination_size') );
     }
 
     /**
-     * @param $organization
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getResourceOwner($organization, $uid)
+    public function getResourceOwner( $uid )
     {
         $owner = $this->ownerRepository->findByUid( $uid );
 
@@ -45,50 +43,43 @@ class ResourceOwnerService implements \Encoda\Resource\Services\Interfaces\Resou
 
     /**
      * @param CreateResourceOwnerRequest $request
-     * @param $organization
      * @return mixed
      */
-    public function createResourceOwner(CreateResourceOwnerRequest $request, $organization)
+    public function createResourceOwner( CreateResourceOwnerRequest $request )
     {
-        $request->merge(
-            [
-                'organization_id' => $organization->id
-            ]
-        );
 
         return $this->ownerRepository->create( $request->all() );
     }
 
     /**
      * @param UpdateResourceOwnerRequest $request
-     * @param $organization
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateResourceOwner(UpdateResourceOwnerRequest $request, $organization, $uid)
+    public function updateResourceOwner(UpdateResourceOwnerRequest $request, $uid)
     {
-        $owner = $this->getResourceOwner( $organization, $uid );
+        $owner = $this->getResourceOwner( $uid );
 
         return $this->ownerRepository->update( $request->all(), $owner->id );
     }
 
     /**
-     * @param $organization
      * @param $uid
      * @throws NotFoundException
      */
-    public function deleteResourceOwner($organization, $uid)
+    public function deleteResourceOwner( $uid )
     {
-        $owner = $this->getResourceOwner( $organization, $uid );
+        $owner = $this->getResourceOwner( $uid );
         $this->ownerRepository->delete($owner->id);
     }
 
     /**
-     * @param Organization $organization
+     * List all resource owner, no pagination
+     * @return mixed
      */
-    public function listAllResourceOwner($organization)
+    public function listAllResourceOwner()
     {
-        return $organization->resourceOwners;
+        return $this->ownerRepository->all();
     }
 }

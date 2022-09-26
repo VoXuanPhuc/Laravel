@@ -1,0 +1,18 @@
+{
+    "name": "encoda/dashboard",
+    "description": "Dashboard",
+    "authors": [
+        {
+            "name": "Nam Nguyen",
+            "email": "nam.nguyen@encoda.io"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Encoda\\Dashboard\\" : "src"
+        }
+    }
+}

@@ -9,8 +9,9 @@ class Controller extends \Laravel\Lumen\Routing\Controller
 
     /**
      * @return Organization
+     * @throws \Encoda\Core\Exceptions\ServerErrorException
      */
     protected function getTenant() {
-        return Organization::find(1);
+        return tenant();
     }
 }

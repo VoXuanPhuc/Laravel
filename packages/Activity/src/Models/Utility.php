@@ -3,24 +3,25 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\UtilityContract;
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Utility extends Model implements UtilityContract
 {
-    use SoftDeletes;
-    
+    use SoftDeletes, MultiTenancyModel;
+
     protected $guarded = [
         'id',
     ];
-    
+
     protected $fillable = [
         'uid',
         'name',
         'description',
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -5,8 +5,7 @@ namespace Encoda\Organization\Services\Concrete;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Organization\Http\Requests\BusinessUnit\CreateBusinessUnitRequest;
 use Encoda\Organization\Http\Requests\BusinessUnit\UpdateBusinessUnitRequest;
-use Encoda\Organization\Models\Organization;
-use Encoda\Organization\Repositories\BusinessUnitRepository;
+use Encoda\Organization\Repositories\Interfaces\BusinessUnitRepositoryInterface;
 use Encoda\Organization\Services\Interfaces\BusinessUnitServiceInterface;
 use Encoda\Organization\Services\Interfaces\DivisionServiceInterface;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
@@ -17,22 +16,24 @@ use Prettus\Validator\Exceptions\ValidatorException;
 class BusinessUnitService implements BusinessUnitServiceInterface
 {
 
+    /**
+     * @param DivisionServiceInterface $divisionService
+     * @param BusinessUnitRepositoryInterface $businessUnitRepository
+     */
     public function __construct(
-        protected OrganizationServiceInterface $organizationService,
         protected  DivisionServiceInterface $divisionService,
-        protected BusinessUnitRepository $businessUnitRepository
+        protected BusinessUnitRepositoryInterface $businessUnitRepository
     )
     {
     }
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @return mixed
      */
-    public function listBusinessUnit( $organizationUid, $divisionUid )
+    public function listBusinessUnit( $divisionUid )
     {
-        $division = $this->divisionService->getDivision( $organizationUid, $divisionUid );
+        $division = $this->divisionService->getDivision( $divisionUid );
 
 
         if( $division ) {
@@ -43,22 +44,14 @@ class BusinessUnitService implements BusinessUnitServiceInterface
     }
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getBusinessUnit($organizationUid, $divisionUid, $uid)
+    public function getBusinessUnit( $divisionUid, $uid)
     {
-        $division = $this->divisionService->getDivision( $organizationUid, $divisionUid );
-
-        $businessUnit = $this->businessUnitRepository->findOneWhere(
-           [
-               ['division_id', '=', $division->id],
-               ['uid', '=', $uid]
-           ]
-        );
+        $businessUnit = $this->businessUnitRepository->findByUid( $uid );
 
         if( !$businessUnit ) {
             throw new NotFoundException( __('org::app.business_unit.not_found') );
@@ -69,18 +62,14 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
     /**
      * @param CreateBusinessUnitRequest $request
-     * @param $organizationUid
      * @param $divisionUid
      * @return LengthAwarePaginator|Collection|mixed
-     * @throws ValidatorException
      */
-    public function createBusinessUnit(CreateBusinessUnitRequest $request, $organizationUid, $divisionUid )
+    public function createBusinessUnit(CreateBusinessUnitRequest $request, $divisionUid )
     {
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-        $division = $this->divisionService->getDivision( $organizationUid, $divisionUid );
+        $division = $this->divisionService->getDivision( $divisionUid );
 
         $request->merge([
-            'organization_id' => $organization->id,
             'division_id' => $division->id,
         ]);
 
@@ -89,40 +78,38 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
     /**
      * @param UpdateBusinessUnitRequest $request
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return LengthAwarePaginator|Collection|mixed
      * @throws NotFoundException
-     * @throws ValidatorException
      */
-    public function updateBusinessUnit(UpdateBusinessUnitRequest $request, $organizationUid, $divisionUid, $uid)
+    public function updateBusinessUnit(UpdateBusinessUnitRequest $request, $divisionUid, $uid)
     {
-        $businessUnit = $this->getBusinessUnit( $organizationUid, $divisionUid, $uid );
+        $businessUnit = $this->getBusinessUnit( $divisionUid, $uid );
 
         if( $divisionUid != $request->division['uid'] ) {
-            $division = $this->divisionService->getDivision( $organizationUid, $request->division['uid'] );
+            $division = $this->divisionService->getDivision( $request->division['uid'] );
 
             $request->merge([
                 'division_id' => $division->id,
             ]);
         }
 
-        return $this->businessUnitRepository->update( $request->all(), $businessUnit->id )
-            ->load('division');
+        return $this->businessUnitRepository
+                    ->update( $request->all(), $businessUnit->id )
+                    ->load('division');
     }
 
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return bool
      * @throws NotFoundException
      */
-    public function deleteBusinessUnit($organizationUid, $divisionUid,$uid)
+    public function deleteBusinessUnit( $divisionUid,$uid)
     {
-        $businessUnit = $this->getBusinessUnit( $organizationUid, $divisionUid, $uid );
+        $businessUnit = $this->getBusinessUnit( $divisionUid, $uid );
 
         if( $this->businessUnitRepository->delete( $businessUnit->id ) ) {
             return true;
@@ -132,24 +119,21 @@ class BusinessUnitService implements BusinessUnitServiceInterface
     }
 
     /**
-     * @param $organizationUid
      * @return LengthAwarePaginator
      */
-    public function listBusinessUnitByOrg( $organizationUid )
+    public function listBusinessUnitByOrg(): LengthAwarePaginator
     {
-        /** @var Organization $organization */
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        return $organization->business_units()->with('division')->paginate(config('config.pagination_size'));
+        return $this->businessUnitRepository
+                    ->with('division')
+                    ->paginate(config('config.pagination_size'));
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getBusinessUnitWithoutDivision($organizationUid, $uid)
+    public function getBusinessUnitWithoutDivision( $uid ): mixed
     {
         $businessUnit = $this->businessUnitRepository->findOneByField('uid', $uid );
 

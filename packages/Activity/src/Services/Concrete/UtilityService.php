@@ -5,8 +5,6 @@ namespace Encoda\Activity\Services\Concrete;
 use Encoda\Activity\Repositories\Interfaces\UtilityRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\UtilityServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
-use Encoda\Organization\Models\Organization;
-use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 
@@ -15,30 +13,24 @@ class UtilityService implements UtilityServiceInterface
 
     public function __construct(
         protected UtilityRepositoryInterface $utilityRepository,
-        protected OrganizationServiceInterface $organizationService
     )
     {
     }
 
     /**
-     * @param $organizationUid
      * @return LengthAwarePaginator
      */
-    public function listUtilities($organizationUid)
+    public function listUtilities()
     {
-        /** @var Organization $organization */
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        return $organization->utilities()->paginate(config('config.pagination_size'));
+        return $this->utilityRepository->paginate(config('config.pagination_size'));
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getUtility($organizationUid, $uid)
+    public function getUtility( $uid )
     {
         $Utility = $this->utilityRepository->findbyUid($uid);
 
@@ -51,44 +43,35 @@ class UtilityService implements UtilityServiceInterface
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @return mixed
      */
-    public function createUtility(Request $request, $organizationUid)
+    public function createUtility( Request $request )
     {
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        $request->merge([
-            'organization_id' => $organization->id
-        ]);
-
         return $this->utilityRepository->create( $request->all() );
     }
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateUtility(Request $request, $organizationUid, $uid)
+    public function updateUtility(Request $request, $uid)
     {
-        $Utility = $this->getUtility( $organizationUid, $uid );
+        $utility = $this->getUtility( $uid );
 
-        return $this->utilityRepository->update( $request->all(), $Utility->id );
+        return $this->utilityRepository->update( $request->all(), $utility->id );
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return int
      * @throws NotFoundException
      */
-    public function deleteUtility($organizationUid, $uid)
+    public function deleteUtility( $uid )
     {
-        $Utility = $this->getUtility( $organizationUid, $uid );
+        $utility = $this->getUtility( $uid );
 
-        return $this->utilityRepository->delete( $Utility->id );
+        return $this->utilityRepository->delete( $utility->id );
     }
 }

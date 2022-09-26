@@ -3,6 +3,7 @@
 namespace Encoda\Organization\Models;
 
 use Encoda\Activity\Models\Activity;
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Division extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, MultiTenancyModel;
 
     protected $table = 'divisions';
 
@@ -43,7 +44,7 @@ class Division extends Model
     public function business_units() {
         return $this->hasMany( BusinessUnit::class );
     }
-    
+
     /**
      * Get all the activities for the organization.
      * @return HasManyThrough

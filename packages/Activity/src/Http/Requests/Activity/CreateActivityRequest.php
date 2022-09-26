@@ -2,9 +2,11 @@
 
 namespace Encoda\Activity\Http\Requests\Activity;
 
+use Encoda\Activity\Validations\ActivityDivisionOrBusinessUnitRequiredValidation;
 use Encoda\Core\Http\Requests\FormRequest;
 
 /**
+ *
  * @property $division
  * @property $business_unit
  * @property $roles[]
@@ -21,6 +23,7 @@ class CreateActivityRequest extends FormRequest
             'roles' => 'required',
             'alternative_roles' => 'nullable',
             'is_remote' => 'required|boolean',
+            'division' => [ new ActivityDivisionOrBusinessUnitRequiredValidation( $this->business_unit )]
             // 'status' => 'required|numeric|min:1|max:3',
             // 'step' => 'required|numeric|min:1|max:3',
 //            'utility_uids' => 'required',

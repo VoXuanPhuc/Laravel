@@ -66,7 +66,6 @@ class ResourceService implements ResourceServiceInterface
 
         $request->merge(
             [
-                'organization_id' => $organization->id,
                 'resources_category_id' => $category->id,
             ]
         );

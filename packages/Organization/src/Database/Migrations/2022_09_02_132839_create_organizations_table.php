@@ -24,8 +24,7 @@ return new class extends Migration
             $table->string('code')->unique()->index('idx_org_code');
             $table->string('description')->nullable(true);
             $table->string('logo_path')->nullable(true);
-            $table->string('friendly_url')->unique();
-            $table->string('custom_domain')->unique()->nullable(true);
+            $table->string('domain')->unique()->index('idx_domain');
             $table->string('address')->nullable(true);
             $table->boolean('is_archived')->nullable(true)->default(false);
             $table->boolean('is_active')->default(true);
@@ -42,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists( $this->tableName );
     }
 };

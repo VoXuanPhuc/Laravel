@@ -10,6 +10,7 @@ use Encoda\Activity\Models\Utility;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
+use Encoda\MultiTenancy\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,9 +20,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 /**
+ * @property string $name
  * @property string $uid
+ * @property string $code
+ * @property boolean $landlord
+ * @property string $domain
+ * @property string $logo_path
  */
-class Organization extends Model
+class Organization extends Tenant
 {
 
     use SoftDeletes;
@@ -43,8 +49,7 @@ class Organization extends Model
         'code',
         'description',
         'logo_path',
-        'friendly_url',
-        'custom_domain',
+        'domain',
         'address',
         'is_active'
     ];
@@ -52,6 +57,37 @@ class Organization extends Model
         'is_active' => 'boolean'
     ];
 
+    protected $appends = [
+        'friendly_url',
+        'landlord',
+    ];
+
+    // ====== Attributes ==== //
+
+    /**
+     * @return bool
+     */
+    public function getLandlordAttribute() {
+        return 'ESCALATE' == trim($this->code)
+            && trim($this->domain) == trim(config('config.app_domain'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyUrlAttribute() {
+        $friendlyUrl = str_replace( config('config.app_domain'), '', $this->domain );
+
+        return trim( $friendlyUrl, '.' );
+    }
+
+
+    /**
+     * @return HasMany
+     */
+    public function settings() {
+        return $this->hasMany( OrganizationSettings::class, 'organization_id' );
+    }
 
     /***
      * @return HasMany
@@ -130,7 +166,7 @@ class Organization extends Model
     /**
      * @return HasMany
      */
-    public function resourceCategories(): HasMany
+    public function resourceCategories():   HasMany
     {
         return $this->hasMany( ResourceCategory::class );
     }

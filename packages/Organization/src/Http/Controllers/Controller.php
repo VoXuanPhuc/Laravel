@@ -2,16 +2,23 @@
 
 namespace Encoda\Organization\Http\Controllers;
 
-use Encoda\Organization\Models\Organization;
+use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\MultiTenancy\Models\Tenant;
 
 class Controller extends \Laravel\Lumen\Routing\Controller
 {
 
+    public function __construct()
+    {
+
+        echo '1';
+    }
 
     /**
-     * @return Organization
+     * @return Tenant
+     * @throws NotFoundException
      */
     protected function getTenant() {
-        return Organization::find(1);
+        return tenant();
     }
 }

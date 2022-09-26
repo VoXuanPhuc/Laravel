@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RbacSeeder::class,
             OrganizationModuleSeeder::class,
+            RbacSeeder::class,
             ActivitySeeder::class,
         ]);
     }

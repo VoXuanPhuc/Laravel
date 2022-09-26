@@ -19,6 +19,7 @@ class OrganizationController extends Controller
      * @return mixed
      */
     public function index() {
+
         return $this->organizationService->listOrganization();
     }
 

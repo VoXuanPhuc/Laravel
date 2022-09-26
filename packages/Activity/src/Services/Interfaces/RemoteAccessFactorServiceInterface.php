@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 
 interface RemoteAccessFactorServiceInterface
 {
-    public function listRemoteAccessFactors($organizationUid );
+    public function listRemoteAccessFactors();
 
-    public function getRemoteAccessFactor($organizationUid, $uid);
+    public function getRemoteAccessFactor( $uid );
 
-    public function createRemoteAccessFactor(Request $request, $organizationUid );
+    public function createRemoteAccessFactor( Request $request );
 
-    public function updateRemoteAccessFactor(Request $request, $organizationUid, $uid);
+    public function updateRemoteAccessFactor(Request $request, $uid);
 
-    public function deleteRemoteAccessFactor($organizationUid, $uid);
+    public function deleteRemoteAccessFactor( $uid );
 }

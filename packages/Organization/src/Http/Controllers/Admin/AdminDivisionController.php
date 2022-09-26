@@ -27,13 +27,12 @@ class AdminDivisionController extends Controller
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      */
-    public function detail( $organizationUid, $uid ) {
+    public function detail( $uid ) {
 
-        return $this->divisionService->getDivision( $organizationUid, $uid );
+        return $this->divisionService->getDivision( $uid );
     }
 
     /**
@@ -48,20 +47,18 @@ class AdminDivisionController extends Controller
 
     /**
      * @param UpdateDivisionRequest $request
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      */
-    public function update( UpdateDivisionRequest $request, $organizationUid, $uid ) {
-        return $this->divisionService->updateDivision( $request, $organizationUid, $uid );
+    public function update( UpdateDivisionRequest $request, $uid ) {
+        return $this->divisionService->updateDivision( $request, $uid );
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      */
-    public function delete ( $organizationUid, $uid ) {
-        return $this->divisionService->deleteDivision( $organizationUid, $uid );
+    public function delete ( $uid ) {
+        return $this->divisionService->deleteDivision( $uid );
     }
 }

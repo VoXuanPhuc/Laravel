@@ -22,24 +22,19 @@ class ApplicationService implements ApplicationServiceInterface
     }
 
     /**
-     * @param $organizationUid
      * @return LengthAwarePaginator
      */
-    public function listApplications($organizationUid)
+    public function listApplications()
     {
-        /** @var Organization $organization */
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        return $organization->applications()->paginate(config('config.pagination_size'));
+        return $this->applicationRepository->paginate(config('config.pagination_size'));
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return Application
      * @throws NotFoundException
      */
-    public function getApplication($organizationUid, $uid)
+    public function getApplication( $uid )
     {
         $application = $this->applicationRepository->findByUid( $uid );
 
@@ -52,30 +47,22 @@ class ApplicationService implements ApplicationServiceInterface
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @return mixed
      */
-    public function createApplication(Request $request, $organizationUid)
+    public function createApplication( Request $request )
     {
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        $request->merge([
-            'organization_id' => $organization->id
-        ]);
-
         return $this->applicationRepository->create( $request->all() );
     }
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateApplication(Request $request, $organizationUid, $uid)
+    public function updateApplication( Request $request, $uid )
     {
-        $application = $this->getApplication( $organizationUid, $uid );
+        $application = $this->getApplication( $uid );
 
         return $this->applicationRepository->update( $request->all(), $application->id );
 
@@ -84,9 +71,9 @@ class ApplicationService implements ApplicationServiceInterface
     /**
      * @throws NotFoundException
      */
-    public function deleteApplication($organizationUid, $uid)
+    public function deleteApplication( $uid )
     {
-        $application = $this->getApplication( $organizationUid, $uid );
+        $application = $this->getApplication( $uid );
 
         return $this->applicationRepository->delete( $application->id );
     }

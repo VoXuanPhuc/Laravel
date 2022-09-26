@@ -12,6 +12,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
+    'app_domain' => env('APP_DOMAIN', 'test-readybc.com'),
     'locale' => env('APP_LOCALE', 'en'),
     'identity_pool' => [
         'driver' => env('IDENTITY_POOL', 'eloquent'),

@@ -26,19 +26,20 @@ class BusinessUnitController extends Controller
      */
     public function index( $divisionUid ) {
 
-        return  $this->businessUnitService->listBusinessUnit( $this->getTenant()->uid, $divisionUid );
+        return  $this->businessUnitService->listBusinessUnit(  $divisionUid );
     }
 
     /**
      * @return mixed
      */
-    public function businessUnitByOrg() {
+    public function businessUnitByOrg(): mixed
+    {
 
-        return  $this->businessUnitService->listBusinessUnitByOrg( $this->getTenant()->uid );
+        return  $this->businessUnitService->listBusinessUnitByOrg();
     }
 
     public function detail( $divisionUid, $uid ) {
-        return $this->businessUnitService->getBusinessUnit( $this->getTenant()->uid, $divisionUid, $uid );
+        return $this->businessUnitService->getBusinessUnit( $divisionUid, $uid );
     }
 
     /**
@@ -47,7 +48,7 @@ class BusinessUnitController extends Controller
      * @return mixed
      */
     public function create( CreateBusinessUnitRequest $request, $divisionUid ) {
-        return $this->businessUnitService->createBusinessUnit( $request, $this->getTenant()->uid, $divisionUid );
+        return $this->businessUnitService->createBusinessUnit( $request, $divisionUid );
     }
 
     /**
@@ -58,7 +59,7 @@ class BusinessUnitController extends Controller
      */
     public function update( UpdateBusinessUnitRequest $request, $divisionUid, $uid ) {
 
-        return $this->businessUnitService->updateBusinessUnit( $request, $this->getTenant()->uid, $divisionUid, $uid );
+        return $this->businessUnitService->updateBusinessUnit( $request, $divisionUid, $uid );
     }
 
     /**
@@ -67,6 +68,6 @@ class BusinessUnitController extends Controller
      * @return mixed
      */
     public function delete( $divisionUid, $uid ) {
-        return $this->businessUnitService->deleteBusinessUnit( $this->getTenant()->uid, $divisionUid, $uid );
+        return $this->businessUnitService->deleteBusinessUnit( $divisionUid, $uid );
     }
 }

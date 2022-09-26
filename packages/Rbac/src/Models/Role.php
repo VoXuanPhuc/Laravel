@@ -1,6 +1,7 @@
 <?php
 namespace Encoda\Rbac\Models;
 
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Rbac\Contract\RoleContract;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -10,13 +11,15 @@ use Illuminate\Database\Eloquent\Collection;
 class Role extends \Spatie\Permission\Models\Role implements RoleContract
 {
 
+    use MultiTenancyModel;
+
     protected $guarded = [
         'id',
     ];
 
     protected $fillable = [
         'uid',
-        'tenant_id',
+        'organization_id',
         'name',
         'label',
         'description',

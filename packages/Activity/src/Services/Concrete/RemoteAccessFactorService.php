@@ -21,24 +21,19 @@ class RemoteAccessFactorService implements RemoteAccessFactorServiceInterface
     }
 
     /**
-     * @param $organizationUid
      * @return LengthAwarePaginator
      */
-    public function listRemoteAccessFactors($organizationUid)
+    public function listRemoteAccessFactors()
     {
-        /** @var Organization $organization */
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        return $organization->remoteAccessFactors()->paginate(config('config.pagination_size'));
+        return $this->remoteAccessFactorRepository->paginate(config('config.pagination_size'));
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getRemoteAccessFactor($organizationUid, $uid)
+    public function getRemoteAccessFactor( $uid )
     {
         $remoteAccessFactor = $this->remoteAccessFactorRepository->findbyUid($uid);
 
@@ -51,44 +46,35 @@ class RemoteAccessFactorService implements RemoteAccessFactorServiceInterface
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @return mixed
      */
-    public function createRemoteAccessFactor(Request $request, $organizationUid)
+    public function createRemoteAccessFactor( Request $request )
     {
-        $organization = $this->organizationService->getOrganization( $organizationUid );
-
-        $request->merge([
-            'organization_id' => $organization->id
-        ]);
-
         return $this->remoteAccessFactorRepository->create( $request->all() );
     }
 
     /**
      * @param Request $request
-     * @param $organizationUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateRemoteAccessFactor(Request $request, $organizationUid, $uid)
+    public function updateRemoteAccessFactor( Request $request, $uid )
     {
-        $RemoteAccessFactor = $this->getRemoteAccessFactor( $organizationUid, $uid );
+        $remoteAccessFactor = $this->getRemoteAccessFactor( $uid );
 
-        return $this->remoteAccessFactorRepository->update( $request->all(), $RemoteAccessFactor->id );
+        return $this->remoteAccessFactorRepository->update( $request->all(), $remoteAccessFactor->id );
     }
 
     /**
-     * @param $organizationUid
      * @param $uid
      * @return int
      * @throws NotFoundException
      */
-    public function deleteRemoteAccessFactor($organizationUid, $uid)
+    public function deleteRemoteAccessFactor( $uid )
     {
-        $RemoteAccessFactor = $this->getRemoteAccessFactor( $organizationUid, $uid );
+        $remoteAccessFactor = $this->getRemoteAccessFactor( $uid );
 
-        return $this->remoteAccessFactorRepository->delete( $RemoteAccessFactor->id );
+        return $this->remoteAccessFactorRepository->delete( $remoteAccessFactor->id );
     }
 }

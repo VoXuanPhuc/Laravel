@@ -23,64 +23,58 @@ class AdminBusinessUnitController extends Controller
     }
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @return array
      */
-    public function index( $organizationUid, $divisionUid ) {
+    public function index( $divisionUid ) {
 
-       return $this->businessUnitService->listBusinessUnit( $organizationUid, $divisionUid );
+       return $this->businessUnitService->listBusinessUnit( $divisionUid );
 
     }
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return mixed
      */
-    public function detail( $organizationUid, $divisionUid, $uid ) {
+    public function detail( $divisionUid, $uid ) {
 
-        return $this->businessUnitService->getBusinessUnit( $organizationUid, $divisionUid, $uid);
+        return $this->businessUnitService->getBusinessUnit( $divisionUid, $uid);
     }
 
     /**
      * @param CreateBusinessUnitRequest $request
-     * @param $organizationUid
      * @param $divisionUid
      * @return mixed
      */
-    public function create( CreateBusinessUnitRequest $request, $organizationUid, $divisionUid ) {
+    public function create( CreateBusinessUnitRequest $request, $divisionUid ) {
 
-        return $this->businessUnitService->createBusinessUnit( $request, $organizationUid, $divisionUid );
+        return $this->businessUnitService->createBusinessUnit( $request, $divisionUid );
     }
 
     /**
      * @param UpdateBusinessUnitRequest $request
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return mixed
      */
-    public function update( UpdateBusinessUnitRequest $request, $organizationUid, $divisionUid, $uid ) {
-        return $this->businessUnitService->updateBusinessUnit( $request, $organizationUid, $divisionUid, $uid );
+    public function update( UpdateBusinessUnitRequest $request, $divisionUid, $uid ) {
+        return $this->businessUnitService->updateBusinessUnit( $request, $divisionUid, $uid );
     }
 
     /**
-     * @param $organizationUid
      * @param $divisionUid
      * @param $uid
      * @return mixed
      */
-    public function delete ( $organizationUid, $divisionUid, $uid ) {
-        return $this->businessUnitService->deleteBusinessUnit( $organizationUid, $divisionUid, $uid );
+    public function delete ( $divisionUid, $uid ) {
+        return $this->businessUnitService->deleteBusinessUnit( $divisionUid, $uid );
     }
 
     /**
-     * @param $organizationUid
      * @return mixed
      */
-    public function getOrgBusinessUnits( $organizationUid ) {
-        return $this->businessUnitService->listBusinessUnitByOrg( $organizationUid );
+    public function getOrgBusinessUnits() {
+        return $this->businessUnitService->listBusinessUnitByOrg();
     }
 }

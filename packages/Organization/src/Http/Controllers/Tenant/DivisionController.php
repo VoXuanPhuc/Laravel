@@ -11,6 +11,10 @@ use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 class DivisionController extends Controller
 {
 
+    /**
+     * @param OrganizationServiceInterface $organizationService
+     * @param DivisionServiceInterface $divisionService
+     */
     public function __construct(
         protected OrganizationServiceInterface $organizationService,
         protected DivisionServiceInterface $divisionService,
@@ -23,7 +27,7 @@ class DivisionController extends Controller
      */
     public function index() {
 
-        return $this->divisionService->listDivision( $this->getTenant()->uid );
+        return $this->divisionService->listDivision();
     }
 
     /**
@@ -32,7 +36,7 @@ class DivisionController extends Controller
      */
     public function detail( $uid ) {
 
-        return $this->divisionService->getDivision( $this->getTenant()->uid, $uid );
+        return $this->divisionService->getDivision( $uid );
     }
 
     /**
@@ -41,7 +45,7 @@ class DivisionController extends Controller
      */
     public function create( CreateDivisionRequest $request ) {
 
-        return $this->divisionService->createDivision( $request, $this->getTenant()->uid );
+        return $this->divisionService->createDivision( $request );
     }
 
     /**
@@ -50,7 +54,7 @@ class DivisionController extends Controller
      * @return mixed
      */
     public function update( UpdateDivisionRequest $request, $uid ) {
-        return $this->divisionService->updateDivision( $request, $this->getTenant()->uid, $uid );
+        return $this->divisionService->updateDivision( $request, $uid );
     }
 
     /**
@@ -59,7 +63,7 @@ class DivisionController extends Controller
      */
     public function delete ( $uid ) {
 
-        return $this->divisionService->deleteDivision( $this->getTenant()->uid, $uid );
+        return $this->divisionService->deleteDivision( $uid );
     }
 
 

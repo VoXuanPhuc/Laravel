@@ -84,13 +84,18 @@ $app->configure('jwt');
      \Encoda\Core\Middlewares\UnacceptableMiddleware::class,
      \Encoda\Core\Middlewares\JsonPayloadHandlerMiddleware::class,
      \Encoda\Core\Middlewares\ResponseHandlerMiddleware::class,
-     \Encoda\CORS\Middlewares\CORSMiddleware::class
+     \Encoda\CORS\Middlewares\CORSMiddleware::class,
+
  ]);
 
  $app->routeMiddleware([
      'auth' => Encoda\Auth\Http\Middlewares\AuthMiddleware::class,
      'permission' => \Encoda\Rbac\Middlewares\PermissionMiddleware::class,
      'role'       => \Encoda\Rbac\Middlewares\RoleMiddleware::class,
+     'tenant' => [
+         \Encoda\MultiTenancy\Http\Middleware\NeedsTenantMiddleware::class,
+         \Encoda\MultiTenancy\Http\Middleware\EnsureValidTenantSessionMiddleware::class,
+     ],
  ]);
 
 /*
@@ -119,6 +124,10 @@ $app->register( Encoda\Activity\Providers\ActivityServiceProvider::class );
 $app->register( \Maatwebsite\Excel\ExcelServiceProvider::class );
 $app->register( Encoda\Resource\Providers\ResourceServiceProvider::class  );
 $app->register( Encoda\Excel\Providers\EncodaExcelServiceProvider::class  );
+$app->register( Encoda\Dashboard\Providers\DashboardServiceProvider::class  );
+$app->register( Encoda\Notification\Providers\NotificationServiceProvider::class  );
+$app->register( Encoda\Task\Providers\TaskServiceProvider::class  );
+$app->register( \Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 

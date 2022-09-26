@@ -2,11 +2,14 @@
 
 namespace Encoda\Resource\Models;
 
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class ResourceOwner extends Model
 {
+
+    use MultiTenancyModel;
 
     protected $table = 'resource_owners';
 

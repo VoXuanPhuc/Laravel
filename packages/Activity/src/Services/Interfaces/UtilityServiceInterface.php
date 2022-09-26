@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 
 interface UtilityServiceInterface
 {
-    public function listUtilities($organizationUid );
+    public function listUtilities();
 
-    public function getUtility($organizationUid, $uid);
+    public function getUtility( $uid) ;
 
-    public function createUtility(Request $request, $organizationUid );
+    public function createUtility( Request $request );
 
-    public function updateUtility(Request $request, $organizationUid, $uid);
+    public function updateUtility( Request $request, $uid );
 
-    public function deleteUtility($organizationUid, $uid);
+    public function deleteUtility( $uid);
 }

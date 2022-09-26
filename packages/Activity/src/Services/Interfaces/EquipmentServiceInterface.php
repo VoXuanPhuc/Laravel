@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 interface EquipmentServiceInterface
 {
 
-    public function listEquipments($organizationUid );
+    public function listEquipments();
 
-    public function getEquipment($organizationUid, $uid);
+    public function getEquipment( $uid );
 
-    public function createEquipment(Request $request, $organizationUid );
+    public function createEquipment( Request $request );
 
-    public function updateEquipment(Request $request, $organizationUid, $uid);
+    public function updateEquipment( Request $request, $uid );
 
-    public function deleteEquipment($organizationUid, $uid);
+    public function deleteEquipment( $uid );
 }

@@ -19,7 +19,7 @@ return new class extends Migration
     {
         if( !Schema::hasTable( $this->tableName ) ) {
             Schema::create($this->tableName, function (Blueprint $table) {
-                $table->bigIncrements('id');
+                $table->id('id');
                 $table->uuid('uid')->default(DB::raw('(UUID())'))->unique()->index('idx_uid');
                 $table->string('first_name');
                 $table->string('last_name');
