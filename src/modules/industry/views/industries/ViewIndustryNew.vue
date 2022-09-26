@@ -52,51 +52,24 @@
         </EcBox>
       </template>
     </RLayoutTwoCol>
-
-    <!-- Modals create success and move to portal -->
-    <teleport to="#layer2">
-      <EcModalSimple :isVisible="isCreatedIndustrySuccess" variant="center-3xl">
-        <EcBox class="text-center">
-          <EcBox>
-            <EcHeadline as="h3" class="text-cSuccess-500 text-md" variant="h3">
-              <EcText class="text-lg"> {{ $t("industry.createIndustrySuccess") }} </EcText>
-              <EcText class="text-lg"> {{ $t("industry.visitNewIndustry") }} </EcText>
-            </EcHeadline>
-
-            <EcText class="text-2xl text-cError-500"> {{ this.industry.name }} </EcText>
-          </EcBox>
-
-          <!-- Actions -->
-          <EcFlex class="justify-center mt-10">
-            <EcButton class="mr-3" variant="tertiary-outline" @click="handleClickCancelViewNewIndustry">
-              {{ $t("industry.no") }}
-            </EcButton>
-            <EcButton variant="primary" @click="handleClickVisitNewIndustry">
-              {{ $t("industry.yes") }}
-            </EcButton>
-          </EcFlex>
-        </EcBox>
-      </EcModalSimple>
-    </teleport>
   </RLayout>
 </template>
 
 <script>
 import { goto } from "@/modules/core/composables"
-import { useIndustryCreate } from "@/modules/industry/use/industry/useIndustryNew"
+import { useIndustryNew } from "@/modules/industry/use/industry/useIndustryNew"
 
 export default {
   name: "ViewIndustryNew",
   data() {
     return {
-      isCreatedIndustrySuccess: false,
       isCreating: false,
       isNameUnique: false,
     }
   },
 
   setup() {
-    const { industry, v$, createIndustry } = useIndustryCreate()
+    const { industry, v$, createIndustry } = useIndustryNew()
     // error code for unique name
     const NAME_UNIQUE = "NAME_UNIQUE"
 
@@ -122,7 +95,7 @@ export default {
       const industryRes = await this.createIndustry(this.industry)
       if (industryRes && industryRes.uid) {
         this.industry = industryRes
-        this.isCreatedIndustrySuccess = true
+        goto("ViewIndustryList")
       } else {
         // show message when name has been used
         if (industryRes.message === this.NAME_UNIQUE) {
@@ -134,20 +107,6 @@ export default {
 
     // go to view industry list
     handleClickCancel() {
-      goto("ViewIndustryList")
-    },
-
-    // go to industry detail
-    handleClickVisitNewIndustry() {
-      goto("ViewIndustryDetail", {
-        params: {
-          industryUid: this.industry?.uid,
-        },
-      })
-    },
-
-    // back to view industry list
-    handleClickCancelViewNewIndustry() {
       goto("ViewIndustryList")
     },
   },

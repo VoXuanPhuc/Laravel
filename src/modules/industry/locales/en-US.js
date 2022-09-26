@@ -35,7 +35,15 @@ export default {
     deleted: "Deleted Industry",
     source: "Source",
     nameUnique: "Name has been used. Please use an other name",
-
+    label: {
+      industryName: "Industry Name",
+      status: "Status",
+      createdAt: "Created At",
+    },
+    button: {
+      edit: "Edit",
+      delete: "Delete",
+    },
     edit: {
       name: "Edit Industry",
     },

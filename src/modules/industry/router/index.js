@@ -4,7 +4,7 @@ import ViewIndustryNew from "@/modules/industry/views/industries/ViewIndustryNew
 
 export default [
   {
-    path: "/industry",
+    path: "/industries",
     component: ViewIndustryList,
     name: "ViewIndustryList",
     props: true,
@@ -13,7 +13,7 @@ export default [
     },
   },
   {
-    path: "/industry/:industryUid",
+    path: "/industries/:industryUid",
     component: ViewIndustryDetail,
     name: "ViewIndustryDetail",
     props: true,
@@ -22,7 +22,7 @@ export default [
     },
   },
   {
-    path: "/industry/new",
+    path: "/industries/new",
     component: ViewIndustryNew,
     name: "AddIndustryNew",
     props: true,

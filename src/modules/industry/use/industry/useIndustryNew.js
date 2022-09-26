@@ -5,7 +5,7 @@ import { ref } from "vue"
 import useVuelidate from "@vuelidate/core"
 import { maxLength, required } from "@vuelidate/validators"
 
-export function useIndustryCreate() {
+export function useIndustryNew() {
   const globalStore = useGlobalStore()
   const { t } = useI18n()
   const industry = ref({})
