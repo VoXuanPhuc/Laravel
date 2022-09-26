@@ -1,0 +1,15 @@
+{
+  "name": "encoda/resource",
+  "description": "Resources management",
+  "authors": [
+    {
+      "name": "Red Nguyen",
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Encoda\\Resource\\" : "src"
+    }
+  },
+
+}
