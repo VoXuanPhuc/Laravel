@@ -173,7 +173,7 @@ class CognitoAdminService extends CognitoBaseService
         $nums = '0123456789';
         $lowerCases = 'abcdefghijklmnopqrstuvwxyz';
         $upperCases ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $specials = '$ *.[]{}()?-"!@#%&/\,><\':;|_~`+=';
+        $specials = '$*.[]{}()?-"!@#%&/\,><\':;|_~`+=';
 
         return $this->generateRandonStr( $upperCases )
             . $this->generateRandonStr( $nums )
