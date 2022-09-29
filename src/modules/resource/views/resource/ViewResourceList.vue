@@ -6,6 +6,11 @@
         <EcHeadline class="mb-3 mr-4 text-cBlack lg:mb-0">
           {{ $t("resource.resources") }}
         </EcHeadline>
+
+        <!-- Add Resource -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddResource">
+          {{ $t("resource.buttons.addResource") }}
+        </EcButton>
       </EcFlex>
 
       <!-- Search box -->
@@ -29,37 +34,40 @@
           <!-- Resource type-->
           <RFormInput
             class="w-full"
-            v-model="selectedDivision"
+            v-model="selectedCategory"
             componentName="EcSelect"
-            :options="resourceTypes"
+            :options="resourceCategories"
             :valueKey="'uid'"
             :allowSelectNothing="true"
-            :placeholder="$t('resource.placeholders.category')"
+            :placeholder="categoryPlaceHolder"
           />
         </EcFlex>
       </EcBox>
       <EcBox class="lg:flex-wrap grid sm:grid-cols-1 md:grid-cols-3 gap-2">
+        <!-- Export Resources -->
         <EcButton
           class="mb-3 lg:mb-0"
-          :iconPrefix="exportAcctivityIcon"
+          :iconPrefix="exportResourcesIcon"
           variant="primary-sm"
           @click="handleClickDownloadResources"
         >
-          {{ $t("resource.button.exportResources") }}
-        </EcButton>
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="UserGroup" variant="primary-sm">
-          {{ $t("resource.button.viewResourceOwners") }}
+          {{ $t("resource.buttons.exportResources") }}
         </EcButton>
 
-        <!-- Add Resource -->
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddResource">
-          {{ $t("resource.button.addResource") }}
+        <!-- View Resource Category -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="Resource" variant="primary-sm" @click="handleClickViewCategories">
+          {{ $t("resource.buttons.viewResourceCategories") }}
+        </EcButton>
+
+        <!-- View Resource Owner -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="UserGroup" variant="primary-sm" @click="handleClickViewOwners">
+          {{ $t("resource.buttons.viewResourceOwners") }}
         </EcButton>
       </EcBox>
     </EcBox>
 
     <!-- Table -->
-    <RTable :isLoading="isLoading" :list="activities" class="mt-2 lg:mt-4">
+    <RTable :isLoading="isLoading" :list="resources" class="mt-4 lg:mt-6">
       <template #header>
         <RTableHeaderRow>
           <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx" class="text-cBlack">
@@ -70,27 +78,22 @@
       </template>
       <template v-slot="{ item, last, first }">
         <RTableRow class="hover:bg-c0-100">
-          <!-- BU Name -->
-          <!-- <RTableCell :class="{ 'rounded-tl-lg': first, 'rounded-bl-lg': last }">
-            {{ item.business_unit?.name }}
-          </RTableCell> -->
           <RTableCell>
             <EcText class="w-24">
               {{ item.name }}
             </EcText>
           </RTableCell>
 
-          <!-- Step -->
+          <!-- Desc -->
           <RTableCell>
-            <EcText :variant="getActivityConfirmationStepType(item.step)" class="w-48">
-              {{ getActivityStep(item.step) }}
+            <EcText class="w-24">
+              {{ item.description }}
             </EcText>
           </RTableCell>
-
           <!-- status -->
           <RTableCell>
-            <EcText :variant="getActivityConfirmationStatusType(item.status)" class="w-32">
-              {{ getActivityStatus(item.status) }}
+            <EcText :variant="getResourceStatusType(item.status)" class="w-32">
+              {{ getResourceStatus(item.status) }}
             </EcText>
           </RTableCell>
 
@@ -108,7 +111,7 @@
                 <!-- View action -->
                 <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("resource.button.view") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.buttons.view") }}</EcText>
                 </EcFlex>
 
                 <!-- Edit action -->
@@ -117,12 +120,15 @@
                   @click="handleClickEditResource(item.uid)"
                 >
                   <EcIcon class="mr-3" icon="Pencil" />
-                  <EcText class="font-medium">{{ $t("resource.button.edit") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.buttons.edit") }}</EcText>
                 </EcFlex>
                 <!-- Delete action -->
-                <EcFlex class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100">
+                <EcFlex
+                  class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100"
+                  @click="handleOpenDeleteModal(item.uid, item.name)"
+                >
                   <EcIcon class="mr-3" icon="X" />
-                  <EcText class="font-medium">{{ $t("resource.button.delete") }}</EcText>
+                  <EcText class="font-medium">{{ $t("resource.buttons.delete") }}</EcText>
                 </EcFlex>
               </RTableAction>
             </EcFlex>
@@ -130,145 +136,160 @@
         </RTableRow>
       </template>
     </RTable>
+
     <EcFlex class="flex-col mt-8 sm:mt-12 sm:flex-row" variant="basic">
       <RPaginationStatus :currentPage="currentPage" :limit="limit" :totalCount="totalItems" class="mb-4 sm:mb-0" />
       <RPagination v-model="currentPage" :itemPerPage="limit" :totalItems="totalItems" @input="setPage($event)" />
     </EcFlex>
+
+    <!-- Modal  delete resource -->
+    <teleport to="#layer1">
+      <ModalDeleteResource
+        :resourceUid="toDeleteResourceUid"
+        :resourceName="toDeleteResourceName"
+        :isModalDeleteResourceOpen="isModalDeleteOpen"
+        @handleCloseDeleteModal="handleCloseDeleteModal"
+        @handleDeleteCallback="handleDeleteCallback"
+      />
+    </teleport>
   </RLayout>
 </template>
 
 <script>
-import { useActivityList } from "@/modules/activity/use/useActivityList"
-import { useDivisionList } from "@/modules/activity/use/useDivisionList"
+import { useResourceList } from "@/modules/resource/use/resource/useResourceList"
 import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
-import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
 import { ref } from "vue"
+import { useCategoryList } from "../../use/category/useCategoryList"
+import ModalDeleteResource from "../../components/ModalDeleteResource.vue"
 
 export default {
-  name: "ViewActivityList",
+  name: "ViewResourceList",
   setup() {
+    // Pre load
+    const { getResourceCategoryList } = useCategoryList()
     const globalStore = useGlobalStore()
-    const {
-      getActivityList,
-      downloadActivities,
-      fetchActivityListByDivisionUid,
-      activities,
-      t,
-      totalItems,
-      skip,
-      limit,
-      currentPage,
-    } = useActivityList()
+    const { getResourceList, downloadResources, resources, totalItems, skip, limit, currentPage } = useResourceList()
 
     const resourceCategories = ref([])
-    const divisions = ref([])
-    const businessUnits = ref([])
-
-    const { fetchDivisionList } = useDivisionList()
-    const { tenantBusinessUnits } = useBusinessUnitList()
-
     return {
       globalStore,
-      getActivityList,
-      downloadActivities,
-      activities,
-      t,
+      getResourceList,
+      downloadResources,
+      getResourceCategoryList,
+      resources,
       skip,
       limit,
       currentPage,
       totalItems,
-      fetchDivisionList,
-      tenantBusinessUnits,
       resourceCategories,
-      divisions,
-      businessUnits,
-      fetchActivityListByDivisionUid,
     }
   },
-
   data() {
     return {
       headerData: [
-        // { label: this.$t("resource.label.businessUnit") },
-        { label: this.$t("resource.label.activityName") },
-        { label: this.$t("resource.label.step") },
-        { label: this.$t("resource.label.status") },
-        { label: this.$t("resource.label.createdAt") },
+        { label: this.$t("resource.labels.name") },
+        { label: this.$t("resource.labels.description") },
+        { label: this.$t("resource.labels.status") },
+        { label: this.$t("resource.labels.createdAt") },
       ],
-      selectedDivision: null,
-      selectedBU: null,
+      selectedCategory: "",
+      searchQuery: "",
+      onFilter: "",
       isLoading: false,
-      isDivisionLoading: false,
-      isBusinessUnitLoading: false,
+      isLoadingCategories: false,
       isDownloading: false,
+      isModalDeleteOpen: false,
+      // Resource uid to delete
+      toDeleteResourceUid: null,
+      toDeleteResourceName: "",
     }
   },
-
   mounted() {
-    this.fetchActivities()
-    this.fetchDivisions()
-    this.fetchBusinessUnits()
+    this.fetchResources()
+    this.fetchResourceCategories()
   },
-
   computed: {
+    /**
+     * Format date
+     */
     dateTimeFormat() {
       return this.globalStore.dateTimeFormat
     },
 
-    exportAcctivityIcon() {
+    /**
+     * Export Icone
+     */
+    exportResourcesIcon() {
       return this.isDownloading ? "Spinner" : "DocumentDownload"
     },
-  },
 
+    categoryPlaceHolder() {
+      return this.isLoadingCategories ? this.$t("resource.placeholders.loading") : this.$t("resource.placeholders.category")
+    },
+  },
   watch: {
     currentPage() {},
   },
   methods: {
     formatData,
+
     /**
      * fetch activities
      * @returns {Promise<void>}
      */
-    async fetchActivities() {
+    async fetchResources() {
       this.isLoading = true
-      const activityRes = await this.getActivityList()
-      if (activityRes && activityRes.data) {
-        this.activities = activityRes.data
+
+      const resourceRes = await this.getResourceList()
+
+      if (resourceRes && resourceRes.data) {
+        this.resources = resourceRes.data
       }
+
       this.isLoading = false
     },
     /**
-     * convert activity status to string status
+     * convert resource status to string status
      * @param value
      * @returns {string}
      */
-    getActivityStatus(value) {
-      return value === 1 ? "Created" : value === 2 ? "In Progress" : "Finished"
+    getResourceStatus(value) {
+      return value === 1 ? "Free" : value === 2 ? "In Use" : "Unknown"
     },
     /**
      * get class property
      * @param value
      * @returns {string}
      */
-    getActivityConfirmationStatusType(value) {
+    getResourceStatusType(value) {
       return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
     },
-    getActivityStep(value) {
-      return value === 1 ? "Basic info" : value === 2 ? "Remote access" : "Equipments"
-    },
-    getActivityConfirmationStepType(value) {
-      return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
-    },
+
     // Handle events
     /**
      * Download
      */
     async handleClickDownloadResources() {
       this.isDownloading = true
-      await this.downloadActivities(this.selectedDivision, this.selectedBU)
+      await this.downloadResources(this.selectedCategory)
       this.isDownloading = false
     },
+
+    /**
+     * View category list
+     */
+    handleClickViewCategories() {
+      goto("ViewCategoryList")
+    },
+
+    /**
+     * View owner list
+     */
+    handleClickViewOwners() {
+      goto("ViewOwnerList")
+    },
+
     /**
      * Add new activity
      */
@@ -286,35 +307,44 @@ export default {
         },
       })
     },
-    // ==== PRE-LOAD ==========
-
+    handleClearSearch() {},
     /**
-     * Fetch Division
+     * Open delete resource modal
      */
-    async fetchDivisions() {
-      this.isDivisionLoading = true
-      const divisionRes = await this.fetchDivisionList()
-
-      if (divisionRes && divisionRes.data) {
-        this.divisions = divisionRes.data
-      }
-
-      this.isDivisionLoading = false
+    handleOpenDeleteModal(resourceUid, resourceName) {
+      this.toDeleteResourceUid = resourceUid
+      this.toDeleteResourceName = resourceName
+      this.isModalDeleteOpen = true
     },
 
     /**
-     * Fetch BU
+     * Open delete resource modal
      */
-    async fetchBusinessUnits() {
-      this.isBusinessUnitLoading = true
-      const buRes = await this.tenantBusinessUnits()
+    handleCloseDeleteModal() {
+      this.toDeleteResourceUid = null
+      this.toDeleteResourceName = ""
+      this.isModalDeleteOpen = false
+    },
 
-      if (buRes && buRes.data) {
-        this.businessUnits = buRes.data
+    /**
+     * Callback after delete
+     */
+    handleDeleteCallback() {
+      this.fetchResources()
+    },
+    // ==== PRE-LOAD ==========
+    /**
+     * Fetch Categories
+     */
+    async fetchResourceCategories() {
+      this.isLoadingCategories = true
+      const response = await this.getResourceCategoryList()
+      if (response) {
+        this.resourceCategories = response
       }
-
-      this.isBusinessUnitLoading = false
+      this.isLoadingCategories = false
     },
   },
+  components: { ModalDeleteResource },
 }
 </script>

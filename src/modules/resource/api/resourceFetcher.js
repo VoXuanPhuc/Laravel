@@ -1,56 +1,60 @@
 import fetcher from "@/modules/core/api/fetcher"
 
-export const createNewActivity = async (payload) => {
-  return fetcher.post(`identity/api/v1/activities`, payload)
-}
-
-export const fetchActivity = async (uid) => {
-  return fetcher.get(`identity/api/v1/activities/${uid}`)
-}
-
-export const updateActivity = async (payload, uid) => {
-  return fetcher.put(`identity/api/v1/activities/${uid}`, payload)
-}
-
-export const permanentDelete = async (uid) => {
-  return fetcher.delete(`identity/api/v1/activities/${uid}/permanent`)
-}
-
-export const updateActivityRemoteAccess = async (payload, uid) => {
-  return fetcher.put(`identity/api/v1/activities/${uid}/remote-access-factors`, payload)
-}
-
-export const updateApplicationAdnEquipment = async (payload, uid) => {
-  return fetcher.put(`identity/api/v1/activities/${uid}/applications-and-equipments`, payload)
+/**
+ *
+ * @param {*} payload
+ * @returns
+ */
+export const createNewResource = async (payload) => {
+  return fetcher.post(`identity/api/v1/resources`, payload)
 }
 
 /**
  *
- * Get list activity
+ * @param {*} uid
  * @returns
  */
-export const fetchActivities = async () => {
-  return fetcher.get(`/identity/api/v1/activities`)
+export const fetchResource = async (uid) => {
+  return fetcher.get(`identity/api/v1/resources/${uid}`)
+}
+
+/**
+ *
+ * @param {*} payload
+ * @param {*} uid
+ * @returns
+ */
+export const updateResource = async (payload, uid) => {
+  return fetcher.put(`identity/api/v1/resources/${uid}`, payload)
+}
+
+/**
+ *
+ * @param {*} uid
+ * @returns
+ */
+export const deleteResource = async (uid) => {
+  return fetcher.delete(`identity/api/v1/resources/${uid}`)
+}
+
+/**
+ *
+ * Get list resources
+ * @returns
+ */
+export const fetchResourceList = async () => {
+  return fetcher.get(`/identity/api/v1/resources`)
 }
 
 /**
  * Download activities
  * @returns
  */
-export const downloadActivities = async (divisionUid, businessUnitUid) => {
+export const downloadResources = async (categoryUid) => {
   var query = new URLSearchParams()
-  query.append("divisionUid", divisionUid)
-  query.append("businessUnitUid", businessUnitUid)
+  query.append("categoryUid", categoryUid)
 
-  return fetcher.get(`/identity/api/v1/activities/download/all?` + query.toString(), {
+  return fetcher.get(`/identity/api/v1/resources/download/all?` + query.toString(), {
     responseType: "blob",
   })
-}
-
-export const fetchActivityListByOrganizationUid = async (organizationUid) => {
-  return fetcher.get(`/identity/api/v1/organizations/${organizationUid}/activities`)
-}
-
-export const fetchActivityListByDivisionUid = async (organizationUid, divisionUid) => {
-  return fetcher.get(`/identity/api/v1/organizations/${organizationUid}/divisions/${divisionUid}/activities`)
 }

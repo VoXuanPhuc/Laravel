@@ -1,23 +1,26 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
 import { required, helpers } from "@vuelidate/validators"
-import * as api from "../api/resourceFetcher"
+import * as api from "../../api/resourceFetcher"
 import { useGlobalStore } from "@/stores/global"
 
 export function useResourceNew() {
   const globalStore = useGlobalStore()
 
-  const form = ref({
+  const resource = ref({
     category: {},
     owners: [{ uid: "" }],
   })
 
   const rules = {
-    form: {
+    resource: {
       name: { required },
       description: {},
+      status: { required },
+      category: {
+        uid: { required },
+      },
       owners: {
-        required,
         $each: helpers.forEach({
           uid: { required },
         }),
@@ -25,7 +28,7 @@ export function useResourceNew() {
     },
   }
 
-  const v$ = useVuelidate(rules, { form })
+  const vldator$ = useVuelidate(rules, { resource })
 
   /**
    *
@@ -45,8 +48,8 @@ export function useResourceNew() {
   }
 
   return {
-    form,
-    v$,
+    resource,
+    vldator$,
     createNewResource,
   }
 }

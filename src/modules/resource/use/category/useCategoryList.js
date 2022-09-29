@@ -1,8 +1,8 @@
 import { useGlobalStore } from "@/stores/global"
-import * as api from "../api/resourceCategoryFetcher"
+import * as api from "../../api/categoryFetcher"
 import { ref } from "vue"
 
-export function useResourceCategoryList() {
+export function useCategoryList() {
   const globalStore = useGlobalStore()
   const categories = ref([])
 
