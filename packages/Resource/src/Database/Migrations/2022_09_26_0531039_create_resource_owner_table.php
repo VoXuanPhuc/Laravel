@@ -20,12 +20,12 @@ return new class extends Migration
         if( !Schema::hasTable( $this->tableName ) ) {
             Schema::create($this->tableName, function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->uuid('uid')->default(DB::raw('(UUID())'))->unique();
+                $table->uuid('uid')->default(DB::raw('(UUID())'))->unique()->index('idx_uid');
                 $table->string('first_name');
                 $table->string('last_name');
                 $table->integer('is_invite')->default(0);
                 $table->string('email');
-                $table->foreignId('organization_id')->nullable(true);
+                $table->foreignId('organization_id')->nullable(true)->index('idx_organization_id');
 
                 $table->foreign('organization_id')
                     ->references('id')
@@ -34,11 +34,8 @@ return new class extends Migration
                     ->cascadeOnDelete();
 
                 $table->softDeletesTz();
-                $table->timestamps();
+                $table->timestampsTz();
 
-
-                // Indexes
-                $table->index('uid');
             });
         }
     }

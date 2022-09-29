@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->string('description')->nullable(true);
                 $table->foreignId('organization_id')->nullable(true);
                 $table->foreign('organization_id')
-                    ->references('id') // permission id
+                    ->references('id') // organization_id
                     ->on('organizations')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();

@@ -19,8 +19,8 @@ return new class extends Migration
     {
         if( !Schema::hasTable( $this->tableName ) ) {
             Schema::create($this->tableName, function (Blueprint $table) {
-                $table->foreignId('resource_id')->nullable(false);
-                $table->foreignId('resource_owner_id')->nullable(false);
+                $table->foreignId('resource_id')->nullable(true)->index('idx_resource_id');
+                $table->foreignId('resource_owner_id')->nullable(true)->index('idx_resource_owner_id');
 
                 $table->foreign('resource_id')
                     ->references('id')
@@ -34,7 +34,9 @@ return new class extends Migration
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
-                $table->timestamps();
+                $table->timestampsTz();
+
+                $table->index(['resource_id', 'resource_owner_id'], 'idx_owners_has_resources' );
             });
         }
     }

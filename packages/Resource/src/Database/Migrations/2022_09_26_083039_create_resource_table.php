@@ -22,14 +22,14 @@ return new class extends Migration
                 $table->bigIncrements('id');
                 $table->uuid('uid')->default(DB::raw('(UUID())'))->unique();
                 $table->string('name');
-                $table->string('description');
-                $table->tinyInteger('status');
+                $table->string('description')->nullable('true');
+                $table->tinyInteger('status')->default( \Encoda\Resource\Enums\ResourceStatusEnum::STATUS_FREE->value );
                 $table->foreignId('organization_id')->nullable(true);
-                $table->foreignId('resources_category_id')->nullable(false);
+                $table->foreignId('resources_category_id')->nullable(true);
 
                 $table->foreign('resources_category_id')
                     ->references('id')
-                    ->on('resources')
+                    ->on('resource_categories')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
@@ -38,8 +38,9 @@ return new class extends Migration
                     ->on('organizations')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
+
                 $table->softDeletesTz();
-                $table->timestamps();
+                $table->timestampsTz();
 
                 // Indexes
                 $table->index('uid');

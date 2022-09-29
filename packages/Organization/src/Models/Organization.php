@@ -7,6 +7,9 @@ use Encoda\Activity\Models\Application;
 use Encoda\Activity\Models\Equipment;
 use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Models\Utility;
+use Encoda\Resource\Models\Resource;
+use Encoda\Resource\Models\ResourceCategory;
+use Encoda\Resource\Models\ResourceOwner;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -94,21 +97,49 @@ class Organization extends Model
     /**
      * @return HasMany
      */
-    public function equipments() {
+    public function equipments(): HasMany
+    {
         return $this->hasMany( Equipment::class );
     }
 
     /**
      * @return HasMany
      */
-    public function utilities() {
+    public function utilities(): HasMany
+    {
         return $this->hasMany( Utility::class );
     }
 
     /**
      * @return HasMany
      */
-    public function remoteAccessFactors() {
+    public function remoteAccessFactors(): HasMany
+    {
         return $this->hasMany( RemoteAccessFactor::class );
+    }
+
+    // ========== RESOURCES =======//
+
+    /**
+     * @return HasMany
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany( Resource::class );
+    }
+    /**
+     * @return HasMany
+     */
+    public function resourceCategories(): HasMany
+    {
+        return $this->hasMany( ResourceCategory::class );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function resourceOwners(): HasMany
+    {
+        return $this->hasMany( ResourceOwner::class );
     }
 }
