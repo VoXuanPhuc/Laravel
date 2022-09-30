@@ -56,7 +56,7 @@ class ResourceExport implements FromCollection, WithHeadings, WithMapping, Shoul
             $resource->uid,
             $resource->name,
             $resource->description,
-            $resource->status,
+            $resource->getStatus()->name,
             $resource->category->name,
             $this->getOwnerNames( $resource )
         ];

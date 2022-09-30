@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->uuid('uid')->default(DB::raw('(UUID())'))->unique();
                 $table->string('name');
                 $table->string('description')->nullable('true');
-                $table->tinyInteger('status')->default( \Encoda\Resource\Enums\ResourceStatusEnum::STATUS_FREE->value );
+                $table->tinyInteger('status')->default( \Encoda\Resource\Enums\ResourceStatusEnum::FREE->value );
                 $table->foreignId('organization_id')->nullable(true);
                 $table->foreignId('resources_category_id')->nullable(true);
 

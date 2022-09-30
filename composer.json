@@ -38,7 +38,8 @@
             "Encoda\\Organization\\" : "packages/Organization/src",
             "Encoda\\EDocs\\" : "packages/EDocs/src",
             "Encoda\\Activity\\" : "packages/Activity/src",
-            "Encoda\\Resource\\" : "packages/Resource/src"
+            "Encoda\\Resource\\" : "packages/Resource/src",
+            "Encoda\\Excel\\" : "packages/Excel/src"
         }
     },
     "autoload-dev": {

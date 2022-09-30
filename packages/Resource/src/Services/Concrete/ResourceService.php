@@ -37,7 +37,7 @@ class ResourceService implements ResourceServiceInterface
      */
     public function listResource($organization)
     {
-        return $organization->resources()->paginate(config('config.pagination_size'));
+        return $organization->resources()->with('category')->paginate(config('config.pagination_size'));
     }
 
     public function getResource($organization, $uid)

@@ -67,6 +67,8 @@ class ResourceController extends Controller
      * @return mixed
      */
     public function download() {
-        return $this->resourceService->export();
+        $response = $this->resourceService->export();
+
+        return $response->deleteFileAfterSend(false);
     }
 }

@@ -91,6 +91,8 @@ class ActivityController extends Controller
      * @return mixed
      */
     public function export( $range = 'all' ) {
-        return $this->activityService->export( $this->getTenant(), $range );
+        $response = $this->activityService->export( $this->getTenant(), $range );
+
+        return $response->deleteFileAfterSend( false );
     }
 }

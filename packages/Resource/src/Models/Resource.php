@@ -2,6 +2,7 @@
 
 namespace Encoda\Resource\Models;
 
+use Encoda\Resource\Enums\ResourceStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,6 +29,11 @@ class Resource extends Model
         'id',
     ];
 
+
+    public function getStatus() {
+        return ResourceStatusEnum::from( $this->status );
+    }
+
     /**
      * @return BelongsToMany
      */
@@ -43,4 +49,5 @@ class Resource extends Model
     {
         return $this->belongsTo( ResourceCategory::class, 'resources_category_id' );
     }
+
 }
