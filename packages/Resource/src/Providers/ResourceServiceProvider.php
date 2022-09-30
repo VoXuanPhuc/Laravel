@@ -28,6 +28,9 @@ class ResourceServiceProvider extends ServiceProvider
 
         //Service binding
         $this->app->register(ServiceBindingProvider::class );
+
+        // Event listeners
+        $this->app->register( EventServiceProvider::class );
     }
 }
 
