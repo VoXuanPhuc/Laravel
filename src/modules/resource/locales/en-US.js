@@ -101,6 +101,7 @@ export default {
       buttons: {
         addCategory: "Add Category",
         delete: "Delete",
+        back: "Back",
         cancel: "Cancel",
       },
       messages: {
@@ -142,6 +143,7 @@ export default {
         confirm: "Confirm",
         delete: "Delete",
         cancel: "Cancel",
+        back: "Back",
       },
       messages: {
         createdOwner: "Resource owner create successfully",

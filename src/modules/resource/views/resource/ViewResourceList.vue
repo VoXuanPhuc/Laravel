@@ -145,6 +145,7 @@
       </template>
     </RTable>
 
+    <!-- Pagination -->
     <EcFlex class="flex-col mt-8 sm:mt-12 sm:flex-row" variant="basic">
       <RPaginationStatus :currentPage="currentPage" :limit="limit" :totalCount="totalItems" class="mb-4 sm:mb-0" />
       <RPagination v-model="currentPage" :itemPerPage="limit" :totalItems="totalItems" @input="setPage($event)" />

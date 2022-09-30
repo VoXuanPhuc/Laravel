@@ -5,7 +5,7 @@
     </EcFlex>
     <EcBox v-else>
       <!-- Table -->
-      <EcBox v-show="list.length > 0" ref="tableWrapper" class="h-screen overflow-x-auto">
+      <EcBox v-show="list.length > 0" ref="tableWrapper" class="h-full overflow-x-visible">
         <table ref="table" class="w-full border-collapse border-none">
           <thead>
             <slot name="header">

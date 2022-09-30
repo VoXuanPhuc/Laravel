@@ -98,11 +98,18 @@
       </template>
     </RTable>
 
+    <!-- Pagination -->
     <EcFlex class="flex-col mt-8 sm:mt-12 sm:flex-row" variant="basic">
       <RPaginationStatus :currentPage="currentPage" :limit="limit" :totalCount="totalItems" class="mb-4 sm:mb-0" />
       <RPagination v-model="currentPage" :itemPerPage="limit" :totalItems="totalItems" @input="setPage($event)" />
     </EcFlex>
 
+    <!-- Actions -->
+    <EcFlex class="">
+      <EcButton variant="tertiary" @click="handleBackToResourceList">
+        {{ $t("resource.owner.buttons.back") }}
+      </EcButton>
+    </EcFlex>
     <!-- Modal  delete owner -->
     <teleport to="#layer1">
       <ModalDeleteOwner
@@ -264,6 +271,13 @@ export default {
      */
     handleDeleteCallback() {
       this.fetchOwners()
+    },
+
+    /**
+     * Back to resource list
+     */
+    handleBackToResourceList() {
+      goto("ViewResourceList")
     },
     // ==== PRE-LOAD ==========
   },
