@@ -47,7 +47,7 @@ export function useResourceList() {
       const link = document.createElement("a")
       link.href = url
 
-      link.setAttribute("download", `Resource_${Date.now()}.xlsx`)
+      link.setAttribute("download", `Resources_${Date.now()}.xlsx`)
       document.body.appendChild(link)
       link.click()
     } catch (error) {

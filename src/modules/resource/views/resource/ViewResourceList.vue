@@ -67,7 +67,7 @@
     </EcBox>
 
     <!-- Table -->
-    <RTable :isLoading="isLoading" :list="resources" class="mt-4 lg:mt-6">
+    <RTable :isLoading="isLoading" :list="filteredResources" class="mt-4 lg:mt-6">
       <template #header>
         <RTableHeaderRow>
           <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx" class="text-cBlack">
@@ -90,6 +90,14 @@
               {{ item.description }}
             </EcText>
           </RTableCell>
+
+          <!-- Category -->
+          <RTableCell>
+            <EcText class="w-24">
+              {{ item.category.name }}
+            </EcText>
+          </RTableCell>
+
           <!-- status -->
           <RTableCell>
             <EcText :variant="getResourceStatusType(item.status)" class="w-32">
@@ -109,10 +117,10 @@
             <EcFlex class="items-center justify-center h-full">
               <RTableAction class="w-30">
                 <!-- View action -->
-                <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
+                <!-- <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="Eye" />
                   <EcText class="font-medium">{{ $t("resource.buttons.view") }}</EcText>
-                </EcFlex>
+                </EcFlex> -->
 
                 <!-- Edit action -->
                 <EcFlex
@@ -161,6 +169,7 @@ import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
 import { ref } from "vue"
 import { useCategoryList } from "../../use/category/useCategoryList"
+import { useResourceStatusEnum } from "../../use/resource/useResourceStatusEnum"
 import ModalDeleteResource from "../../components/ModalDeleteResource.vue"
 
 export default {
@@ -171,13 +180,16 @@ export default {
     const globalStore = useGlobalStore()
     const { getResourceList, downloadResources, resources, totalItems, skip, limit, currentPage } = useResourceList()
 
+    const { statuses } = useResourceStatusEnum()
     const resourceCategories = ref([])
+
     return {
       globalStore,
       getResourceList,
       downloadResources,
       getResourceCategoryList,
       resources,
+      statuses,
       skip,
       limit,
       currentPage,
@@ -190,6 +202,7 @@ export default {
       headerData: [
         { label: this.$t("resource.labels.name") },
         { label: this.$t("resource.labels.description") },
+        { label: this.$t("resource.labels.category") },
         { label: this.$t("resource.labels.status") },
         { label: this.$t("resource.labels.createdAt") },
       ],
@@ -227,6 +240,19 @@ export default {
     categoryPlaceHolder() {
       return this.isLoadingCategories ? this.$t("resource.placeholders.loading") : this.$t("resource.placeholders.category")
     },
+
+    /**
+     * Filtered
+     */
+    filteredResources() {
+      if (this.selectedCategory.length > 0) {
+        return this.resources.filter((resource) => {
+          return resource.category.uid === this.selectedCategory
+        })
+      }
+
+      return this.resources
+    },
   },
   watch: {
     currentPage() {},
@@ -255,7 +281,11 @@ export default {
      * @returns {string}
      */
     getResourceStatus(value) {
-      return value === 1 ? "Free" : value === 2 ? "In Use" : "Unknown"
+      const status = this.statuses.find((status) => {
+        return status.value === value
+      })
+
+      return status?.name ?? "Unknown"
     },
     /**
      * get class property
@@ -263,7 +293,16 @@ export default {
      * @returns {string}
      */
     getResourceStatusType(value) {
-      return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
+      switch (value) {
+        case 1:
+          return "pill-cSuccess-inv"
+
+        case 2:
+          return "pill-cWarning-inv"
+
+        default:
+          return "pill-cError-inv"
+      }
     },
 
     // Handle events

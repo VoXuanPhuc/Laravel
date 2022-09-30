@@ -19,6 +19,7 @@ export default {
       description: "Description",
       entityName: "Entity Name",
       resourceName: "Resource Name",
+      category: "Category",
       owners: "Resource owners",
       status: "Status",
       createdAt: "Created At",
