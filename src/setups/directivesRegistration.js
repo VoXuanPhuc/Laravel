@@ -55,7 +55,7 @@ export default (app) => {
     },
   })
 
-  app.directive("tool-tip", {
+  app.directive("tooltip", {
     mounted(element, binding) {
       element.classList.add("relative")
       const toolTipComponent = h(EcTooltip, {
