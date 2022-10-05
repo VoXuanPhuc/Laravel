@@ -44,7 +44,8 @@
             "Encoda\\Resource\\" : "packages/Resource/src",
             "Encoda\\Excel\\" : "packages/Excel/src",
             "Encoda\\PackageTools\\" : "packages/PackageTools/src",
-            "Encoda\\MultiTenancy\\" : "packages/MultiTenancy/src"
+            "Encoda\\MultiTenancy\\" : "packages/MultiTenancy/src",
+            "Encoda\\Supplier\\" : "packages/Supplier/src"
         },
         "files": [
             "packages/Core/src/Helpers/helpers.php"

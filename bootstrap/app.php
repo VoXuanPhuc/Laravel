@@ -127,7 +127,8 @@ $app->register( Encoda\Excel\Providers\EncodaExcelServiceProvider::class  );
 $app->register( Encoda\Dashboard\Providers\DashboardServiceProvider::class  );
 $app->register( Encoda\Notification\Providers\NotificationServiceProvider::class  );
 $app->register( Encoda\Task\Providers\TaskServiceProvider::class  );
-$app->register( \Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
+$app->register( Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
+$app->register( Encoda\Supplier\Providers\SupplierServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 

@@ -120,7 +120,7 @@ class ResourceService implements ResourceServiceInterface
         catch ( Throwable $e ) {
             DB::rollBack();
             Log::error( $e );
-            throw new ServerErrorException( throw new ServerErrorException( 'Oops! Update resource error' ) );
+            throw new ServerErrorException( 'Oops! Update resource error' );
         }
 
         return $resourceUpdated->load('owners', 'category' );

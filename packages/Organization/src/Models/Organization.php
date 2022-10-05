@@ -10,6 +10,8 @@ use Encoda\Activity\Models\Utility;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
+use Encoda\Supplier\Models\Supplier;
+use Encoda\Supplier\Models\SupplierCategory;
 use Encoda\MultiTenancy\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -177,5 +179,21 @@ class Organization extends Tenant
     public function resourceOwners(): HasMany
     {
         return $this->hasMany( ResourceOwner::class );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function suppliers(): HasMany
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function supplierCategories(): HasMany
+    {
+        return $this->hasMany(SupplierCategory::class);
     }
 }
