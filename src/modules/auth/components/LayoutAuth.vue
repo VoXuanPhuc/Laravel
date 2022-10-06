@@ -27,7 +27,7 @@
 
 <script>
 import { useGlobalStore } from "@/stores/global"
-import { computed, shallowRef, onBeforeMount } from "vue"
+
 export default {
   name: "LayoutAuth",
   inject: ["getComponentVariants"],
@@ -35,39 +35,17 @@ export default {
   setup() {
     const globalStore = useGlobalStore()
 
-    const logoImg = shallowRef(null)
-    const computedLogo = computed(() => logoImg.value || "https://via.placeholder.com/400x300")
-
-    async function decideImageToRender() {
-      const { tenantId, clientId } = globalStore.getTenantClientId
-      try {
-        const tenantConfig = await import(`@/tenants/${tenantId}/configs/${clientId}.js`)
-        const fileName = tenantConfig?.default?.logo?.login
-
-        const image = await import(`@/tenants/${tenantId}/assets/${fileName}`)
-        logoImg.value = image?.default
-        // eslint-disable-next-line no-empty
-      } catch (error) {
-        console.groupCollapsed(
-          "%c Tenant config file does not exist",
-          "padding: 1px 6px 1px 0px; background: yellow; color: black"
-        )
-        console.log(`tenantId: ${tenantId}`)
-        console.log(`clientId: ${clientId}`)
-        console.log(error)
-        console.groupEnd()
-      }
-    }
-
-    onBeforeMount(async () => {
-      await decideImageToRender()
-    })
+    const logoImg = ""
 
     return {
-      computedLogo,
+      logoImg,
+      globalStore,
     }
   },
 
+  async beforeMount() {
+    await this.decideImageToRender()
+  },
   computed: {
     variants() {
       return (
@@ -80,6 +58,33 @@ export default {
     variantCls() {
       var data = this.variants?.el || {}
       return data
+    },
+
+    computedLogo() {
+      return this.logoImg || "https://via.placeholder.com/400x300"
+    },
+  },
+
+  methods: {
+    async decideImageToRender() {
+      const { tenantId } = this.globalStore.getTenantClientId
+      const tenantConfig = this.globalStore.getTenantSettings
+
+      try {
+        const fileName = tenantConfig?.default?.logo?.login
+
+        this.logoImg = tenantConfig?.server?.logo || (await import(`@/tenants/${tenantId}/assets/${fileName}`))
+
+        // eslint-disable-next-line no-empty
+      } catch (error) {
+        console.groupCollapsed(
+          "%c Tenant config file does not exist",
+          "padding: 1px 6px 1px 0px; background: yellow; color: black"
+        )
+        console.log(`tenantId: ${tenantId}`)
+        console.log(error)
+        console.groupEnd()
+      }
     },
   },
 }

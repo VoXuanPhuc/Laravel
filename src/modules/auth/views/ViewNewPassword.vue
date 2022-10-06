@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import LayoutAuth from "./../components/LayoutAuth"
+import LayoutAuth from "@/modules/auth/components/LayoutAuth"
 import { useForceChangePassword } from "../use/useForceChangePassword"
 import { goto } from "@/modules/core/composables"
 import { useGlobalStore } from "@/stores/global"
@@ -137,7 +137,6 @@ export default {
 
       this.isLoading = false
 
-      debugger
       if (response) {
         this.isSuccess = true
         setTimeout(this.handleClickBackToLogin, 2000)

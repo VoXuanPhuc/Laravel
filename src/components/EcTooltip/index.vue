@@ -24,16 +24,7 @@ export default {
     },
   },
 
-  computed: {
-    variantCls() {
-      return (
-        this.getComponentVariants({
-          componentName: "EcTooltip",
-          variant: this.variant,
-        })?.el ?? {}
-      )
-    },
-  },
+  computed: {},
   methods: {},
 }
 </script>

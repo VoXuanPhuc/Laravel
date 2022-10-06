@@ -33,6 +33,7 @@ const goto = (routerName, { params, query } = {}) => {
   const defaultParams = {
     lang: globalStore.locale || "en",
   }
+  
   router.push({
     name: routerName,
     params: {

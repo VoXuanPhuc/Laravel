@@ -61,7 +61,7 @@ import BusinessUnitCardItem from "../../components/business_unit/BusinessUnitCar
 import { goto } from "@/modules/core/composables"
 
 export default {
-  name: "ViewOrganizationNew",
+  name: "ViewBusinessUnitList",
   data() {
     return {
       searchQuery: "",
@@ -74,10 +74,10 @@ export default {
     }
   },
   mounted() {
-    const { organizationUid, divisionUid } = this.$route.params
+    const { divisionUid, organizationUid } = this.$route.params
 
-    this.organizationUid = organizationUid
     this.divisionUid = divisionUid
+    this.organizationUid = organizationUid
 
     // Fetch Divisions
     // this.fetchDivision()
@@ -85,14 +85,14 @@ export default {
   },
   setup() {
     const { getDivision } = useDivisionDetail()
-    const { adminGetBusinessUnitsByDivision } = useBusinessUnitList()
+    const { getBusinessUnitsByDivision } = useBusinessUnitList()
     const division = ref({})
     const businessUnits = ref([])
     return {
       division,
       businessUnits,
       getDivision,
-      adminGetBusinessUnitsByDivision,
+      getBusinessUnitsByDivision,
     }
   },
   computed: {},
@@ -102,18 +102,19 @@ export default {
      */
     async fetchDivision() {
       this.isLoading = true
-      const response = await this.getDivision(this.organizationUid, this.divisionUid)
+      const response = await this.getDivision(this.divisionUid)
       if (response && response.uid) {
         this.division = response
       }
       this.isLoading = false
     },
+
     /**
      * Fetch business units
      */
     async fetchBusinessUnits() {
       this.isLoading = true
-      const response = await this.adminGetBusinessUnitsByDivision(this.organizationUid, this.divisionUid)
+      const response = await this.getBusinessUnitsByDivision(this.divisionUid)
       if (response && response.data) {
         this.businessUnits = response.data
       }
@@ -133,7 +134,6 @@ export default {
     handleClickAddBusinessUnit() {
       goto("ViewDivisionBusinessUnitNew", {
         params: {
-          organizationUid: this.organizationUid,
           divisionUid: this.divisionUid,
         },
       })
@@ -148,9 +148,8 @@ export default {
      * Back to division business unit list
      */
     handleClickBack() {
-      goto("ViewOrganizationManagement", {
+      goto("ViewDepartmentManagement", {
         params: {
-          organizationUid: this.organizationUid,
           divisionUid: this.divisionUid,
         },
       })

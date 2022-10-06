@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import { useGlobalStore } from "@/stores/global"
-import * as adminApi from "../../api/adminBusinessUnitFetcher"
+import * as api from "../../api/businessUnitFetcher"
 
 export const useBusinessUnitDetail = () => {
   // Global store
@@ -33,9 +33,9 @@ export const useBusinessUnitDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const getBusinessUnit = async (organizationUid, divisionUid, uid) => {
+  const getBusinessUnit = async (divisionUid, uid) => {
     try {
-      const { data } = await adminApi.fetchBusinessUnit(organizationUid, divisionUid, uid)
+      const { data } = await api.fetchBusinessUnit(divisionUid, uid)
 
       return data
     } catch (error) {
@@ -51,9 +51,9 @@ export const useBusinessUnitDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const updateBusinessUnit = async (payload, organizationUid, divisionUid, uid) => {
+  const updateBusinessUnit = async (payload, divisionUid, uid) => {
     try {
-      const { data } = await adminApi.updateBusinessUnit(payload, organizationUid, divisionUid, uid)
+      const { data } = await api.updateBusinessUnit(payload, divisionUid, uid)
 
       globalStore.addSuccessToastMessage("Updated")
       return data
@@ -70,9 +70,9 @@ export const useBusinessUnitDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const deleteBusinessUnit = async (organizationUid, divisionUid, uid) => {
+  const deleteBusinessUnit = async (divisionUid, uid) => {
     try {
-      const { data } = await adminApi.deleteBusinessUnit(organizationUid, divisionUid, uid)
+      const { data } = await api.deleteBusinessUnit(divisionUid, uid)
 
       globalStore.addSuccessToastMessage("Deleted")
       return data

@@ -186,9 +186,11 @@ export default {
      */
     async fetchDivision() {
       const { divisionUid } = this.$route.params
+
       this.isLoading = true
-      const response = await this.getDivision(this.organizationUid, divisionUid)
+      const response = await this.getDivision(divisionUid)
       this.isLoading = false
+
       if (response && response.uid) {
         this.division = response
       }
@@ -202,8 +204,9 @@ export default {
         return
       }
       this.isUpdateLoading = true
-      const response = await this.updateDivision(this.division, this.organizationUid, this.division.uid)
+      const response = await this.updateDivision(this.division, this.division.uid)
       this.isUpdateLoading = false
+
       if (response && response.uid) {
         this.division = response
       }
@@ -215,9 +218,9 @@ export default {
     async handleDeleteDivision() {
       this.isDeleteLoading = true
 
-      await this.deleteDivision(this.organizationUid, this.division.uid)
+      await this.deleteDivision(this.division.uid)
 
-      setTimeout(this.gotoOrganizationManagement(), 500)
+      setTimeout(this.gotoDepartmentManagement(), 500)
       this.isDeleteLoading = false
     },
 
@@ -225,7 +228,7 @@ export default {
      * Back to organization list
      */
     handleClickCancel() {
-      this.gotoOrganizationManagement()
+      this.gotoDepartmentManagement()
     },
 
     /** Open delete modal */
@@ -239,14 +242,10 @@ export default {
     },
 
     /**
-     * Go to Organization Management
+     * Go to Department Management
      */
-    gotoOrganizationManagement() {
-      goto("ViewOrganizationManagement", {
-        params: {
-          organizationUid: this.organizationUid,
-        },
-      })
+    gotoDepartmentManagement() {
+      goto("ViewDepartmentManagement")
     },
   },
   components: { RLoading, RFormInput, RLayoutTwoCol },

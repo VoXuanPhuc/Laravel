@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import LayoutAuth from "./../components/LayoutAuth"
+import LayoutAuth from "@/modules/auth/components/LayoutAuth"
 import EcSpinner from "@/components/EcSpinner/index.vue"
 import { useGlobalStore } from "@/stores/global"
 import { useLoginStore } from "../stores/useLogin"
@@ -124,7 +124,6 @@ export default {
   },
   methods: {
     async handleClickLogin() {
-      console.log(this.globalStore.getTenantId)
       this.v.form.$touch()
       if (this.v.form.$invalid) {
         return

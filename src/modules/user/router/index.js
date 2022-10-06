@@ -12,6 +12,7 @@ export default [
     name: "ViewUserList",
     props: true,
     meta: {
+      title: "List User",
       isPublic: true,
       module: "user",
     },
@@ -22,6 +23,7 @@ export default [
     name: "ViewUserNew",
     props: true,
     meta: {
+      title: "New User",
       isPublic: true,
       module: "user",
     },
@@ -32,6 +34,7 @@ export default [
     name: "ViewUserDetail",
     props: true,
     meta: {
+      title: "Edit User",
       isPublic: true,
       module: "user",
     },
@@ -42,6 +45,7 @@ export default [
     name: "ViewRoles",
     props: true,
     meta: {
+      title: "Roles",
       module: "user",
     },
   },
@@ -51,6 +55,7 @@ export default [
     name: "ViewRoleNew",
     props: true,
     meta: {
+      title: "New Role",
       module: "user",
     },
   },
@@ -60,6 +65,7 @@ export default [
     name: "ViewRoleDetail",
     props: true,
     meta: {
+      title: "Edit Role",
       module: "user",
     },
   },

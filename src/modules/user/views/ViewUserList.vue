@@ -111,12 +111,12 @@
 </template>
 
 <script>
-import UserSubMenu from "../components/UserSubMenu"
+import UserSubMenu from "@/modules/user/components/UserSubMenu.vue"
+import UserFilter from "@/modules/user/components/UserFilter"
 import { formatData, goto } from "@/modules/core/composables"
-import { debounce } from "lodash"
+import debounce from "lodash.debounce"
 import { handleErrorForUser } from "@/modules/user/api/handleErrorForUser.js"
-import UserFilter from "../components/UserFilter"
-import { useUserList } from "../use/useUserList"
+import { useUserList } from "@/modules/user/use/useUserList"
 import { useGlobalStore } from "@/stores/global"
 
 export default {

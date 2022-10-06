@@ -1,5 +1,7 @@
 import axios from "axios"
 import { defaultErrorHandler } from "../composables/defaultErrorHandler"
+import router from "@/router"
+import * as helpers from "@/readybc/composables/helpers/helpers"
 
 const fetcher = axios.create({
   baseURL: `https://${window.location.hostname}`,
@@ -14,6 +16,20 @@ fetcher.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
+    /**
+     * Appen tenant id to request headers from path to header
+     * Check if the route allow to access by lanlord by tenant id first
+     *
+     */
+    const isAbleToAccessByLandlord = router?.currentRoute?.value?.meta?.landlordAccess
+
+    const organizationUid = helpers.getTenantUid()
+
+    if (isAbleToAccessByLandlord && organizationUid) {
+      config.headers.organization = organizationUid
+    }
+
     return config
   },
   (error) => {

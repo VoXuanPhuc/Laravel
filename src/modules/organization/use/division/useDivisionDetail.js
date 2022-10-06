@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import { useGlobalStore } from "@/stores/global"
-import * as adminApi from "../../api/adminDivisionFetcher"
+import * as api from "../../api/divisionFetcher"
 
 export const useDivisionDetail = () => {
   // Global store
@@ -24,13 +24,12 @@ export const useDivisionDetail = () => {
   /**
    * Get division
    *
-   * @param {*} organizationUid
    * @param {*} uid
    * @returns
    */
-  const getDivision = async (organizationUid, uid) => {
+  const getDivision = async (uid) => {
     try {
-      const { data } = await adminApi.fetchDivision(organizationUid, uid)
+      const { data } = await api.fetchDivision(uid)
 
       return data
     } catch (error) {
@@ -46,9 +45,9 @@ export const useDivisionDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const updateDivision = async (payload, organizationUid, uid) => {
+  const updateDivision = async (payload, uid) => {
     try {
-      const { data } = await adminApi.updateDivision(payload, organizationUid, uid)
+      const { data } = await api.updateDivision(payload, uid)
 
       globalStore.addSuccessToastMessage("Updated")
       return data
@@ -58,9 +57,14 @@ export const useDivisionDetail = () => {
     }
   }
 
-  const deleteDivision = async (organizationUid, uid) => {
+  /**
+   *
+   * @param {*} uid
+   * @returns
+   */
+  const deleteDivision = async (uid) => {
     try {
-      const { data } = await adminApi.deleteDivision(organizationUid, uid)
+      const { data } = await api.deleteDivision(uid)
 
       globalStore.addSuccessToastMessage("Deleted")
       return data

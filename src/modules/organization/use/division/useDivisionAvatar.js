@@ -1,4 +1,4 @@
-import _ from "lodash"
+import isEmpty from "lodash.isempty"
 
 /**
  *
@@ -8,7 +8,7 @@ import _ from "lodash"
  */
 export const generateAvatar = (name, color) => {
   // Only generate if the name with 2 letters
-  if (_.isEmpty(name) || name.length < 2 || _.isEmpty(color)) {
+  if (isEmpty(name) || name.length < 2 || isEmpty(color)) {
     return ""
   }
 

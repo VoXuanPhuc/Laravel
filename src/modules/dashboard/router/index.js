@@ -6,6 +6,9 @@ export default [
     component: ViewDashboard,
     name: "ViewDashboard",
     props: true,
-    meta: { module: "dashboard" },
+    meta: {
+      title: "Dashboard",
+      module: "dashboard",
+    },
   },
 ]

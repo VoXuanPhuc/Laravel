@@ -1,34 +1,41 @@
-import ViewOrganizationList from "../views/organization/ViewOrganizationList.vue"
-import ViewOrganizationDetail from "../views/organization/ViewOrganizationDetail.vue"
-import ViewOrganizationNew from "../views/organization/ViewOrganizationNew.vue"
-import ViewOrganizationManagement from "../views/organization/ViewOrganizationManagement.vue"
+import ViewOrganizationList from "@/modules/organization/views/organization/ViewOrganizationList.vue"
+import ViewOrganizationDetail from "@/modules/organization/views/organization/ViewOrganizationDetail.vue"
+import ViewOrganizationNew from "@/modules/organization/views/organization/ViewOrganizationNew.vue"
+
+// Departments
+import ViewDepartmentManagement from "@/modules/organization/views/department/ViewDepartmentManagement.vue"
 
 // Division
-import ViewDivisionNew from "../views/division/ViewDivisionNew.vue"
-import ViewDivisionDetail from "../views/division/ViewDivisionDetail"
+import ViewDivisionNew from "@/modules/organization/views/division/ViewDivisionNew.vue"
+import ViewDivisionDetail from "@/modules/organization/views/division/ViewDivisionDetail"
 
 // BU
-import ViewBusinessUnitList from "../views/business_units/ViewBusinessUnitList.vue"
-import ViewDivisionBusinessUnitNew from "../views/business_units/ViewDivisionBusinessUnitNew.vue"
-import ViewBusinessUnitNew from "../views/business_units/ViewBusinessUnitNew.vue"
-import ViewBusinessUnitDetail from "../views/business_units/ViewBusinessUnitDetail.vue"
+import ViewBusinessUnitList from "@/modules/organization/views/business_units/ViewBusinessUnitList.vue"
+import ViewDivisionBusinessUnitNew from "@/modules/organization/views/business_units/ViewDivisionBusinessUnitNew.vue"
+import ViewBusinessUnitNew from "@/modules/organization/views/business_units/ViewBusinessUnitNew.vue"
+import ViewBusinessUnitDetail from "@/modules/organization/views/business_units/ViewBusinessUnitDetail.vue"
 
 export default [
+  /**
+   * ADMIN
+   */
   {
     path: "/organization",
     component: ViewOrganizationList,
     name: "ViewOrganizationList",
     props: true,
     meta: {
+      title: "Organization",
       module: "organization",
     },
   },
   {
-    path: "/organization/:organizationUid",
+    path: "/organization/:uid",
     component: ViewOrganizationDetail,
     name: "ViewOrganizationDetail",
     props: true,
     meta: {
+      title: "Organization Detail",
       module: "organization",
     },
   },
@@ -38,78 +45,109 @@ export default [
     name: "ViewOrganizationNew",
     props: true,
     meta: {
+      title: "New Organization",
       module: "organization",
     },
   },
   {
     path: "/organizations/:organizationUid",
-    component: ViewOrganizationManagement,
+    component: ViewDepartmentManagement,
     name: "ViewOrganizationManagement",
     props: true,
     meta: {
+      title: "Manage Organization",
       module: "organization",
+      landlordAccess: true,
     },
   },
 
+  /**
+   * TENANT
+   */
+
+  // Department
+  {
+    path: "/departments",
+    component: ViewDepartmentManagement,
+    name: "ViewDepartmentManagement",
+    props: true,
+    meta: {
+      title: "New Division",
+      module: "department",
+      landlordAccess: true,
+    },
+  },
   // Divisions
   {
-    path: "/organizations/:organizationUid/divisions",
+    path: "/departments/divisions/new",
     component: ViewDivisionNew,
     name: "ViewDivisionNew",
     props: true,
     meta: {
-      module: "organization",
+      title: "New Division",
+      module: "department",
+      landlordAccess: true,
     },
   },
   {
-    path: "/organizations/:organizationUid/divisions/:divisionUid",
+    path: "/departments/divisions/:divisionUid",
     component: ViewDivisionDetail,
     name: "ViewDivisionDetail",
     props: true,
     meta: {
-      module: "organization",
+      title: "Division Detail",
+      module: "department",
+      landlordAccess: true,
     },
   },
 
   // Business Unit
   {
-    path: "/organizations/:organizationUid/business-units",
+    path: "/departments/business-units",
     component: ViewBusinessUnitNew,
     name: "ViewBusinessUnitNew",
     props: true,
     meta: {
-      module: "organization",
+      title: "New Business Unit",
+      module: "department",
+      landlordAccess: true,
     },
   },
 
   // Division new BU
   {
-    path: "/organizations/:organizationUid/divisions/:divisionUid/business-units/new",
+    path: "/departments/divisions/:divisionUid/business-units/new",
     component: ViewDivisionBusinessUnitNew,
     name: "ViewDivisionBusinessUnitNew",
     props: true,
     meta: {
-      module: "organization",
+      title: "New Business Unit",
+      module: "department",
+      landlordAccess: true,
     },
   },
 
   // List BU
   {
-    path: "/organizations/:organizationUid/divisions/:divisionUid/business-units",
+    path: "/departments/divisions/:divisionUid/business-units",
     component: ViewBusinessUnitList,
     name: "ViewBusinessUnitList",
     props: true,
     meta: {
-      module: "organization",
+      title: "Business Units",
+      module: "department",
+      landlordAccess: true,
     },
   },
   {
-    path: "/organizations/:organizationUid/divisions/:divisionUid/business-units/:businessUnitUid",
+    path: "/departments/divisions/:divisionUid/business-units/:businessUnitUid",
     component: ViewBusinessUnitDetail,
     name: "ViewBusinessUnitDetail",
     props: true,
     meta: {
-      module: "organization",
+      title: "Business Unit Detail",
+      module: "department",
+      landlordAccess: true,
     },
   },
 ]

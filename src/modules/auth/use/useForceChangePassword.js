@@ -34,7 +34,6 @@ export const useForceChangePassword = () => {
     try {
       const { data } = await api.forceChangeNewPassword(payload)
 
-      debugger
       if (!data || !data.accessToken) {
         throw new Error(t("auth.errors.changePassword"))
       }

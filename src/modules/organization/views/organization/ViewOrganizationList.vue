@@ -56,7 +56,6 @@ export default {
 
     const organizationList = ref([])
 
-    
     return {
       searchQuery,
       getOrganizationList,
@@ -104,7 +103,7 @@ export default {
       this.isLoading = true
       const response = await this.getOrganizationList()
       this.organizationList = response.data
-      
+
       this.isLoading = false
     },
   },

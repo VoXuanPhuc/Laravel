@@ -9,6 +9,7 @@ export default [
     name: "DefaultLogin",
     props: true,
     meta: {
+      title: "Login",
       isPublic: true,
     },
   },
@@ -18,6 +19,7 @@ export default [
     name: "ViewLogin",
     props: true,
     meta: {
+      title: "Login",
       isPublic: true,
     },
   },
@@ -28,6 +30,7 @@ export default [
     name: "ViewForgotPassword",
     props: true,
     meta: {
+      title: "Forgot Password",
       isPublic: true,
     },
   },
@@ -37,6 +40,7 @@ export default [
     name: "ViewNewPassword",
     props: true,
     meta: {
+      title: "New Password",
       isPublic: true,
     },
   },

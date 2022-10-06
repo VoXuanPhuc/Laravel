@@ -90,26 +90,24 @@ export default {
     },
   },
 
-  created() {
+  beforeMount() {
     this.fetchLogo()
   },
 
   methods: {
     async fetchLogo() {
       const { tenantId, clientId } = this.globalStore.getTenantClientId
+      const tenantConfig = this.globalStore.getTenantSettings
 
       try {
-        const tenantConfig = await import(`@/tenants/${tenantId}/configs/${clientId}.js`)
         const logoConfig = tenantConfig?.default?.logo
-        const image = await import(`@/tenants/${tenantId}/assets/${logoConfig?.filename}`)
+        const imageUrl = tenantConfig?.server?.logo || require(`@/tenants/${tenantId}/assets/${logoConfig?.sidebar}`)
 
         this.logo = {
-          img: image?.default || "https://via.placeholder.com/64x78",
+          img: imageUrl || "https://via.placeholder.com/64x78",
           class: logoConfig?.class,
           style: logoConfig?.style,
         }
-
-        console.log(this.logo)
       } catch (error) {
         console.groupCollapsed(
           "%c Tenant config file does not exist",

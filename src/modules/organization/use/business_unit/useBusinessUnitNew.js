@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import { useGlobalStore } from "@/stores/global"
-import * as adminApi from "../../api/adminBusinessUnitFetcher"
+import * as api from "../../api/businessUnitFetcher"
 
 export const useBusinessUnitNew = () => {
   // Global store
@@ -26,9 +26,9 @@ export const useBusinessUnitNew = () => {
 
   const v$ = useVuelidate(rules, { form })
 
-  const createBusinessUnit = async (payload, organizationUid, divisionUid) => {
+  const createBusinessUnit = async (payload, divisionUid) => {
     try {
-      const { data } = await adminApi.createBusinessUnit(payload, organizationUid, divisionUid)
+      const { data } = await api.createBusinessUnit(payload, divisionUid)
 
       globalStore.addSuccessToastMessage("Created Business Unit")
 

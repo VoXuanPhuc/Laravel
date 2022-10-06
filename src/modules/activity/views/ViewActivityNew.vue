@@ -318,7 +318,7 @@ import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useDivisionList } from "@/modules/organization/use/division/useDivisionList"
 import { useGlobalStore } from "@/stores/global"
 import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
-import _ from "lodash"
+import isEmpty from "lodash.isempty"
 import EcBox from "@/components/EcBox/index.vue"
 
 export default {
@@ -355,8 +355,8 @@ export default {
     const globalStore = useGlobalStore()
     // Pre-loaded
     const { getActivity, updateActivity } = useActivityDetail()
-    const { adminGetDivisions, tenantGetDivisions } = useDivisionList()
-    const { adminGetBusinessUnitsByOrg, tenantBusinessUnits } = useBusinessUnitList()
+    const { getDivisions } = useDivisionList()
+    const { getBusinessUnits } = useBusinessUnitList()
 
     const { getRoles } = useRoleList()
     const { getUtilities } = useUtilities()
@@ -368,10 +368,8 @@ export default {
       updateActivity,
       getRoles,
       getUtilities,
-      adminGetDivisions,
-      tenantGetDivisions,
-      adminGetBusinessUnitsByOrg,
-      tenantBusinessUnits,
+      getDivisions,
+      getBusinessUnits,
       createNewActivity,
       form,
       v$,
@@ -429,7 +427,7 @@ export default {
      * Filter BU
      */
     filteredBusinessUnits() {
-      if (_.isEmpty(this.form.division?.uid)) {
+      if (isEmpty(this.form.division?.uid)) {
         return this.businessUnits
       }
 
@@ -536,7 +534,7 @@ export default {
       const { uid } = this.$route.params
       this.isLoading = true
 
-      const response = await this.getActivity(uid)
+      const response = await this.getActivity(uid, ["division", "businessUnit", "roles", "alternativeRoles", "utilities"])
 
       if (response && response.uid) {
         this.transformData(response)
@@ -555,26 +553,26 @@ export default {
       this.form.min_people = response.min_people
       this.form.is_remote = response.is_remote
 
-      if (response.division) {
+      if (response?.division) {
         this.form.division = response.division
       }
 
-      if (response.business_unit) {
+      if (response?.business_unit) {
         this.form.business_unit = response.business_unit
       }
 
       // Roles
-      if (response.roles.length > 0) {
+      if (response?.roles?.length > 0) {
         this.form.roles = response.roles
       }
 
       // Alternative Roles
-      if (response.alternative_roles.length > 0) {
+      if (response?.alternative_roles?.length > 0) {
         this.form.alternative_roles = response.alternative_roles
       }
 
       // Utilities
-      if (response.utilities.length > 0) {
+      if (response?.utilities?.length > 0) {
         this.form.utilities = response.utilities
       }
     },
@@ -609,7 +607,7 @@ export default {
      */
     async fetchDivisions() {
       this.isLoadingDivisions = true
-      const response = await this.tenantGetDivisions()
+      const response = await this.getDivisions()
       if (response && response.data) {
         this.divisions = response.data
       }
@@ -621,7 +619,7 @@ export default {
      */
     async fetchBusinessUnits() {
       this.isLoadingBusinessUnits = true
-      const response = await this.tenantBusinessUnits()
+      const response = await this.getBusinessUnits()
 
       this.isLoading = false
 

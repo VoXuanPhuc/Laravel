@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import Loading from "../components/Loading"
+import Loading from "@/modules/user/components/Loading"
 import { goto } from "@/modules/core/composables"
 import { useUserNew } from "../use/useUserNew"
 import { useRoleList } from "../use/useRoleList"

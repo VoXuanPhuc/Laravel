@@ -36,7 +36,6 @@ export function useResourceNew() {
    * @returns
    */
   const createNewResource = async (payload) => {
-    debugger
     try {
       const { data } = await api.createNewResource(payload)
       globalStore.addSuccessToastMessage("Created new resource, redirect to resource list...")

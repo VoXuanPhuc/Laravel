@@ -4,10 +4,33 @@ export const createNewActivity = async (payload) => {
   return fetcher.post(`identity/api/v1/activities`, payload)
 }
 
-export const fetchActivity = async (uid) => {
-  return fetcher.get(`identity/api/v1/activities/${uid}`)
+/**
+ *
+ * @param {*} uid
+ * @param {*} relations
+ * @returns
+ */
+export const fetchActivity = async (uid, relations = []) => {
+  var query = new URLSearchParams()
+
+  query.append(
+    "relations",
+    relations
+      .filter((relation) => {
+        return relation.length > 0
+      })
+      .join("&")
+  )
+
+  return fetcher.get(`identity/api/v1/activities/${uid}? ` + query.toString())
 }
 
+/**
+ *
+ * @param {*} payload
+ * @param {*} uid
+ * @returns
+ */
 export const updateActivity = async (payload, uid) => {
   return fetcher.put(`identity/api/v1/activities/${uid}`, payload)
 }

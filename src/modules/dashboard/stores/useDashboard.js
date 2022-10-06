@@ -2,15 +2,19 @@ import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { handleErrorForUser } from "../api/handleErrorForUser"
+import * as systemStatisticApi from "@/readybc/composables/api/apiSystemStatistics"
 
 const useDashboardStore = defineStore("dashboard", () => {
   const organizationNum = ref(0)
   const taskNum = ref(0)
-  const notificationNum = ref(10)
+  const notificationNum = ref(0)
   const userNum = ref(0)
 
   const { t } = useI18n()
 
+  /**
+   * Statistic
+   */
   const statisticList = computed(() => [
     {
       name: "organizations",
@@ -21,6 +25,10 @@ const useDashboardStore = defineStore("dashboard", () => {
       count: organizationNum.value,
       navigation: {
         name: "ViewOrganizationNew",
+      },
+      btnTooltip: {
+        text: "New Organization",
+        position: "bottom",
       },
     },
     {
@@ -51,50 +59,108 @@ const useDashboardStore = defineStore("dashboard", () => {
       navigation: {
         name: "ViewUserNew",
       },
+      btnTooltip: {
+        text: "New User",
+        position: "bottom",
+      },
     },
   ])
 
-  // Fetch Data
-  async function fetchOrganization() {
-    organizationNum.value = 100
+  const chartList = ref([
+    {
+      title: "Monthly top Organisations activities",
+      type: "bar",
+      data: {
+        labels: ["Encoda", "Amz", "Google", "Facebook", "Microsoft"],
+        datasets: [
+          {
+            data: [30, 40, 60, 70, 45],
+            backgroundColor: ["#77CEFF", "#0079AF", "#123E6B", "#97B0C4", "#A5C8ED"],
+          },
+        ],
+      },
+    },
+    {
+      title: "Organisations in 6 months",
+      type: "line",
+      data: {
+        labels: ["May", "Jul", "July", "Sep", "October"],
+        datasets: [
+          {
+            data: [30, 40, 60, 70, 45],
+            backgroundColor: ["#77CEFF", "#0079AF", "#123E6B", "#97B0C4", "#A5C8ED"],
+          },
+        ],
+      },
+    },
+    {
+      title: "Tasks",
+      type: "pipe",
+      data: {
+        labels: ["Open", "In Progress", "Pending", "Finished", "Cancelled"],
+        datasets: [
+          {
+            data: [30, 40, 60, 70, 45],
+            backgroundColor: ["#cff2e3", "#f0cd7a", "#f69cad", "#29996a", "#590817"],
+          },
+        ],
+      },
+    },
+  ])
+  /**
+   *
+   * @returns
+   */
+  async function fetchSystemStatisticsData() {
+    try {
+      const { data } = await systemStatisticApi.fetchSystemStatistics()
+
+      notificationNum.value = data.notificationNum
+      organizationNum.value = data.organizationNum
+      taskNum.value = data.taskNum
+      userNum.value = data.userNum
+
+      return data
+    } catch (error) {
+      return false
+    }
   }
 
-  async function fetchTasks() {
-    taskNum.value = 20
+  /**
+   *
+   * @returns
+   */
+  async function fetchTenantStatisticsData() {
+    try {
+      const { data } = await systemStatisticApi.fetchSystemStatistics()
+
+      notificationNum.value = data.notificationNum
+      organizationNum.value = data.organizationNum
+      taskNum.value = data.taskNum
+      userNum.value = data.userNum
+
+      return data
+    } catch (error) {
+      return false
+    }
   }
 
-  async function fetchNotifications() {
-    notificationNum.value = 33
-  }
-
-  async function fetchUsers() {
-    userNum.value = 13
-  }
-
+  /**
+   *
+   * @param {*} data
+   */
   function setErrorMessage(data) {
     handleErrorForUser({ errror: data?.error, $t: t })
   }
 
-  async function fillData() {
-    // Notifications
-    await fetchNotifications()
-    await fetchOrganization()
-    await fetchTasks()
-    await fetchUsers()
-  }
-
   return {
     statisticList,
-
-    // Fetch data
-    fetchNotifications,
-    fetchOrganization,
-    fetchTasks,
-    fetchUsers,
+    chartList,
 
     // Set data
     setErrorMessage,
-    fillData,
+    fetchSystemStatisticsData,
+    fetchTenantStatisticsData,
   }
 })
 

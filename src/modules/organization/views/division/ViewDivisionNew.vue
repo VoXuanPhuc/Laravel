@@ -123,7 +123,7 @@ export default {
       }
 
       this.isLoading = true
-      const response = await this.createDivision(this.organizationUid, this.form)
+      const response = await this.createDivision(this.form)
 
       this.isLoading = false
 
@@ -136,21 +136,13 @@ export default {
      * Back to organization list
      */
     handleCreatedDivision() {
-      goto("ViewOrganizationManagement", {
-        params: {
-          organizationUid: this.organizationUid,
-        },
-      })
+      goto("ViewDepartmentManagement")
     },
     /**
      * Back to organization list
      */
     handleClickCancel() {
-      goto("ViewOrganizationManagement", {
-        params: {
-          organizationUid: this.organizationUid,
-        },
-      })
+      goto("ViewDepartmentManagement")
     },
   },
 }

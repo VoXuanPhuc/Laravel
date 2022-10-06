@@ -94,7 +94,7 @@
           <!-- Category -->
           <RTableCell>
             <EcText class="w-24">
-              {{ item.category.name }}
+              {{ item?.category?.name }}
             </EcText>
           </RTableCell>
 

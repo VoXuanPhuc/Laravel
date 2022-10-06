@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import LayoutAuth from "./../components/LayoutAuth"
+import LayoutAuth from "@/modules/auth/components/LayoutAuth.vue"
 import { useForgotPassword } from "../stores/useForgotPassword"
 import { storeToRefs } from "pinia"
 

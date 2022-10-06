@@ -407,6 +407,8 @@ export default {
       const response = await this.getResource(this.uid)
       if (response) {
         this.resource = response
+        this.resource.category = response.category ?? {}
+        this.resource.owners = response.owners?.length > 0 ? response.owners : [{ uid: "" }]
       }
       this.isLoading = false
     },

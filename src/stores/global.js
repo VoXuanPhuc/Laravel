@@ -48,6 +48,21 @@ export const useGlobalStore = defineStore("global", {
       return this.tenantSettings
     },
 
+    isLandlord() {
+      
+      return this?.tenantSettings?.server?.landlord === true
+    },
+
+    getAllowedModuleIDs() {
+      return this.tenantSettings?.server?.modules?.map((item) => {
+        return item.value
+      })
+    },
+
+    getTenantName() {
+      return this.tenantSettings?.server?.name
+    },
+
     getDateTimeFormat() {
       return this.dateTimeFormat
     },

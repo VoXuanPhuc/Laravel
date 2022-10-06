@@ -1,11 +1,10 @@
 <template>
-  <RLayout :title="organization.name">
+  <RLayout :title="tenantName">
     <RLayoutTwoCol :isLoading="isLoading" leftCls="lg:w-7/12 lg:pr-4 mb-8" rightCls="lg:w-5/12 lg:pr-4 mb-8">
       <template #left>
         <EcBox variant="card-1" class="width-full px-4 sm:px-10">
           <!-- Division list -->
           <DivisionList
-            :organization="organization"
             :selectedDivision="selectedDivision"
             @handleDivisionCardChangeOnManagement="handleDivisionCardChangeOnManagement"
           />
@@ -14,11 +13,7 @@
       <template #right>
         <!-- Bussiness Units -->
         <EcBox variant="card-1" class="width-full px-4 sm:px-10">
-          <BusinessUnitList
-            :organization="organization"
-            :selectedDivision="selectedDivision"
-            @handleRemoveSelectedDivision="handleRemoveSelectedDivision"
-          />
+          <BusinessUnitList :selectedDivision="selectedDivision" @handleRemoveSelectedDivision="handleRemoveSelectedDivision" />
         </EcBox>
       </template>
     </RLayoutTwoCol>
@@ -26,13 +21,14 @@
 </template>
 
 <script>
-import { useOrganizationDetail } from "./../../use/organization/useOrganizationDetail"
 import { ref } from "vue"
 import DivisionList from "../../components/division/DivisionList.vue"
 import BusinessUnitList from "../../components/business_unit/BusinessUnitList.vue"
+import { useGlobalStore } from "@/stores/global"
 
 export default {
-  name: "ViewOrganizationManagement",
+  name: "ViewDepartmentManagement",
+
   data() {
     return {
       isLoading: false,
@@ -41,27 +37,21 @@ export default {
       confirmedOrganizationName: "",
     }
   },
-  async beforeMount() {
-    console.log(this.$route.params)
-    await this.fetchOrganization()
-  },
-
-  mounted() {},
 
   setup() {
+    const globalStore = useGlobalStore()
     const selectedDivision = ref()
-
     const organization = ref({})
-
-    const { getOrganization } = useOrganizationDetail()
-
     return {
-      getOrganization,
-      organization,
+      globalStore,
       selectedDivision,
+      organization,
     }
   },
   computed: {
+    tenantName() {
+      return window.$cookies.get("tenantName") || this.globalStore.getTenantName
+    },
     matchedName() {
       return this.confirmedOrganizationName === this.organization.name
     },
@@ -70,25 +60,6 @@ export default {
     },
   },
   methods: {
-    /**
-     * Fetch organization
-     */
-    async fetchOrganization() {
-      const { organization, organizationUid } = this.$route.params
-
-      if (organization) {
-        this.organization = organization
-      } else {
-        this.isLoading = true
-        const response = await this.getOrganization(organizationUid)
-        this.isLoading = false
-
-        if (response && response.uid) {
-          this.organization = response
-        }
-      }
-    },
-
     handleDivisionCardChangeOnManagement(division) {
       this.selectedDivision = division
     },

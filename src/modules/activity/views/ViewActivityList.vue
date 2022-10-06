@@ -34,7 +34,7 @@
             :options="divisions"
             :valueKey="'uid'"
             :allowSelectNothing="true"
-            :placeholder="$t('activity.placeholders.division')"
+            :placeholder="loadingDivision"
           />
 
           <!-- Business-unit-->
@@ -45,11 +45,12 @@
             :options="businessUnits"
             :valueKey="'uid'"
             :allowSelectNothing="true"
-            :placeholder="$t('activity.placeholders.bu')"
+            :placeholder="loadingBu"
           />
         </EcFlex>
       </EcBox>
-      <EcBox class="lg:flex-wrap grid sm:grid-cols-1 md:grid-cols-3 gap-2">
+      <EcBox class="lg:flex-wrap grid sm:grid-cols-1 md:grid-cols-3 gap-2 w-full justify-items-end">
+        <EcBox></EcBox>
         <EcButton
           class="mb-3 lg:mb-0"
           :iconPrefix="exportAcctivityIcon"
@@ -57,9 +58,6 @@
           @click="handleClickDownloadActivities"
         >
           {{ $t("activity.button.exportActivities") }}
-        </EcButton>
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="ChartSquareBar" variant="primary-sm">
-          {{ $t("activity.button.timeImpactAnalysis") }}
         </EcButton>
 
         <!-- Add activity -->
@@ -93,14 +91,14 @@
 
           <!-- Step -->
           <RTableCell>
-            <EcText :variant="getActivityConfirmationStepType(item.step)" class="w-48">
+            <EcText :variant="getActivityStepType(item.step)" class="w-48">
               {{ getActivityStep(item.step) }}
             </EcText>
           </RTableCell>
 
           <!-- status -->
           <RTableCell>
-            <EcText :variant="getActivityConfirmationStatusType(item.status)" class="w-32">
+            <EcText :variant="getActivityStatusType(item.status)" class="w-32">
               {{ getActivityStatus(item.status) }}
             </EcText>
           </RTableCell>
@@ -150,11 +148,13 @@
 
 <script>
 import { useActivityList } from "@/modules/activity/use/useActivityList"
+import { useActivityDetail } from "@/modules/activity/use/useActivityDetail"
 import { useDivisionList } from "@/modules/activity/use/useDivisionList"
 import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
 import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
 import { ref } from "vue"
+import EcBox from "@/components/EcBox/index.vue"
 
 export default {
   name: "ViewActivityList",
@@ -172,11 +172,12 @@ export default {
       currentPage,
     } = useActivityList()
 
+    const { statuses } = useActivityDetail()
+
     const divisions = ref([])
     const businessUnits = ref([])
-
-    const { fetchDivisionList } = useDivisionList()
-    const { tenantBusinessUnits } = useBusinessUnitList()
+    const { getDivisionList } = useDivisionList()
+    const { getBusinessUnits } = useBusinessUnitList()
 
     return {
       globalStore,
@@ -188,14 +189,14 @@ export default {
       limit,
       currentPage,
       totalItems,
-      fetchDivisionList,
-      tenantBusinessUnits,
+      getDivisionList,
+      getBusinessUnits,
       divisions,
       businessUnits,
       fetchActivityListByDivisionUid,
+      statuses,
     }
   },
-
   data() {
     return {
       headerData: [
@@ -211,25 +212,33 @@ export default {
       isDivisionLoading: false,
       isBusinessUnitLoading: false,
       isDownloading: false,
+
+      // Search
+      searchQuery: "",
+      onFilter: "",
     }
   },
-
   mounted() {
     this.fetchActivities()
     this.fetchDivisions()
     this.fetchBusinessUnits()
   },
-
   computed: {
     dateTimeFormat() {
       return this.globalStore.dateTimeFormat
     },
-
     exportAcctivityIcon() {
       return this.isDownloading ? "Spinner" : "DocumentDownload"
     },
-  },
 
+    loadingDivision() {
+      return this.isDivisionLoading ? this.$t("activity.placeholders.loading") : this.$t("activity.placeholders.division")
+    },
+
+    loadingBu() {
+      return this.isBusinessUnitLoading ? this.$t("activity.placeholders.loading") : this.$t("activity.placeholders.bu")
+    },
+  },
   watch: {
     currentPage() {},
   },
@@ -253,20 +262,43 @@ export default {
      * @returns {string}
      */
     getActivityStatus(value) {
-      return value === 1 ? "Created" : value === 2 ? "In Progress" : "Finished"
+      const status = this.statuses.find((item) => {
+        return item.value === value
+      })
+
+      return status?.name || "N/A"
     },
     /**
      * get class property
      * @param value
      * @returns {string}
      */
-    getActivityConfirmationStatusType(value) {
-      return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
+    getActivityStatusType(value) {
+      switch (value) {
+        case 2:
+          return "pill-c1"
+        case 3:
+          return "pill-cSuccess-inv"
+        case 4:
+          return "pill-cWarning-inv"
+        default:
+          return "pill-disabled"
+      }
     },
+
+    /**
+     *
+     * @param {*} value
+     */
     getActivityStep(value) {
       return value === 1 ? "Basic info" : value === 2 ? "Remote access" : "Equipments"
     },
-    getActivityConfirmationStepType(value) {
+
+    /**
+     *
+     * @param {*} value
+     */
+    getActivityStepType(value) {
       return value === 1 ? "pill-disabled" : value === 2 ? "pill-c1" : "pill-cSuccess-inv"
     },
     // Handle events
@@ -295,29 +327,28 @@ export default {
         },
       })
     },
-    // ==== PRE-LOAD ==========
 
+    // Search
+    handleClearSearch() {},
+    // ==== PRE-LOAD ==========
     /**
      * Fetch Division
      */
     async fetchDivisions() {
       this.isDivisionLoading = true
-      const divisionRes = await this.fetchDivisionList()
-
+      const divisionRes = await this.getDivisionList()
       if (divisionRes && divisionRes.data) {
         this.divisions = divisionRes.data
       }
-
       this.isDivisionLoading = false
     },
-
     /**
      * Fetch BU
      */
     async fetchBusinessUnits() {
       this.isBusinessUnitLoading = true
-      const buRes = await this.tenantBusinessUnits()
 
+      const buRes = await this.getBusinessUnits()
       if (buRes && buRes.data) {
         this.businessUnits = buRes.data
       }
@@ -325,5 +356,6 @@ export default {
       this.isBusinessUnitLoading = false
     },
   },
+  components: { EcBox },
 }
 </script>

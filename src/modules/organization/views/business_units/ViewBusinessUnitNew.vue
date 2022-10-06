@@ -107,12 +107,12 @@ export default {
   setup() {
     const divisions = ref([])
     const { v$, form, createBusinessUnit } = useBusinessUnitNew()
-    const { adminGetDivisions } = useDivisionList()
+    const { getDivisions } = useDivisionList()
     return {
       v$,
       form,
       createBusinessUnit,
-      adminGetDivisions,
+      getDivisions,
       divisions,
     }
   },
@@ -120,7 +120,7 @@ export default {
   methods: {
     async fetchDivisions() {
       this.isLoadingDivisions = true
-      const response = await this.adminGetDivisions(this.organizationUid)
+      const response = await this.getDivisions()
       if (response && response.data) {
         this.divisions = response.data
       }
@@ -136,7 +136,7 @@ export default {
         return
       }
       this.isLoading = true
-      const response = await this.createBusinessUnit(this.form, this.organizationUid, this.form.division.uid)
+      const response = await this.createBusinessUnit(this.form, this.form.division.uid)
       this.isLoading = false
       if (response && response.uid) {
         this.form = response
@@ -144,24 +144,16 @@ export default {
       }
     },
     /**
-     * Back to organization list
+     * Back to department list
      */
     handleCreatedBusinessUnit() {
-      goto("ViewOrganizationManagement", {
-        params: {
-          organizationUid: this.organizationUid,
-        },
-      })
+      goto("ViewDepartmentManagement")
     },
     /**
-     * Back to organization list
+     * Back to department list
      */
     handleClickCancel() {
-      goto("ViewOrganizationManagement", {
-        params: {
-          organizationUid: this.organizationUid,
-        },
-      })
+      goto("ViewDepartmentManagement")
     },
   },
   components: { EcSpinner },

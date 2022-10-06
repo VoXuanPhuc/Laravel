@@ -52,7 +52,7 @@
             </EcFlex>
 
             <!-- Status -->
-            <EcFlex class="flex-wrap max-w-md">
+            <EcFlex v-if="!isLandlord" class="flex-wrap max-w-md">
               <EcBox class="w-full 2xl:w-6/12 mb-6 sm:pr-6">
                 <RFormInput
                   componentName="EcToggle"
@@ -81,7 +81,7 @@
             </EcFlex>
 
             <!-- Friendly URL -->
-            <EcFlex class="flex-wrap max-w-full">
+            <EcFlex v-if="!isLandlord" class="flex-wrap items-center max-w-full">
               <EcBox class="w-4/12 mb-6">
                 <RFormInput
                   v-model="organization.friendly_url"
@@ -94,13 +94,18 @@
                 />
               </EcBox>
               <EcFlex class="items-center">
-                <EcText>.readybc.com</EcText>
+                <EcText>.{{ hostName }}</EcText>
                 <EcSpinner v-if="isCheckingFriendlyUrl" class="ml-4" variant="basic" />
               </EcFlex>
+
+              <!-- Open link -->
+              <EcButton variant="transparent-rounded" class="h-3" :href="'https://' + organization?.domain" target="_blank">
+                <EcIcon icon="OpenUp" width="20" height="20" />
+              </EcButton>
             </EcFlex>
 
             <!-- Industries -->
-            <EcFlex class="flex-wrap max-w-full">
+            <EcFlex v-if="!isLandlord" class="flex-wrap max-w-full">
               <EcBox class="w-full 2xl:w-6/12 mb-6 sm:pr-6">
                 <EcText class="mb-2">Industries</EcText>
                 <EcMultiSelect :modelValue="organization.industries" :options="industries" :valueKey="'uid'" />
@@ -216,7 +221,7 @@
       </template>
       <template #right>
         <!-- Delete organization -->
-        <EcBox variant="card-1" class="mb-8">
+        <EcBox v-if="!isLandlord" variant="card-1" class="mb-8">
           <EcHeadline as="h2" variant="h2" class="text-c1-800 px-5">
             {{ $t("organization.deleteOrganization") }}
           </EcHeadline>
@@ -321,6 +326,14 @@ export default {
     matchedName() {
       return this.confirmedOrganizationName === this.organization.name
     },
+
+    isLandlord() {
+      return this.organization?.landlord === true
+    },
+
+    hostName() {
+      return process.env.VUE_APP_HOST_NAME
+    },
   },
 
   mounted() {
@@ -334,8 +347,12 @@ export default {
      */
     async fetchOrganization() {
       this.isLoading = true
-      const { organizationUid } = this.$route.params
-      this.organization = await this.getOrganization(organizationUid)
+      const { uid } = this.$route.params
+      const orgRes = await this.getOrganization(uid)
+
+      if (orgRes) {
+        this.organization = orgRes
+      }
 
       if (this.organization) {
         this.uploadedFileUrls = [this.organization.logo_path]
@@ -360,6 +377,10 @@ export default {
 
       if (org && org.uid) {
         this.organization = org
+
+        if (!this.organization.owner) {
+          this.organization.owner = {}
+        }
       }
       this.isUpdateLoading = false
     },
@@ -398,6 +419,13 @@ export default {
       this.organization.logo_path = result.url
     },
   },
-  components: {},
+
+  watch: {
+    organization(org) {
+      if (org && !org.owner) {
+        org.owner = {}
+      }
+    },
+  },
 }
 </script>

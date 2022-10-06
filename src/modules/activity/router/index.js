@@ -1,37 +1,21 @@
-import ViewActivityList from "../views/ViewActivityList"
-import ViewActivityNew from "../views/ViewActivityNew"
-import ViewActivityDetail from "../views/ViewActivityDetail"
-import ViewActivityRemoteAccess from "../views/ViewActivityRemoteAccess"
-import ViewActivityApplication from "../views/ViewActivityApplication"
-import ViewActivityUpdateRemoteAccess from "../views/ViewActivityUpdateRemoteAccess"
-import ViewActivityUpdateApplication from "../views/ViewActivityUpdateApplication"
+import ViewActivityList from "@/modules/activity/views/ViewActivityList"
+import ViewActivityNew from "@/modules/activity/views/ViewActivityNew"
+import ViewActivityDetail from "@/modules/activity/views/ViewActivityDetail"
+import ViewActivityRemoteAccess from "@/modules/activity/views/ViewActivityRemoteAccess"
+import ViewActivityApplication from "@/modules/activity/views/ViewActivityApplication"
+import ViewActivityUpdateRemoteAccess from "@/modules/activity/views/ViewActivityUpdateRemoteAccess"
+import ViewActivityUpdateApplication from "@/modules/activity/views/ViewActivityUpdateApplication"
 
 export default [
-  {
-    path: "/organizations/first-organization/activities",
-    component: ViewActivityList,
-    name: "ViewActivityList",
-    props: true,
-    meta: {
-      module: "activity",
-    },
-  },
-  {
-    path: "/orgainizations/:organizationUid/activities",
-    component: ViewActivityList,
-    name: "ViewOrganizationActivityList",
-    props: true,
-    meta: {
-      module: "activity",
-    },
-  },
   {
     path: "/activities",
     component: ViewActivityList,
     name: "ViewActivityList",
     props: true,
     meta: {
+      title: "Activity List",
       module: "activity",
+      landlordAccess: true,
     },
   },
 
@@ -41,6 +25,7 @@ export default [
     name: "ViewActivityNew",
     props: true,
     meta: {
+      title: "New Activity",
       isPublic: true,
       module: "activity",
     },
@@ -52,6 +37,7 @@ export default [
     name: "ViewActivityNewBack",
     props: true,
     meta: {
+      title: "New Activity",
       isPublic: true,
       module: "activity",
     },
@@ -63,6 +49,7 @@ export default [
     name: "ViewActivityDetail",
     props: true,
     meta: {
+      title: "Edit Activity",
       isPublic: true,
       module: "activity",
     },
@@ -76,6 +63,7 @@ export default [
     name: "ViewActivityRemoteAccess",
     props: true,
     meta: {
+      title: "Activity Remote Access Factor",
       isPublic: true,
       module: "activity",
     },
@@ -87,6 +75,7 @@ export default [
     name: "ViewActivityApplication",
     props: true,
     meta: {
+      title: "Activity Applications and Equipments",
       module: "activity",
       isPublic: true,
     },
@@ -100,6 +89,7 @@ export default [
     name: "ViewActivityUpdateRemoteAccess",
     props: true,
     meta: {
+      title: "Update Activity Remote Access Factor",
       isPublic: true,
       module: "activity",
     },
@@ -111,6 +101,7 @@ export default [
     name: "ViewActivityUpdateApplication",
     props: true,
     meta: {
+      title: "Update Activity Applications and Equipments",
       module: "activity",
       isPublic: true,
     },

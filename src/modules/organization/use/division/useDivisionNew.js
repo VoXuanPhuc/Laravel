@@ -2,8 +2,8 @@ import { ref } from "vue"
 import { required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 import { useGlobalStore } from "@/stores/global"
-import _ from "lodash"
-import * as adminApi from "../../api/adminDivisionFetcher"
+import isEmpty from "lodash.isempty"
+import * as api from "../../api/divisionFetcher"
 
 export const useDivisionNew = () => {
   // Global store
@@ -31,7 +31,7 @@ export const useDivisionNew = () => {
    */
   const generateAvatar = (name, color) => {
     // Only generate if the name with 2 letters
-    if (_.isEmpty(name) || name.length < 2 || _.isEmpty(color)) {
+    if (isEmpty(name) || name.length < 2 || isEmpty(color)) {
       return ""
     }
 
@@ -42,9 +42,14 @@ export const useDivisionNew = () => {
     return `https://ui-avatars.com/api/?name=${avartarLetter}&background=${color}&color=fff`
   }
 
-  const createDivision = async (organizationUid, payload) => {
+  /**
+   *
+   * @param {*} payload
+   * @returns
+   */
+  const createDivision = async (payload) => {
     try {
-      const { data } = await adminApi.createDivision(organizationUid, payload)
+      const { data } = await api.createDivision(payload)
 
       globalStore.addSuccessToastMessage("Created Division")
 

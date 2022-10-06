@@ -99,6 +99,7 @@ export default {
     X: lazyLoad("X"),
     Spinner: lazyLoad("Spinner"),
     Key: lazyLoad("Key"),
+    OpenUp: lazyLoad("OpenUp"),
   },
 }
 </script>

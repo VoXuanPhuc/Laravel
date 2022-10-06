@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import UserSubMenu from "../components/UserSubMenu"
+import UserSubMenu from "@/modules/user/components/UserSubMenu"
 import { formatData } from "@/modules/core/composables"
 import { useRoleList } from "../use/useRoleList"
 import { useGlobalStore } from "@/stores/global"

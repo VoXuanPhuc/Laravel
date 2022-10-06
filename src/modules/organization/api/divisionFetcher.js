@@ -1,7 +1,7 @@
 import fetcher from "@/modules/core/api/fetcher"
 
-export const fetchDivision = async (organizationId) => {
-  return fetcher.get(`identity/api/v1/divisions/${organizationId}`)
+export const fetchDivision = async (uid) => {
+  return fetcher.get(`identity/api/v1/divisions/${uid}`)
 }
 
 export const fetchDivisionList = async () => {

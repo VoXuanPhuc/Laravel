@@ -57,6 +57,10 @@ export default (app) => {
 
   app.directive("tooltip", {
     mounted(element, binding) {
+      if (!binding.value) {
+        return
+      }
+
       element.classList.add("relative")
       const toolTipComponent = h(EcTooltip, {
         tooltipText: binding.value.text ? binding.value.text : binding.value,

@@ -250,7 +250,7 @@ export default {
 
       this.isLoading = true
 
-      const response = await this.getActivity(uid)
+      const response = await this.getActivity(uid, ["remoteAccessFactors"])
 
       if (response && response.uid) {
         this.transformFormData(response)

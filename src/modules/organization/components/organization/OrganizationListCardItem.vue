@@ -4,9 +4,11 @@
       <img :src="organization.logo_path" alt="{{ organization.name }}" />
     </EcFlex>
     <EcBox class="mt-4 lg:mt-0 lg:ml-6">
-      <EcText class="font-medium text-2xl text-cBlack">
-        {{ organization.name }}
-      </EcText>
+      <EcFlex class="items-center">
+        <EcText class="font-medium text-2xl text-cBlack">
+          {{ organization.name }}
+        </EcText>
+      </EcFlex>
 
       <EcText class="font-medium text-c0-500 text-sm mt-2">
         Status:
@@ -20,15 +22,23 @@
       <EcFlex class="w-full items-center mt-2">
         <!-- Edit -->
         <EcBox v-if="organization.name" class="ml-2">
-          <EcButton variant="transparent-rounded" @click="handleClickEdit" title="Edit">
+          <EcButton
+            variant="transparent-rounded"
+            @click="handleClickEdit"
+            v-tooltip="{ text: 'Edit Organization', position: 'bottom' }"
+          >
             <EcIcon icon="Pencil" width="20" height="20" class="text-cError-500" />
           </EcButton>
         </EcBox>
 
         <!-- View -->
 
-        <EcBox v-if="organization.name" class="ml-2">
-          <EcButton variant="transparent-rounded" @click="handleClickManageOrganization" title="Manage Organization">
+        <EcBox v-if="organization.name && !isLandlord" class="ml-2">
+          <EcButton
+            variant="transparent-rounded"
+            @click="handleClickManageOrganization"
+            v-tooltip="{ text: 'Manage Organization', position: 'bottom' }"
+          >
             <EcIcon class="text-c0-500" icon="Eye" width="20" height="20" />
           </EcButton>
         </EcBox>
@@ -37,21 +47,30 @@
 
         <!-- View -->
 
-        <EcBox v-if="organization.name" class="ml-2">
-          <EcButton variant="transparent-rounded" @click="handleClickViewActivities" title="Activities">
+        <!-- <EcBox v-if="organization.name && !isLandlord" class="ml-2">
+          <EcButton
+            variant="transparent-rounded"
+            @click="handleClickViewActivities"
+            v-tooltip="{ text: organization.name + '\'s activities', position: 'bottom' }"
+          >
             <EcIcon class="text-c0-500" icon="Activity" width="20" height="20" />
           </EcButton>
-        </EcBox>
+        </EcBox> -->
 
         <!-- End view -->
       </EcFlex>
     </EcBox>
+
+    <!-- Landlord indicator -->
+    <EcIcon v-if="isLandlord" icon="LockClosed" class="-mt-4 text-cError-500" />
   </EcBox>
 </template>
 
 <script>
 import { goto } from "@/modules/core/composables"
 import { useGlobalStore } from "@/stores/global"
+import EcIcon from "@/components/EcIcon/index.vue"
+import * as helpers from "@/readybc/composables/helpers/helpers"
 
 export default {
   name: "OrganizationListCardItem",
@@ -63,48 +82,49 @@ export default {
   },
   setup() {
     const globalStore = useGlobalStore()
-
     return {
       globalStore,
     }
+  },
+  computed: {
+    isLandlord() {
+      return this.organization?.landlord === true
+    },
   },
   methods: {
     statusText(status) {
       return status ? "font-bold text-cSuccess-500" : "font-bold text-cError-500"
     },
-
     /**
      * Edit organization
      */
     handleClickEdit() {
       goto("ViewOrganizationDetail", {
         params: {
-          organizationUid: this.organization?.uid,
+          uid: this.organization?.uid,
         },
       })
     },
-
     /**
      * Manage organization
      */
     handleClickManageOrganization() {
+      // Set tenant data
+      helpers.setTenantData({ uid: this.organization?.uid, name: this.organization?.name })
+      debugger
       goto("ViewOrganizationManagement", {
         params: {
           organizationUid: this.organization?.uid,
         },
       })
     },
-
     /**
      * View Activity list
      */
     handleClickViewActivities() {
-      goto("ViewOrganizationActivityList", {
-        params: {
-          organizationUid: this.organization?.uid,
-        },
-      })
+      goto("ViewActivityList")
     },
   },
+  components: { EcIcon },
 }
 </script>

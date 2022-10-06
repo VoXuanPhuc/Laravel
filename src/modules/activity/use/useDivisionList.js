@@ -6,18 +6,22 @@ export function useDivisionList() {
   const globalStore = useGlobalStore()
   const divisions = ref([])
 
-  async function fetchDivisionList() {
+  /**
+   *
+   * @returns
+   */
+  async function getDivisionList() {
     try {
       const { data } = await api.fetchDivisionList()
 
       return data
     } catch (error) {
-      globalStore.addErrorToastMessage(error ? error.message : this.$t("activity.error.listDivision"))
+      globalStore.addErrorToastMessage(error ? error.message : this.$t("activity.errors.listDivision"))
     }
   }
 
   return {
-    fetchDivisionList,
+    getDivisionList,
     divisions,
   }
 }

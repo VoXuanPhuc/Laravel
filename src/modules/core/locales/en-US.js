@@ -4,6 +4,7 @@ export default {
     dashboard: "Dashboard",
     users: "Users",
     organizations: "Organizations",
+    departments: "Departments",
     report: "Report",
     resources: "Resources",
     suppliers: "Suppliers",

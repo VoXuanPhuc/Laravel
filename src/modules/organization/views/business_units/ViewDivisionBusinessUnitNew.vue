@@ -94,15 +94,13 @@ export default {
   name: "ViewOrganizationNew",
   data() {
     return {
-      organizationUid: "",
       divisionUid: "",
       isLoading: false,
       isLoadingDivisions: false,
     }
   },
   mounted() {
-    const { organizationUid, divisionUid } = this.$route.params
-    this.organizationUid = organizationUid
+    const { divisionUid } = this.$route.params
     this.divisionUid = divisionUid
     this.form.division.uid = divisionUid
     // Fetch Divisions
@@ -111,28 +109,32 @@ export default {
   setup() {
     const divisions = ref([])
     const { v$, form, createBusinessUnit } = useBusinessUnitNew()
-    const { adminGetDivisions } = useDivisionList()
+    const { getDivisions } = useDivisionList()
     return {
       v$,
       form,
       createBusinessUnit,
-      adminGetDivisions,
+      getDivisions,
       divisions,
     }
   },
   computed: {},
   methods: {
+    /**
+     * Divisions
+     */
     async fetchDivisions() {
       this.isLoadingDivisions = true
-      const response = await this.adminGetDivisions(this.organizationUid)
+      const response = await this.getDivisions()
       if (response && response.data) {
         this.divisions = response.data
       }
 
       this.isLoadingDivisions = false
     },
+
     /**
-     * Creaate orgranization
+     * Creaate BU
      */
     async handleClickCreate() {
       this.v$.$touch()
@@ -140,30 +142,33 @@ export default {
         return
       }
       this.isLoading = true
-      const response = await this.createBusinessUnit(this.form, this.organizationUid, this.form.division.uid)
+      const response = await this.createBusinessUnit(this.form, this.form.division.uid)
       this.isLoading = false
       if (response && response.uid) {
-        this.form = response
         setTimeout(this.handleCreatedBusinessUnit, 300)
       }
     },
+
     /**
-     * Back to organization list
+     * Back to BU list
      */
     handleCreatedBusinessUnit() {
       this.backToBusinessUnitList()
     },
+
     /**
-     * Back to organization list
+     * Back to BU list
      */
     handleClickCancel() {
       this.backToBusinessUnitList()
     },
 
+    /**
+     * Back to BU
+     */
     backToBusinessUnitList() {
       goto("ViewBusinessUnitList", {
         params: {
-          organizationUid: this.organizationUid,
           divisionUid: this.divisionUid,
         },
       })

@@ -147,7 +147,7 @@ export default {
      */
     async handleClickDeleteBU() {
       this.isDeleteLoading = true
-      await this.deleteBusinessUnit(this.organizationUid, this.businessUnit.division.uid, this.businessUnit.uid)
+      await this.deleteBusinessUnit(this.businessUnit.division.uid, this.businessUnit.uid)
       this.isDeleteLoading = false
       this.$emit("handleDeletedBuItem")
       this.handleCloseDeleteModal()

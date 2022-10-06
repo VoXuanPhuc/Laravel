@@ -10,7 +10,7 @@
             :label="$t('role.label.key')"
             :validator="v$"
             field="form.name"
-            disabled="true"
+            :disabled="true"
             placeholder="Auto generate from Name"
           />
         </EcBox>
@@ -78,6 +78,10 @@ export default {
   },
 
   methods: {
+    /**
+     *
+     * @param {*} e
+     */
     handleRoleNameInput(e) {
       this.form.name = e.target.value.replace(/\s+/g, "-").toLowerCase()
       this.v$.form.label.$touch()

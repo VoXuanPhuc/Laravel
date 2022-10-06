@@ -3,38 +3,32 @@ import App from "./App.vue"
 import router from "@/router"
 import pinia from "@/stores/pinia"
 import useVuelidate from "@vuelidate/core"
+import { VueCookies } from "vue-cookies"
 import { checkAuthGuard } from "@/router/guards"
 import "@/assets/css/tailwind.css"
 
 // Get component variants
-import { makeGetComponentVariants } from "./components/makeGetComponentVariants"
+import { makeGetComponentVariants } from "@/components/makeGetComponentVariants"
 
+import globalComponentsRegistration from "@/setups/globalComponentsRegistration"
 // Global components registration
-import directivesRegistration from "./setups/directivesRegistration"
-import globalComponentsRegistration from "./setups/globalComponentsRegistration"
+import directivesRegistration from "@/setups/directivesRegistration"
 
 // Function to initialize tenant
 import { initializeTenant } from "./initialize"
-
-// determine tenant base on domain or parametters
-const queryString = window.location.search
-const urlParams = new URLSearchParams(queryString)
-const defaultTenant = "escalate"
-const defaultClient = "escalate"
-
-const tenantId = urlParams.get("tenantId") || localStorage.getItem("readyBCAdminTenantId") || defaultTenant
-const clientId = urlParams.get("clientId") || localStorage.getItem("readyBCAdminClientId") || defaultClient
 
 const app = createApp(App)
 
 // Need to use Pinia first to avoid initializeTenant global store use error
 app.use(pinia)
+app.use(VueCookies, { expire: "3d" })
 
 // Check auth guard
 checkAuthGuard(router)
+// Finally mount app
 
 // we initialize tenant before mounting app
-initializeTenant({ tenantId, clientId }).then(({ variants, i18n }) => {
+initializeTenant().then(({ variants, i18n }) => {
   app.use(router)
   app.use(i18n)
 
@@ -46,7 +40,6 @@ initializeTenant({ tenantId, clientId }).then(({ variants, i18n }) => {
   // Provide getComponentVariants
   app.provide("getComponentVariants", makeGetComponentVariants({ variants }))
 
-  // Finally mount app
   app.mount("#app")
 })
 

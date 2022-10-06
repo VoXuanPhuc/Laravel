@@ -130,7 +130,7 @@ export default {
     const router = useRouter()
     const route = useRoute()
 
-    const defaultModules = [
+    const modules = [
       {
         module: "dashboard",
         icon: "Dashboard",
@@ -148,6 +148,12 @@ export default {
         icon: "OfficeBuilding",
         text: "core.organizations",
         routeName: "ViewOrganizationList",
+      },
+      {
+        module: "department",
+        icon: "OfficeBuilding",
+        text: "core.departments",
+        routeName: "ViewDepartmentManagement",
       },
       {
         module: "activity",
@@ -195,21 +201,19 @@ export default {
       // },
     ]
 
-    const tenantModules = computed(() => globalStore?.tenantSettings?.modules)
+    const allowedModules = globalStore?.tenantSettings?.server?.modules || []
+
+    const allowedModuleIds = allowedModules?.map((module) => {
+      return module.value
+    })
+
     const componentName = computed(() => route?.name)
     const menuItems = computed(() => {
-      // return avaiableModules?.filter((item) => tenantSettings?.value?.includes(item.module))
-      const formattedOutput = (array) =>
-        array?.map((item) => ({
-          ...item,
-          text: t(item.text),
-        }))
-
-      return tenantModules.value === "default"
-        ? formattedOutput(defaultModules)
-        : Array.isArray(tenantModules.value)
-        ? formattedOutput(tenantModules.value)
-        : formattedOutput(defaultModules)
+      return modules
+        .filter((item) => {
+          return allowedModuleIds.includes(item.module)
+        })
+        .map((item) => ({ ...item, text: t(item.text) }))
     })
 
     const currentRouteModule = computed(() => route?.meta?.module)

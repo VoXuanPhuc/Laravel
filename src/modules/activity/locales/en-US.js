@@ -27,10 +27,10 @@ export default {
       no: "No",
       name: "Name of activity",
       description: "Description",
-      roles: "Who is required to deliver this function?",
-      alternative_roles: "Alternate roles that could deliver this function?",
+      roles: "Who is required to deliver this activity?",
+      alternative_roles: "Alternate roles that could deliver this activity?",
       min_people: "Minimum number of people that could support this function?",
-      wfh: "Can this be delivered remotely (WFH?)",
+      wfh: "Can this be delivered remotely?",
       utilities: "Utilities required to support function",
       enableRemote: "What enables remote access?",
       unableEnableRemote: "If unable to deliver remotely, what sites / buildings are required?",
@@ -39,6 +39,7 @@ export default {
       data: "Data",
       storageLocation: "Storage location",
       equipments: "Equipment requirements",
+      status: "Status",
     },
     buttons: {
       add: "Add",
@@ -82,12 +83,14 @@ export default {
     },
     // Errors
     errors: {
+      listDivision: "Unable to retrive corresponding division",
       updateActivity: "Error to update activity, please retry",
       listActivity: "Unable get list of Activities",
       download: "Error occured, please try again",
     },
 
     placeholders: {
+      loading: "Loading...",
       division: "--- Division ---",
       bu: "--- Business Unit ---",
     },

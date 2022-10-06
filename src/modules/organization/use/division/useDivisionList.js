@@ -1,16 +1,7 @@
-import * as adminApi from "../../api/adminDivisionFetcher"
 import * as api from "../../api/divisionFetcher"
 
 export const useDivisionList = () => {
-  const adminGetDivisions = async (organizationUid) => {
-    try {
-      const { data } = await adminApi.fetchDivisionList(organizationUid)
-
-      return data
-    } catch (error) {}
-  }
-
-  const tenantGetDivisions = async () => {
+  const getDivisions = async () => {
     try {
       const { data } = await api.fetchDivisionList()
 
@@ -18,5 +9,5 @@ export const useDivisionList = () => {
     } catch (error) {}
   }
 
-  return { adminGetDivisions, tenantGetDivisions }
+  return { getDivisions }
 }

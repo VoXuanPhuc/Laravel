@@ -1,8 +1,8 @@
 <template>
   <EcBox class="overflow-x-auto lg:overflow-visible mt-8 lg:mt-8 p-2">
     <!-- Header -->
-    <EcFlex v-if="!isLoading" class="items-center">
-      <EcHeadline as="h4" variant="h4" class="text-c1-800"> {{ organization?.name }}'s business units </EcHeadline>
+    <EcFlex class="items-center">
+      <EcHeadline as="h4" variant="h4" class="text-c1-800"> Business units </EcHeadline>
 
       <!-- Selected division -->
       <EcText
@@ -84,9 +84,9 @@ export default {
   setup() {
     const businessUnits = ref([])
 
-    const { adminGetBusinessUnitsByOrg } = useBusinessUnitList()
+    const { getBusinessUnits } = useBusinessUnitList()
     return {
-      adminGetBusinessUnitsByOrg,
+      getBusinessUnits,
       businessUnits,
     }
   },
@@ -120,13 +120,9 @@ export default {
   },
   methods: {
     async fetchBusinessUnits() {
-      if (!this.organization.uid) {
-        return
-      }
-
       this.isLoading = true
 
-      const response = await this.adminGetBusinessUnitsByOrg(this.organization.uid)
+      const response = await this.getBusinessUnits()
 
       this.isLoading = false
 
@@ -138,6 +134,9 @@ export default {
       goto("ViewBusinessUnitNew")
     },
 
+    /**
+     *
+     */
     async handleDeletedBuItem() {
       await this.fetchBusinessUnits()
     },
@@ -154,10 +153,6 @@ export default {
   watch: {
     selectedDivision(div) {
       console.log("Changed to: ", div)
-    },
-
-    async organization(org) {
-      await this.fetchBusinessUnits()
     },
   },
 }

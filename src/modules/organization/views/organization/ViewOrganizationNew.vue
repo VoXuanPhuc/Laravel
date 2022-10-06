@@ -28,7 +28,7 @@
               :label="$t('organization.name')"
               :validator="v$"
               field="form.name"
-              @input="v$.form.name.$touch()"
+              @keyup="handleNameInput"
             />
           </EcBox>
         </EcFlex>
@@ -72,14 +72,14 @@
                 componentName="EcInputText"
                 :label="$t('organization.friendlyUrl')"
                 :validator="v$"
-                field="form.address"
+                field="form.friendly_url"
                 placeholder="will be generated if empty"
                 @input="v$.form.friendly_url.$touch()"
               />
             </EcFlex>
           </EcBox>
           <EcFlex class="items-center">
-            <EcText>.readybc.com</EcText>
+            <EcText>.{{ hostName }}</EcText>
             <EcSpinner v-if="isCheckingFriendlyUrl" class="ml-4" variant="basic" />
           </EcFlex>
         </EcFlex>
@@ -260,13 +260,29 @@ export default {
       organization,
     }
   },
-  computed: {},
+  computed: {
+    hostName() {
+      return process.env.VUE_APP_HOST_NAME
+    },
+  },
   methods: {
     /**
      * Fetch industries
      */
     async fetchIndustries() {
       this.industries = await this.getIndustries()
+    },
+
+    /**
+     * Handle name input
+     */
+    handleNameInput() {
+      const regex = /[^a-z0-9]|\s+|\r?\n|\r/gim
+
+      const name = this.form.name.trim()
+      this.form.friendly_url = name.replaceAll(regex, "-").toLowerCase()
+
+      this.v$.form.name.$touch()
     },
 
     /**

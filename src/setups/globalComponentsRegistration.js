@@ -49,6 +49,7 @@ import RDroppableZone from "@/modules/core/components/common/RDroppableZone"
 import RFileRow from "@/modules/core/components/common/RFileRow"
 import RUploadFiles from "@/modules/core/components/common/RUploadFiles"
 import RLoading from "@/modules/core/components/common/RLoading"
+import RTopBar from "@/modules/core/components/common/RTopBar"
 
 // Table
 import RTable from "@/modules/core/components/RTable/RTable"
@@ -105,6 +106,7 @@ const coreComponents = {
   RPaginationStatus,
   RSearchBox,
   RLoading,
+  RTopBar,
 
   RTable,
   RTableAction,

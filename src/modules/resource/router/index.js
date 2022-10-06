@@ -1,15 +1,15 @@
-import ViewResourceList from "../views/resource/ViewResourceList"
-import ViewResourceNew from "../views/resource/ViewResourceNew"
-import ViewResourceDetail from "../views/resource/ViewResourceDetail"
+import ViewResourceList from "@/modules/resource/views/resource/ViewResourceList"
+import ViewResourceNew from "@/modules/resource/views/resource/ViewResourceNew"
+import ViewResourceDetail from "@/modules/resource/views/resource/ViewResourceDetail"
 
 // == Owners ==
-import ViewOwnerList from "../views/owner/ViewOwnerList"
-import ViewOwnerNew from "../views/owner/ViewOwnerNew"
-import ViewOwnerDetail from "../views/owner/ViewOwnerDetail"
+import ViewOwnerList from "@/modules/resource/views/owner/ViewOwnerList"
+import ViewOwnerNew from "@/modules/resource/views/owner/ViewOwnerNew"
+import ViewOwnerDetail from "@/modules/resource/views/owner/ViewOwnerDetail"
 
 // == Categories ==
-import ViewCategoryList from "../views/category/ViewCategoryList"
-import ViewCategoryDetail from "../views/category/ViewCategoryDetail"
+import ViewCategoryList from "@/modules/resource/views/category/ViewCategoryList"
+import ViewCategoryDetail from "@/modules/resource/views/category/ViewCategoryDetail"
 
 export default [
   {

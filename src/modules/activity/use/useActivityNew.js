@@ -26,6 +26,12 @@ export function useActivityNew() {
         numeric,
         minValueLength: minValue(1),
       },
+      division: {
+        uid: { required },
+      },
+      business_unit: {
+        uid: { required },
+      },
       is_remote: { required },
       roles: {
         required,
@@ -51,7 +57,6 @@ export function useActivityNew() {
    * @returns
    */
   const createNewActivity = async (payload) => {
-    debugger
     try {
       const { data } = await api.createNewActivity(payload)
       globalStore.addSuccessToastMessage("Created new activity, redirect to next step...")

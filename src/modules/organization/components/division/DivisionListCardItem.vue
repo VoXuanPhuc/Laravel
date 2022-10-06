@@ -69,10 +69,18 @@ export default {
   setup() {
     const globalStore = useGlobalStore()
 
+    const organizationUid = ""
+
     return {
       generateAvatar,
       globalStore,
+      organizationUid,
     }
+  },
+
+  mounted() {
+    const { organizationUid } = this.$route.params
+    this.organizationUid = organizationUid
   },
   computed: {
     cardVariant() {
@@ -94,7 +102,6 @@ export default {
     handleClickEdit() {
       goto("ViewDivisionDetail", {
         params: {
-          organizationUid: this.organization?.uid,
           divisionUid: this.division?.uid,
         },
       })
@@ -106,7 +113,6 @@ export default {
     handleClickManageDivision() {
       goto("ViewBusinessUnitList", {
         params: {
-          organizationUid: this.organization?.uid,
           divisionUid: this.division?.uid,
         },
       })

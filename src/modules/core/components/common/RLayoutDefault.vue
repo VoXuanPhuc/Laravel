@@ -2,6 +2,7 @@
   <EcBox :class="variantCls.root">
     <RSidebar :unreadNotification="unreadNotificationCount" />
     <RSidebarMobile :unreadNotification="unreadNotificationCount" />
+    <RTopBar />
     <EcBox :class="variantCls.container">
       <RBreadcrumb v-if="breadcrumbItems.length" :items="breadcrumbItems" />
       <RQuoteHeadline v-if="title" :class="variantCls.headline">
@@ -19,6 +20,7 @@ import RSidebarMobile from "./RSidebarMobile"
 import RBreadcrumb from "./RBreadcrumb"
 import RQuoteHeadline from "./RQuoteHeadline"
 import { useGlobalStore } from "@/stores/global"
+import EcBox from "@/components/EcBox/index.vue"
 
 export default {
   name: "RLayoutDefault",
@@ -28,6 +30,7 @@ export default {
     RSidebarMobile,
     RBreadcrumb,
     RQuoteHeadline,
+    EcBox,
   },
   props: {
     title: {

@@ -1,8 +1,8 @@
 <template>
   <EcBox class="overflow-x-auto lg:overflow-visible mt-8 lg:mt-8 p-2">
     <!-- Header -->
-    <EcFlex v-if="!isLoading" class="items-center">
-      <EcHeadline as="h4" variant="h4" class="text-c1-800"> {{ organization.name }}'s divisions </EcHeadline>
+    <EcFlex class="items-center">
+      <EcHeadline as="h4" variant="h4" class="text-c1-800"> Divisions </EcHeadline>
     </EcFlex>
 
     <!-- Add button and Search box -->
@@ -31,7 +31,6 @@
     <EcFlex v-if="!isLoading" class="lg:flex-wrap grid grid-cols-1 md:grid-cols-2 gap-2">
       <DivisionListCardItem
         v-for="item in divisions"
-        :organization="organization"
         :division="item"
         :key="item.uid"
         :isActive="selectedDivision?.uid === item.uid"
@@ -75,10 +74,10 @@ export default {
 
   setup() {
     const divisions = ref([])
-    const { adminGetDivisions } = useDivisionList()
+    const { getDivisions } = useDivisionList()
 
     return {
-      adminGetDivisions,
+      getDivisions,
       divisions,
     }
   },
@@ -86,10 +85,6 @@ export default {
   emits: ["handleDivisionCardChangeOnManagement"],
 
   props: {
-    organization: {
-      type: Object,
-    },
-
     selectedDivision: {
       type: Object,
     },
@@ -108,11 +103,7 @@ export default {
     async fetchDivisions() {
       this.isLoading = true
 
-      if (!this.organization.uid) {
-        return
-      }
-
-      const response = await this.adminGetDivisions(this.organization.uid)
+      const response = await this.getDivisions()
 
       if (response && response.data) {
         this.divisions = response.data
@@ -137,10 +128,6 @@ export default {
   watch: {
     selectedDivision(division) {
       this.$emit("handleDivisionCardChangeOnManagement", division)
-    },
-
-    async organization(org) {
-      await this.fetchDivisions()
     },
   },
 }

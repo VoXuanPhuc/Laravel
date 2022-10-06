@@ -1,17 +1,25 @@
 import * as api from "../api/activityFetcher"
 import { useGlobalStore } from "@/stores/global"
+import { ref } from "vue"
 
 export function useActivityDetail() {
   const globalStore = useGlobalStore()
+
+  const statuses = ref([
+    { value: 1, name: "Created" },
+    { value: 2, name: "In Progress" },
+    { value: 3, name: "Finished" },
+    { value: 4, name: "Canceled" },
+  ])
 
   /**
    *
    * @param {*} payload
    * @returns
    */
-  const getActivity = async (uid) => {
+  const getActivity = async (uid, relations = []) => {
     try {
-      const { data } = await api.fetchActivity(uid)
+      const { data } = await api.fetchActivity(uid, relations)
 
       return data
     } catch (error) {
@@ -53,5 +61,6 @@ export function useActivityDetail() {
     getActivity,
     updateActivity,
     cancelActivity,
+    statuses,
   }
 }

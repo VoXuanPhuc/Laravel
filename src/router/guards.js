@@ -1,5 +1,6 @@
 import dayjs from "dayjs"
 import { useGlobalStore } from "@/stores/global"
+import { goto } from "@/modules/core/composables"
 
 const isAuthenticated = () => {
   const now = dayjs()
@@ -30,12 +31,18 @@ const checkAuthGuard = (router) => {
   const blockedRoutes = ["ViewLogin", "ViewForgotPassword", "ViewNewPassword"]
 
   router.beforeEach(async (to, from, next) => {
-    // if user enters tenant id or clientId that does not match current tenant and clientId
+    // If they enter the link which not allowed
+    if (!globalStore.getAllowedModuleIDs?.includes(to.meta.module)) {
+      console.log(to)
+    }
+
     if (
       (to?.query?.tenantId && to?.query?.tenantId !== currentTenantId) ||
       (to?.query?.clientId && to?.query?.clientId !== currentClientId)
     ) {
+      // if user enters tenant id or clientId that does not match current tenant and clientIdp
       globalStore.logout()
+      goto("Dashboard")
       // tenantId and clientId in store will be the newly passed params
       // we assign above to currentTenantId and clientId to escape this loop
       currentTenantId = globalStore.getTenantId
@@ -53,6 +60,11 @@ const checkAuthGuard = (router) => {
       if (!to.meta.isPublic) await setMe()
       next()
     }
+  })
+
+  router.afterEach(async (to, from) => {
+    // Set title
+    document.title = to?.meta?.title || "Ready BC"
   })
 }
 

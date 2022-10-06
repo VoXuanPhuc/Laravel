@@ -29,7 +29,7 @@
 
 <script>
 import { ref } from "vue"
-import _ from "lodash"
+import isEmpty from "lodash.isempty"
 
 export default {
   props: {
@@ -61,11 +61,11 @@ export default {
   methods: {
     handleChangeRoleValue(event) {
       this.selectedRoleUid = event.target.value
-      this.isUserSelectedNewRole = !_.isEmpty(this.selectedRoleUid) && this.currentRole?.uid !== this.selectedRoleUid
+      this.isUserSelectedNewRole = !isEmpty(this.selectedRoleUid) && this.currentRole?.uid !== this.selectedRoleUid
     },
 
     handleClickBtnUpdateRole() {
-      if (_.isEmpty(this.selectedRoleUid)) {
+      if (isEmpty(this.selectedRoleUid)) {
         return
       }
 
