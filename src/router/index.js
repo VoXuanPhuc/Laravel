@@ -8,6 +8,7 @@ import resource from "@/modules/resource/router/index"
 import industry from "@/modules/industry/router/index"
 import user from "@/modules/user/router/index"
 import setting from "@/modules/setting/router/index"
+import supplier from "@/modules/supplier/router/index"
 
 const routes = [
   {
@@ -23,6 +24,7 @@ const routes = [
   ...industry,
   ...user,
   ...setting,
+  ...supplier,
 ]
 
 const router = createRouter({

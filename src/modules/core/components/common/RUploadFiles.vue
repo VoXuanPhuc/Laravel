@@ -2,22 +2,22 @@
   <EcFlex class="flex-wrap mt-2 -m-4 md:mt-4 lg:max-w-6xl">
     <EcBox class="w-full p-4 md:w-6/12">
       <RDroppableZone
+        :activeDropZoneCls="activeDropZoneCls"
         :disabled="isExceedMaxFile"
         :dropZoneCls="dropZoneCls"
-        :activeDropZoneCls="activeDropZoneCls"
         :dropZoneStyles="dropZoneStyles"
         :files="fileList"
         @change="handleInputFiles($event)"
       >
         <template v-slot="props">
           <EcFlex class="flex-col items-center justify-center">
-            <EcIcon class="hidden text-c1-500 md:block" width="28" height="28" icon="CloudUpload" />
-            <EcIcon class="text-c1-500 md:hidden" width="28" height="28" icon="CloudUpload" />
+            <EcIcon class="hidden text-c1-500 md:block" height="28" icon="CloudUpload" width="28" />
+            <EcIcon class="text-c1-500 md:hidden" height="28" icon="CloudUpload" width="28" />
             <EcText class="mt-1 text-sm font-medium text-center text-c0-500">
               {{ $t("core.dragDropHere") }}
             </EcText>
             <EcText class="mt-1 font-medium text-c0-500"> {{ $t("core.or") }} </EcText>
-            <EcButton variant="secondary" :disabled="isExceedMaxFile" class="text-sm mt-4" @click="props.handleClickBrowse()">
+            <EcButton :disabled="isExceedMaxFile" class="text-sm mt-4" variant="secondary" @click="props.handleClickBrowse()">
               {{ $t("core.browse") }}
             </EcButton>
           </EcFlex>
@@ -36,14 +36,14 @@
           <RFileRow
             v-for="(fileObj, index) in fileList"
             :key="index"
-            class="mt-2"
-            :isImage="isImage"
-            :maxFileNum="maxFileNum"
             :file="fileObj"
+            :isImage="isImage"
             :isUploadOnSelect="isUploadOnSelect"
-            @re-upload="handleReupload(fileObj)"
+            :maxFileNum="maxFileNum"
+            class="mt-2"
             @remove="handleRemoveFile(fileObj)"
             @replace="handleReplace(fileObj)"
+            @re-upload="handleReupload(fileObj)"
           />
         </EcBox>
         <EcBox v-if="isImage && previewFileUrls.length > 0">
@@ -118,6 +118,10 @@ export default {
       type: String,
       default: "",
     },
+    fileListAfterUpload: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -138,6 +142,9 @@ export default {
   watch: {
     uploadedFileUrls(data) {
       this.previewFileUrls = data
+    },
+    fileListAfterUpload(data) {
+      this.fileList = data
     },
   },
   computed: {
