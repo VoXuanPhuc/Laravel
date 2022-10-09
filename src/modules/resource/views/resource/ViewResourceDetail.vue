@@ -238,9 +238,14 @@ import ModalAddNewCategory from "../../components/ModalAddNewCategory.vue"
 
 export default {
   name: "ViewResourceDetail",
+  props: {
+    uid: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
-      uid: "",
       isModalAddNewOwnerOpen: false,
       isModalAddNewCategoryOpen: false,
       isModalDeleteOpen: false,
@@ -253,9 +258,6 @@ export default {
     }
   },
   beforeMount() {
-    const { uid } = this.$route.params
-    this.uid = uid
-
     this.fetchResource()
     this.fetchResourceCategories()
     this.fetchOwners()
@@ -404,6 +406,7 @@ export default {
      */
     async fetchResource() {
       this.isLoading = true
+      debugger
       const response = await this.getResource(this.uid)
       if (response) {
         this.resource = response
