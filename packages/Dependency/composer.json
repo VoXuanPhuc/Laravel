@@ -1,0 +1,15 @@
+{
+  "name": "encoda/dependency",
+  "description": "Dependency management",
+  "authors": [
+    {
+      "name": "Khoa Nguyen"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Encoda\\Dependency\\" : "src"
+    }
+  }
+
+}

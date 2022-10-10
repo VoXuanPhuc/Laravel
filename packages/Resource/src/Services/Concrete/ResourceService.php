@@ -94,7 +94,7 @@ class ResourceService implements ResourceServiceInterface
         $resource = $this->resourceRepository->findByUid( $uid );
 
         if( !$resource ) {
-            throw new NotFoundException( 'Unable to get resource detail' );
+            throw new NotFoundException( 'Resource not found' );
         }
 
         return $resource->load('owners', 'category' );

@@ -129,6 +129,8 @@ $app->register( Encoda\Notification\Providers\NotificationServiceProvider::class
 $app->register( Encoda\Task\Providers\TaskServiceProvider::class  );
 $app->register( Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
 $app->register( Encoda\Supplier\Providers\SupplierServiceProvider::class );
+$app->register( \Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
+$app->register( Encoda\Dependency\Providers\DependencyServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->alias('context', \Encoda\Core\Facades\Context::class);

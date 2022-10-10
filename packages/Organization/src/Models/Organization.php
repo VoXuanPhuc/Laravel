@@ -7,19 +7,17 @@ use Encoda\Activity\Models\Application;
 use Encoda\Activity\Models\Equipment;
 use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Models\Utility;
+use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
 use Encoda\Supplier\Models\Supplier;
 use Encoda\Supplier\Models\SupplierCategory;
 use Encoda\MultiTenancy\Models\Tenant;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @property string $name
@@ -196,4 +194,13 @@ class Organization extends Tenant
     {
         return $this->hasMany(SupplierCategory::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function dependencyScenarios(): HasMany
+    {
+        return $this->hasMany(DependencyScenario::class);
+    }
+
 }
