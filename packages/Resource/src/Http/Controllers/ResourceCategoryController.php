@@ -21,7 +21,7 @@ class ResourceCategoryController extends Controller
     public function index(): mixed
     {
 
-        return $this->resourceCategoryService->listResourceCategory( $this->getTenant() );
+        return $this->resourceCategoryService->listResourceCategory();
     }
 
     /**
@@ -31,7 +31,7 @@ class ResourceCategoryController extends Controller
     public function detail( $uid ): mixed
     {
 
-        return $this->resourceCategoryService->getResourceCategory( $this->getTenant(), $uid  );
+        return $this->resourceCategoryService->getResourceCategory( $uid  );
     }
 
     /**
@@ -41,7 +41,7 @@ class ResourceCategoryController extends Controller
     public function create( CreateResourceCategoryRequest $request ): mixed
     {
 
-        return $this->resourceCategoryService->createResourceCategory( $request, $this->getTenant() );
+        return $this->resourceCategoryService->createResourceCategory( $request );
     }
 
     /**
@@ -51,7 +51,7 @@ class ResourceCategoryController extends Controller
      */
     public function update( UpdateResourceCategoryRequest $request, $uid ): mixed
     {
-        return $this->resourceCategoryService->updateResourceCategory( $request, $this->getTenant(), $uid );
+        return $this->resourceCategoryService->updateResourceCategory( $request, $uid );
     }
 
     /**
@@ -61,6 +61,6 @@ class ResourceCategoryController extends Controller
     public function delete ( $uid ): mixed
     {
 
-        return $this->resourceCategoryService->deleteResourceCategory( $this->getTenant(), $uid );
+        return $this->resourceCategoryService->deleteResourceCategory( $uid );
     }
 }

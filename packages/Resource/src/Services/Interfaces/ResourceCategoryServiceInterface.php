@@ -7,9 +7,9 @@ use Encoda\Resource\Http\Requests\Category\UpdateResourceCategoryRequest;
 
 interface ResourceCategoryServiceInterface
 {
-    public function listResourceCategory( $organization );
-    public function getResourceCategory( $organization, $uid );
-    public function createResourceCategory( CreateResourceCategoryRequest $request, $organization );
-    public function updateResourceCategory( UpdateResourceCategoryRequest $request, $organization, $uid );
-    public function deleteResourceCategory( $organization, $uid );
+    public function listResourceCategory();
+    public function getResourceCategory( $uid );
+    public function createResourceCategory( CreateResourceCategoryRequest $request );
+    public function updateResourceCategory( UpdateResourceCategoryRequest $request, $uid );
+    public function deleteResourceCategory( $uid );
 }

@@ -8,10 +8,10 @@ use Encoda\Resource\Http\Requests\Resource\UpdateResourceRequest;
 interface ResourceServiceInterface
 {
 
-    public function listResource( $organization );
-    public function getResource( $organization, $uid );
-    public function createResource( CreateResourceRequest $request, $organization );
-    public function updateResource( UpdateResourceRequest $request, $organization, $uid );
-    public function deleteResource( $organization, $uid );
+    public function listResource();
+    public function getResource( $uid );
+    public function createResource( CreateResourceRequest $request );
+    public function updateResource( UpdateResourceRequest $request, $uid );
+    public function deleteResource( $uid );
     public function export( $category = null, $range = 'all' );
 }

@@ -5,6 +5,8 @@ namespace Encoda\Resource\Repositories\Concrete;
 use Encoda\Core\Eloquent\Repository;
 use Encoda\Resource\Models\ResourceOwner;
 use Encoda\Resource\Repositories\Interfaces\ResourceOwnerRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 
 class ResourceOwnerRepository extends Repository implements ResourceOwnerRepositoryInterface
@@ -35,5 +37,15 @@ class ResourceOwnerRepository extends Repository implements ResourceOwnerReposit
     public function findByUid($uid, $column = ['*'])
     {
         return $this->findOneByField('uid', $uid );
+    }
+
+    /**
+     * @param $uids
+     * @param string[] $columns
+     * @return LengthAwarePaginator|Collection|mixed
+     */
+    public function findByUids($uids, $columns = ['*'])
+    {
+        return $this->findWhereIn( 'uid', $uids, $columns );
     }
 }

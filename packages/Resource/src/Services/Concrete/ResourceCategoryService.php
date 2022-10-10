@@ -19,21 +19,19 @@ class ResourceCategoryService implements ResourceCategoryServiceInterface
     }
 
     /**
-     * @param Organization $organization
      * @return mixed
      */
-    public function listResourceCategory($organization)
+    public function listResourceCategory(): mixed
     {
-        return $organization->resourceCategories;
+        return $this->categoryRepository->all();
     }
 
     /**
-     * @param Organization $organization
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getResourceCategory($organization, $uid)
+    public function getResourceCategory( $uid ): mixed
     {
         $category = $this->categoryRepository->findByUid( $uid );
 
@@ -44,14 +42,12 @@ class ResourceCategoryService implements ResourceCategoryServiceInterface
         return $category;
     }
 
-    public function createResourceCategory(CreateResourceCategoryRequest $request, $organization)
+    /**
+     * @param CreateResourceCategoryRequest $request
+     * @return mixed
+     */
+    public function createResourceCategory( CreateResourceCategoryRequest $request ): mixed
     {
-        $request->merge(
-            [
-                'organization_id' => $organization->id,
-            ]
-        );
-
         return $this->categoryRepository->create( $request->all() );
 
     }
@@ -59,27 +55,25 @@ class ResourceCategoryService implements ResourceCategoryServiceInterface
 
     /**
      * @param UpdateResourceCategoryRequest $request
-     * @param $organization
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateResourceCategory(UpdateResourceCategoryRequest $request, $organization, $uid)
+    public function updateResourceCategory(UpdateResourceCategoryRequest $request, $uid): mixed
     {
-        $category = $this->getResourceCategory( $organization, $uid );
+        $category = $this->getResourceCategory( $uid );
 
         return $this->categoryRepository->update( $request->all(), $category->id );
     }
 
     /**
-     * @param $organization
      * @param $uid
      * @return int
      * @throws NotFoundException
      */
-    public function deleteResourceCategory($organization, $uid)
+    public function deleteResourceCategory( $uid )
     {
-        $category = $this->getResourceCategory( $organization, $uid );
+        $category = $this->getResourceCategory( $uid );
 
         return $this->categoryRepository->delete( $category->id );
     }

@@ -31,7 +31,7 @@ return new class extends Migration
                     ->references('id')
                     ->on('resource_categories')
                     ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                    ->nullOnDelete();
 
                 $table->foreign('organization_id')
                     ->references('id')

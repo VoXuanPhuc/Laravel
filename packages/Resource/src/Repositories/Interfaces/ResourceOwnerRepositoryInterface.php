@@ -14,4 +14,12 @@ interface ResourceOwnerRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function findByUid( $uid, $column = ['*'] );
+
+    /**
+     * Find permission by UUIDs
+     * @param $uids
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function findByUids( $uids, $columns = ['*'] );
 }

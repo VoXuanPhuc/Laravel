@@ -20,7 +20,7 @@ class ResourceController extends Controller
     public function index(): mixed
     {
 
-        return $this->resourceService->listResource( $this->getTenant() );
+        return $this->resourceService->listResource();
     }
 
     /**
@@ -30,7 +30,7 @@ class ResourceController extends Controller
     public function detail( $uid ): mixed
     {
 
-        return $this->resourceService->getResource( $this->getTenant(), $uid  );
+        return $this->resourceService->getResource( $uid  );
     }
 
     /**
@@ -40,7 +40,7 @@ class ResourceController extends Controller
     public function create( CreateResourceRequest $request ): mixed
     {
 
-        return $this->resourceService->createResource( $request, $this->getTenant() );
+        return $this->resourceService->createResource( $request );
     }
 
     /**
@@ -50,7 +50,7 @@ class ResourceController extends Controller
      */
     public function update( UpdateResourceRequest $request, $uid ): mixed
     {
-        return $this->resourceService->updateResource( $request, $this->getTenant(), $uid );
+        return $this->resourceService->updateResource( $request,  $uid );
     }
 
     /**
@@ -60,7 +60,7 @@ class ResourceController extends Controller
     public function delete ( $uid ): mixed
     {
 
-        return $this->resourceService->deleteResource( $this->getTenant(), $uid );
+        return $this->resourceService->deleteResource( $uid );
     }
 
     /**

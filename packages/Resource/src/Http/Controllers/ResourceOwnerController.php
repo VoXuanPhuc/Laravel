@@ -21,7 +21,7 @@ class ResourceOwnerController extends Controller
     public function index(): mixed
     {
 
-        return $this->resourceOwnerService->listResourceOwner( $this->getTenant() );
+        return $this->resourceOwnerService->listResourceOwner();
     }
 
     /**
@@ -30,7 +30,7 @@ class ResourceOwnerController extends Controller
     public function all(): mixed
     {
 
-        return $this->resourceOwnerService->listAllResourceOwner( $this->getTenant() );
+        return $this->resourceOwnerService->listAllResourceOwner();
     }
 
     /**
@@ -40,7 +40,7 @@ class ResourceOwnerController extends Controller
     public function detail( $uid ): mixed
     {
 
-        return $this->resourceOwnerService->getResourceOwner( $this->getTenant(), $uid  );
+        return $this->resourceOwnerService->getResourceOwner( $uid  );
     }
 
     /**
@@ -50,7 +50,7 @@ class ResourceOwnerController extends Controller
     public function create( CreateResourceOwnerRequest $request ): mixed
     {
 
-        return $this->resourceOwnerService->createResourceOwner( $request, $this->getTenant() );
+        return $this->resourceOwnerService->createResourceOwner( $request );
     }
 
     /**
@@ -60,7 +60,7 @@ class ResourceOwnerController extends Controller
      */
     public function update( UpdateResourceOwnerRequest $request, $uid ): mixed
     {
-        return $this->resourceOwnerService->updateResourceOwner( $request, $this->getTenant(), $uid );
+        return $this->resourceOwnerService->updateResourceOwner( $request, $uid );
     }
 
     /**
@@ -70,7 +70,7 @@ class ResourceOwnerController extends Controller
     public function delete ( $uid ): mixed
     {
 
-        return $this->resourceOwnerService->deleteResourceOwner( $this->getTenant(), $uid );
+        return $this->resourceOwnerService->deleteResourceOwner( $uid );
     }
 
 }

@@ -17,6 +17,7 @@ use Encoda\Resource\Services\Interfaces\ResourceServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
 
 class ResourceService implements ResourceServiceInterface
@@ -32,15 +33,19 @@ class ResourceService implements ResourceServiceInterface
     }
 
     /**
-     * @param Organization $organization
      * @return mixed
      */
-    public function listResource($organization)
+    public function listResource()
     {
-        return $organization->resources()->with('category')->paginate(config('config.pagination_size'));
+        return $this->resourceRepository->with('category')->paginate(config('config.pagination_size'));
     }
 
-    public function getResource($organization, $uid)
+    /**
+     * @param $uid
+     * @return Resource
+     * @throws NotFoundException
+     */
+    public function getResource( $uid )
     {
         /** @var Resource $resource */
         $resource = $this->resourceRepository->findByUid( $uid );
@@ -54,14 +59,13 @@ class ResourceService implements ResourceServiceInterface
 
     /**
      * @param CreateResourceRequest $request
-     * @param $organization
      * @return mixed
      * @throws ServerErrorException
      */
-    public function createResource(CreateResourceRequest $request, $organization)
+    public function createResource( CreateResourceRequest $request )
     {
 
-        $category = $this->categoryService->getResourceCategory( $organization, $request->category['uid']);
+        $category = $this->categoryService->getResourceCategory( $request->category['uid'] );
         $owners = $this->getOwners( $request );
 
         $request->merge(
@@ -94,16 +98,16 @@ class ResourceService implements ResourceServiceInterface
 
     /**
      * @param UpdateResourceRequest $request
-     * @param $organization
      * @param $uid
      * @return mixed
      * @throws NotFoundException
+     * @throws ServerErrorException
      */
-    public function updateResource(UpdateResourceRequest $request, $organization, $uid)
+    public function updateResource(UpdateResourceRequest $request, $uid)
     {
-        $resource = $this->getResource( $organization, $uid );
+        $resource = $this->getResource( $uid );
 
-        $category = $this->categoryService->getResourceCategory( $organization, $request->category['uid']);
+        $category = $this->categoryService->getResourceCategory( $request->category['uid']);
         $owners = $this->getOwners( $request );
 
         $request->merge( [ 'resources_category_id' => $category->id, ] );
@@ -126,9 +130,14 @@ class ResourceService implements ResourceServiceInterface
         return $resourceUpdated->load('owners', 'category' );
     }
 
-    public function deleteResource($organization, $uid)
+    /**
+     * @param $uid
+     * @return int
+     * @throws NotFoundException
+     */
+    public function deleteResource( $uid )
     {
-        $resource = $this->getResource( $organization, $uid );
+        $resource = $this->getResource( $uid );
 
         return $this->resourceRepository->delete( $resource->id );
     }
@@ -143,9 +152,14 @@ class ResourceService implements ResourceServiceInterface
             return $owner['uid'];
         }, $request->owners );
 
-        return $this->ownerRepository->findWhereIn( 'uid', $ownerUids );
+        return $this->ownerRepository->findByUids( $ownerUids );
     }
 
+    /**
+     * @param null $category
+     * @param string $range
+     * @return BinaryFileResponse
+     */
     public function export($category = null, $range = 'all')
     {
         $fileName = 'Resources_'. time(). '.xlsx';
