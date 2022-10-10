@@ -506,7 +506,7 @@ export default {
   },
   transparent: {
     el: {
-      root: "flex items-center leading-tight bg-cTransparent px-5 py-3 rounded text-c1-200 text-sm w-auto hover:text-cWhite hover:bg-cBlack focus:outline-none",
+      root: "flex items-center leading-tight bg-cTransparent px-5 py-3 rounded text-c1-400 text-sm w-auto hover:text-c1-600 focus:outline-none",
       left: "",
       middle: "mx-4",
       right: "",

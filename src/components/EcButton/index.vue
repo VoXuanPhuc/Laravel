@@ -1,6 +1,7 @@
 <template>
   <component
     :is="decideComponent"
+    :type="decideType"
     :class="variantCls.root"
     :href="href"
     :to="to"
@@ -100,6 +101,11 @@ export default {
     decideComponent() {
       if (this.href) return "a"
       if (this.to) return this.routerTag
+      return "button"
+    },
+
+    decideType() {
+      if (this.href || this.to) return ""
       return "button"
     },
   },

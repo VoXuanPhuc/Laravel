@@ -99,7 +99,7 @@
               </EcFlex>
 
               <!-- Open link -->
-              <EcButton variant="transparent-rounded" class="h-3" :href="'https://' + organization?.domain" target="_blank">
+              <EcButton variant="transparent" class="h-3" :href="'https://' + organization?.domain" target="_blank">
                 <EcIcon icon="OpenUp" width="20" height="20" />
               </EcButton>
             </EcFlex>

@@ -25,7 +25,7 @@ export default {
         variant: "primary",
       },
       forgotPassword: {
-        class: "hover:bg-c3-50 hover:border-c3-50 hover:text-c0-50",
+        class: "text-c0-50 hover:bg-c3-50 hover:border-c3-50 !hover:text-c0-50",
         variant: "transparent",
       },
     },

@@ -2,14 +2,10 @@
   <EcFlex :class="variantCls.root">
     <EcFlex class="w-1/2"></EcFlex>
     <EcFlex class="w-1/2 justify-end mr-4">
-      <EcFlex class="items-center mr-4 text-sm"> Hi, John Doe </EcFlex>
+      <EcFlex class="items-center mr-4 text-sm"> Hi, {{ userFullName }} </EcFlex>
       <!-- Avartar -->
       <EcFlex :class="variantCls.avatar_box" @click="handleClickAvatarIcon">
-        <img
-          :class="variantCls.avatar"
-          src="https://cdn4.iconfinder.com/data/icons/basic-user-interface-elements/700/user-account-profile-human-avatar-face-head--256.png"
-          alt="Avatar"
-        />
+        <EcText class="text-c1-800 font-semibold">{{ userAvatarLetters }}</EcText>
       </EcFlex>
 
       <!-- account tool box -->
@@ -41,6 +37,8 @@
 import { useGlobalStore } from "@/stores/global"
 import EcFlex from "@/components/EcFlex/index.vue"
 import { goto } from "../../composables"
+import * as helpers from "@/readybc/composables/helpers/helpers"
+import EcText from "@/components/EcText/index.vue"
 
 export default {
   name: "RTopBar",
@@ -76,6 +74,18 @@ export default {
     variantCls() {
       return this.variants?.el || {}
     },
+
+    userFullName() {
+      return helpers.getUserFullName() || "N/A"
+    },
+
+    userAvatarLetters() {
+      return this.userFullName
+        .split(" ")
+        .map((i) => i.charAt(0))
+        .join("")
+        .toUpperCase()
+    },
   },
   methods: {
     handleClickAvatarIcon() {
@@ -99,6 +109,6 @@ export default {
       this.globalStore.logout()
     },
   },
-  components: { EcFlex },
+  components: { EcFlex, EcText },
 }
 </script>

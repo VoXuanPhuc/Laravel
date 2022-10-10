@@ -53,6 +53,7 @@
           {{ $t("auth.login") }}
         </EcButton>
         <EcButton
+          class="!hover:text-c0-50"
           :variant="variantCls.forgotPassword.variant"
           :class="variantCls.forgotPassword.class"
           @click="handleClickForgotPassword()"

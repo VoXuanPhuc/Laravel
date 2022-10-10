@@ -61,8 +61,11 @@
       </EcFlex>
     </EcBox>
 
-    <!-- Landlord indicator -->
+    <!-- Landlord indicator or link to client portal -->
     <EcIcon v-if="isLandlord" icon="LockClosed" class="-mt-4 text-cError-500" />
+    <EcButton v-else class="-mt-4 h-1 w-1" variant="transparent" :href="'https://' + organization?.domain" target="_blank">
+      <EcIcon icon="OpenUp" width="18" height="18" />
+    </EcButton>
   </EcBox>
 </template>
 
