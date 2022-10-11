@@ -10,10 +10,15 @@
     </EcFlex>
     <!-- action button -->
     <EcBox class="flex justify-end mt-8 lg:mt-16">
-      <EcBox class="grid grid-cols-2 gap-2 flex justify-end">
+      <EcBox class="grid grid-cols-1 sm:grid-cols-3 gap-2 flex justify-end">
         <!--- export supplier -->
         <EcButton :iconPrefix="exportSupplierIcon" class="mb-3 lg:mb-0" variant="primary-sm" @click="handleClickDownloadSupplier">
           {{ $t("supplier.buttons.exportSuppliers") }}
+        </EcButton>
+
+        <!-- View Supplier Category -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="Resource" variant="primary-sm" @click="handleClickViewCategories">
+          {{ $t("supplier.buttons.viewSupplierCategories") }}
         </EcButton>
 
         <!-- Add supplier -->
@@ -224,6 +229,13 @@ export default {
     handleCallBackDeletedModal() {
       this.fetchSuppliers()
       this.handleCloseDeleteModal()
+    },
+
+    /**
+     * View supplier category list
+     */
+    handleClickViewCategories() {
+      goto("ViewSupplierCategoryList")
     },
   },
 

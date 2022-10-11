@@ -6,7 +6,7 @@
     <RLayoutTwoCol>
       <template #left>
         <EcBox class="width-full sm:px-10" variant="card-1">
-          <EcText class="mb-4 font-bold text-lg">Supplier detail</EcText>
+          <EcText class="mb-4 font-bold text-lg"> {{ $t("supplier.title.supplierDetail") }}</EcText>
           <!-- Name -->
           <EcBox class="w-full 2xl:w-6/12 mb-6 sm:pr-6">
             <RFormInput
@@ -123,19 +123,6 @@
             />
           </EcBox>
         </EcBox>
-
-        <!-- Actions -->
-        <EcFlex v-if="!isCreating" class="width-full mt-8 px-4 sm:px-10">
-          <EcButton variant="primary" @click="handleClickCreateSupplier">
-            {{ $t("supplier.buttons.create") }}
-          </EcButton>
-          <EcButton class="ml-3" variant="tertiary-outline" @click="handleClickCancel">
-            {{ $t("supplier.buttons.cancel") }}
-          </EcButton>
-        </EcFlex>
-        <EcFlex v-else class="items-center justify-center mt-10 h-10">
-          <EcSpinner type="dots" />
-        </EcFlex>
       </template>
 
       <template #right>
@@ -149,11 +136,13 @@
               <EcBox class="w-full mb-6 sm:pr-6">
                 <RUploadFiles
                   :dir="'supplier/certificates'"
-                  :documentTitle="title"
+                  :documentTitle="$t('supplier.certificate.title')"
                   :isUploadOnSelect="false"
                   :maxFileNum="10"
+                  :isParentSubmitting="isFormSubmitting"
                   dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
-                  @handleSignleFileUploaded="handleCertificateUploaded"
+                  @handleSingleUploadResult="handleCertificateUploaded"
+                  @handleBulkFilesUpload="createSupplierCertificate"
                 />
               </EcBox>
             </EcFlex>
@@ -161,6 +150,18 @@
         </EcBox>
       </template>
     </RLayoutTwoCol>
+    <!-- Actions -->
+    <EcFlex v-if="!isCreating" class="width-full mt-6 px-4 sm:px-10">
+      <EcButton variant="primary" @click="handleClickCreateSupplier">
+        {{ $t("supplier.buttons.create") }}
+      </EcButton>
+      <EcButton class="ml-3" variant="tertiary-outline" @click="handleClickCancel">
+        {{ $t("supplier.buttons.cancel") }}
+      </EcButton>
+    </EcFlex>
+    <EcFlex v-else class="items-center justify-center mt-10 h-10">
+      <EcSpinner type="dots" />
+    </EcFlex>
     <!-- Modal add new resource category -->
     <teleport to="#layer1">
       <ModalAddNewCategory
@@ -189,8 +190,9 @@ export default {
       isNameUnique: false,
       isLoadingCategories: false,
       isUploading: false,
-      title: "Certificate of Assurance",
       isModalAddNewCategoryOpen: false,
+
+      isFormSubmitting: false,
     }
   },
   setup() {
@@ -229,11 +231,8 @@ export default {
       if (supplierRes && supplierRes.uid) {
         this.supplier = supplierRes
 
-        console.log(this.certificate)
-        if (this.certificate.certs.length > 0) {
-          await this.createSupplierCertificate(supplierRes.uid, this.certificate)
-        }
-        goto("ViewSupplierList")
+        // trigger pros isFormSubmitting RUploadFile to auto upload file
+        this.isFormSubmitting = true
       }
 
       this.isCreating = false
@@ -247,8 +246,11 @@ export default {
     /**
      * create new certificate for supplier
      */
-    async createSupplierCertificate(supplierUid, certificate) {
-      await this.uploadCertificate(supplierUid, certificate)
+    async createSupplierCertificate() {
+      if (this.certificate.certs.length > 0) {
+        await this.uploadCertificate(this.supplier.uid, this.certificate)
+        goto("ViewSupplierList")
+      }
     },
 
     /**

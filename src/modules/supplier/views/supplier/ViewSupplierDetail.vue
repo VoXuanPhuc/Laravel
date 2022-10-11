@@ -151,12 +151,15 @@
               <EcBox class="w-full mb-6 sm:pr-6">
                 <RUploadFiles
                   :dir="'supplier/certificates'"
-                  :documentTitle="title"
+                  :documentTitle="$t('supplier.certificate.title')"
                   :fileListAfterUpload="fileListAfterUpload"
                   :isUploadOnSelect="false"
                   :maxFileNum="10"
-                  dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
-                  @handleSignleFileUploaded="handleCertificateUploaded"
+                  :isParentSubmitting="isFormSubmitting"
+                  dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2
+                md:py-4"
+                  @handleBulkFilesUpload="createSupplierCertificate"
+                  @handleSingleUploadResult="handleCertificateUploaded"
                 />
               </EcBox>
             </EcFlex>
@@ -165,7 +168,7 @@
               v-if="certificateUrls.length > 0"
               :isLoading="isCertificateLoading"
               :list="certificateUrls"
-              class="mt-2 lg:mt-4"
+              class="flex-wrap w-full max-w-full mt-2 lg:mt-4 overflow-scroll"
             >
               <template #header>
                 <RTableHeaderRow>
@@ -178,8 +181,8 @@
               <template v-slot="{ item }">
                 <RTableRow class="hover:bg-c0-100">
                   <!-- name file -->
-                  <RTableCell class="hover:text-sky-500">
-                    <EcText class="cursor-pointer truncate w-36">
+                  <RTableCell class="hover:text-sky-500 w-4/5">
+                    <EcText class="cursor-pointer truncate">
                       <a :href="item.cert_path" target="_blank">
                         {{ getOriginalFileName(item.cert_path) }}
                       </a>
@@ -275,7 +278,6 @@ export default {
       isUploading: false,
       isCertificateLoading: false,
 
-      title: "Certificate of Assurance",
       isModalAddNewCategoryOpen: false,
       isSupplierModalDeleteOpen: false,
       isCertificateModalDeleteOpen: false,
@@ -285,6 +287,7 @@ export default {
       certificateUrls: [],
 
       fileListAfterUpload: [],
+      isFormSubmitting: false,
 
       headerCertificate: [{ label: this.$t("supplier.certificate.certificateName") }],
     }
@@ -348,6 +351,8 @@ export default {
       if (response && response.uid) {
         this.supplier = response
         this.supplierName = this.supplier.name
+
+        this.supplier.is_active = this.supplier.is_active === 1
         // get certificate
         await this.fetchCertificates(this.uid)
       }
@@ -376,27 +381,28 @@ export default {
       }
       this.isUpdating = true
 
-      // save certificate
-      if (this.certificate.certs.length > 0) {
-        await this.createSupplierCertificate(this.supplier.uid, this.certificate)
-      }
+      // trigger pros isFormSubmitting RUploadFile to auto upload file
+      this.isFormSubmitting = true
 
       const updateSupplierRes = await this.updateSupplier(this.supplier.uid, this.supplier)
       if (updateSupplierRes && updateSupplierRes.uid) {
         this.supplier = updateSupplierRes
       }
 
+      this.isFormSubmitting = false
       this.isUpdating = false
     },
 
     /**
      * create new certificate for supplier
      */
-    async createSupplierCertificate(supplierUid, certificate) {
-      await this.uploadCertificate(supplierUid, certificate)
-      await this.fetchCertificates(this.supplier.uid)
-      this.certificate.certs = []
-      this.fileListAfterUpload = []
+    async createSupplierCertificate() {
+      if (this.certificate.certs.length > 0) {
+        await this.uploadCertificate(this.supplier.uid, this.certificate)
+        await this.fetchCertificates(this.supplier.uid)
+        this.certificate.certs = []
+        this.fileListAfterUpload = []
+      }
     },
 
     /** Handle uploaded logo */
@@ -446,6 +452,7 @@ export default {
 
     /**
      * Callback after delete supplier
+     *
      */
     handleSupplierCallBackDeletedModal() {
       goto("ViewSupplierList")

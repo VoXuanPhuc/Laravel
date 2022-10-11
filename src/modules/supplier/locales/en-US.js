@@ -36,6 +36,7 @@ export default {
       confirmDeleteQuestion: "Are you sure you want to delete this supplier?",
       confirmDeleteAction: "If so, type the supplier name into the box below to confirm",
     },
+
     buttons: {
       add: "Add",
       create: "Create",
@@ -54,6 +55,7 @@ export default {
       confirm: "Confirm",
       deleteSupplier: "Delete supplier",
       uploadCertificate: "Upload Certificate",
+      viewSupplierCategories: "Supplier Categories",
     },
 
     category: {
@@ -71,6 +73,7 @@ export default {
         createdAt: "Created At",
         deleteCategory: "Delete Category",
         confirmDeleteQuestion: "Are you sure to delete this category",
+        confirmDelete: "Confirm to Delete",
         noteDeleteCategory:
           "You can permanently delete the category from database. This action cannot be reverted and you cannot restore the record anymore.",
       },
@@ -89,6 +92,7 @@ export default {
     },
 
     certificate: {
+      title: "Certificate of Assurance",
       uploadSuccess: "Upload certificate success",
       updateSuccess: "Upload certificate success",
       certificateName: "Name file",
@@ -97,12 +101,11 @@ export default {
       confirmDeleteAction: "If so, type the certificate file name into the box below to confirm",
       confirmToDelete: "Confirm to Delete",
     },
+
     title: {
       newSupplier: "New Supplier",
       editSupplier: "Update Supplier",
       supplierDetail: "Supplier Detail",
-      remote: "Remote access",
-      software: "Software / Technology",
       confirmToCancel: "Confirm to cancel",
       cancelQuestion: "Do you wish to cancel doing supplier?",
       upload: "Upload Supplier Certificate of Assurance",
@@ -114,6 +117,7 @@ export default {
       deleteSuccess: "Supplier has been delete successfully!",
       code: "Code",
     },
+
     // Errors
     errors: {
       updateSupplier: "Error to update supplier, please retry",

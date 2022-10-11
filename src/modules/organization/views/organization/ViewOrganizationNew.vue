@@ -14,7 +14,7 @@
               :isUploadOnSelect="true"
               :dir="'organization/logo'"
               dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
-              @handleSignleFileUploaded="handleLogoUploaded"
+              @handleSingleUploadResult="handleLogoUploaded"
             />
           </EcBox>
         </EcFlex>

@@ -68,7 +68,7 @@ import { apiUploadFile } from "../../api/fileUploader"
 
 export default {
   name: "RUploadFiles",
-  emits: ["handleSingleUploadResult"],
+  emits: ["handleSingleUploadResult", "handleBulkFilesUpload"],
   props: {
     isUploadOnSelect: {
       type: Boolean,
@@ -122,6 +122,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    isParentSubmitting: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -146,6 +150,11 @@ export default {
     fileListAfterUpload(data) {
       this.fileList = data
     },
+    isParentSubmitting(isSubmit) {
+      if (isSubmit) {
+        this.triggerUploadBulkFilesFromParent()
+      }
+    },
   },
   computed: {
     getUrl() {
@@ -167,6 +176,17 @@ export default {
     },
   },
   methods: {
+    /**
+     * handle parent trigger upload file
+     * @returns {Promise<void>}
+     */
+    async triggerUploadBulkFilesFromParent() {
+      if (this.filesToBeUploaded.length === 0) {
+        return
+      }
+      await this.handleClickUpload()
+      this.$emit("handleBulkFilesUpload")
+    },
     /**
      *
      * @param {*} files
@@ -191,7 +211,7 @@ export default {
     /**
      * Handle click upload
      */
-    handleClickUpload() {
+    async handleClickUpload() {
       if (this.uploading) {
         return
       }
@@ -212,7 +232,7 @@ export default {
         }
       })
 
-      Promise.all(uploadQueue).finally(() => {
+      await Promise.all(uploadQueue).finally(() => {
         this.uploading = false
         this.$emit("files:uploaded")
       })
@@ -280,7 +300,7 @@ export default {
       fileObj.reponse = data
 
       //Send event back to parent compent to use the response if needed
-      this.$emit("handleSignleFileUploaded", data)
+      this.$emit("handleSingleUploadResult", data)
 
       return data
     },
