@@ -4,6 +4,8 @@ namespace Encoda\Organization\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Http\Requests\Org\CreateOrganizationRequest;
 use Encoda\Organization\Http\Requests\Org\UpdateOrganizationRequest;
 use Encoda\Organization\Models\Industry;
@@ -11,7 +13,9 @@ use Encoda\Organization\Models\Organization;
 use Encoda\Organization\Repositories\Interfaces\IndustryRepositoryInterface;
 use Encoda\Organization\Repositories\Interfaces\OrganizationRepositoryInterface;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
+use Encoda\Supplier\Models\Supplier;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Throwable;
 
@@ -116,9 +120,50 @@ class OrganizationService implements OrganizationServiceInterface
         return $this->organizationRepository->delete( $organization->id );
     }
 
+    /**
+     * @return mixed
+     * @throws ValidationException
+     */
     public function listOrganization()
     {
-        return $this->organizationRepository->paginate( config('config.pagination_size') );
+        $query = $this->organizationRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->organizationRepository->applyPaging($query);
+    }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Organization::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'code', 'description', 'domain', 'address', 'is_active'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Organization::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name', 'code', 'domain', 'address', 'is_active'])
+            ->validate()
+            ->applySort();
     }
 
 

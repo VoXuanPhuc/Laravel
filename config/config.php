@@ -18,6 +18,6 @@ return [
         'driver' => env('IDENTITY_POOL', 'eloquent'),
         'guard' => env('IDENTITY_GUARD', 'jwt'),
     ],
-    'pagination_size' => 15
-
+    'pagination_size' => 5,
+    'enable_database_log' => env('ENABLE_DATABASE_LOG', false)
 ];

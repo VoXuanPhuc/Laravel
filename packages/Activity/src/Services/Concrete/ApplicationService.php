@@ -2,14 +2,18 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
+use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Models\Application;
 use Encoda\Activity\Repositories\Interfaces\ApplicationRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\ApplicationServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Models\Organization;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ApplicationService implements ApplicationServiceInterface
 {
@@ -23,10 +27,49 @@ class ApplicationService implements ApplicationServiceInterface
 
     /**
      * @return LengthAwarePaginator
+     * @throws ValidationException
      */
     public function listApplications()
     {
-        return $this->applicationRepository->paginate(config('config.pagination_size'));
+        $query = $this->applicationRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->applicationRepository->applyPaging($query);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Application::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Activity::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
     }
 
     /**

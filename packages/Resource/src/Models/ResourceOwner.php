@@ -2,8 +2,8 @@
 
 namespace Encoda\Resource\Models;
 
+use Encoda\Core\Models\Model;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class ResourceOwner extends Model

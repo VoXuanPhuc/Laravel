@@ -3,14 +3,19 @@
 namespace Encoda\Organization\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Http\Requests\BusinessUnit\CreateBusinessUnitRequest;
 use Encoda\Organization\Http\Requests\BusinessUnit\UpdateBusinessUnitRequest;
+use Encoda\Organization\Models\BusinessUnit;
+use Encoda\Organization\Models\Organization;
 use Encoda\Organization\Repositories\Interfaces\BusinessUnitRepositoryInterface;
 use Encoda\Organization\Services\Interfaces\BusinessUnitServiceInterface;
 use Encoda\Organization\Services\Interfaces\DivisionServiceInterface;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class BusinessUnitService implements BusinessUnitServiceInterface
@@ -29,7 +34,9 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
     /**
      * @param $divisionUid
+     *
      * @return mixed
+     * @throws ValidationException
      */
     public function listBusinessUnit( $divisionUid )
     {
@@ -37,10 +44,47 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
 
         if( $division ) {
-            return $division->business_units()->with('division')->paginate(config('config.pagination_size'));
+            $query = $division->business_units()->with('division');
+            $this->applySearchFilter($query);
+            $this->applySortFilter($query);
+            return $this->businessUnitRepository->applyPaging($query);
         }
 
         return [];
+    }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(BusinessUnit::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description', 'is_active'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(BusinessUnit::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name', 'is_active'])
+            ->validate()
+            ->applySort();
     }
 
     /**

@@ -8,11 +8,6 @@ use Encoda\MultiTenancy\Models\Tenant;
 class Controller extends \Laravel\Lumen\Routing\Controller
 {
 
-    public function __construct()
-    {
-
-        echo '1';
-    }
 
     /**
      * @return Tenant

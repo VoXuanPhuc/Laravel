@@ -3,11 +3,15 @@
 namespace Encoda\Organization\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Http\Requests\Industry\IndustryRequest;
+use Encoda\Organization\Models\Industry;
 use Encoda\Organization\Repositories\Concrete\IndustryRepository;
 use Encoda\Organization\Services\Interfaces\IndustryServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class IndustryService implements IndustryServiceInterface
@@ -19,10 +23,31 @@ class IndustryService implements IndustryServiceInterface
     {
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function listIndustry()
     {
-        return $this->industryRepository->all();
+        return $this->applySearchFilter($this->industryRepository->query())->get();
     }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Industry::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
 
     /**
      * @param $uid

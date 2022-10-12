@@ -13,6 +13,9 @@ use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 use Encoda\Core\Exceptions\BadRequestException;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
+use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Organization;
 use Encoda\Organization\Services\Interfaces\BusinessUnitServiceInterface;
 use Encoda\Organization\Services\Interfaces\DivisionServiceInterface;
@@ -22,6 +25,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
@@ -42,10 +46,48 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
 
     /**
      * @return mixed
+     * @throws ValidationException
      */
     public function listActivities(): mixed
     {
-       return $this->activityRepository->paginate(config('config.pagination_size'));
+        $query = $this->activityRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->activityRepository->applyPaging($query);
+    }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Activity::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description', 'on_site_requires', 'is_remote', 'min_people', 'status', 'step'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Activity::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name', 'is_remote', 'min_people', 'status', 'step'])
+            ->validate()
+            ->applySort();
     }
 
     /**

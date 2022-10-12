@@ -2,13 +2,16 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
+use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Repositories\Interfaces\RemoteAccessFactorRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\RemoteAccessFactorServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
-use Encoda\Organization\Models\Organization;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class RemoteAccessFactorService implements RemoteAccessFactorServiceInterface
 {
@@ -22,10 +25,48 @@ class RemoteAccessFactorService implements RemoteAccessFactorServiceInterface
 
     /**
      * @return LengthAwarePaginator
+     * @throws ValidationException
      */
     public function listRemoteAccessFactors()
     {
-        return $this->remoteAccessFactorRepository->paginate(config('config.pagination_size'));
+        $query = $this->remoteAccessFactorRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->remoteAccessFactorRepository->applyPaging($query);
+    }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(RemoteAccessFactor::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(RemoteAccessFactor::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
     }
 
     /**

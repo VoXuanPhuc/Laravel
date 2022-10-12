@@ -3,7 +3,7 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\DeviceContract;
-use Illuminate\Database\Eloquent\Model;
+use Encoda\Core\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

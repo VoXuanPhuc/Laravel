@@ -2,11 +2,16 @@
 
 namespace Encoda\Resource\Services\Concrete;
 
+use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Resource\Http\Requests\Owner\CreateResourceOwnerRequest;
 use Encoda\Resource\Http\Requests\Owner\UpdateResourceOwnerRequest;
 use Encoda\Organization\Models\Organization;
+use Encoda\Resource\Models\ResourceOwner;
 use Encoda\Resource\Repositories\Interfaces\ResourceOwnerRepositoryInterface;
+use Illuminate\Validation\ValidationException;
 
 class ResourceOwnerService implements \Encoda\Resource\Services\Interfaces\ResourceOwnerServiceInterface
 {
@@ -19,10 +24,48 @@ class ResourceOwnerService implements \Encoda\Resource\Services\Interfaces\Resou
 
     /**
      * @return mixed
+     * @throws ValidationException
      */
     public function listResourceOwner()
     {
-        return $this->ownerRepository->paginate( config('config.pagination_size') );
+        $query = $this->ownerRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->ownerRepository->applyPaging($query);
+    }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(ResourceOwner::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['first_name', 'last_name', 'is_invite', 'email'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(ResourceOwner::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['first_name', 'last_name', 'is_invite', 'email'])
+            ->validate()
+            ->applySort();
     }
 
     /**

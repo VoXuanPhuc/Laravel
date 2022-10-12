@@ -2,9 +2,12 @@
 
 namespace Encoda\Resource\Services\Concrete;
 
+use Encoda\Activity\Models\Activity;
+use Encoda\Activity\Models\Application;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
-use Encoda\Organization\Models\Organization;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Resource\Exports\ResourceExport;
 use Encoda\Resource\Http\Requests\Resource\CreateResourceRequest;
 use Encoda\Resource\Http\Requests\Resource\UpdateResourceRequest;
@@ -16,6 +19,7 @@ use Encoda\Resource\Services\Interfaces\ResourceOwnerServiceInterface;
 use Encoda\Resource\Services\Interfaces\ResourceServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
@@ -34,10 +38,49 @@ class ResourceService implements ResourceServiceInterface
 
     /**
      * @return mixed
+     * @throws ValidationException
      */
     public function listResource()
     {
-        return $this->resourceRepository->with('category')->paginate(config('config.pagination_size'));
+        $query = $this->resourceRepository->query()->with('category');
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->resourceRepository->applyPaging($query);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Resource::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description', 'status'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Resource::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
     }
 
     /**

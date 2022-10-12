@@ -2,8 +2,8 @@
 
 namespace Encoda\MultiTenancy\Models;
 
+use Encoda\Core\Models\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Encoda\MultiTenancy\Actions\ForgetCurrentTenantAction;
 use Encoda\MultiTenancy\Actions\MakeTenantCurrentAction;
 use Encoda\MultiTenancy\Models\Concerns\UsesLandlordConnection;

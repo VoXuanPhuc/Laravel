@@ -3,24 +3,24 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ApplicationContract;
-use Illuminate\Database\Eloquent\Model;
+use Encoda\Core\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Application extends Model implements ApplicationContract
 {
     use SoftDeletes;
-    
+
     protected $guarded = [
         'id',
     ];
-    
+
     protected $fillable = [
         'uid',
         'name',
         'description',
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -33,7 +33,7 @@ class Application extends Model implements ApplicationContract
         'deleted_at',
         'pivot',
     ];
-    
+
     /**
      * @return BelongsToMany
      */

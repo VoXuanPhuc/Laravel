@@ -2,10 +2,10 @@
 
 namespace Encoda\Supplier\Models;
 
+use Encoda\Core\Models\Model;
 use Encoda\Core\Traits\HasUID;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\Organization;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 

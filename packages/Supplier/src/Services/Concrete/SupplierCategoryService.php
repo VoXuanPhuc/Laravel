@@ -3,11 +3,16 @@
 namespace Encoda\Supplier\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
+use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Supplier\Http\Requests\Category\CreateSupplierCategoryRequest;
 use Encoda\Supplier\Http\Requests\Category\UpdateSupplierCategoryRequest;
+use Encoda\Supplier\Models\SupplierCategory;
 use Encoda\Supplier\Repositories\Interfaces\SupplierCategoryRepositoryInterface;
 use Encoda\Supplier\Services\Interfaces\SupplierCategoryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 
@@ -31,9 +36,45 @@ class SupplierCategoryService implements SupplierCategoryServiceInterface
      */
     public function listSupplierCategory()
     {
-        return tenant()->supplierCategories()->get();
+        $query = tenant()->supplierCategories();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->supplierCategoryRepository->applyPaging($query, false);
     }
 
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(SupplierCategory::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(SupplierCategory::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
+    }
 
     /**
      * @param string $uid

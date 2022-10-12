@@ -2,7 +2,8 @@
 
 namespace Encoda\Organization\Models;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Encoda\Core\Models\Model;
 
 class Industry extends Model
 {

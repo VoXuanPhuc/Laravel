@@ -1,6 +1,7 @@
 <?php
 namespace Encoda\Core\Eloquent;
 
+use Encoda\Core\Facades\Context;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
@@ -146,5 +147,51 @@ abstract class Repository extends BaseRepository
     public function deleteAll()
     {
         $this->model->query()->delete();
+    }
+
+    /**
+     * Apply paging into models
+     *
+     * @param      $query
+     * @param bool $filters
+     *
+     * @return mixed
+     */
+    public function applyPaging($query, bool $forcePaginate = true ,bool $filters = false): mixed
+    {
+        $options = Context::request()->get();
+        if(isset($options['page']) || $forcePaginate)
+        {
+            $size = $options['page']['size'] ?? config('config.pagination_size');
+            $pageNumber = $options['page']['number'] ?? 1;
+            $data = $query->paginate($size, $columns = ['*'], $pageName = "page[number]", $pageNumber);
+
+            $data->appends($this->getDataQuery($options,$filters))->links() ;
+        }else{
+            $data = $query->get();
+        }
+        return $data;
+    }
+
+    /**
+     * Get data for extends into url paging
+     *
+     * @param array $options
+     * @param bool  $filters
+     *
+     * @return array
+     */
+    public function getDataQuery(array $options, $filters = false)
+    {
+        $dataQuery = [];
+        if(isset($options['page']['size']))
+        {
+            $dataQuery['page[size]'] =$options['page']['size'];
+        }
+//        if($filters)
+//        {
+//            //TODO Add filters for url
+//        }
+        return $dataQuery;
     }
 }

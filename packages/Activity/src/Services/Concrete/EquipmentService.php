@@ -2,13 +2,16 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
+use Encoda\Activity\Models\Equipment;
 use Encoda\Activity\Repositories\Interfaces\EquipmentRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\EquipmentServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
-use Encoda\Organization\Models\Organization;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class EquipmentService implements EquipmentServiceInterface
 {
@@ -22,10 +25,49 @@ class EquipmentService implements EquipmentServiceInterface
 
     /**
      * @return LengthAwarePaginator
+     * @throws ValidationException
      */
     public function listEquipments()
     {
-        return $this->equipmentRepository->paginate(config('config.pagination_size'));
+        $query = $this->equipmentRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->equipmentRepository->applyPaging($query);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Equipment::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Equipment::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
     }
 
     /**

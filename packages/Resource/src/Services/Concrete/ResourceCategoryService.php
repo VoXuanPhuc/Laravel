@@ -2,12 +2,17 @@
 
 namespace Encoda\Resource\Services\Concrete;
 
+use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
 use Encoda\Resource\Http\Requests\Category\CreateResourceCategoryRequest;
 use Encoda\Resource\Http\Requests\Category\UpdateResourceCategoryRequest;
 use Encoda\Organization\Models\Organization;
+use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Repositories\Interfaces\ResourceCategoryRepositoryInterface;
 use Encoda\Resource\Services\Interfaces\ResourceCategoryServiceInterface;
+use Illuminate\Validation\ValidationException;
 
 class ResourceCategoryService implements ResourceCategoryServiceInterface
 {
@@ -20,11 +25,50 @@ class ResourceCategoryService implements ResourceCategoryServiceInterface
 
     /**
      * @return mixed
+     * @throws ValidationException
      */
     public function listResourceCategory(): mixed
     {
-        return $this->categoryRepository->all();
+        $query = $this->categoryRepository->query();
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+        return $this->categoryRepository->applyPaging($query, false);
     }
+
+    /**
+     * @param $query
+     *
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query)
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(ResourceCategory::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['name', 'description'])
+            ->validate()
+            ->applyFilter();
+        return $query;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(ResourceCategory::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name'])
+            ->validate()
+            ->applySort();
+    }
+
 
     /**
      * @param $uid

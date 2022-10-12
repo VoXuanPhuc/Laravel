@@ -3,13 +3,12 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
+use Encoda\Core\Models\Model;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

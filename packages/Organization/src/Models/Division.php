@@ -3,8 +3,8 @@
 namespace Encoda\Organization\Models;
 
 use Encoda\Activity\Models\Activity;
+use Encoda\Core\Models\Model;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;

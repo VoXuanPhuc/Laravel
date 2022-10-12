@@ -131,7 +131,7 @@ $app->register( Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
 $app->register( Encoda\Supplier\Providers\SupplierServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
-
+$app->alias('context', \Encoda\Core\Facades\Context::class);
 /**
  * Lang
  */

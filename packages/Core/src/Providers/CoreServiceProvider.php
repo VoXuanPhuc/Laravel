@@ -1,6 +1,8 @@
 <?php
 namespace Encoda\Core\Providers;
 
+use Encoda\Core\AppContext\ContextManager;
+use Encoda\Core\AppContext\RequestContext;
 use Encoda\Core\Commands\StorageLink;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -36,15 +38,32 @@ class CoreServiceProvider extends  ServiceProvider
      */
     public function register()
     {
+        $this->app->register(DatabaseServiceProvider::class);
         $this->registerCommands();
+        $this->registerContextHandler();
     }
 
+    /**
+     * @return void
+     */
     protected function registerCommands() {
         if ( $this->app->runningInConsole() ) {
             $this->commands([
                 StorageLink::class,
             ]);
         }
+    }
+
+    protected function registerContextHandler(){
+        $this->app->singleton(RequestContext::class, function () {
+            return new RequestContext(request());
+        });
+
+        $this->app->singleton('context', function () {
+            return new ContextManager([
+                'request' => RequestContext::class
+            ]);
+        });
     }
 
 }
