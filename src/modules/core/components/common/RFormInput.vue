@@ -123,8 +123,7 @@ export default {
      * @description Controller options
      */
     options: {
-      type: Array,
-      default: () => [],
+      type: [Array, Object],
     },
     /**
      * @description Controller value

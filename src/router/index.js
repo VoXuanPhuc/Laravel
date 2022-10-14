@@ -9,6 +9,7 @@ import industry from "@/modules/industry/router/index"
 import user from "@/modules/user/router/index"
 import setting from "@/modules/setting/router/index"
 import supplier from "@/modules/supplier/router/index"
+import dependency from "@/modules/dependency/router/index"
 
 const routes = [
   {
@@ -25,6 +26,7 @@ const routes = [
   ...user,
   ...setting,
   ...supplier,
+  ...dependency,
 ]
 
 const router = createRouter({

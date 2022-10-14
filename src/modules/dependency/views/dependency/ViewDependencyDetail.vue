@@ -227,12 +227,12 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
-import { useResourceDetail } from "../../use/resource/useResourceDetail"
-import { useResourceStatusEnum } from "@/modules/resource/use/resource/useResourceStatusEnum"
-import { useCategoryList } from "@/modules/resource/use/category/useCategoryList"
-import { useOwnerList } from "@/modules/resource/use/owner/useOwnerList"
+import { useResourceDetail } from "../../use/dependency/useResourceDetail"
+import { useResourceStatusEnum } from "@/modules/dependency/use/dependency/useResourceStatusEnum"
+import { useCategoryList } from "@/modules/dependency/use/category/useCategoryList"
+import { useOwnerList } from "@/modules/dependency/use/owner/useOwnerList"
 import { useGlobalStore } from "@/stores/global"
-import ModalAddNewOwner from "@/modules/resource/components/ModalAddNewOwner.vue"
+import ModalAddNewOwner from "@/modules/dependency/components/ModalAddNewOwner.vue"
 import ModalDeleteResource from "../../components/ModalDeleteResource.vue"
 import ModalAddNewCategory from "../../components/ModalAddNewCategory.vue"
 

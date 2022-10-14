@@ -50,7 +50,7 @@ export const useLoginStore = defineStore("login", () => {
         throw new Error(t("auth.errors.login"))
       }
 
-      debugger
+      
 
       localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, data.accessToken)
       localStorage.setItem(process.env.VUE_APP_ID_TOKEN_KEY, data.idToken)

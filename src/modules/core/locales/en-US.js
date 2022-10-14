@@ -8,6 +8,7 @@ export default {
     report: "Report",
     resources: "Resources",
     suppliers: "Suppliers",
+    dependencies: "Dependencies",
     industries: "Industries",
     activities: "Activities",
     reports: "Reports",

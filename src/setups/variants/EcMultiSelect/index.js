@@ -14,6 +14,7 @@ export default {
       option: "text-cBlack select-none hover:bg-c1-500 hover:text-cWhite px-5 py-2",
       selectedOption: "bg-c1-700 text-cWhite select-none px-5 py-2",
       noOption: "px-5 py-2",
+      groupLabel: "flex items-center text-cBlack select-none font-semibold px-2 py-2 hover:cursor-pointer",
       transition: {
         enterFrom: "opacity-0",
         leaveTo: "opacity-0",

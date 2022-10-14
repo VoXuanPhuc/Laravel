@@ -32,6 +32,8 @@ export default {
     Adjustments: lazyLoad("Adjustments"),
     ArrowLeft: lazyLoad("ArrowLeft"),
     ArrowRight: lazyLoad("ArrowRight"),
+    CaretDown: lazyLoad("CaretDown"),
+    CaretRight: lazyLoad("CaretRight"),
     Ban: lazyLoad("Ban"),
     Bell: lazyLoad("Bell"),
     Calendar: lazyLoad("Calendar"),
@@ -100,6 +102,7 @@ export default {
     Spinner: lazyLoad("Spinner"),
     Key: lazyLoad("Key"),
     OpenUp: lazyLoad("OpenUp"),
+    Dependency: lazyLoad("Dependency"),
   },
 }
 </script>

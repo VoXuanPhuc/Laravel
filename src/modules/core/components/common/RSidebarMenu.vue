@@ -174,6 +174,12 @@ export default {
         routeName: "ViewSupplierList",
       },
       {
+        module: "dependency",
+        icon: "Dependency",
+        text: "core.dependencies",
+        routeName: "ViewDependencyList",
+      },
+      {
         module: "industry",
         icon: "Industry",
         text: "core.industries",

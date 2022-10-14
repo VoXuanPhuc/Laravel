@@ -114,7 +114,7 @@ export default {
     handleClickManageOrganization() {
       // Set tenant data
       helpers.setTenantData({ uid: this.organization?.uid, name: this.organization?.name })
-      debugger
+
       goto("ViewOrganizationManagement", {
         params: {
           organizationUid: this.organization?.uid,

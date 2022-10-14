@@ -8,6 +8,7 @@ import industry from "@/modules/industry/locales/en-US"
 import user from "@/modules/user/locales/en-US"
 import setting from "@/modules/setting/locales/en-US"
 import supplier from "@/modules/supplier/locales/en-US"
+import dependency from "@/modules/dependency/locales/en-US"
 
 export default {
   ...core,
@@ -20,6 +21,7 @@ export default {
   ...user,
   ...setting,
   ...supplier,
+  ...dependency,
 
   errors: {
     system: "System error, please contact administrator",
