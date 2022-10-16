@@ -25,11 +25,6 @@
     <EcBox class="xl:grid-cols-2 lg:grid-cols-1 grid sm:grid-cols-1 md:grid-cols-1 gap-2 mt-8 lg:mt-16">
       <EcBox class="grid grid-cols-5 lg:mt-2"></EcBox>
       <EcBox class="lg:flex-wrap grid xs:grid-cols-1 md:grid-cols-2 gap-2 justify-items-end">
-        <!-- Add Dependency -->
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddDependency">
-          {{ $t("dependencyScenario.buttons.addDependency") }}
-        </EcButton>
-
         <!-- Export Dependency -->
         <EcButton
           class="mb-3 lg:mb-0"
@@ -38,6 +33,11 @@
           @click="handleClickDownloadDependencyScenarios"
         >
           {{ $t("dependencyScenario.buttons.exportDependencies") }}
+        </EcButton>
+
+        <!-- Add Dependency -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddDependency">
+          {{ $t("dependencyScenario.buttons.addDependency") }}
         </EcButton>
       </EcBox>
     </EcBox>

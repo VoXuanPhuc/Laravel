@@ -339,7 +339,7 @@ export default {
      * Cancel add new resource
      */
     handleClickCancel() {
-      goto("ViewDependencyList")
+      goto("ViewDependencyScenarioList")
     },
 
     // =========== PRE-LOAD -------//
