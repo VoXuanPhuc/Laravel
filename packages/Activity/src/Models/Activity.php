@@ -4,6 +4,7 @@ namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
 use Encoda\Core\Models\Model;
+use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Activity extends Model implements ActivityContract
 {
-    use SoftDeletes, MultiTenancyModel;
+    use SoftDeletes, MultiTenancyModel, DependencyModelTrait;
 
     const CREATED = 1;
     const IN_PROGRESS = 2;
@@ -61,12 +62,16 @@ class Activity extends Model implements ActivityContract
         'id',
         'division_id',
         'business_unit_id',
+        'organization_id',
     ];
 
     protected $casts = [
         'is_remote' => 'boolean'
     ];
 
+    protected $appends = [
+        'type',
+    ];
 
     /**
      * @return BelongsToMany

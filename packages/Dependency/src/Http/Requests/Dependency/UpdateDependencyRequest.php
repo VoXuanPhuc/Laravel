@@ -3,8 +3,8 @@
 namespace Encoda\Dependency\Http\Requests\Dependency;
 
 use Encoda\Core\Http\Requests\FormRequest;
-use Encoda\Dependency\Enums\DependencyObjectTypes;
-use Encoda\Dependency\Enums\DependencyTypes;
+use Encoda\Dependency\Enums\DependableObjectTypeEnum;
+use Encoda\Dependency\Enums\DependableTypeEnum;
 use Illuminate\Validation\Rule;
 
 class UpdateDependencyRequest extends FormRequest
@@ -16,13 +16,13 @@ class UpdateDependencyRequest extends FormRequest
             'object'                              => 'required',
             'object.type'                         => [
                 'required',
-                Rule::in((array_column(DependencyObjectTypes::cases(), 'value')))
+                Rule::in((array_column(DependableObjectTypeEnum::cases(), 'value')))
             ],
             'description'                         => 'string|max:1023',
             'dependency_details'                  => 'required|array',
             'dependency_details.*.dependent_type' => [
                 'required',
-                Rule::in((array_column(DependencyTypes::cases(), 'value')))
+                Rule::in((array_column(DependableTypeEnum::cases(), 'value')))
             ],
         ];
     }

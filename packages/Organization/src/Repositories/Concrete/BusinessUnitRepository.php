@@ -29,13 +29,4 @@ class BusinessUnitRepository extends Repository implements BusinessUnitRepositor
         return $businessUnit->refresh();
     }
 
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField( 'uid', $uid, $column );
-    }
 }

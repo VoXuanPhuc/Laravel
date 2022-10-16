@@ -12,7 +12,6 @@ class CreateDependencyScenarioRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'description' => 'string|max:1023',
-            'is_active' => 'required|boolean'
         ];
     }
 }

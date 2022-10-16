@@ -2,7 +2,7 @@
 
 namespace Encoda\Dependency\Services\Interfaces;
 
-use Encoda\Dependency\Enums\DependencyObjectTypes;
+use Encoda\Dependency\Enums\DependableObjectTypeEnum;
 use Encoda\Dependency\Http\Requests\Dependency\CreateDependencyRequest;
 use Encoda\Dependency\Http\Requests\Dependency\UpdateDependencyRequest;
 use Encoda\Organization\Models\Organization;

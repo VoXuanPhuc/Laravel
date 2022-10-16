@@ -2,8 +2,9 @@
 
 namespace Encoda\Dependency\Enums;
 
-enum DependencyObjectTypes: string
+enum DependableObjectTypeEnum: string
 {
     case RESOURCE = 'Resource';
     case ACTIVITY   = 'Activity';
+    case SUPPLIER   = 'Supplier';
 }

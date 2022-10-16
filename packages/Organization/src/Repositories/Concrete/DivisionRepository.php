@@ -28,14 +28,5 @@ class DivisionRepository extends Repository implements DivisionRepositoryInterfa
 
         return $division->refresh();
     }
-
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField('uid', $uid, $column );
-    }
+    
 }

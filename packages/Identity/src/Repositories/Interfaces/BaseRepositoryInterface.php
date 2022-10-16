@@ -2,7 +2,8 @@
 
 namespace Encoda\Identity\Repositories\Interfaces;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
+
+use Encoda\Core\Interfaces\RepositoryInterface;
 
 interface BaseRepositoryInterface extends RepositoryInterface
 {

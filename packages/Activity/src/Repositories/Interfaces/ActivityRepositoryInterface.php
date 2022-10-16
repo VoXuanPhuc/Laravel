@@ -2,9 +2,8 @@
 
 namespace Encoda\Activity\Repositories\Interfaces;
 
-use Encoda\Identity\Repositories\Interfaces\BaseRepositoryInterface;
+use Encoda\Core\Interfaces\RepositoryInterface;
 
-interface ActivityRepositoryInterface extends BaseRepositoryInterface
+interface ActivityRepositoryInterface extends RepositoryInterface
 {
-    public function findByUid( $uid, $columns = ['*'] );
 }

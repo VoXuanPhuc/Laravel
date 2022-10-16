@@ -33,20 +33,4 @@ class ActivityRepository extends Repository implements ActivityRepositoryInterfa
         return $activity->refresh();
     }
 
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     * @throws NotFoundException
-     */
-    public function findByUid($uid, $column = ['*']): mixed
-    {
-        $activity = $this->findOneByField('uid', $uid, $column);
-
-        if (!$activity) {
-            throw new NotFoundException( __('activity::app.activity.not_found') );
-        }
-
-        return $activity;
-    }
 }

@@ -78,14 +78,4 @@ class OrganizationRepository extends Repository implements OrganizationRepositor
     public function generateDomain( $friendlyUrl ) {
         return $friendlyUrl . "." . config('config.app_domain' );
     }
-
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField( 'uid', $uid, $column );
-    }
 }

@@ -18,24 +18,4 @@ class RemoteAccessFactorRepository extends Repository implements RemoteAccessFac
     {
         return RemoteAccessFactor::class;
     }
-
-    /**
-     * @param $uid
-     * @param string[] $columns
-     * @return mixed
-     */
-    public function findByUid($uid, $columns = ['*'])
-    {
-        return $this->findOneByField( 'uid', $uid, $columns );
-    }
-
-    /**
-     * @param array $uids
-     * @param string[] $columns
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    public function findByUids($uids = [], $columns = ['*'])
-    {
-        return $this->findWhereIn( 'uid', $uids, $columns );
-    }
 }

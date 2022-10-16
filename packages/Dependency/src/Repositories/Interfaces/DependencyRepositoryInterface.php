@@ -2,7 +2,9 @@
 
 namespace Encoda\Dependency\Repositories\Interfaces;
 
-interface DependencyRepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface DependencyRepositoryInterface extends RepositoryInterface
 {
 
 }

@@ -18,24 +18,4 @@ class UtilityRepository extends Repository implements UtilityRepositoryInterface
     {
         return Utility::class;
     }
-
-    /**
-     * @param $uid
-     * @param string[] $columns
-     * @return mixed
-     */
-    public function findByUid($uid, $columns = ['*']): mixed
-    {
-        return $this->findOneByField( 'uid', $uid, $columns );
-    }
-
-    /**
-     * @param array $uids
-     * @param string[] $columns
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    public function findByUids($uids = [], $columns = ['*'])
-    {
-        return $this->findWhereIn( 'uid', $uids, $columns );
-    }
 }

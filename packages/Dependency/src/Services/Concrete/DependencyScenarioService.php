@@ -6,32 +6,35 @@ use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Dependency\Http\Requests\Scenario\CreateDependencyScenarioRequest;
 use Encoda\Dependency\Http\Requests\Scenario\UpdateDependencyScenarioRequest;
+use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\Dependency\Repositories\Interfaces\DependencyScenarioRepositoryInterface;
+use Encoda\Dependency\Services\Interfaces\DependableServiceInterface;
 use Encoda\Dependency\Services\Interfaces\DependencyScenarioServiceInterface;
-use Encoda\Organization\Models\Organization;
+use Encoda\Dependency\Traits\DependencyScenarioServiceTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Prettus\Validator\Exceptions\ValidatorException;
 use Throwable;
 
 
 class DependencyScenarioService implements DependencyScenarioServiceInterface
 {
+
+    use DependencyScenarioServiceTrait;
+
     public function __construct(
-        protected DependencyScenarioRepositoryInterface $dependencyScenarioRepository
+        protected DependencyScenarioRepositoryInterface $dependencyScenarioRepository,
+        protected DependableServiceInterface $dependableService
     )
     {
     }
 
     /**
      * @return LengthAwarePaginator
-     * @throws NotFoundException
      */
-    public function listDependencyScenario()
+    public function listDependencyScenario(): LengthAwarePaginator
     {
-        return tenant()
-            ->dependencyScenarios()
+        return $this->dependencyScenarioRepository
             ->paginate(config('config.pagination_size'));
     }
 
@@ -41,59 +44,85 @@ class DependencyScenarioService implements DependencyScenarioServiceInterface
      * @return mixed
      * @throws NotFoundException
      */
-    public function getDependencyScenario(string $uid)
+    public function getDependencyScenario(string $uid): mixed
     {
-        $dependency = $this->dependencyScenarioRepository->query()
-            ->hasUID($uid)
-            ->get()
-            ->first();
+        /** @var DependencyScenario $dependencyScenario */
+        $dependencyScenario = $this->dependencyScenarioRepository->findByUid( $uid );
 
-        if (!$dependency) {
+        if (!$dependencyScenario) {
             throw new NotFoundException('Dependency scenario not found');
         }
 
-        return $dependency;
+        return $dependencyScenario->loadDependencies();
     }
-
 
     /**
      * @param CreateDependencyScenarioRequest $request
-     *
-     * @return null
+     * @return DependencyScenario
      * @throws ServerErrorException
      */
-    public function createDependencyScenario(CreateDependencyScenarioRequest $request)
+    public function createDependencyScenario( CreateDependencyScenarioRequest $request ): DependencyScenario
     {
 
         try {
+
             DB::beginTransaction();
-            /** @var Resource $resource */
+            /** @var DependencyScenario $dependencyScenario */
             $dependencyScenario = $this->dependencyScenarioRepository->create($request->all());
 
-            DB::commit();
+            // Links dependencies
+            $dependencies = $this->getDependencies( $request );
 
-        } catch (Throwable $e) {
+            $dependencyScenario->dependencies()->saveMany( $dependencies );
+
+            DB::commit();
+        }
+        catch ( Throwable $e ) {
+
             DB::rollBack();
-            Log::error($e);
+            Log::error( $e );
             throw new ServerErrorException('Oops! Create Dependency Scenario error');
         }
 
-        return $dependencyScenario?->refresh();
+        return $dependencyScenario;
+
     }
 
     /**
      * @param UpdateDependencyScenarioRequest $request
-     * @param string                          $uid
-     *
-     * @return null
+     * @param string $uid
+     * @return DependencyScenario
      * @throws NotFoundException
-     * @throws ValidatorException
+     * @throws ServerErrorException
      */
-    public function updateDependencyScenario(UpdateDependencyScenarioRequest $request, string $uid)
+    public function updateDependencyScenario(UpdateDependencyScenarioRequest $request, string $uid): DependencyScenario
     {
+        /** @var DependencyScenario $dependencyScenario */
         $dependencyScenario = $this->getDependencyScenario($uid);
 
-        return ($this->dependencyScenarioRepository->update($request->all(), $dependencyScenario->id))?->refresh();
+        try {
+
+            // Update scenario
+            $this->dependencyScenarioRepository->update($request->all(), $dependencyScenario->id);
+
+            // Links dependencies
+            $dependencies = $this->getDependencies( $request );
+
+            // Delete existing
+            $dependencyScenario->dependencies()->delete();
+
+            // Save new in payload
+            $dependencyScenario->dependencies()->saveMany( $dependencies );
+
+            DB::commit();
+        }
+        catch ( Throwable $e ) {
+            DB::rollBack();
+            Log::error( $e );
+            throw new ServerErrorException('Oops! Update Dependency Scenario error');
+        }
+
+        return $dependencyScenario;
     }
 
     /**

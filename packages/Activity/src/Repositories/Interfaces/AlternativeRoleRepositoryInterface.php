@@ -2,8 +2,9 @@
 
 namespace Encoda\Activity\Repositories\Interfaces;
 
-interface AlternativeRoleRepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface AlternativeRoleRepositoryInterface extends RepositoryInterface
 {
 
-    public function findByUids( $uids = [], $columns = ['*'] );
 }

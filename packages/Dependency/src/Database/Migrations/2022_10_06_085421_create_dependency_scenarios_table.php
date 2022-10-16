@@ -1,5 +1,6 @@
 <?php
 
+use Encoda\Dependency\Enums\DependencyScenarioStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ return new class extends Migration {
                 $table->uuid('uid')->default(DB::raw('(UUID())'))->unique();
                 $table->string('name');
                 $table->string('description', 1023)->nullable(true);
+                $table->tinyInteger('status' )->default( DependencyScenarioStatusEnum::CREATED->value );
                 $table->boolean('is_active')->default(true);
 
                 $table->foreignId('organization_id')->nullable(true);
@@ -30,7 +32,8 @@ return new class extends Migration {
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
-                $table->timestamps();
+                $table->softDeletesTz();
+                $table->timestampsTz();
                 // Indexes
                 $table->index('uid');
             });

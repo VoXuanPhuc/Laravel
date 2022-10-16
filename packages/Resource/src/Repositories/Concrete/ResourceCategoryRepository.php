@@ -17,14 +17,4 @@ class ResourceCategoryRepository extends Repository implements ResourceCategoryR
         return ResourceCategory::class;
     }
 
-
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField('uid', $uid );
-    }
 }

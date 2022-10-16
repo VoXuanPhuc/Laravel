@@ -4,6 +4,8 @@ namespace Encoda\Supplier\Models;
 
 use Encoda\Core\Models\Model;
 use Encoda\Core\Traits\HasUID;
+use Encoda\Dependency\Enums\DependencyTypeEnum;
+use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\Organization;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Supplier extends Model
 {
-    use HasUID, MultiTenancyModel;
+    use HasUID, MultiTenancyModel, DependencyModelTrait;
     /**
      * @var string
      */
@@ -37,8 +39,12 @@ class Supplier extends Model
         'pivot'
     ];
 
-    protected $casts = [
+    protected  $casts = [
         'is_active' => 'boolean'
+    ];
+
+    protected $appends = [
+        'type',
     ];
 
     /**

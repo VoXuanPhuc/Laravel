@@ -28,24 +28,4 @@ class ResourceOwnerRepository extends Repository implements ResourceOwnerReposit
 
         return $owner;
     }
-
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField('uid', $uid );
-    }
-
-    /**
-     * @param $uids
-     * @param string[] $columns
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    public function findByUids($uids, $columns = ['*'])
-    {
-        return $this->findWhereIn( 'uid', $uids, $columns );
-    }
 }

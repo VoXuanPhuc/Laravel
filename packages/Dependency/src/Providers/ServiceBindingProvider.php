@@ -3,10 +3,12 @@
 namespace Encoda\Dependency\Providers;
 
 use Carbon\Laravel\ServiceProvider;
-use Encoda\Dependency\Services\Concrete\DependencyDetailService;
+use Encoda\Dependency\Services\Concrete\DependableService;
+use Encoda\Dependency\Services\Concrete\DependencyFactorService;
 use Encoda\Dependency\Services\Concrete\DependencyScenarioService;
 use Encoda\Dependency\Services\Concrete\DependencyService;
-use Encoda\Dependency\Services\Interfaces\DependencyDetailServiceInterface;
+use Encoda\Dependency\Services\Interfaces\DependableServiceInterface;
+use Encoda\Dependency\Services\Interfaces\DependencyFactorServiceInterface;
 use Encoda\Dependency\Services\Interfaces\DependencyScenarioServiceInterface;
 use Encoda\Dependency\Services\Interfaces\DependencyServiceInterface;
 
@@ -18,6 +20,7 @@ class ServiceBindingProvider extends ServiceProvider
     {
         $this->app->bind(DependencyServiceInterface::class, DependencyService::class);
         $this->app->bind(DependencyScenarioServiceInterface::class, DependencyScenarioService::class);
-        $this->app->bind(DependencyDetailServiceInterface::class, DependencyDetailService::class);
+        $this->app->bind(DependencyFactorServiceInterface::class, DependencyFactorService::class);
+        $this->app->bind(DependableServiceInterface::class, DependableService::class);
     }
 }

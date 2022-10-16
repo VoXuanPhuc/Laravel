@@ -3,6 +3,8 @@
 namespace Encoda\Resource\Models;
 
 use Encoda\Core\Models\Model;
+use Encoda\Dependency\Enums\DependencyTypeEnum;
+use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Resource\Enums\ResourceStatusEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Resource extends Model
 {
 
-    use SoftDeletes, MultiTenancyModel;
+    use SoftDeletes, MultiTenancyModel, DependencyModelTrait;
+
     protected $table = 'resources';
 
     protected $guarded = [
@@ -31,9 +34,17 @@ class Resource extends Model
 
     protected $hidden = [
         'id',
+        'resources_category_id',
+        'organization_id',
     ];
 
+    protected $appends = [
+        'type',
+    ];
 
+    /**
+     * @return ResourceStatusEnum
+     */
     public function getStatus() {
         return ResourceStatusEnum::from( $this->status );
     }

@@ -12,6 +12,7 @@ enum SystemFeatureEnum : string
     case ACTIVITY ='activity';
     case RESOURCE ='resource';
     case SUPPLIER ='supplier';
+    case DEPENDENCY ='dependency';
     case INDUSTRY ='industry';
     case USER ='user';
     case REPORT ='report';

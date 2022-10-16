@@ -2,10 +2,8 @@
 
 namespace Encoda\Organization\Repositories\Interfaces;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
+use Encoda\Core\Interfaces\RepositoryInterface;
 
 interface IndustryRepositoryInterface extends RepositoryInterface
 {
-    public function findByUid( $uid, $column = ['*'] );
-    public function findByUids( $uids, $columns = ['*'] );
 }

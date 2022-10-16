@@ -4,12 +4,10 @@ namespace Encoda\Dependency\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
-use Encoda\Dependency\Enums\DependencyObjectTypes;
 use Encoda\Dependency\Http\Requests\Dependency\CreateDependencyRequest;
 use Encoda\Dependency\Http\Requests\Dependency\UpdateDependencyRequest;
 use Encoda\Dependency\Models\Dependency;
 use Encoda\Dependency\Repositories\Interfaces\DependencyRepositoryInterface;
-use Encoda\Dependency\Services\Interfaces\DependencyDetailServiceInterface;
 use Encoda\Dependency\Services\Interfaces\DependencyScenarioServiceInterface;
 use Encoda\Dependency\Services\Interfaces\DependencyServiceInterface;
 use Illuminate\Support\Facades\DB;
@@ -22,14 +20,12 @@ use Throwable;
 class DependencyService implements DependencyServiceInterface
 {
     /**
-     * @param DependencyRepositoryInterface      $dependencyRepository
+     * @param DependencyRepositoryInterface $dependencyRepository
      * @param DependencyScenarioServiceInterface $dependencyScenarioService
-     * @param DependencyDetailServiceInterface   $dependencyDetailService
      */
     public function __construct(
         protected DependencyRepositoryInterface      $dependencyRepository,
         protected DependencyScenarioServiceInterface $dependencyScenarioService,
-        protected DependencyDetailServiceInterface   $dependencyDetailService
     )
     {
     }
@@ -54,10 +50,10 @@ class DependencyService implements DependencyServiceInterface
      * @return Dependency
      * @throws NotFoundException
      */
-    public function getDependency(string $scenarioUID, string $uid)
+    public function getDependency(string $scenarioUID, string $uid): Dependency
     {
         $dependency = $this->dependencyScenarioService
-            ->getDependencyScenario($scenarioUID)
+            ->getDependencyScenario( $scenarioUID )
             ->dependencies()
             ->hasUID($uid)
             ->get()
@@ -71,33 +67,13 @@ class DependencyService implements DependencyServiceInterface
 
     /**
      * @throws ServerErrorException
-     * @throws NotFoundException
      */
     public function createDependency(CreateDependencyRequest $request, string $scenarioUID)
     {
         try {
             DB::beginTransaction();
 
-            $dependencyScenario = $this->dependencyScenarioService->getDependencyScenario($scenarioUID);
-            $objectData = $request->get("object");
-            $targetObject = $this
-                ->dependencyDetailService
-                ->getDependencyObject(DependencyObjectTypes::from($objectData['type']), $objectData['uid']);
-            $dependency = $this->dependencyRepository->newInstance([
-                'organization_id' => tenant()->id,
-                'name'            => $request->get('description'),
-            ]);
-            /**
-             * @var Dependency $dependency
-             */
 
-            $dependency->object()->associate($targetObject);
-            $dependency->dependencyScenario()->associate($dependencyScenario);
-            $dependency->save();
-
-            foreach ($request->get('dependency_details') as $dependencyDetail) {
-                $this->dependencyDetailService->createDependencyDetail($dependency, $dependencyDetail);
-            }
             DB::commit();
 
         } catch (NotFoundException $e) {
@@ -109,7 +85,7 @@ class DependencyService implements DependencyServiceInterface
         }
 
 
-        return $dependency->fresh();
+       //  return $dependency->fresh();
     }
 
     /**
@@ -127,16 +103,7 @@ class DependencyService implements DependencyServiceInterface
             DB::beginTransaction();
 
             $objectData = $request->get("object");
-            $targetObject = $this
-                ->dependencyDetailService
-                ->getDependencyObject(DependencyObjectTypes::from($objectData['type']), $objectData['uid']);
-            $dependency = $this->getDependency($scenarioUID, $uid);
-            $dependency->object()->associate($targetObject);
-            $dependency->save();
-            $dependency->dependencyDetails()->delete();
-            foreach ($request->get('dependency_details') as $dependencyDetail) {
-                $this->dependencyDetailService->createDependencyDetail($dependency, $dependencyDetail);
-            }
+
             DB::commit();
 
         } catch (NotFoundException $e) {
@@ -148,7 +115,7 @@ class DependencyService implements DependencyServiceInterface
         }
 
 
-        return $dependency->fresh();
+       //  return $dependency->fresh();
     }
 
     /**

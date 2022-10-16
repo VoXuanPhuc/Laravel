@@ -2,12 +2,15 @@
 namespace Encoda\Core\Eloquent;
 
 use Encoda\Core\Facades\Context;
+use Encoda\Core\Interfaces\RepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CacheableInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Prettus\Repository\Traits\CacheableRepository;
 
-abstract class Repository extends BaseRepository
+abstract class Repository extends BaseRepository implements RepositoryInterface
 {
 
     /**
@@ -193,5 +196,25 @@ abstract class Repository extends BaseRepository
 //            //TODO Add filters for url
 //        }
         return $dataQuery;
+    }
+
+    /**
+     * @param $uid
+     * @param string[] $columns
+     * @return mixed
+     */
+    public function findByUid($uid, $columns = ['*'])
+    {
+        return $this->findOneByField( 'uid', $uid, $columns );
+    }
+
+    /**
+     * @param $uids
+     * @param string[] $columns
+     * @return LengthAwarePaginator|Collection|mixed
+     */
+    public function findByUids( $uids, $columns = ['*'] ) {
+        return $this->findWhereIn( 'uid', $uids, $columns );
+
     }
 }

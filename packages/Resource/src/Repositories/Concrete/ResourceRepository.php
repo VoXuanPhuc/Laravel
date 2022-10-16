@@ -14,13 +14,4 @@ class ResourceRepository extends Repository implements  ResourceRepositoryInterf
         return Resource::class;
     }
 
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField('uid', $uid );
-    }
 }

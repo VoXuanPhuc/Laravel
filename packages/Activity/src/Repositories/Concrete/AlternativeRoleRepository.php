@@ -19,13 +19,4 @@ class AlternativeRoleRepository extends Repository implements AlternativeRoleRep
         return Role::class;
     }
 
-    /**
-     * @param array $uids
-     * @param string[] $columns
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    public function findByUids($uids = [], $columns = ['*'])
-    {
-        return $this->findWhereIn( 'uid', $uids, $columns );
-    }
 }

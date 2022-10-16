@@ -2,6 +2,11 @@
 
 namespace Encoda\Dependency\Providers;
 
+use Encoda\Activity\Models\Activity;
+use Encoda\Dependency\Enums\DependableObjectTypeEnum;
+use Encoda\Resource\Models\Resource;
+use Encoda\Supplier\Models\Supplier;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class DependencyServiceProvider extends ServiceProvider
@@ -28,5 +33,11 @@ class DependencyServiceProvider extends ServiceProvider
 
         //Service binding
         $this->app->register(ServiceBindingProvider::class );
+
+        Relation::morphMap([
+            DependableObjectTypeEnum::ACTIVITY->value => Activity::class,
+            DependableObjectTypeEnum::RESOURCE->value => Resource::class,
+            DependableObjectTypeEnum::SUPPLIER->value => Supplier::class,
+        ]);
     }
 }

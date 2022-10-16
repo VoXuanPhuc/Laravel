@@ -2,7 +2,9 @@
 
 namespace Encoda\Supplier\Repositories\Interfaces;
 
-interface SupplierCategoryRepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface SupplierCategoryRepositoryInterface extends RepositoryInterface
 {
 
 }

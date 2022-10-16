@@ -2,25 +2,21 @@
 
 namespace Encoda\Dependency\Models;
 
-use Encoda\Activity\Models\Activity;
 use Encoda\Core\Traits\HasUID;
-use Encoda\Dependency\Enums\DependencyObjectTypes;
-use Encoda\MultiTenancy\Traits\MultiTenancyModel;
-use Encoda\Resource\Models\Resource;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- *
+ * @property object $dependable
+ * @property string $dependable_type
+ * @property int $dependable_id
+ * @property string $workflow
  */
 class Dependency extends Model
 {
 
-    use MultiTenancyModel, HasUID;
+    use HasUID;
 
     /**
      * @var string
@@ -40,9 +36,9 @@ class Dependency extends Model
      */
     protected $hidden = [
         'id',
-        'organization_id',
-        'object_id',
-        'object_type',
+        'dependable_type',
+        'dependable_id',
+        'workflow',
         'dependency_scenario_id'
     ];
 
@@ -50,42 +46,8 @@ class Dependency extends Model
      * @var string[]
      */
     protected $with = [
-        'object',
-        'dependencyDetails'
+        'dependable',
     ];
-
-    /**
-     * @var string[]
-     */
-    protected $appends = [
-        'type'
-    ];
-
-
-
-    /**
-     * @return MorphToMany
-     */
-    public function activities(): MorphToMany
-    {
-        return $this->morphedByMany(Activity::class, 'dependable');
-    }
-
-    /**
-     * @return MorphToMany
-     */
-    public function resources(): MorphToMany
-    {
-        return $this->morphedByMany(Resource::class, 'dependable', 'dependency_details');
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function dependencyDetails(): HasMany
-    {
-        return $this->hasMany(DependencyDetail::class);
-    }
 
     /**
      * @return BelongsTo
@@ -97,29 +59,11 @@ class Dependency extends Model
 
     /**
      * Get the parent object model (resource or activity).
+     * @return MorphTo
      */
-    public function object(): MorphTo
+    public function dependable(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    /**
-     * @return Attribute
-     */
-    public function type(): Attribute
-    {
-        return Attribute::make(
-            get: static function($value, $attributes) {
-                switch ($attributes['object_type']){
-                    case Resource::class:
-                        return DependencyObjectTypes::RESOURCE->value;
-                    case Activity::class:
-                        return DependencyObjectTypes::ACTIVITY->value;
-                    default:
-                        return null;
-                }
-            }
-        );
     }
 
 }

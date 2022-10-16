@@ -5,12 +5,16 @@
 
 
 use Encoda\Dependency\Http\Controllers\DependencyController;
+use Encoda\Dependency\Http\Controllers\DependencyFactorController;
 use Encoda\Dependency\Http\Controllers\DependencyScenarioController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
 Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
+
+    /** DEPENDENCY SCENARIOS */
     Route::group(['prefix' => 'dependency-scenarios'], function(){
+
         Route::get('/', [
             'as' => 'dependency-scenarios.list',
             'uses' =>  DependencyScenarioController::class. '@index'
@@ -37,6 +41,7 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'uses' =>  DependencyScenarioController::class. '@delete'
         ]);
 
+        /** DEPENDENCIES */
         Route::group(['name' => 'dependencies.', 'prefix' => '/{scenarioUID}/dependencies'], static function(){
             Route::get('/', [
                 'as' => 'dependencies.list',
@@ -64,5 +69,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
                 'uses' =>  DependencyController::class. '@delete'
             ]);
         });
+
     });
+
+    Route::get('/dependencies/factors', [
+        'as' => 'dependencies.factors',
+        'uses' =>  DependencyFactorController::class. '@index'
+    ]);
 });

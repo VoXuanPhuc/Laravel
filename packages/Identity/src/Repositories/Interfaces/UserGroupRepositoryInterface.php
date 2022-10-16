@@ -2,7 +2,9 @@
 
 namespace Encoda\Identity\Repositories\Interfaces;
 
-interface UserGroupRepositoryInterface extends BaseRepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface UserGroupRepositoryInterface extends RepositoryInterface
 {
 
 }
