@@ -16,4 +16,6 @@ interface DependencyScenarioServiceInterface
     public function updateDependencyScenario(UpdateDependencyScenarioRequest $request, string $uid);
 
     public function deleteDependencyScenario(string $uid);
+
+    public function export( $range = 'all' );
 }

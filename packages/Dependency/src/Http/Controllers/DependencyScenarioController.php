@@ -67,4 +67,12 @@ class DependencyScenarioController extends Controller
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function download() {
+        $response = $this->dependencyScenarioService->export();
+
+        return $response->deleteFileAfterSend(false);
+    }
 }

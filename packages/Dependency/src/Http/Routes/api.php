@@ -41,6 +41,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'uses' =>  DependencyScenarioController::class. '@delete'
         ]);
 
+        Route::get('/download/all', [
+            'as' => 'dependency-scenarios.download',
+            'uses' =>  DependencyScenarioController::class. '@download'
+        ]);
+
         /** DEPENDENCIES */
         Route::group(['name' => 'dependencies.', 'prefix' => '/{scenarioUID}/dependencies'], static function(){
             Route::get('/', [

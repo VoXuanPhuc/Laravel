@@ -4,6 +4,7 @@ namespace Encoda\Dependency\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
+use Encoda\Dependency\Exports\DependencyScenarioExport;
 use Encoda\Dependency\Http\Requests\Scenario\CreateDependencyScenarioRequest;
 use Encoda\Dependency\Http\Requests\Scenario\UpdateDependencyScenarioRequest;
 use Encoda\Dependency\Models\DependencyScenario;
@@ -14,6 +15,8 @@ use Encoda\Dependency\Traits\DependencyScenarioServiceTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
 
 
@@ -136,5 +139,20 @@ class DependencyScenarioService implements DependencyScenarioServiceInterface
         $dependencyScenario = $this->getDependencyScenario($uid);
 
         return $this->dependencyScenarioRepository->delete($dependencyScenario->id);
+    }
+
+    /**
+     * @param string $range
+     * @return BinaryFileResponse
+     */
+    public function export($range = 'all')
+    {
+        $fileName = 'Dependency_Scenarios_'. time(). '.xlsx';
+
+        $data = $this->dependencyScenarioRepository->with(['dependencies'])->all();
+
+        $export = new DependencyScenarioExport( $data );
+
+        return Excel::download( $export, $fileName );
     }
 }
