@@ -23,6 +23,8 @@ import EcFlex from "./EcFlex"
 import EcText from "./EcText"
 import EcHeadline from "./EcHeadline"
 import EcLabel from "./EcLabel"
+import EcTooltip from "./EcTooltip"
+import EcNetwork from "./EcNetwork"
 // import EcIcon from "./EcIcon"
 import LayoutAuth from "./LayoutAuth"
 import ViewLogin from "./ViewLogin"
@@ -57,6 +59,8 @@ const variants = {
   EcText,
   EcHeadline,
   EcLabel,
+  EcTooltip,
+  EcNetwork,
   // EcIcon,
   LayoutAuth,
   ViewLogin,

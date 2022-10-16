@@ -100,11 +100,14 @@
           <RTableCell :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }" :isTruncate="false" variant="gradient">
             <EcFlex class="items-center justify-center h-full">
               <RTableAction class="w-30">
-                <!-- View action -->
-                <!-- <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
-                  <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("dependencyScenario.buttons.view") }}</EcText>
-                </EcFlex> -->
+                <!-- View Graph -->
+                <EcFlex
+                  class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100"
+                  @click="handleViewDependencyGraph(item.uid)"
+                >
+                  <EcIcon class="mr-3" icon="Graph" />
+                  <EcText class="font-medium">{{ $t("dependencyScenario.buttons.viewGraph") }}</EcText>
+                </EcFlex>
 
                 <!-- Edit action -->
                 <EcFlex
@@ -135,14 +138,23 @@
       <RPagination v-model="currentPage" :itemPerPage="limit" :totalItems="totalItems" @input="setPage($event)" />
     </EcFlex>
 
-    <!-- Modal  delete resource -->
+    <!-- Modal  delete dependency -->
     <teleport to="#layer1">
       <ModalDeleteResource
-        :dependencyScenarioUid="toDeleteResourceUid"
-        :resourceName="toDeleteResourceName"
+        :dependencyScenarioUid="toDeleteDependencyScenarioUid"
+        :dependencyScenarioName="toDeleteDependencyScenarioName"
         :isModalDeleteResourceOpen="isModalDeleteOpen"
         @handleCloseDeleteModal="handleCloseDeleteModal"
         @handleDeleteCallback="handleDeleteCallback"
+      />
+    </teleport>
+
+    <!-- Modal view dependency graph -->
+    <teleport to="#layer2">
+      <ModalViewDependencyGraph
+        :isModalViewGraphOpen="isModalShowViewGrapOpen"
+        :dependencyScenarioUid="toViewDependencyScenarioUid"
+        @handleCloseViewGraphModal="handleCloseViewGraphModal"
       />
     </teleport>
   </RLayout>
@@ -155,6 +167,7 @@ import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
 import { useDependencyScenarioStatusEnum } from "../../use/dependency/useDependencyScenarioStatusEnum"
 import ModalDeleteResource from "../../components/ModalDeleteDependencyScenario.vue"
+import ModalViewDependencyGraph from "../../components/ModalViewDependencyGraph.vue"
 
 export default {
   name: "ViewDependencyList",
@@ -200,9 +213,11 @@ export default {
       isLoadingCategories: false,
       isDownloading: false,
       isModalDeleteOpen: false,
-      // Resource uid to delete
-      toDeleteResourceUid: null,
-      toDeleteResourceName: "",
+      isModalShowViewGrapOpen: false,
+      // Dependency uid to delete
+      toDeleteDependencyScenarioUid: null,
+      toViewDependencyScenarioUid: null,
+      toDeleteDependencyScenarioName: "",
     }
   },
   mounted() {
@@ -234,12 +249,6 @@ export default {
      * Filtered
      */
     filteredDependencies() {
-      if (this.selectedCategory.length > 0) {
-        return this.dependencies.filter((dependency) => {
-          return dependency.category.uid === this.selectedCategory
-        })
-      }
-
       return this.dependencies
     },
   },
@@ -313,6 +322,7 @@ export default {
     handleClickAddDependency() {
       goto("ViewDependencyScenarioNew")
     },
+
     /**
      *
      * @param {*} dependencyUid
@@ -324,13 +334,31 @@ export default {
         },
       })
     },
+
+    /**
+     *
+     * @param {*} dependencyUid
+     */
+    handleViewDependencyGraph(dependencyUid) {
+      this.toViewDependencyScenarioUid = dependencyUid
+      this.isModalShowViewGrapOpen = true
+    },
+
+    /**
+     * Close view graph
+     */
+    handleCloseViewGraphModal() {
+      this.toViewDependencyScenarioUid = ""
+      this.isModalShowViewGrapOpen = false
+    },
+
     handleClearSearch() {},
     /**
      * Open delete resource modal
      */
-    handleOpenDeleteModal(resourceUid, resourceName) {
-      this.toDeleteResourceUid = resourceUid
-      this.toDeleteResourceName = resourceName
+    handleOpenDeleteModal(dependencyScenarioUid, dependencyScenarioName) {
+      this.toDeleteDependencyScenarioUid = dependencyScenarioUid
+      this.toDeleteDependencyScenarioName = dependencyScenarioName
       this.isModalDeleteOpen = true
     },
 
@@ -338,8 +366,8 @@ export default {
      * Open delete resource modal
      */
     handleCloseDeleteModal() {
-      this.toDeleteResourceUid = null
-      this.toDeleteResourceName = ""
+      this.toDeleteDependencyScenarioUid = null
+      this.toDeleteDependencyScenarioName = ""
       this.isModalDeleteOpen = false
     },
 
@@ -362,6 +390,6 @@ export default {
       this.isLoadingCategories = false
     },
   },
-  components: { ModalDeleteResource },
+  components: { ModalDeleteResource, ModalViewDependencyGraph },
 }
 </script>

@@ -103,6 +103,7 @@ export default {
     Key: lazyLoad("Key"),
     OpenUp: lazyLoad("OpenUp"),
     Dependency: lazyLoad("Dependency"),
+    Graph: lazyLoad("Graph"),
   },
 }
 </script>

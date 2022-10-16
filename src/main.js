@@ -4,6 +4,7 @@ import router from "@/router"
 import pinia from "@/stores/pinia"
 import useVuelidate from "@vuelidate/core"
 import { VueCookies } from "vue-cookies"
+import VNetworkGraph from "v-network-graph"
 import { checkAuthGuard } from "@/router/guards"
 import "@/assets/css/tailwind.css"
 
@@ -22,6 +23,7 @@ const app = createApp(App)
 
 // Need to use Pinia first to avoid initializeTenant global store use error
 app.use(pinia)
+app.use(VNetworkGraph)
 app.use(VueCookies, { expire: "3d" })
 
 // Check auth guard

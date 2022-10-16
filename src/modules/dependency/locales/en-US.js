@@ -15,7 +15,7 @@ export default {
     labels: {
       yes: "Yes",
       no: "No",
-      name: "Dependency Scenario name",
+      name: "Name",
       description: "Description",
       entityName: "Entity Name",
       dependencyName: "Dependency Name",
@@ -48,6 +48,7 @@ export default {
       addDependency: "Add dependency ",
       edit: "Edit",
       view: "View",
+      viewGraph: "View Graph",
       delete: "Delete",
       deleteDependency: "Delete dependency",
     },

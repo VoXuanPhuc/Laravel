@@ -13,7 +13,7 @@
         </EcHeadline>
         <!-- Org name -->
         <EcText class="text-lg font-bold">
-          {{ resourceName }}
+          {{ dependencyScenarioName }}
         </EcText>
         <EcText class="text-c0-500 mt-4">
           {{ $t("dependencyScenario.labels.confirmDeleteQuestion") }}
@@ -59,7 +59,7 @@ export default {
       default: null,
     },
 
-    resourceName: {
+    dependencyScenarioName: {
       type: String,
       default: "",
     },
