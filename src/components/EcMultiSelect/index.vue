@@ -10,9 +10,9 @@
     <span v-if="tags.length === 0 && !showOptions" :class="variantCls.placeholder">
       {{ placeholder }}
     </span>
-    <div v-else :class="variantCls.tagRoot">
+    <div v-else :class="isGroupOptions ? variantCls.tagRootGroupOptions : variantCls.tagRoot">
       <div v-for="(tag, idx) in tags" :key="tag[valueKey]" :class="variantCls.tag">
-        <span>{{ tag[nameKey] }}</span>
+        <span> {{ tag[nameKey] }}</span>
         <span class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)">&times;</span>
       </div>
     </div>
@@ -108,7 +108,7 @@ export default {
       default: "value",
     },
     modelValue: {
-      type: Array,
+      type: [Array, Object],
       default: () => [],
     },
     options: {
@@ -287,6 +287,7 @@ export default {
     onOptionClick(option) {
       this.addTag(option)
       this.toggleOptions(false)
+
       this.searchTerm = ""
       this.$emit("update:modelValue", this.tags)
     },
@@ -310,6 +311,7 @@ export default {
      */
     removeTag(idx) {
       if (this.disabled) return
+
       this.tags.splice(idx, 1)
       this.$emit("update:modelValue", this.tags)
     },

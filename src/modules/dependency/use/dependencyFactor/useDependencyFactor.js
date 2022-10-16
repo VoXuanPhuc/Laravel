@@ -1,18 +1,18 @@
 import { useGlobalStore } from "@/stores/global"
-import * as api from "../../api/categoryFetcher"
+import * as api from "../../api/dependencyFactorFetcher"
 import { ref } from "vue"
 
-export function useCategoryList() {
+export function useDependencyFactor() {
   const globalStore = useGlobalStore()
-  const categories = ref([])
+  const dependencyFactors = ref([])
 
   /**
    *
    * @returns
    */
-  async function getResourceCategoryList() {
+  async function getDependencyFactors() {
     try {
-      const { data } = await api.fetchResourceCategoryList()
+      const { data } = await api.fetchDepedencyFactors()
 
       return data
     } catch (error) {
@@ -21,7 +21,7 @@ export function useCategoryList() {
   }
 
   return {
-    getResourceCategoryList,
-    categories,
+    getDependencyFactors,
+    dependencyFactors,
   }
 }

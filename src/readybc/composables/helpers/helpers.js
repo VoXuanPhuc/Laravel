@@ -56,7 +56,5 @@ export const getUserFullName = () => {
 
   const tokenData = parseJwt(jwtIdToken)
 
-  console.log(tokenData)
-
   return [tokenData?.given_name || tokenData?.first_name, tokenData?.family_name || tokenData?.last_name].join(" ")
 }

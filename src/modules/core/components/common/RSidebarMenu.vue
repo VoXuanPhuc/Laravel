@@ -177,7 +177,7 @@ export default {
         module: "dependency",
         icon: "Dependency",
         text: "core.dependencies",
-        routeName: "ViewDependencyList",
+        routeName: "ViewDependencyScenarioList",
       },
       {
         module: "industry",

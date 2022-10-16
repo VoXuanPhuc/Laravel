@@ -1,6 +1,6 @@
 <template>
   <!-- Modal Delete -->
-  <EcModalSimple :isVisible="isModalDeleteOwnerOpen" variant="center-3xl" @overlay-click="handleCloseDeleteModal">
+  <EcModalSimple :isVisible="isModalDeleteResourceOpen" variant="center-3xl" @overlay-click="handleCloseDeleteModal">
     <EcBox class="text-center">
       <EcFlex class="justify-center">
         <EcIcon class="text-cError-500" width="4rem" height="4rem" icon="TrashAlt" />
@@ -9,24 +9,24 @@
       <!-- Messages -->
       <EcBox>
         <EcHeadline as="h2" variant="h2" class="text-cError-500 text-4xl">
-          {{ $t("resource.labels.confirmToDelete") }}
+          {{ $t("dependencyScenario.labels.confirmToDelete") }}
         </EcHeadline>
-        <!-- Owners name -->
+        <!-- Org name -->
         <EcText class="text-lg font-bold">
-          {{ ownerName }}
+          {{ resourceName }}
         </EcText>
         <EcText class="text-c0-500 mt-4">
-          {{ $t("resource.owner.labels.confirmDeleteQuestion") }}
+          {{ $t("dependencyScenario.labels.confirmDeleteQuestion") }}
         </EcText>
       </EcBox>
 
       <!-- Actions -->
       <EcFlex v-if="!isDeleteLoading" class="justify-center mt-10">
-        <EcButton variant="warning" @click="handleDeleteOwner">
-          {{ $t("resource.owner.buttons.delete") }}
+        <EcButton variant="warning" @click="handleDeleteDependencyScenario">
+          {{ $t("dependencyScenario.buttons.delete") }}
         </EcButton>
         <EcButton class="ml-3" variant="tertiary-outline" @click="handleCloseDeleteModal">
-          {{ $t("resource.owner.buttons.cancel") }}
+          {{ $t("dependencyScenario.buttons.cancel") }}
         </EcButton>
       </EcFlex>
       <EcFlex v-else class="items-center justify-center mt-10 h-10">
@@ -37,10 +37,10 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
-import { useOwnerDetail } from "../use/owner/useOwnerDetail"
+import { useDependencyScenarioDetail } from "@/modules/dependency/use/dependency/useDependencyScenarioDetail"
 
 export default {
-  name: "ModalDeleteOwner",
+  name: "ModalDeleteResource",
 
   emits: ["handleCloseDeleteModal", "handleDeleteCallback"],
   data() {
@@ -49,17 +49,17 @@ export default {
     }
   },
   props: {
-    isModalDeleteOwnerOpen: {
+    isModalDeleteResourceOpen: {
       type: Boolean,
       default: false,
     },
 
-    ownerUid: {
+    dependencyScenarioUid: {
       type: String,
       default: null,
     },
 
-    ownerName: {
+    resourceName: {
       type: String,
       default: "",
     },
@@ -67,30 +67,28 @@ export default {
 
   mounted() {},
   setup() {
-    const { form, v$, deleteResourceOwner } = useOwnerDetail()
+    const { deleteDependencyScenario } = useDependencyScenarioDetail()
     return {
-      form,
-      v$,
-      deleteResourceOwner,
+      deleteDependencyScenario,
     }
   },
   methods: {
     /**
-     * Cancel add new activity
+     * Cancel add new resource
      */
-    async handleDeleteOwner() {
+    async handleDeleteDependencyScenario() {
       const { uid } = this.$route.params
 
-      if (!uid && !this.ownerUid) {
-        goto("ViewOwnerList")
+      if (!uid && !this.dependencyScenarioUid) {
+        goto("ViewDependencyScenarioList")
 
         return
       }
 
       this.isDeleteLoading = true
-      const response = await this.deleteResourceOwner(uid ?? this.ownerUid)
+      const isDeleted = await this.deleteDependencyScenario(uid ?? this.dependencyScenarioUid)
 
-      if (response) {
+      if (isDeleted) {
         this.handleCloseDeleteModal()
         this.handleDeleteCallback()
       }
@@ -98,17 +96,17 @@ export default {
     },
 
     /**
-     * Call back after delete
-     */
-    handleDeleteCallback() {
-      this.$emit("handleDeleteCallback")
-    },
-
-    /**
      * Close cancel modal
      */
     handleCloseDeleteModal() {
       this.$emit("handleCloseDeleteModal")
+    },
+
+    /**
+     * Delete callback
+     */
+    handleDeleteCallback() {
+      this.$emit("handleDeleteCallback")
     },
   },
 }

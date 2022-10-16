@@ -4,88 +4,102 @@
     <EcFlex class="items-center flex-wrap">
       <EcFlex class="items-center justify-between w-full flex-wrap lg:w-auto lg:mr-4">
         <EcHeadline class="text-cBlack mr-4 mb-3 lg:mb-0">
-          {{ $t("dependency.title.newDependency") }}
+          {{ $t("dependencyScenario.title.editDependency") }}
         </EcHeadline>
       </EcFlex>
     </EcFlex>
 
     <!-- Body -->
-    <EcBox variant="card-1" class="width-full mt-8 px-4 sm:px-10">
-      <EcText class="font-bold text-lg mb-4">{{ $t("dependency.title.dependencyDetail") }}</EcText>
+    <EcBox v-if="!isLoading" variant="card-1" class="width-full mt-8 px-4 sm:px-10">
+      <EcText class="font-bold text-lg mb-4">{{ $t("dependencyScenario.title.dependencyDetail") }}</EcText>
       <!-- Name -->
       <EcFlex class="flex-wrap max-w-full mb-8">
         <EcBox class="w-full sm:w-6/12 sm:pr-6">
           <RFormInput
-            v-model="dependency.name"
+            v-model="dependencyScenario.name"
             componentName="EcInputText"
-            :label="$t('dependency.labels.name')"
+            :label="$t('dependencyScenario.labels.name')"
             :validator="valdator$"
-            field="dependency.name"
-            @input="valdator$.resource.name.$touch()"
+            field="dependencyScenario.name"
+            @input="valdator$.dependencyScenario.name.$touch()"
           />
         </EcBox>
       </EcFlex>
 
       <!-- Desc -->
-      <!-- <EcFlex class="flex-wrap max-w-full">
+      <EcFlex class="flex-wrap max-w-full">
         <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
           <RFormInput
-            v-model="dependency.description"
+            v-model="dependencyScenario.description"
             componentName="EcInputLongText"
             :rows="1"
-            :label="$t('dependency.labels.description')"
+            :label="$t('dependencyScenario.labels.description')"
             :validator="valdator$"
-            field="dependency.description"
-            @input="valdator$.resource.description.$touch()"
+            field="dependencyScenario.description"
+            @input="valdator$.dependencyScenario.description.$touch()"
           />
         </EcBox>
-      </EcFlex> -->
+      </EcFlex>
+
+      <!-- Status -->
+      <EcFlex class="flex-wrap max-w-full">
+        <EcBox class="w-full sm:w-6/12 mb-6 sm:pr-6">
+          <RFormInput
+            v-model="dependencyScenario.status"
+            componentName="EcSelect"
+            :options="statuses"
+            :label="$t('dependencyScenario.labels.status')"
+            :validator="valdator$"
+            field="dependencyScenario.status"
+            @input="valdator$.dependencyScenario.status.$touch()"
+          />
+        </EcBox>
+      </EcFlex>
 
       <!-- Target dependencies -->
       <EcBox>
         <!-- Resource or activity -->
         <EcFlex class="mb-3">
-          <EcLabel class="text-sm"> {{ $t("dependency.target.label") }}</EcLabel>
-          <EcButton
+          <EcLabel class="text-sm"> {{ $t("dependencyScenario.target.label") }}</EcLabel>
+          <!-- <EcButton
             variant="primary-rounded"
             class="h-6 ml-2"
             v-tooltip="{ text: 'More target dependencies', position: 'right' }"
             @click="handleAddMoreTargetDependency"
           >
             <EcIcon icon="Plus" class="h-6 w-4" />
-          </EcButton>
+          </EcButton> -->
         </EcFlex>
 
         <!-- Target dependencies selection  -->
         <!-- Warpper -->
         <EcBox class="w-full mb-6">
           <!-- Target dependency row -->
-          <EcBox class="w-full sm:w-6/12 sm:pr-6" v-for="(targetDependency, index) in dependency.targetDependencies" :key="index">
+          <EcBox class="w-full sm:w-6/12 sm:pr-6">
             <EcFlex class="items-center">
               <RFormInput
                 class="w-full lg:w-10/12 sm:pr-6"
-                :modelValue="[dependency.targetDependencies[index]]"
+                :modelValue="dependencyScenario.targets"
                 componentName="EcMultiSelect"
-                :options="groupedCategories"
+                :options="filteredDependencyFactors"
                 :valueKey="'uid'"
                 :isGroupOptions="true"
-                :isSingleSelect="true"
                 :validator="valdator$"
-                field="dependency.targetDependencies[index]"
+                field="dependencyScenario.targets"
               />
 
               <!-- Loading roles -->
               <EcSpinner v-if="isLoadingTargetDependencies" class="ml-"></EcSpinner>
 
               <!-- Remove button -->
-              <EcButton
+              <!-- <EcButton
                 v-if="index !== 0"
                 class="ml-1 w-4 h-"
                 variant="tertiary-rounded"
                 @click="handleRemoveTargetDependency(index)"
               >
                 <EcIcon class="text-c1-400 hover:text-cError-400" icon="X" width="14" height="14" />
-              </EcButton>
+              </EcButton> -->
             </EcFlex>
             <!-- Target dependency row -->
           </EcBox>
@@ -96,54 +110,53 @@
       <EcBox class="border border-bottom border-c1-100 mb-4" />
       <EcBox>
         <!-- Dependencies stream line -->
-        <EcText class="font-bold text-lg mb-4">{{ $t("dependency.title.linkedDependencies") }}</EcText>
+        <EcText class="font-bold text-lg mb-4">{{ $t("dependencyScenario.title.linksDependencies") }}</EcText>
 
         <EcFlex>
           <!-- Upstream -->
           <EcBox class="w-1/2">
             <!-- label and add button -->
             <EcFlex class="mb-3">
-              <EcLabel class="text-sm mb-4">{{ $t("dependency.title.upstreamDependencies") }}</EcLabel>
-              <EcButton
+              <EcLabel class="text-sm mb-4">{{ $t("dependencyScenario.title.upstreamDependencies") }}</EcLabel>
+              <!-- <EcButton
                 variant="primary-rounded"
                 class="h-6 ml-2"
                 v-tooltip="{ text: 'More target', position: 'right' }"
                 @click="handleAddMoreUpstreamDependency"
               >
                 <EcIcon icon="Plus" class="h-6 w-4" />
-              </EcButton>
+              </EcButton> -->
             </EcFlex>
 
             <!-- Upstream dependencies selection  -->
             <!-- Warpper -->
             <EcBox class="w-full mb-6">
               <!-- upstream dependency row -->
-              <EcBox class="w-full" v-for="(upstreamDependency, index) in dependency.upstreamDependencies" :key="index">
+              <EcBox class="w-full">
                 <EcFlex class="items-center">
                   <RFormInput
                     class="w-full lg:w-10/12 sm:pr-6"
-                    :modelValue="[dependency.upstreamDependencies[index]]"
+                    :modelValue="dependencyScenario.upstream"
                     componentName="EcMultiSelect"
-                    :options="groupedCategories"
+                    :options="filteredUpstreamDependencyFactors"
                     :valueKey="'uid'"
                     :isGroupOptions="true"
-                    :isSingleSelect="true"
                     :validator="valdator$"
-                    field="dependency.upstreamDependencies[index].uid"
+                    field="dependencyScenario.upstream"
                   />
 
                   <!-- Loading upstream dependencies -->
                   <EcSpinner v-if="isLoadingUpstreamDependencies" class="ml-"></EcSpinner>
 
                   <!-- Remove button -->
-                  <EcButton
+                  <!-- <EcButton
                     v-if="index !== 0"
                     class="ml-1 w-4 h-"
                     variant="tertiary-rounded"
                     @click="handleRemoveUpstreamDependency(index)"
                   >
                     <EcIcon class="text-c1-400 hover:text-cError-400" icon="X" width="14" height="14" />
-                  </EcButton>
+                  </EcButton> -->
                 </EcFlex>
                 <!-- Target upstream dependency row -->
               </EcBox>
@@ -154,47 +167,46 @@
           <EcBox class="w-1/2">
             <!-- label and add button -->
             <EcFlex class="mb-3">
-              <EcLabel class="text-sm mb-4">{{ $t("dependency.title.downstreamDependencies") }}</EcLabel>
-              <EcButton
+              <EcLabel class="text-sm mb-4">{{ $t("dependencyScenario.title.downstreamDependencies") }}</EcLabel>
+              <!-- <EcButton
                 variant="primary-rounded"
                 class="h-6 ml-2"
                 v-tooltip="{ text: 'More target', position: 'right' }"
                 @click="handleAddMoreDownstreamDependency"
               >
                 <EcIcon icon="Plus" class="h-6 w-4" />
-              </EcButton>
+              </EcButton> -->
             </EcFlex>
 
             <!-- Downstream dependencies selection  -->
             <!-- Warpper -->
             <EcBox class="w-full mb-6">
               <!-- downstream dependency row -->
-              <EcBox class="w-full" v-for="(downstreamDependency, index) in dependency.downstreamDependencies" :key="index">
+              <EcBox class="w-full">
                 <EcFlex class="items-center">
                   <RFormInput
                     class="w-full lg:w-10/12 sm:pr-6"
-                    :modelValue="[dependency.downstreamDependencies[index]]"
+                    :modelValue="dependencyScenario.downstream"
                     componentName="EcMultiSelect"
-                    :options="groupedCategories"
+                    :options="filteredDownstreamDependencyFactors"
                     :valueKey="'uid'"
                     :isGroupOptions="true"
-                    :isSingleSelect="true"
                     :validator="valdator$"
-                    field="dependency.downstreamDependencies[index].uid"
+                    field="dependencyScenario.downstream"
                   />
 
                   <!-- Loading downstream dependencies -->
                   <EcSpinner v-if="isLoadingDownstreamDependencies" class="ml-"></EcSpinner>
 
                   <!-- Remove button -->
-                  <EcButton
+                  <!-- <EcButton
                     v-if="index !== 0"
                     class="ml-1 w-4 h-"
                     variant="tertiary-rounded"
                     @click="handleRemoveDownstreamDependency(index)"
                   >
                     <EcIcon class="text-c1-400 hover:text-cError-400" icon="X" width="14" height="14" />
-                  </EcButton>
+                  </EcButton> -->
                 </EcFlex>
                 <!-- Target downstream dependency row -->
               </EcBox>
@@ -203,93 +215,88 @@
         </EcFlex>
       </EcBox>
 
+      <!-- Actions -->
+      <EcBox class="width-full mt-8 px-4 sm:px-10">
+        <!-- Button create -->
+        <EcFlex v-if="!isUpdateLoading" class="mt-6">
+          <EcButton variant="tertiary-outline" @click="handleClickCancel">
+            {{ $t("dependencyScenario.buttons.back") }}
+          </EcButton>
+
+          <EcButton variant="primary" class="ml-4" @click="handleClickUpdate">
+            {{ $t("dependencyScenario.buttons.update") }}
+          </EcButton>
+        </EcFlex>
+
+        <!-- Loading -->
+        <EcBox v-else class="flex items-center mt-6 h-10"> <EcSpinner variant="secondary" type="dots" /> </EcBox>
+      </EcBox>
+      <!-- End actions -->
       <!-- End body -->
     </EcBox>
-
-    <!-- Actions -->
-    <EcBox class="width-full mt-8 px-4 sm:px-10">
-      <!-- Button create -->
-      <EcFlex v-if="!isLoading" class="mt-6">
-        <EcButton variant="tertiary-outline" @click="handleClickCancel">
-          {{ $t("dependency.buttons.cancel") }}
-        </EcButton>
-
-        <EcButton variant="primary" class="ml-4" @click="handleClickConfirm">
-          {{ $t("dependency.buttons.confirm") }}
-        </EcButton>
-      </EcFlex>
-
-      <!-- Loading -->
-      <EcBox v-else class="flex items-center mt-6 h-10"> <EcSpinner variant="secondary" type="dots" /> </EcBox>
-    </EcBox>
-    <!-- End actions -->
+    <RLoading v-else />
   </RLayout>
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
-import { useDependencyNew } from "@/modules/dependency/use/dependency/useDependencyNew"
-import { useCategoryList } from "@/modules/dependency/use/category/useCategoryList"
-import { useResourceStatusEnum } from "@/modules/dependency/use/dependency/useResourceStatusEnum"
-import { useOwnerList } from "@/modules/dependency/use/owner/useOwnerList"
+import { useDependencyScenarioDetail } from "@/modules/dependency/use/dependency/useDependencyScenarioDetail"
+import { useDependencyFactor } from "@/modules/dependency/use/dependencyFactor/useDependencyFactor"
+import { useDependencyScenarioStatusEnum } from "@/modules/dependency/use/dependency/useDependencyScenarioStatusEnum"
 import { useGlobalStore } from "@/stores/global"
 
+// Minxins
+import dependencyMixin from "../../mixins/dependencyMixin"
+
 export default {
-  name: "ViewDependencyNew",
+  name: "ViewDependencyScenarioDetail",
+  mixins: [dependencyMixin],
+  props: {
+    uid: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       isLoadingTargetDependencies: false,
       isLoadingUpstreamDependencies: false,
       isLoadingDownstreamDependencies: false,
       isLoading: false,
-      isLoadingOwners: false,
-      isLoadingCategories: false,
-      categories: [],
-      owners: [],
+      isUpdateLoading: false,
     }
   },
   mounted() {
-    this.fetchResourceCategories()
-    this.fetchOwners()
+    this.fetchDependencyScenario()
+    this.fetchDependencyFactors()
   },
   setup() {
     const globalStore = useGlobalStore()
     // Pre-loaded
-    const { getOwnerListAll } = useOwnerList()
-    const { getResourceCategoryList } = useCategoryList()
-    const { dependency, valdator$, createNewDependency } = useDependencyNew()
-    const { statuses } = useResourceStatusEnum()
+    const { dependencyScenario, valdator$, getDependencyScenario, updateDependencyScenario } = useDependencyScenarioDetail()
+    const { statuses } = useDependencyScenarioStatusEnum()
+    const { dependencyFactors, getDependencyFactors } = useDependencyFactor()
 
     return {
-      createNewDependency,
-      getOwnerListAll,
-      getResourceCategoryList,
-      dependency,
+      getDependencyScenario,
+      updateDependencyScenario,
+      dependencyScenario,
       valdator$,
       globalStore,
       statuses,
+
+      dependencyFactors,
+      getDependencyFactors,
     }
   },
-  computed: {
-    groupedCategories() {
-      return [
-        {
-          name: "Resources Notes",
-          data: this.categories,
-        },
-        {
-          name: "Activities",
-          data: this.categories,
-        },
-      ]
-    },
-  },
+  computed: {},
+
   methods: {
     // =========== Target dependenciess ================ //
     /**
      * Add more target dependency
      */
     handleAddMoreTargetDependency() {
-      this.dependency.targetDependencies.push({ uid: "" })
+      this.dependencyScenario.targets.push({ uid: "" })
     },
 
     /**
@@ -297,7 +304,7 @@ export default {
      * @param {*} index
      */
     handleRemoveTargetDependency(index) {
-      this.dependency.targetDependencies.splice(index, 1)
+      this.dependencyScenario.targets.splice(index, 1)
     },
 
     // =========== Upstream dependenciess ================ //
@@ -305,7 +312,7 @@ export default {
      * Add more upstream dependency
      */
     handleAddMoreUpstreamDependency() {
-      this.dependency.upstreamDependencies.push({ uid: "" })
+      this.dependencyScenario.upstream.push({ uid: "" })
     },
 
     /**
@@ -313,15 +320,15 @@ export default {
      * @param {*} index
      */
     handleRemoveUpstreamDependency(index) {
-      this.dependency.upstreamDependencies.splice(index, 1)
+      this.dependencyScenario.upstream.splice(index, 1)
     },
 
-    // =========== Upstream dependenciess ================ //
+    // =========== Downstream dependenciess ================ //
     /**
-     * Add more upstream dependency
+     * Add more downstream dependency
      */
     handleAddMoreDownstreamDependency() {
-      this.dependency.upstreamDependencies.push({ uid: "" })
+      this.dependencyScenario.downstream.push({ uid: "" })
     },
 
     /**
@@ -329,58 +336,70 @@ export default {
      * @param {*} index
      */
     handleRemoveDownstreamDependency(index) {
-      this.dependency.upstreamDependencies.splice(index, 1)
+      this.dependencyScenario.downstream.splice(index, 1)
     },
 
     /**
-     * Create dependencies scenario
+     * Update dependencies scenario
      *
      */
-    async handleClickConfirm() {
+    async handleClickUpdate() {
       this.valdator$.$touch()
-      if (this.valdator$.resource.$invalid) {
+      if (this.valdator$.dependencyScenario.$invalid) {
         return
       }
 
-      this.isLoading = true
+      this.isUpdateLoading = true
 
-      const response = await this.createNewResource(this.resource)
+      const response = await this.updateDependencyScenario(this.dependencyScenario, this.uid)
 
-      this.isLoading = false
       if (response) {
-        goto("ViewResourceList")
+        this.dependencyScenario = response
       }
+
+      this.isUpdateLoading = false
     },
 
     /**
      * Cancel add new resource
      */
     handleClickCancel() {
-      goto("ViewResourceList")
+      goto("ViewDependencyScenarioList")
     },
 
     // =========== PRE-LOAD -------//
+
     /**
-     * Fetch roles
+     * Fetch dependency scenario detail
      */
-    async fetchOwners() {
-      this.isLoadingOwners = true
-      const response = await this.getOwnerListAll()
+    async fetchDependencyScenario() {
+      this.isLoading = true
+      const response = await this.getDependencyScenario(this.uid)
+
       if (response) {
-        this.owners = response
+        this.dependencyScenario = response
       }
-      this.isLoadingOwners = false
+
+      this.isLoading = false
     },
+
     /**
-     * Fetch Categories
+     * Fetch Dependency factors
      */
-    async fetchResourceCategories() {
-      this.isLoadingCategories = true
-      const response = await this.getResourceCategoryList()
+
+    async fetchDependencyFactors() {
+      this.isLoadingTargetDependencies = true
+      this.isLoadingUpstreamDependencies = true
+      this.isLoadingDownstreamDependencies = true
+
+      const response = await this.getDependencyFactors()
       if (response) {
-        this.categories = response
+        this.dependencyFactors = response
       }
-      this.isLoadingCategories = false
+
+      this.isLoadingTargetDependencies = false
+      this.isLoadingUpstreamDependencies = false
+      this.isLoadingDownstreamDependencies = false
     },
   },
 }

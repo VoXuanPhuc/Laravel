@@ -4,6 +4,7 @@ export default {
     el: {
       root: "flex text-sm items-center rounded-lg bg-cWhite border border-c0-300 w-full",
       tagRoot: "flex flex-wrap w-full",
+      tagRootGroupOptions: "",
       tag: "px-2 py-1 m-1 rounded bg-c1-800 text-cWhite",
       tagSingle: "px-2 py-1 m-1 rounded bg-c1-800 text-cWhite w-full flex justify-between",
       tagRemove: "ml-2",

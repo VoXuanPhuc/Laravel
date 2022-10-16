@@ -4,13 +4,8 @@
     <EcFlex class="flex-wrap items-center">
       <EcFlex class="flex-wrap items-center justify-between w-full lg:w-auto lg:mr-4">
         <EcHeadline class="mb-3 mr-4 text-cBlack lg:mb-0">
-          {{ $t("dependency.dependencies") }}
+          {{ $t("dependencyScenario.dependencies") }}
         </EcHeadline>
-
-        <!-- Add Dependenc -->
-        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddDependency">
-          {{ $t("dependency.buttons.addDependency") }}
-        </EcButton>
       </EcFlex>
 
       <!-- Search box -->
@@ -28,47 +23,27 @@
 
     <!-- Filter-->
     <EcBox class="xl:grid-cols-2 lg:grid-cols-1 grid sm:grid-cols-1 md:grid-cols-1 gap-2 mt-8 lg:mt-16">
-      <EcBox class="grid grid-cols-5 lg:mt-2">
-        <EcLabel class="text-start mt-2">{{ $t("dependency.filter") }}</EcLabel>
-        <EcFlex class="col-span-4 grid grid-cols-2 gap-2">
-          <!-- Resource type-->
-          <RFormInput
-            class="w-full"
-            v-model="selectedCategory"
-            componentName="EcSelect"
-            :options="resourceCategories"
-            :valueKey="'uid'"
-            :allowSelectNothing="true"
-            :placeholder="categoryPlaceHolder"
-          />
-        </EcFlex>
-      </EcBox>
-      <EcBox class="lg:flex-wrap grid sm:grid-cols-1 md:grid-cols-1s gap-2 justify-items-end">
-        <!-- Export Resources -->
-
-        <EcButton
-          class="mb-3 lg:mb-0 w-1/3"
-          :iconPrefix="exportResourcesIcon"
-          variant="primary-sm"
-          @click="handleClickDownloadDependencies"
-        >
-          {{ $t("dependency.buttons.exportDependencies") }}
+      <EcBox class="grid grid-cols-5 lg:mt-2"></EcBox>
+      <EcBox class="lg:flex-wrap grid xs:grid-cols-1 md:grid-cols-2 gap-2 justify-items-end">
+        <!-- Add Dependency -->
+        <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddDependency">
+          {{ $t("dependencyScenario.buttons.addDependency") }}
         </EcButton>
 
-        <!-- View Dependency Category -->
-        <!-- <EcButton class="mb-3 lg:mb-0" iconPrefix="Resource" variant="primary-sm" @click="handleClickViewCategories">
-          {{ $t("dependency.buttons.viewDependencyCategories") }}
-        </EcButton> -->
-
-        <!-- View Dependency Owner -->
-        <!-- <EcButton class="mb-3 lg:mb-0" iconPrefix="UserGroup" variant="primary-sm" @click="handleClickViewOwners">
-          {{ $t("dependency.buttons.viewDependencyOwners") }}
-        </EcButton> -->
+        <!-- Export Dependency -->
+        <EcButton
+          class="mb-3 lg:mb-0"
+          :iconPrefix="exportResourcesIcon"
+          variant="primary-sm"
+          @click="handleClickDownloadDependencyScenarios"
+        >
+          {{ $t("dependencyScenario.buttons.exportDependencies") }}
+        </EcButton>
       </EcBox>
     </EcBox>
 
     <!-- Table -->
-    <RTable :isLoading="isLoading" :list="filteredResources" class="mt-4 lg:mt-6">
+    <RTable :isLoading="isLoading" :list="filteredDependencies" class="mt-4 lg:mt-6">
       <template #header>
         <RTableHeaderRow>
           <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx" class="text-cBlack">
@@ -87,28 +62,36 @@
 
           <!-- Desc -->
           <RTableCell>
-            <EcText class="w-24">
+            <EcText class="w-32">
               {{ item.description }}
-            </EcText>
-          </RTableCell>
-
-          <!-- Category -->
-          <RTableCell>
-            <EcText class="w-24">
-              {{ item?.category?.name }}
             </EcText>
           </RTableCell>
 
           <!-- status -->
           <RTableCell>
-            <EcText :variant="getResourceStatusType(item.status)" class="w-32">
-              {{ getResourceStatus(item.status) }}
+            <EcText :variant="getDependencyScenarioStatusType(item.status)" class="w-24">
+              {{ getDependencyScenarioStatus(item.status) }}
             </EcText>
+          </RTableCell>
+
+          <!-- Targets -->
+          <RTableCell>
+            <EcText class="w-4"> {{ item.targetCount }} </EcText>
+          </RTableCell>
+
+          <!-- Upstream -->
+          <RTableCell>
+            <EcText class="w-4"> {{ item.upstreamCount }} </EcText>
+          </RTableCell>
+
+          <!-- Downstream -->
+          <RTableCell>
+            <EcText class="w-4"> {{ item.downstreamCount }} </EcText>
           </RTableCell>
 
           <!-- created at -->
           <RTableCell>
-            <EcText class="pr-5">
+            <EcText class="pr-2">
               {{ formatData(item.created_at, dateTimeFormat) }}
             </EcText>
           </RTableCell>
@@ -120,7 +103,7 @@
                 <!-- View action -->
                 <!-- <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("dependency.buttons.view") }}</EcText>
+                  <EcText class="font-medium">{{ $t("dependencyScenario.buttons.view") }}</EcText>
                 </EcFlex> -->
 
                 <!-- Edit action -->
@@ -129,7 +112,7 @@
                   @click="handleClickEditDependency(item.uid)"
                 >
                   <EcIcon class="mr-3" icon="Pencil" />
-                  <EcText class="font-medium">{{ $t("dependency.buttons.edit") }}</EcText>
+                  <EcText class="font-medium">{{ $t("dependencyScenario.buttons.edit") }}</EcText>
                 </EcFlex>
                 <!-- Delete action -->
                 <EcFlex
@@ -137,7 +120,7 @@
                   @click="handleOpenDeleteModal(item.uid, item.name)"
                 >
                   <EcIcon class="mr-3" icon="X" />
-                  <EcText class="font-medium">{{ $t("dependency.buttons.delete") }}</EcText>
+                  <EcText class="font-medium">{{ $t("dependencyScenario.buttons.delete") }}</EcText>
                 </EcFlex>
               </RTableAction>
             </EcFlex>
@@ -155,7 +138,7 @@
     <!-- Modal  delete resource -->
     <teleport to="#layer1">
       <ModalDeleteResource
-        :resourceUid="toDeleteResourceUid"
+        :dependencyScenarioUid="toDeleteResourceUid"
         :resourceName="toDeleteResourceName"
         :isModalDeleteResourceOpen="isModalDeleteOpen"
         @handleCloseDeleteModal="handleCloseDeleteModal"
@@ -166,47 +149,49 @@
 </template>
 
 <script>
-import { useResourceList } from "@/modules/dependency/use/dependency/useResourceList"
+import { useDependencyList } from "@/modules/dependency/use/dependency/useDependencyList"
+import { useDependencyFactor } from "@/modules/dependency/use/dependencyFactor/useDependencyFactor"
 import { useGlobalStore } from "@/stores/global"
 import { formatData, goto } from "@/modules/core/composables"
-import { ref } from "vue"
-import { useCategoryList } from "../../use/category/useCategoryList"
-import { useResourceStatusEnum } from "../../use/dependency/useResourceStatusEnum"
-import ModalDeleteResource from "../../components/ModalDeleteResource.vue"
+import { useDependencyScenarioStatusEnum } from "../../use/dependency/useDependencyScenarioStatusEnum"
+import ModalDeleteResource from "../../components/ModalDeleteDependencyScenario.vue"
 
 export default {
-  name: "ViewResourceList",
+  name: "ViewDependencyList",
   setup() {
     // Pre load
-    const { getResourceCategoryList } = useCategoryList()
     const globalStore = useGlobalStore()
-    const { getResourceList, downloadResources, resources, totalItems, skip, limit, currentPage } = useResourceList()
+    const { getDependencyList, downloadDependencies, dependencies, totalItems, skip, limit, currentPage } = useDependencyList()
 
-    const { statuses } = useResourceStatusEnum()
-    const resourceCategories = ref([])
+    const { dependencyFactors, getDependencyFactors } = useDependencyFactor()
+
+    const { statuses } = useDependencyScenarioStatusEnum()
 
     return {
       globalStore,
-      getResourceList,
-      downloadResources,
-      getResourceCategoryList,
-      resources,
+      getDependencyList,
+      downloadDependencies,
+      dependencies,
+      dependencyFactors,
+      getDependencyFactors,
+
       statuses,
       skip,
       limit,
       currentPage,
       totalItems,
-      resourceCategories,
     }
   },
   data() {
     return {
       headerData: [
-        { label: this.$t("dependency.labels.name") },
-        { label: this.$t("dependency.labels.description") },
-        { label: this.$t("dependency.labels.category") },
-        { label: this.$t("dependency.labels.status") },
-        { label: this.$t("dependency.labels.createdAt") },
+        { label: this.$t("dependencyScenario.labels.name") },
+        { label: this.$t("dependencyScenario.labels.description") },
+        { label: this.$t("dependencyScenario.labels.status") },
+        { label: this.$t("dependencyScenario.labels.targets") },
+        { label: this.$t("dependencyScenario.labels.upstream") },
+        { label: this.$t("dependencyScenario.labels.downstream") },
+        { label: this.$t("dependencyScenario.labels.createdAt") },
       ],
       selectedCategory: "",
       searchQuery: "",
@@ -221,8 +206,8 @@ export default {
     }
   },
   mounted() {
-    this.fetchResources()
-    this.fetchResourceCategories()
+    this.fetchDependencies()
+    this.fetchDependencyFactors()
   },
   computed: {
     /**
@@ -240,20 +225,22 @@ export default {
     },
 
     categoryPlaceHolder() {
-      return this.isLoadingCategories ? this.$t("dependency.placeholders.loading") : this.$t("dependency.placeholders.category")
+      return this.isLoadingCategories
+        ? this.$t("dependencyScenario.placeholders.loading")
+        : this.$t("dependencyScenario.placeholders.category")
     },
 
     /**
      * Filtered
      */
-    filteredResources() {
+    filteredDependencies() {
       if (this.selectedCategory.length > 0) {
-        return this.resources.filter((resource) => {
-          return resource.category.uid === this.selectedCategory
+        return this.dependencies.filter((dependency) => {
+          return dependency.category.uid === this.selectedCategory
         })
       }
 
-      return this.resources
+      return this.dependencies
     },
   },
   watch: {
@@ -266,13 +253,13 @@ export default {
      * fetch activities
      * @returns {Promise<void>}
      */
-    async fetchResources() {
+    async fetchDependencies() {
       this.isLoading = true
 
-      const resourceRes = await this.getResourceList()
+      const dependenciesRes = await this.getDependencyList()
 
-      if (resourceRes && resourceRes.data) {
-        this.resources = resourceRes.data
+      if (dependenciesRes && dependenciesRes.data) {
+        this.dependencies = dependenciesRes.data
       }
 
       this.isLoading = false
@@ -282,7 +269,7 @@ export default {
      * @param value
      * @returns {string}
      */
-    getResourceStatus(value) {
+    getDependencyScenarioStatus(value) {
       const status = this.statuses.find((status) => {
         return status.value === value
       })
@@ -294,13 +281,16 @@ export default {
      * @param value
      * @returns {string}
      */
-    getResourceStatusType(value) {
+    getDependencyScenarioStatusType(value) {
       switch (value) {
         case 1:
           return "pill-cSuccess-inv"
 
         case 2:
           return "pill-cWarning-inv"
+
+        case 3:
+          return "pill-c2"
 
         default:
           return "pill-cError-inv"
@@ -311,38 +301,24 @@ export default {
     /**
      * Download
      */
-    async handleClickDownloadDependencies() {
+    async handleClickDownloadDependencyScenarios() {
       this.isDownloading = true
-      await this.downloadResources(this.selectedCategory)
+      await this.downloadDependencies()
       this.isDownloading = false
-    },
-
-    /**
-     * View category list
-     */
-    handleClickViewCategories() {
-      goto("ViewCategoryList")
-    },
-
-    /**
-     * View owner list
-     */
-    handleClickViewOwners() {
-      goto("ViewOwnerList")
     },
 
     /**
      * Add new activity
      */
     handleClickAddDependency() {
-      goto("ViewDependencyNew")
+      goto("ViewDependencyScenarioNew")
     },
     /**
      *
      * @param {*} dependencyUid
      */
     handleClickEditDependency(dependencyUid) {
-      goto("ViewResourceDetail", {
+      goto("ViewDependencyScenarioDetail", {
         params: {
           uid: dependencyUid,
         },
@@ -371,17 +347,17 @@ export default {
      * Callback after delete
      */
     handleDeleteCallback() {
-      this.fetchResources()
+      this.fetchDependencies()
     },
     // ==== PRE-LOAD ==========
     /**
-     * Fetch Categories
+     * Fetch Dependency Factor
      */
-    async fetchResourceCategories() {
+    async fetchDependencyFactors() {
       this.isLoadingCategories = true
-      const response = await this.getResourceCategoryList()
+      const response = await this.getDependencyFactors()
       if (response) {
-        this.resourceCategories = response
+        this.dependencyFactors = response
       }
       this.isLoadingCategories = false
     },

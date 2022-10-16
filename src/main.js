@@ -10,6 +10,7 @@ import "@/assets/css/tailwind.css"
 // Get component variants
 import { makeGetComponentVariants } from "@/components/makeGetComponentVariants"
 
+// Need to import global components first
 import globalComponentsRegistration from "@/setups/globalComponentsRegistration"
 // Global components registration
 import directivesRegistration from "@/setups/directivesRegistration"
@@ -34,11 +35,14 @@ initializeTenant().then(({ variants, i18n }) => {
 
   app.use(useVuelidate({ $lazy: true, $autoDirty: true, $scope: true }))
 
+  // Register global component
   globalComponentsRegistration(app)
-  directivesRegistration(app)
 
   // Provide getComponentVariants
   app.provide("getComponentVariants", makeGetComponentVariants({ variants }))
+
+  // Register directive
+  directivesRegistration(app)
 
   app.mount("#app")
 })

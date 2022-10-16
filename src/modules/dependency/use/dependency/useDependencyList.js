@@ -1,9 +1,9 @@
 import { ref } from "vue"
-import * as api from "../../api/resourceFetcher"
+import * as api from "../../api/dependencyScenarioFetcher"
 import { useI18n } from "vue-i18n"
 import { useGlobalStore } from "@/stores/global"
 
-export function useResourceList() {
+export function useDependencyList() {
   const globalStore = useGlobalStore()
 
   // Initial data
@@ -12,7 +12,7 @@ export function useResourceList() {
   const limit = ref(10)
   const currentPage = ref(1)
 
-  const resources = ref([])
+  const dependencies = ref([])
 
   const { t } = useI18n()
 
@@ -20,9 +20,9 @@ export function useResourceList() {
    *
    * @returns
    */
-  async function getResourceList() {
+  async function getDependencyList() {
     try {
-      const { data } = await api.fetchResourceList()
+      const { data } = await api.fetchDependencyScenariosList()
 
       return data
     } catch (error) {
@@ -34,9 +34,9 @@ export function useResourceList() {
    * Download resources
    * @returns
    */
-  async function downloadResources(categoryUid) {
+  async function downloadDependencies(categoryUid) {
     try {
-      const { data } = await api.downloadResources(categoryUid)
+      const { data } = await api.downloadDependencyScenarios(categoryUid)
 
       if (!data) {
         globalStore.addErrorToastMessage(this.$t("resources.errors.download"))
@@ -47,7 +47,7 @@ export function useResourceList() {
       const link = document.createElement("a")
       link.href = url
 
-      link.setAttribute("download", `Resources_${Date.now()}.xlsx`)
+      link.setAttribute("download", `Dependency_Scenarios_${Date.now()}.xlsx`)
       document.body.appendChild(link)
       link.click()
     } catch (error) {
@@ -57,9 +57,9 @@ export function useResourceList() {
   }
 
   return {
-    getResourceList,
-    downloadResources,
-    resources,
+    getDependencyList,
+    downloadDependencies,
+    dependencies,
     t,
     totalItems,
     skip,

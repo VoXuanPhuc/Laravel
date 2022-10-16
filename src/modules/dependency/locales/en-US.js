@@ -1,6 +1,6 @@
 export default {
-  dependency: {
-    dependencies: "Dependencies",
+  dependencyScenario: {
+    dependencies: "Dependency Scenarios",
 
     search: "Search",
 
@@ -15,7 +15,7 @@ export default {
     labels: {
       yes: "Yes",
       no: "No",
-      name: "Name of dependency",
+      name: "Dependency Scenario name",
       description: "Description",
       entityName: "Entity Name",
       dependencyName: "Dependency Name",
@@ -25,9 +25,12 @@ export default {
       createdAt: "Created At",
       deleteDependency: "Delete dependency",
       confirmToDelete: "Confirm to Delete",
-      confirmDeleteQuestion: "Are you sure to delete this dependency?",
+      confirmDeleteQuestion: "Are you sure to delete this dependency scenario?",
       noteDeleteDependency:
         "You can permanently delete the dependency from database. This action cannot be reverted and you cannot restore the record anymore.",
+      targets: "Targets",
+      upstream: "Upstream",
+      downstream: "Downstream",
     },
     buttons: {
       add: "Add",
@@ -50,14 +53,14 @@ export default {
     },
 
     title: {
-      newDependency: "New dependencies scenario",
-      editDependency: "Update scenario",
-      dependencyDetail: "Dependency Detail",
+      newDependency: "New Dependencies Scenario",
+      editDependency: "Update Dependency Scenario",
+      dependencyDetail: "Dependency Scenario Detail",
       remote: "Remote access",
       software: "Software / Technology",
       confirmToCancel: "Confirm to cancel",
       cancelQuestion: "Do you wish to cancel doing dependency?",
-      linkedDependencies: "Linked Dependencies",
+      linksDependencies: "Links Dependencies",
       upstreamDependencies: "Upstream Dependencies",
       downstreamDependencies: "Downstream Dependencies",
     },
