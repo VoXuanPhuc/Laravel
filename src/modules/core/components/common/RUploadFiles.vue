@@ -181,10 +181,10 @@ export default {
      * @returns {Promise<void>}
      */
     async triggerUploadBulkFilesFromParent() {
-      if (this.filesToBeUploaded.length === 0) {
-        return
+      if (this.filesToBeUploaded.length > 0) {
+        await this.handleClickUpload()
       }
-      await this.handleClickUpload()
+
       this.$emit("handleBulkFilesUpload")
     },
     /**

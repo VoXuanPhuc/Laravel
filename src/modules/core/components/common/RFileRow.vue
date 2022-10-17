@@ -2,7 +2,7 @@
   <EcBox>
     <EcFlex variant="basic">
       <!-- file title and status -->
-      <EcFlex class="flex-col flex-grow text-sm mr-4">
+      <EcFlex class="flex-col flex-grow text-sm mr-4 truncate">
         <EcBox v-if="isImage">
           <img :src="imgSrc" class="w-24 h-auto" />
         </EcBox>

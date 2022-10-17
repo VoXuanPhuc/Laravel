@@ -148,7 +148,7 @@
         {{ $t("supplier.buttons.cancel") }}
       </EcButton>
     </EcFlex>
-    <EcFlex v-else class="items-center justify-center mt-10 h-10">
+    <EcFlex v-else class="items-center justify-start mt-6 ml-10 h-10">
       <EcSpinner type="dots" />
     </EcFlex>
     <!-- Modal add new resource category -->
@@ -225,8 +225,6 @@ export default {
 
         goto("ViewSupplierList")
       }
-
-      this.isCreating = false
     },
 
     /** Handle uploaded logo */
@@ -240,8 +238,9 @@ export default {
     async createSupplierCertificate() {
       if (this.certificate.certs.length > 0) {
         await this.uploadCertificate(this.supplier.uid, this.certificate)
-        goto("ViewSupplierList")
       }
+      this.isCreating = false
+      goto("ViewSupplierList")
     },
 
     /**

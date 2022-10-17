@@ -119,7 +119,7 @@
         </EcBox>
 
         <!-- Actions -->
-        <EcFlex v-if="!isUpdating" class="width-full mt-8 px-4 sm:px-10">
+        <EcFlex v-if="!isUpdating" class="width-full mt-6 px-4 sm:px-10">
           <EcButton variant="primary" @click="handleClickUpdateSupplier">
             {{ $t("supplier.buttons.update") }}
           </EcButton>
@@ -127,7 +127,7 @@
             {{ $t("supplier.buttons.cancel") }}
           </EcButton>
         </EcFlex>
-        <EcFlex v-else class="items-center justify-center mt-10 h-10">
+        <EcFlex v-else class="items-center justify-start mt-6 ml-10 h-10">
           <EcSpinner type="dots" />
         </EcFlex>
       </template>
@@ -341,7 +341,6 @@ export default {
         this.supplier = response
         this.supplierName = this.supplier.name
 
-        this.supplier.is_active = this.supplier.is_active === 1
         // get certificate
         await this.fetchCertificates(this.uid)
       }
@@ -370,16 +369,13 @@ export default {
       }
       this.isUpdating = true
 
-      // trigger pros isFormSubmitting RUploadFile to auto upload file
-      this.isFormSubmitting = true
-
       const updateSupplierRes = await this.updateSupplier(this.supplier.uid, this.supplier)
       if (updateSupplierRes && updateSupplierRes.uid) {
         this.supplier = updateSupplierRes
+        this.supplierName = this.supplier.name
       }
-
-      this.isFormSubmitting = false
-      this.isUpdating = false
+      // trigger pros isFormSubmitting RUploadFile to auto upload file
+      this.isFormSubmitting = true
     },
 
     /**
@@ -392,6 +388,8 @@ export default {
         this.certificate.certs = []
         this.fileListAfterUpload = []
       }
+      this.isUpdating = false
+      this.isFormSubmitting = false
     },
 
     /** Handle uploaded logo */

@@ -28,7 +28,7 @@
       </EcBox>
     </EcBox>
     <!-- Table -->
-    <RTable :isLoading="isLoading" :list="suppliers" class="mt-2 lg:mt-4">
+    <RTable :isLoading="isLoading" :list="suppliers" class="mt-2 lg:mt-4 overflow-x-scroll">
       <template #header>
         <RTableHeaderRow>
           <RTableHeaderCell v-for="(h, idx) in headerData" :key="idx" class="text-cBlack">

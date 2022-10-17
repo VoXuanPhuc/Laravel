@@ -93,8 +93,8 @@ export default {
 
     certificate: {
       title: "Certificate of Assurance",
-      uploadSuccess: "Upload certificate success",
-      updateSuccess: "Upload certificate success",
+      uploadSuccess: "Save certificate to supplier successfully",
+      updateSuccess: "Update certificate successfully",
       certificateName: "Name file",
       certificateAction: "Action",
       confirmDeleteQuestion: "Are you sure you want to delete this certificate?",
