@@ -1,5 +1,7 @@
+import ViewNotFound from "@/modules/core/views/ViewNotFound"
 import { createRouter, createWebHistory } from "vue-router"
 
+import core from "@/modules/core/router/index"
 import auth from "@/modules/auth/router/index"
 import dashboard from "@/modules/dashboard/router/index"
 import organization from "@/modules/organization/router/index"
@@ -17,6 +19,7 @@ const routes = [
     name: "root",
     redirect: "dashboard",
   },
+  ...core,
   ...auth,
   ...dashboard,
   ...organization,
@@ -27,6 +30,12 @@ const routes = [
   ...setting,
   ...supplier,
   ...dependency,
+
+  {
+    path: "/:catchAll(.*)",
+    component: ViewNotFound,
+    name: "ViewNotFound",
+  },
 ]
 
 const router = createRouter({

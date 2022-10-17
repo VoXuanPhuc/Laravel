@@ -8,12 +8,16 @@ export default {
     code: "Code",
     email: "Email",
     active: "Active",
+    archive: "Archive",
     add: "Add",
     update: "Update",
     createdAt: "Created At",
     search: "Search",
     searchDivision: "Search Division",
     searchBU: "Search Business Unit",
+    suspendOrganization: "Suspend organization",
+    noteSuspendOrganization: "We can suspend organization",
+    archiveOrganization: "Archive Organization",
     deleteOrganization: "Delete organization",
     noteDeleteOrganization:
       "You can permanently delete the organization from database. This action cannot be reverted and you cannot restore the record anymore.",
@@ -28,10 +32,18 @@ export default {
     confirmToDelete: "Confirm to Delete",
     youAreGoingToDelete: "You are going to delete",
     organization: "organization",
+    // Delete
     actionCannotBeRevert: "This action cannot be reverted. The record will be deleted permanently.",
     confirmDeleteQuestion: "Are you sure you want to delete this organisation?",
     confirmDeletAction: "If so, type the organisation name into the box below to confirm",
     delete: "Delete",
+
+    // Archive
+    confirmToArchive: "Confirm to Archive",
+    noteArchiveOrganization: "We can archive the organization",
+    confirmArchiveQuestion: "Do you want to archive this organization",
+    confirmArchiveAction: "If so, type the organisation name into the box below to confirm",
+
     updated: "Updated Organization",
     deleted: "Deleted Organization",
     source: "Source",

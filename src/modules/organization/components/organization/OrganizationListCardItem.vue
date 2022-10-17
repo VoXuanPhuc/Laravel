@@ -62,10 +62,32 @@
     </EcBox>
 
     <!-- Landlord indicator or link to client portal -->
-    <EcIcon v-if="isLandlord" icon="LockClosed" class="-mt-4 text-cError-500" />
-    <EcButton v-else class="-mt-4 h-1 w-1" variant="transparent" :href="'https://' + organization?.domain" target="_blank">
-      <EcIcon icon="OpenUp" width="18" height="18" />
-    </EcButton>
+    <EcBox>
+      <!-- Lock Icon for landlord or go to client portal for tenant -->
+      <EcIcon v-if="isLandlord" icon="LockClosed" class="-mt-4 text-cError-500" />
+      <EcBox v-else>
+        <!-- Open link -->
+        <EcButton
+          class="-mt-4 h-1 w-1"
+          variant="transparent"
+          :href="'https://' + organization?.domain"
+          target="_blank"
+          v-tooltip="{ text: 'Go to client portal' }"
+        >
+          <EcIcon icon="OpenUp" width="18" height="18" />
+        </EcButton>
+
+        <!-- Archived -->
+        <EcButton
+          v-if="organization.is_archived"
+          class="mt-1 w-1 hover:cursor-auto"
+          variant="transparent"
+          v-tooltip="{ text: 'Organization has been archived' }"
+        >
+          <EcIcon icon="Archive" width="20" height="20" />
+        </EcButton>
+      </EcBox>
+    </EcBox>
   </EcBox>
 </template>
 
@@ -74,6 +96,7 @@ import { goto } from "@/modules/core/composables"
 import { useGlobalStore } from "@/stores/global"
 import EcIcon from "@/components/EcIcon/index.vue"
 import * as helpers from "@/readybc/composables/helpers/helpers"
+import EcBox from "@/components/EcBox/index.vue"
 
 export default {
   name: "OrganizationListCardItem",
@@ -128,6 +151,6 @@ export default {
       goto("ViewActivityList")
     },
   },
-  components: { EcIcon },
+  components: { EcIcon, EcBox },
 }
 </script>

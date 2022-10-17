@@ -104,6 +104,8 @@ export default {
     OpenUp: lazyLoad("OpenUp"),
     Dependency: lazyLoad("Dependency"),
     Graph: lazyLoad("Graph"),
+    Stop: lazyLoad("Stop"),
+    Archive: lazyLoad("Archive"),
   },
 }
 </script>

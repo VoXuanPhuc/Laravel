@@ -220,23 +220,38 @@
         </EcBox>
       </template>
       <template #right>
-        <!-- Delete organization -->
-        <EcBox v-if="!isLandlord" variant="card-1" class="mb-8">
-          <EcHeadline as="h2" variant="h2" class="text-c1-800 px-5">
-            {{ $t("organization.deleteOrganization") }}
-          </EcHeadline>
-          <EcText class="px-5 my-6 text-c0-500 leading-normal">
-            {{ $t("organization.noteDeleteOrganization") }}
-          </EcText>
-          <EcButton class="mx-5" variant="warning" iconPrefix="Trash" @click="handleOpenDeleteModal">
-            {{ $t("organization.deleteOrganization") }}
-          </EcButton>
+        <EcBox v-if="!isLandlord">
+          <!-- Delete organization -->
+          <EcBox variant="card-1" class="mb-8">
+            <EcHeadline as="h3" variant="h3" class="text-c1-800 px-5">
+              {{ $t("organization.deleteOrganization") }}
+            </EcHeadline>
+            <EcText class="px-5 my-6 text-c0-500 leading-normal">
+              {{ $t("organization.noteDeleteOrganization") }}
+            </EcText>
+            <EcButton class="mx-5" variant="warning" iconPrefix="Trash" @click="handleOpenDeleteModal">
+              {{ $t("organization.deleteOrganization") }}
+            </EcButton>
+          </EcBox>
+
+          <!-- Archive organization -->
+          <EcBox variant="card-1" class="mb-8">
+            <EcHeadline as="h3" variant="h3" class="text-c1-800 px-5">
+              {{ $t("organization.archiveOrganization") }}
+            </EcHeadline>
+            <EcText class="px-5 my-6 text-c0-500 leading-normal">
+              {{ $t("organization.noteArchiveOrganization") }}
+            </EcText>
+            <EcButton class="mx-5" variant="secondary" iconPrefix="Archive" @click="handleOpenArchiveModal">
+              {{ $t("organization.archiveOrganization") }}
+            </EcButton>
+          </EcBox>
         </EcBox>
       </template>
     </RLayoutTwoCol>
 
     <!-- Modals -->
-    <teleport to="#layer2">
+    <teleport to="#layer1">
       <!-- Modal Delete -->
       <EcModalSimple :isVisible="isModalDeleteOpen" variant="center-3xl" @overlay-click="handleCloseDeleteModal">
         <EcBox class="text-center">
@@ -250,7 +265,7 @@
               {{ $t("organization.confirmToDelete") }}
             </EcHeadline>
             <!-- Org name -->
-            <EcText class="text-lg">
+            <EcText class="text-lg font-semibold">
               {{ this.organization.name }}
             </EcText>
             <EcText class="text-c0-500 mt-4">
@@ -268,7 +283,7 @@
 
           <!-- Actions -->
           <EcFlex v-if="!isDeleteLoading" class="justify-center mt-10">
-            <EcButton v-if="matchedName" variant="warning" @click="handleDeleteOrganization">
+            <EcButton v-if="matchedDeleteOrganizationName" variant="warning" @click="handleDeleteOrganization">
               {{ $t("organization.delete") }}
             </EcButton>
             <EcButton class="ml-3" variant="tertiary-outline" @click="handleCloseDeleteModal">
@@ -281,6 +296,16 @@
         </EcBox>
       </EcModalSimple>
     </teleport>
+
+    <!-- Modals -->
+    <teleport to="#layer2">
+      <ModalArchiveOrganization
+        :isModalArchiveOpen="isModalArchiveOpen"
+        :organization="organization"
+        @handleOpenArchiveModal="handleOpenArchiveModal"
+        @handleCloseArchiveModal="handleCloseArchiveModal"
+      />
+    </teleport>
   </RLayout>
 </template>
 
@@ -289,6 +314,7 @@ import { useOrganizationDetail } from "./../../use/organization/useOrganizationD
 import { goto } from "@/modules/core/composables"
 import { useIndustry } from "../../use/industry/useIndustry"
 import { ref } from "vue"
+import ModalArchiveOrganization from "../../components/organization/ModalArchiveOrganization.vue"
 
 export default {
   name: "ViewOrganizationDetail",
@@ -301,6 +327,7 @@ export default {
       logoTitle: "Logo",
       isModalDeleteOpen: false,
       confirmedOrganizationName: "",
+      isModalArchiveOpen: false,
       fileOf: "organization",
       uploadedFileUrls: [],
     }
@@ -308,9 +335,7 @@ export default {
   setup() {
     const { organization, v$, getOrganization, updateOrganization, deleteOrganization } = useOrganizationDetail()
     const { getIndustries, getTransformedIndustries } = useIndustry()
-
     const industries = ref([])
-
     return {
       industries,
       getIndustries,
@@ -323,24 +348,21 @@ export default {
     }
   },
   computed: {
-    matchedName() {
+    matchedDeleteOrganizationName() {
       return this.confirmedOrganizationName === this.organization.name
     },
 
     isLandlord() {
       return this.organization?.landlord === true
     },
-
     hostName() {
       return process.env.VUE_APP_HOST_NAME
     },
   },
-
   mounted() {
     this.fetchIndustries()
     this.fetchOrganization()
   },
-
   methods: {
     /**
      * Fetch Org
@@ -349,69 +371,64 @@ export default {
       this.isLoading = true
       const { uid } = this.$route.params
       const orgRes = await this.getOrganization(uid)
-
       if (orgRes) {
         this.organization = orgRes
       }
-
       if (this.organization) {
         this.uploadedFileUrls = [this.organization.logo_path]
       }
       this.isLoading = false
     },
-
     /**
      * Fetch industries
      */
     async fetchIndustries() {
       this.industries = await this.getIndustries()
     },
-
     /**
      * Handle click update organization
      */
     async handleClickUpdateOrganization() {
       this.isUpdateLoading = true
-
       const org = await this.updateOrganization(this.organization.uid, this.organization)
-
       if (org && org.uid) {
         this.organization = org
-
         if (!this.organization.owner) {
           this.organization.owner = {}
         }
       }
       this.isUpdateLoading = false
     },
-
     /** Handle delete organization */
     handleDeleteOrganization() {
       this.isDeleteLoading = true
       this.deleteOrganization(this.organization.uid)
-
       // Redirect to organization list
       setTimeout(() => {
         goto("ViewOrganizationList")
       }, 1000)
     },
-
     /** Cancel update */
     handleCancelUpdateOrganization() {
       goto("ViewOrganizationList")
     },
-
     /** Open delete modal */
     handleOpenDeleteModal() {
       this.isModalDeleteOpen = true
     },
-
     /** Close delete modal */
     handleCloseDeleteModal() {
       this.isModalDeleteOpen = false
       this.confirmedOrganizationName = ""
     },
-
+    /** Open archive modal */
+    handleOpenArchiveModal() {
+      this.isModalArchiveOpen = true
+    },
+    /** Close delete modal */
+    handleCloseArchiveModal() {
+      this.isModalArchiveOpen = false
+    },
     /**
      * Handle logo uploaded
      */
@@ -419,7 +436,6 @@ export default {
       this.organization.logo_path = result.url
     },
   },
-
   watch: {
     organization(org) {
       if (org && !org.owner) {
@@ -427,5 +443,6 @@ export default {
       }
     },
   },
+  components: { ModalArchiveOrganization },
 }
 </script>

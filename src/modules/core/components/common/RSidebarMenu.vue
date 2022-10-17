@@ -137,12 +137,7 @@ export default {
         text: "core.dashboard",
         routeName: "ViewDashboard",
       },
-      {
-        module: "notification",
-        icon: "Bell",
-        text: "core.notifications",
-        routeName: "ViewNotificationsHome",
-      },
+
       {
         module: "organization",
         icon: "OfficeBuilding",
