@@ -13,6 +13,7 @@ class OrganizationSettingDTO extends BaseDTO
     public bool $landlord;
     public string $domain;
     public string $logo;
+    public bool $isActive;
     public string $dateFormat;
     public string $dateTimeFormat;
     public array $modules = [];

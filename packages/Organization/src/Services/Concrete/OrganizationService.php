@@ -92,7 +92,10 @@ class OrganizationService implements OrganizationServiceInterface
             /** @var Organization $updatedOrganization */
             $updatedOrganization = $this->organizationRepository->update( $request->all(), $organization->id );
 
-            $updatedOrganization->owner()->updateOrCreate(   ['uid' => $request->owner['uid'] ?? '' ], $request->owner );
+            $updatedOrganization->owner()->updateOrCreate(
+                ['uid' => $request->owner['uid'] ?? '' ],
+                $request->owner
+            );
 
             //Industries
             // Sync industries
@@ -169,8 +172,10 @@ class OrganizationService implements OrganizationServiceInterface
 
     /**
      * @param $request
+     * @return mixed
      */
-    protected function getIndustriesFromRequest($request ) {
+    protected function getIndustriesFromRequest($request ): mixed
+    {
 
         // Industries
         return $this->industryRepository->findByUids(

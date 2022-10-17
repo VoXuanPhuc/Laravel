@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property boolean $landlord
  * @property string $domain
  * @property string $logo_path
+ * @property boolean is_active
  */
 class Organization extends Tenant
 {

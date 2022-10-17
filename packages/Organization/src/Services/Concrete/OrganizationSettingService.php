@@ -30,6 +30,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
         $organizationDTO->domain    = $organization->domain;
         $organizationDTO->landlord  = $organization->landlord;
         $organizationDTO->logo      = $organization->logo_path;
+        $organizationDTO->isActive  = $organization->is_active;
         $organizationDTO->modules   = $this->getTenantAllowedModules( $organization );
 
         return $organizationDTO;
