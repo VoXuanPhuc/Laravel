@@ -9,4 +9,5 @@ interface DocumentServiceInterface
 
     public function upload( UploadFileRequest $request );
     public function delete( $uid );
+    public function getDocument(string $uid);
 }

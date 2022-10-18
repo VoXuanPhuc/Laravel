@@ -2,46 +2,86 @@
 
 namespace Encoda\EDocs\Services\Concrete;
 
+use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Exceptions\NotFoundException as NotFoundExceptionAlias;
 use Encoda\Core\Exceptions\ServerErrorException;
+use Encoda\Core\Helpers\FileHelper;
 use Encoda\EDocs\Http\Requests\UploadFileRequest;
+use Encoda\EDocs\Repositories\Interfaces\DocumentRepositoryInterface;
 use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class DocumentService implements DocumentServiceInterface
 {
-
-
-    public function upload( UploadFileRequest $request )
+    public function __construct(
+        protected DocumentRepositoryInterface $documentRepository
+    )
     {
+    }
 
+    /**
+     * @param string $uid
+     *
+     * @return mixed
+     * @throws NotFoundExceptionAlias
+     */
+    public function getDocument(string $uid)
+    {
+        $document = $this->documentRepository->query()
+            ->hasUID($uid)
+            ->get()
+            ->first();
+
+        if (!$document) {
+            throw new NotFoundException('Document not found');
+        }
+
+        return $document->fresh();
+    }
+
+
+    /**
+     * @throws ServerErrorException
+     */
+    public function upload(UploadFileRequest $request )
+    {
         try {
 
             $file = $request->file('file');
 
             $filePath   = $file->store( $this->getDirPath( $request ) );
             $fileUrl    = Storage::url( $filePath );
-
-            return [
-                'name' => $file->getClientOriginalName(),
+            $document = $this->documentRepository->create([
+                'name' => FileHelper::getOriginalName($file),
                 'path' => $filePath,
-                'url' => $fileUrl,
-            ];
+                'size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'created_by' => Auth::user()?->id
+            ]);
+            return $document->fresh();
         }
         catch ( Throwable $exception ) {
             Log::error( $exception );
-            throw  new ServerErrorException('Unable to upload file');
+            throw new ServerErrorException('Unable to upload file');
         }
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return string
+     * @throws NotFoundExceptionAlias
+     */
     protected function getDirPath( Request $request ) {
+        $path =  'misc';
         if( $request->dir ) {
-            return $request->dir;
+            $path = $request->dir;
         }
-
-        return 'misc';
+        return 'organization/' .  tenant()->uid . '/' . $path;
     }
     public function delete($uid)
     {

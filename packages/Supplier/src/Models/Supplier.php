@@ -7,18 +7,19 @@ use Encoda\Core\Traits\HasUID;
 use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
+use Encoda\EDocs\Traits\InteractsWithDocument;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\Organization;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  *
  */
 class Supplier extends Model
 {
-    use HasUID, MultiTenancyModel, DependencyModelTrait;
+    use HasUID, MultiTenancyModel, DependencyModelTrait, InteractsWithDocument;
     use EasyActionLogTrait;
     /**
      * @var string
@@ -66,12 +67,13 @@ class Supplier extends Model
         return $this->belongsTo(Organization::class);
     }
 
+
     /**
-     * @return HasMany
+     * @return Collection
      */
-    public function certs(): HasMany
+    public function getCertsAttribute()
     {
-        return $this->hasMany(SupplierCert::class);
+        return $this->getDocuments('certs');
     }
 
 }

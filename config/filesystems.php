@@ -71,4 +71,14 @@ return [
 
     ],
 
+    /*
+   |--------------------------------------------------------------------------
+   | Temporary url time to live
+   |--------------------------------------------------------------------------
+   |
+   | Here you can custom time to live of temporary url in minute
+   |
+   */
+    'temporary_url_ttl' => env('TEMPORARY_URL_TTL', 60)
+
 ];

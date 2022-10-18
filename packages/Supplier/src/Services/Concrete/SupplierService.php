@@ -7,6 +7,7 @@ use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Core\Facades\Context;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
+use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Encoda\Supplier\Exports\SupplierExport;
 use Encoda\Supplier\Http\Requests\Supplier\CreateSupplierRequest;
 use Encoda\Supplier\Http\Requests\Supplier\UpdateSupplierRequest;
@@ -33,6 +34,7 @@ class SupplierService implements SupplierServiceInterface
     public function __construct(
         protected SupplierRepositoryInterface         $supplierRepository,
         protected SupplierCategoryRepositoryInterface $supplierCategoryRepository,
+        protected DocumentServiceInterface            $documentService
     )
     {
     }
@@ -99,7 +101,7 @@ class SupplierService implements SupplierServiceInterface
     /**
      * @param              $uid
      *
-     * @return mixed
+     * @return Supplier
      * @throws NotFoundException
      */
     public function getSupplier($uid): mixed
@@ -113,7 +115,7 @@ class SupplierService implements SupplierServiceInterface
             throw new NotFoundException('Supplier not found');
         }
 
-        return $supplier->load(['categories']);
+        return $supplier->setAppends(['certs'])->load(['categories']);
     }
 
     /**
@@ -132,11 +134,20 @@ class SupplierService implements SupplierServiceInterface
         try {
             DB::beginTransaction();
 
-            /** @var Resource $resource */
+            /**
+             * @var Resource $resource
+             * @var Supplier $supplier
+             */
             $supplier = $this->supplierRepository->create($request->all());
 
             $supplier->categories()->sync($categoryIDs);
-
+            if($request->has('certs')){
+                $certs = $request->get('certs');
+                foreach($certs as $cert){
+                    $document = $this->documentService->getDocument($cert['uid'] ?? null);
+                    $supplier->addDocument($document, 'certs');
+                }
+            }
             DB::commit();
 
         } catch (Throwable $e) {
@@ -170,6 +181,15 @@ class SupplierService implements SupplierServiceInterface
                 $supplier->categories()->sync($categoryIDs);
             }
 
+            if($request->has('certs')){
+                $certs = $request->get('certs');
+                foreach($certs as $cert){
+                    $document = $this->documentService->getDocument($cert['uid'] ?? null);
+                    $supplier->addDocument($document, 'certs');
+                }
+            }
+
+
             DB::commit();
         } catch (Throwable $e) {
             DB::rollBack();
@@ -189,7 +209,7 @@ class SupplierService implements SupplierServiceInterface
     public function deleteSupplier(string $uid)
     {
         $supplier = $this->getSupplier($uid);
-
+        $supplier->clearDocumentCollection('certs');
         return $this->supplierRepository->delete($supplier->id);
     }
 

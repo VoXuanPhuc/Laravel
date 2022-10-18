@@ -2,6 +2,9 @@
 
 namespace Encoda\EDocs\Providers;
 
+use Encoda\EDocs\Models\Document;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class DocumentServiceProvider extends ServiceProvider
@@ -20,5 +23,6 @@ class DocumentServiceProvider extends ServiceProvider
     {
 
         $this->app->register( DocumentServiceBindingProvider::class );
+        $this->app->register( DocumentRepositoryBindingProvider::class );
     }
 }

@@ -45,16 +45,6 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
                 'uses' =>  SupplierCertController::class. '@getCertBySupplier'
             ]);
 
-            Route::get('/{certUID}', [
-                'as' => 'detail',
-                'uses' =>  SupplierCertController::class. '@detailCert'
-            ]);
-
-            Route::post('/', [
-                'as' => 'create',
-                'uses' =>  SupplierCertController::class. '@createCerts'
-            ]);
-
             Route::delete('/{certUID}', [
                 'as' => 'delete',
                 'uses' =>  SupplierCertController::class. '@deleteCert'

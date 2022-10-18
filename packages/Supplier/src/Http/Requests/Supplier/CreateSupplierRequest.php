@@ -20,7 +20,8 @@ class CreateSupplierRequest extends FormRequest
             'fax' => 'string|max:255',
             'phone_number' => 'string|max:15',
             'is_active' => 'required|boolean',
-            'categories' => ['required','array', app(SupplierCategoryDataValidation::class)]
+            'categories' => ['required','array', app(SupplierCategoryDataValidation::class)],
+            'certs'     => 'array'
         ];
     }
 }

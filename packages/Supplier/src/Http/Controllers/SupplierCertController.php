@@ -40,16 +40,6 @@ class SupplierCertController extends Controller
         return $this->supplierCertService->createCerts($request, $uid);
     }
 
-    /**
-     * @param string $uid
-     * @param string $certUID
-     *
-     * @return mixed
-     */
-    public function detailCert(string $uid, string $certUID )
-    {
-        return $this->supplierCertService->getDetailCert($uid, $certUID);
-    }
 
     /**
      * @param string $uid

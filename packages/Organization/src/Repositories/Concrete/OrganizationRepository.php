@@ -49,7 +49,7 @@ class OrganizationRepository extends Repository implements OrganizationRepositor
                                         : strtolower( $attributes['code'] );
 
         // Only generate domain for other Org, not Escalate
-        if( !$attributes['landlord'] ) {
+        if( !isset($attributes['landlord'])) {
             $attributes['domain'] = $this->generateDomain( $attributes['friendly_url'] );
         }
 

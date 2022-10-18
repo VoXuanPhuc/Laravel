@@ -29,7 +29,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
         $organizationDTO->tenantId  = $organization->landlord ? 'default' : $organization->code;
         $organizationDTO->domain    = $organization->domain;
         $organizationDTO->landlord  = $organization->landlord;
-        $organizationDTO->logo      = $organization->logo_path;
+        $organizationDTO->logo      = $organization->logo_url;
         $organizationDTO->isActive  = $organization->is_active;
         $organizationDTO->modules   = $this->getTenantAllowedModules( $organization );
 

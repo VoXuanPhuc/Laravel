@@ -10,12 +10,14 @@ use Encoda\Activity\Models\Utility;
 use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
+use Encoda\EDocs\Traits\InteractsWithDocument;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
 use Encoda\Supplier\Models\Supplier;
 use Encoda\Supplier\Models\SupplierCategory;
 use Encoda\MultiTenancy\Models\Tenant;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -33,7 +35,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Organization extends Tenant
 {
 
-    use SoftDeletes, EasyActionLogTrait;
+    use SoftDeletes, InteractsWithDocument;
+    use EasyActionLogTrait;
 
     protected $table = 'organizations';
 
@@ -63,6 +66,7 @@ class Organization extends Tenant
     protected $appends = [
         'friendly_url',
         'landlord',
+        'logo_url'
     ];
 
     // ====== Attributes ==== //
@@ -83,6 +87,12 @@ class Organization extends Tenant
 
         return trim( $friendlyUrl, '.' );
     }
+
+    public function getLogoUrlAttribute()
+    {
+        return $this->getDocuments('logo')?->first()?->url;
+    }
+
 
 
     /**
@@ -205,5 +215,6 @@ class Organization extends Tenant
     {
         return $this->hasMany(DependencyScenario::class);
     }
+
 
 }

@@ -6,6 +6,9 @@ use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
+use Encoda\EDocs\Models\Document;
+use Encoda\EDocs\Repositories\Interfaces\DocumentRepositoryInterface;
+use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Encoda\Organization\Http\Requests\Org\CreateOrganizationRequest;
 use Encoda\Organization\Http\Requests\Org\UpdateOrganizationRequest;
 use Encoda\Organization\Models\Industry;
@@ -14,7 +17,9 @@ use Encoda\Organization\Repositories\Interfaces\IndustryRepositoryInterface;
 use Encoda\Organization\Repositories\Interfaces\OrganizationRepositoryInterface;
 use Encoda\Organization\Services\Interfaces\OrganizationServiceInterface;
 use Encoda\Supplier\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Throwable;
@@ -25,13 +30,15 @@ class OrganizationService implements OrganizationServiceInterface
     public function __construct(
         protected OrganizationRepositoryInterface $organizationRepository,
         protected IndustryRepositoryInterface $industryRepository,
+        protected DocumentServiceInterface $documentService
     )
     {
     }
 
     /**
      * @param $uid
-     * @return mixed
+     *
+     * @return Organization
      * @throws NotFoundException
      */
     public function getOrganization( $uid )
@@ -53,6 +60,7 @@ class OrganizationService implements OrganizationServiceInterface
     {
 
         try {
+            DB::beginTransaction();
             /** @var Organization $organization */
             $organization = $this->organizationRepository->create( $request->all() );
 
@@ -61,18 +69,23 @@ class OrganizationService implements OrganizationServiceInterface
 
             // Sync industries
             $industries = $this->getIndustriesFromRequest( $request );
+            if(isset($request->get('logo')['uid'])){
+                $document = $this->documentService->getDocument($request->get('logo')['uid']);
+                $organization->addDocument($document, 'logo');
+            }
 
             $organization->industries()->sync( $industries );
-
+            DB::commit();
         }
         catch ( Throwable  $e ) {
+            DB::rollBack();
             Log::error( $e );
             throw new ServerErrorException(__('org::app.organization.create_error'));
 
         }
 
 
-        return $organization->load('owner');
+        return $organization->fresh()->load(['owner']);
     }
 
 
@@ -84,9 +97,8 @@ class OrganizationService implements OrganizationServiceInterface
      */
     public function updateOrganization(UpdateOrganizationRequest $request, $uid)
     {
-
         try {
-
+            DB::beginTransaction();
             $organization = $this->getOrganization( $uid );
 
             /** @var Organization $updatedOrganization */
@@ -101,10 +113,21 @@ class OrganizationService implements OrganizationServiceInterface
             // Sync industries
             $industries = $this->getIndustriesFromRequest( $request );
             $updatedOrganization->industries()->sync( $industries );
-
+            if(isset($request->get('logo')['uid'])){
+                $document = $this->documentService->getDocument($request->get('logo')['uid']);
+                /**
+                 * @var Document $document
+                 * @var Organization $organization
+                 */
+                if($document->id !== $organization->getDocuments('logo')?->first()?->id){
+                    $organization->syncDocument($document, 'logo');
+                }
+            }
+            DB::commit();
             return $updatedOrganization->load(['owner','industries']);
         }
         catch ( Throwable $e ) {
+            DB::rollBack();
             Log::error( $e );
             throw new ServerErrorException(__('org::app.organization.update_error'));
         }
@@ -119,7 +142,7 @@ class OrganizationService implements OrganizationServiceInterface
     public function deleteOrganization($uid)
     {
         $organization = $this->getOrganization( $uid );
-
+        $organization->clearDocumentCollection('logo');
         return $this->organizationRepository->delete( $organization->id );
     }
 
@@ -129,7 +152,7 @@ class OrganizationService implements OrganizationServiceInterface
      */
     public function listOrganization()
     {
-        $query = $this->organizationRepository->query();
+        $query = $this->organizationRepository->query()->with(['documents']);
         $this->applySearchFilter($query);
         $this->applySortFilter($query);
         return $this->organizationRepository->applyPaging($query);

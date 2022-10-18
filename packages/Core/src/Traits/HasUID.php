@@ -3,6 +3,8 @@
 namespace Encoda\Core\Traits;
 /**
  *
+ *  @method hasUID($query)
+ *
  */
 trait HasUID
 {
