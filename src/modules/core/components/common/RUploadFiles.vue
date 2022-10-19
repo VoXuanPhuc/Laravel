@@ -68,7 +68,7 @@ import { apiUploadFile } from "../../api/fileUploader"
 
 export default {
   name: "RUploadFiles",
-  emits: ["files:uploaded", "handleSingleUploadResult", "handleBulkFilesUpload"],
+  emits: ["files:uploaded", "handleSingleUploadResult", "handleBulkFilesUpload", "startUploadFiles", "endUploadFiles"],
   props: {
     isUploadOnSelect: {
       type: Boolean,
@@ -195,10 +195,11 @@ export default {
      * @returns {Promise<void>}
      */
     async triggerUploadBulkFilesFromParent() {
-      if (this.filesToBeUploaded.length > 0) {
-        await this.handleClickUpload()
+      if (this.filesToBeUploaded.length === 0) {
+        this.$emit("handleBulkFilesUpload")
+        return
       }
-
+      await this.handleClickUpload()
       this.$emit("handleBulkFilesUpload")
     },
     /**
@@ -226,6 +227,7 @@ export default {
      * Handle click upload
      */
     async handleClickUpload() {
+      this.$emit("startUploadFiles")
       if (this.uploading) {
         return
       }
@@ -250,6 +252,7 @@ export default {
         this.uploading = false
         this.$emit("files:uploaded", this.fileList)
       })
+      this.$emit("endUploadFiles")
     },
 
     /**

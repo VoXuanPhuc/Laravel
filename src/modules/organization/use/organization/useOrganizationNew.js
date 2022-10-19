@@ -25,6 +25,9 @@ export function useOrganizationCreate() {
       friendly_url: {},
       description: {},
       address: {},
+      logo: {
+        uid: {},
+      },
       is_active: { required },
       owner: {
         first_name: { required },

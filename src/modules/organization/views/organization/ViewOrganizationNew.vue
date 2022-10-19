@@ -333,7 +333,7 @@ export default {
 
     /** Handle uploaded logo */
     handleLogoUploaded(result) {
-      this.form.logo_path = result.url
+      this.form.logo = { uid: result.uid }
     },
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <EcBox variant="card-2" class="mb-4 mr-3 lg:inline-flex lg:flex-grow lg:w-auto" style="min-width: 12rem">
     <EcFlex class="relative justify-center items-center p-4 rounded-full w-32 h-auto overflow-hidden">
-      <img :src="organization.logo_path" alt="{{ organization.name }}" />
+      <img :src="organization.logo_url" alt="{{ organization.name }}" />
     </EcFlex>
     <EcBox class="mt-4 lg:mt-0 lg:ml-6">
       <EcFlex class="items-center">

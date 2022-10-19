@@ -142,12 +142,14 @@
                   :documentTitle="$t('supplier.certificate.title')"
                   :fileListAfterUpload="fileListAfterUpload"
                   :isUploadOnSelect="false"
-                  :maxFileNum="10"
                   :isParentSubmitting="isFormSubmitting"
+                  :maxFileNum="10"
                   dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2
                 md:py-4"
-                  @handleBulkFilesUpload="createSupplierCertificate"
                   @handleSingleUploadResult="handleCertificateUploaded"
+                  @handleBulkFilesUpload="updateSupplierAfterUploadedFile"
+                  @startUploadFiles="this.isUpdating = true"
+                  @endUploadFiles="this.isUpdating = false"
                 />
               </EcBox>
             </EcFlex>
@@ -171,8 +173,8 @@
                   <!-- name file -->
                   <RTableCell class="hover:text-sky-500 w-4/5">
                     <EcText class="cursor-pointer truncate">
-                      <a :href="item.cert_path" target="_blank">
-                        {{ getOriginalFileName(item.cert_path) }}
+                      <a :href="item.url" target="_blank">
+                        {{ item.name }}
                       </a>
                     </EcText>
                   </RTableCell>
@@ -252,7 +254,6 @@ import { useCategoryList } from "@/modules/supplier/use/category/useCategoryList
 import ModalAddNewCategory from "@/modules/supplier/components/ModalAddNewCategory"
 import ModalConfirmDeleteSupplier from "@/modules/supplier/components/ModalConfirmDeleteSupplier"
 import { useCertificateList } from "@/modules/supplier/use/certificate/useCertificateList"
-import { useCertificateNew } from "@/modules/supplier/use/certificate/useCertificateNew"
 import ModalConfirmDeleteCertificate from "@/modules/supplier/components/ModalConfirmDeleteCertificate"
 
 export default {
@@ -265,6 +266,7 @@ export default {
       isLoadingCategories: false,
       isUploading: false,
       isCertificateLoading: false,
+      isFormSubmitting: false,
 
       isModalAddNewCategoryOpen: false,
       isSupplierModalDeleteOpen: false,
@@ -275,7 +277,6 @@ export default {
       certificateUrls: [],
 
       fileListAfterUpload: [],
-      isFormSubmitting: false,
 
       headerCertificate: [{ label: this.$t("supplier.certificate.certificateName") }],
     }
@@ -284,8 +285,6 @@ export default {
     const { supplier, supplierValidator$, getDetailSupplier, updateSupplier } = useSupplierDetail()
 
     const { categories, getSupplierCategories } = useCategoryList()
-
-    const { certificate, uploadCertificate } = useCertificateNew()
 
     const { getCertificateListBySupplier } = useCertificateList()
 
@@ -297,9 +296,6 @@ export default {
 
       getSupplierCategories,
       categories,
-
-      certificate,
-      uploadCertificate,
 
       getCertificateListBySupplier,
     }
@@ -354,6 +350,8 @@ export default {
       const res = await this.getCertificateListBySupplier(supplierUid)
       if (res) {
         this.certificateUrls = res
+        this.supplier.certs = []
+        res.forEach((item, index) => this.supplier.certs.push({ uid: item.uid }))
       }
     },
 
@@ -366,15 +364,24 @@ export default {
       if (this.supplierValidator$.supplier.$invalid) {
         return
       }
+      // trigger pros isFormSubmitting RUploadFile to auto upload file
+      this.isFormSubmitting = true
+    },
+
+    /**
+     * Update Supplier After uploaded all file
+     */
+    async updateSupplierAfterUploadedFile() {
       this.isUpdating = true
 
       const updateSupplierRes = await this.updateSupplier(this.supplier.uid, this.supplier)
       if (updateSupplierRes && updateSupplierRes.uid) {
         this.supplier = updateSupplierRes
         this.supplierName = this.supplier.name
+        goto("ViewSupplierList")
       }
-      // trigger pros isFormSubmitting RUploadFile to auto upload file
-      this.isFormSubmitting = true
+
+      this.isUpdating = false
     },
 
     /**
@@ -393,7 +400,7 @@ export default {
 
     /** Handle uploaded logo */
     handleCertificateUploaded(result) {
-      this.certificate.certs.push(result.url)
+      this.supplier.certs.push({ uid: result.uid })
     },
 
     // go to view supplier list

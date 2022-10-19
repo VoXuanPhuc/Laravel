@@ -20,6 +20,7 @@ export function useOrganizationDetail() {
       friendly_url: {},
       description: {},
       address: {},
+      logo: {},
 
       owner: {
         first_name: { required },

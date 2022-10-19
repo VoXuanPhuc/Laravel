@@ -11,6 +11,7 @@ export function useSupplierNew() {
   const supplier = ref({
     is_active: true,
     description: "",
+    certs: [],
   })
 
   // validation

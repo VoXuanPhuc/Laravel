@@ -377,7 +377,7 @@ export default {
         this.organization = orgRes
       }
       if (this.organization) {
-        this.uploadedFileUrls = [this.organization.logo?.url]
+        this.uploadedFileUrls = [this.organization.logo_url]
       }
       this.isLoading = false
     },
@@ -398,6 +398,7 @@ export default {
         if (!this.organization.owner) {
           this.organization.owner = {}
         }
+        goto("ViewOrganizationList")
       }
       this.isUpdateLoading = false
     },
@@ -435,7 +436,7 @@ export default {
      * Handle logo uploaded
      */
     handleLogoUploaded(result) {
-      this.organization.logo = result
+      this.organization.logo = { uid: result.uid }
     },
   },
   watch: {

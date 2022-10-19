@@ -130,7 +130,9 @@
                   :isParentSubmitting="isFormSubmitting"
                   dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
                   @handleSingleUploadResult="handleCertificateUploaded"
-                  @handleBulkFilesUpload="createSupplierCertificate"
+                  @handleBulkFilesUpload="createSupplierAfterUploadedFile"
+                  @startUploadFiles="this.isCreating = true"
+                  @endUploadFiles="this.isCreating = false"
                 />
               </EcBox>
             </EcFlex>
@@ -166,7 +168,6 @@
 import { goto } from "@/modules/core/composables"
 import { useSupplierNew } from "@/modules/supplier/use/supplier/useSupplierNew"
 import { useCategoryList } from "@/modules/supplier/use/category/useCategoryList"
-import { useCertificateNew } from "@/modules/supplier/use/certificate/useCertificateNew"
 import ModalAddNewCategory from "@/modules/supplier/components/ModalAddNewCategory"
 
 export default {
@@ -179,14 +180,12 @@ export default {
       isLoadingCategories: false,
       isUploading: false,
       isModalAddNewCategoryOpen: false,
-
       isFormSubmitting: false,
     }
   },
   setup() {
     const { supplier, supplierValidator$, createSupplier } = useSupplierNew()
     const { categories, getSupplierCategories } = useCategoryList()
-    const { certificate, certificateValidator$, uploadCertificate } = useCertificateNew()
 
     return {
       supplier,
@@ -195,10 +194,6 @@ export default {
 
       categories,
       getSupplierCategories,
-
-      certificate,
-      certificateValidator$,
-      uploadCertificate,
     }
   },
   mounted() {
@@ -212,34 +207,27 @@ export default {
       if (this.supplierValidator$.supplier.$invalid) {
         return
       }
-
-      this.isCreating = true
-
-      const supplierRes = await this.createSupplier(this.supplier)
-      if (supplierRes && supplierRes.uid) {
-        this.supplier = supplierRes
-
-        // trigger pros isFormSubmitting RUploadFile to auto upload file
-        this.isFormSubmitting = true
-
-        goto("ViewSupplierList")
-      }
+      // trigger pros isFormSubmitting RUploadFile to auto upload file
+      this.isFormSubmitting = true
     },
 
     /** Handle uploaded logo */
     handleCertificateUploaded(result) {
-      this.certificate.certs.push(result.url)
+      this.supplier.certs.push({ uid: result.uid })
     },
 
     /**
-     * create new certificate for supplier
+     * Create Supplier After uploaded all file
      */
-    async createSupplierCertificate() {
-      if (this.certificate.certs.length > 0) {
-        await this.uploadCertificate(this.supplier.uid, this.certificate)
+    async createSupplierAfterUploadedFile() {
+      this.isCreating = true
+      const supplierRes = await this.createSupplier(this.supplier)
+      if (supplierRes && supplierRes.uid) {
+        this.supplier = supplierRes
+
+        goto("ViewSupplierList")
       }
       this.isCreating = false
-      goto("ViewSupplierList")
     },
 
     /**
