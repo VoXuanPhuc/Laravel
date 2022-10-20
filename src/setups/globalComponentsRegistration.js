@@ -39,6 +39,7 @@ import RProgressBar from "@/modules/core/components/common/RProgressBar"
 import RQuoteHeadline from "@/modules/core/components/common/RQuoteHeadline"
 import RSidebar from "@/modules/core/components/common/RSidebar"
 import RSidebarMenu from "@/modules/core/components/common/RSidebarMenu"
+import RSidebarMenuItem from "@/modules/core/components/common/RSidebarMenuItem"
 import RSidebarMobile from "@/modules/core/components/common/RSidebarMobile"
 import RPagination from "@/modules/core/components/common/RPagination"
 import RPaginationStatus from "@/modules/core/components/common/RPaginationStatus"
@@ -103,6 +104,7 @@ const coreComponents = {
   RQuoteHeadline,
   RSidebar,
   RSidebarMenu,
+  RSidebarMenuItem,
   RSidebarMobile,
   RPagination,
   RPaginationStatus,

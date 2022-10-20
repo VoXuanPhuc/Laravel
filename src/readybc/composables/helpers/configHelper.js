@@ -19,7 +19,7 @@ export const buildConfigs = async () => {
     if (!data?.isActive) {
       globalStore.addErrorToastMessage("Tenant is suspended")
 
-      window.location.href = process.env.VUE_APP_BASE_URL + "/tenant-notfound"
+      window.location.href = process.env.VUE_APP_BASE_URL + "/tenant"
     }
     config.server = data
 

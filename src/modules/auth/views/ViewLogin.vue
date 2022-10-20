@@ -73,6 +73,7 @@ import LayoutAuth from "@/modules/auth/components/LayoutAuth"
 import EcSpinner from "@/components/EcSpinner/index.vue"
 import { useGlobalStore } from "@/stores/global"
 import { useLoginStore } from "../stores/useLogin"
+import { useNewPasswordStore } from "../stores/useNewPassword"
 import { storeToRefs } from "pinia"
 import { goto } from "@/modules/core/composables"
 
@@ -93,11 +94,13 @@ export default {
   setup() {
     const globalStore = useGlobalStore()
     const loginStore = useLoginStore()
+    const newPasswordStore = useNewPasswordStore()
     const { form, v, CHALLENGE_CHANGE_PASSWORD } = storeToRefs(loginStore)
 
     return {
       globalStore,
       loginStore,
+      newPasswordStore,
       form,
       v,
       CHALLENGE_CHANGE_PASSWORD,
@@ -137,16 +140,18 @@ export default {
         const data = await this.loginStore.login()
 
         // Check to see if there has nay challenge
-        if (data && data.challenge_name) {
-          switch (data.challenge_name) {
+
+        if (data && data.challengeName) {
+          switch (data.challengeName) {
             case this.loginStore.CHALLENGE_CHANGE_PASSWORD:
-              goto("ViewNewPassword", {
-                params: {
-                  username: data.user_uid,
-                  session: data.session,
-                  firstName: data.first_name,
-                },
+              // Add to Store to pass to Vue New Password
+              this.newPasswordStore.setNewPasswordChallenge({
+                username: data.userUid,
+                session: data.session,
+                firstName: data.firstName,
               })
+
+              goto("ViewNewPassword")
               return
           }
         }

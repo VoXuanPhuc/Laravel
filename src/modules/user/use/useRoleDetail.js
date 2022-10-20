@@ -37,11 +37,11 @@ export const useRoleDetail = () => {
         throw new Error(data.error)
       }
 
-      globalStore.addToastMessage({ type: "success", content: "Added permission successfully" })
+      globalStore.addSuccessToastMessage("Added permission successfully")
 
       return true
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
       return false
     }
   }
@@ -58,10 +58,10 @@ export const useRoleDetail = () => {
         throw new Error(data.error)
       }
 
-      globalStore.addToastMessage({ type: "success", content: "Remove permission success" })
+      globalStore.addSuccessToastMessage("Remove permission success")
       return true
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
       return false
     }
   }

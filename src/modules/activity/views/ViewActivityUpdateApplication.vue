@@ -13,7 +13,20 @@
     <EcBox variant="card-1" class="width-full mt-8 px-4 sm:px-10">
       <!-- Applications -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
+
+          <!-- Add button -->
+          <EcButton
+            v-if="form.applications.length < applications.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreApplication"
+            v-tooltip="{ text: 'More application/software' }"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(app, index) in form.applications" :key="index">
@@ -38,18 +51,9 @@
               variant="tertiary-rounded"
               @click="handleRemoveApplication(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.applications.length - 1 && form.applications.length < applications.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreApplication"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End app access select -->
           </EcFlex>
 
@@ -99,7 +103,19 @@
 
       <!-- Equipments -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.equipments") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.equipments") }}</EcLabel>
+          <!-- Add button -->
+          <EcButton
+            v-if="form.equipments.length < equipments.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreEquipment"
+            v-tooltip="{ text: 'More equipment' }"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(equipment, index) in form.equipments" :key="index">
@@ -119,23 +135,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.equipments.length - 1"
+              v-if="form.equipments.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveEquipment(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.equipments.length - 1 && form.equipments.length < equipments.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreEquipment"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End app access select -->
           </EcFlex>
 
@@ -189,6 +196,7 @@ import { useActivityApplicationsAndEquipments } from "../use/useActivityApplicat
 
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useActivityDetail } from "../use/useActivityDetail"
+import EcFlex from "@/components/EcFlex/index.vue"
 
 export default {
   name: "ViewActivityApplication",
@@ -412,6 +420,6 @@ export default {
       this.isLoadingEquipments = false
     },
   },
-  components: { ModalCancelAddActivity },
+  components: { ModalCancelAddActivity, EcFlex },
 }
 </script>

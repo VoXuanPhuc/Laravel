@@ -14,13 +14,7 @@ const setMe = async () => {
   try {
     await globalStore.setMe()
   } catch (error) {
-    globalStore.addToastMessage({
-      type: "error",
-      content: {
-        type: "message",
-        text: error,
-      },
-    })
+    globalStore.addErrorToastMessage(error)
   }
 }
 
@@ -32,6 +26,7 @@ const checkAuthGuard = (router) => {
 
   router.beforeEach(async (to, from, next) => {
     // If they enter the link which not allowed
+    debugger
     if (!globalStore.getAllowedModuleIDs?.includes(to.meta.module)) {
       console.log(to)
     }

@@ -1,17 +1,17 @@
 <template>
-  <EcBox class="mb-5 font-medium text-lg">
-    <EcFlex>
-      <EcFlex v-for="(item, index) in items" :key="index">
-        <EcText class="text-c1-500 mr-3 cursor-pointer hover:underline" @click="navigateTo(item)">
-          {{ item.label }}
-        </EcText>
-        <EcText class="text-c0-500 mr-3">/</EcText>
-      </EcFlex>
+  <EcFlex>
+    <EcFlex v-for="(item, index) in items" :key="index" class="items-center">
+      <EcText class="text-c1-500 mr-3 ml-3 cursor-pointer hover:underline" @click="navigateTo(item)">
+        {{ item.label }}
+      </EcText>
+      <EcIcon v-if="index < items?.length - 1" icon="ChevronRight" width="14" />
     </EcFlex>
-  </EcBox>
+  </EcFlex>
 </template>
 
 <script>
+import { goto } from "../../composables"
+
 export default {
   name: "RBreadcrumb",
   props: {
@@ -23,7 +23,9 @@ export default {
   },
   methods: {
     navigateTo(item) {
-      this.$router.push(item.navigation)
+      goto(item.navigation, {
+        params: item.params,
+      })
     },
   },
 }

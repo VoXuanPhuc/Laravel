@@ -233,6 +233,8 @@ export default {
 
         // trigger pros isFormSubmitting RUploadFile to auto upload file
         this.isFormSubmitting = true
+
+        goto("ViewSupplierList")
       }
 
       this.isCreating = false

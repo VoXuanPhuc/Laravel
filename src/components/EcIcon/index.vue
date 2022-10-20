@@ -106,6 +106,8 @@ export default {
     Graph: lazyLoad("Graph"),
     Stop: lazyLoad("Stop"),
     Archive: lazyLoad("Archive"),
+    Report: lazyLoad("Report"),
+    Assessment: lazyLoad("Assessment"),
   },
 }
 </script>

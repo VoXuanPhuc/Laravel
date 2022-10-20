@@ -35,10 +35,10 @@ export const useRoleList = () => {
         throw new Error(data.error)
       }
 
-      globalStore.addToastMessage({ type: "success", content: "Deleted permission successfully" })
+      globalStore.addSuccessToastMessage("Deleted role successfully")
       return data
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
       return error
     }
   }

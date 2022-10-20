@@ -26,7 +26,7 @@ export default {
   errors: {
     system: "System error, please contact administrator",
     network: "Network Error: Please try again.",
-    token: "Invalid Token: Please login again.",
+    token: "Please login again.",
     permission: "You are not authorized to do this action.",
     notFound: "Not Found",
     query: "There was a problem.",

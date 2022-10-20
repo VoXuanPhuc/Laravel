@@ -24,7 +24,7 @@ export function useUserDetail() {
 
       return data
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage({ type: "error", content: error?.message })
       return {}
     }
   }
@@ -42,16 +42,10 @@ export function useUserDetail() {
       if (!data || data.error) {
         handleErrorForUser({ error: data?.error, $t: t })
       } else {
-        globalStore.addToastMessage({
-          type: "success",
-          content: {
-            type: "message",
-            text: `Updated`,
-          },
-        })
+        globalStore.addSuccessToastMessage("Updated")
       }
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
       return error
     }
   }
@@ -64,10 +58,10 @@ export function useUserDetail() {
     try {
       await api.deleteUser(userId)
 
-      globalStore.addToastMessage({ type: "success", content: "Deleted!" })
+      globalStore.addSuccessToastMessage("Deleted!")
       goto("ViewUserList")
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
     }
   }
 
@@ -84,10 +78,10 @@ export function useUserDetail() {
 
       const { data } = await api.assignRole(userId, payload)
 
-      globalStore.addToastMessage({ type: "success", content: "Role has been update!" })
+      globalStore.addSuccessToastMessage("Role has been update!")
       return data
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
     }
   }
 

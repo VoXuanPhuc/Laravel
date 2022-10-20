@@ -13,16 +13,12 @@ export default {
     optional: "Optional",
     context: "Context",
 
-    label: {
+    labels: {
       businessUnit: "Business Unit",
       entityName: "Entity Name",
       activityName: "Activity Name",
-      status: "Status",
       createdAt: "Created At",
       step: "Step",
-    },
-
-    labels: {
       yes: "Yes",
       no: "No",
       name: "Name of activity",
@@ -50,21 +46,16 @@ export default {
       back: "Back",
       cancel: "Cancel",
       close: "Close",
-    },
-
-    button: {
       exportActivities: "Export Activities",
       timeImpactAnalysis: "Time Impact Analysis",
       addActivity: "Add activity ",
-      create: "Create",
-      update: "Update",
       edit: "Edit",
       view: "View",
       confirm: "Confirm",
-      cancel: "Cancel",
       delete: "Delete",
       deleteActivity: "Delete Activity",
     },
+
     title: {
       newActivity: "New Activity",
       editActivity: "Update Activity",
@@ -93,6 +84,12 @@ export default {
       loading: "Loading...",
       division: "--- Division ---",
       bu: "--- Business Unit ---",
+    },
+
+    assignee: {
+      label: "Assignee",
+      uid: "uid",
+      name: "Assignee",
     },
 
     division: {

@@ -57,12 +57,12 @@
           variant="primary-sm"
           @click="handleClickDownloadActivities"
         >
-          {{ $t("activity.button.exportActivities") }}
+          {{ $t("activity.buttons.exportActivities") }}
         </EcButton>
 
         <!-- Add activity -->
         <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddActivity">
-          {{ $t("activity.button.addActivity") }}
+          {{ $t("activity.buttons.addActivity") }}
         </EcButton>
       </EcBox>
     </EcBox>
@@ -117,7 +117,7 @@
                 <!-- View action -->
                 <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("activity.button.view") }}</EcText>
+                  <EcText class="font-medium">{{ $t("activity.buttons.view") }}</EcText>
                 </EcFlex>
 
                 <!-- Edit action -->
@@ -126,12 +126,12 @@
                   @click="handleClickEditActivity(item.uid)"
                 >
                   <EcIcon class="mr-3" icon="Pencil" />
-                  <EcText class="font-medium">{{ $t("activity.button.edit") }}</EcText>
+                  <EcText class="font-medium">{{ $t("activity.buttons.edit") }}</EcText>
                 </EcFlex>
                 <!-- Delete action -->
                 <EcFlex class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100">
                   <EcIcon class="mr-3" icon="X" />
-                  <EcText class="font-medium">{{ $t("activity.button.delete") }}</EcText>
+                  <EcText class="font-medium">{{ $t("activity.buttons.delete") }}</EcText>
                 </EcFlex>
               </RTableAction>
             </EcFlex>
@@ -201,10 +201,10 @@ export default {
     return {
       headerData: [
         // { label: this.$t("activity.label.businessUnit") },
-        { label: this.$t("activity.label.activityName") },
-        { label: this.$t("activity.label.step") },
-        { label: this.$t("activity.label.status") },
-        { label: this.$t("activity.label.createdAt") },
+        { label: this.$t("activity.labels.activityName") },
+        { label: this.$t("activity.labels.step") },
+        { label: this.$t("activity.labels.status") },
+        { label: this.$t("activity.labels.createdAt") },
       ],
       selectedDivision: null,
       selectedBU: null,

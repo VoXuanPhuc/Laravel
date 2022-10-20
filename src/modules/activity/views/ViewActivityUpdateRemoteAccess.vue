@@ -13,7 +13,19 @@
     <EcBox variant="card-1" class="width-full mt-8 px-4 sm:px-10">
       <!-- Remote factors -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
+
+          <!-- Add button -->
+          <EcButton
+            v-if="form.remote_access_factors.length < remoteAccessFactors.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreRemoteAccessFactor"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(remoteAccessFactor, index) in form.remote_access_factors" :key="index">
@@ -33,25 +45,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.remote_access_factors.length - 1"
+              v-if="form.remote_access_factors.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveRemoteAccessFactor(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="
-                index == form.remote_access_factors.length - 1 && form.remote_access_factors.length < remoteAccessFactors.length
-              "
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreRemoteAccessFactor"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End Remote access select -->
           </EcFlex>
 
@@ -119,6 +120,7 @@ import { useActivityDetail } from "../use/useActivityDetail"
 import EcButton from "@/components/EcButton/index.vue"
 import EcIcon from "@/components/EcIcon/index.vue"
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
+import EcFlex from "@/components/EcFlex/index.vue"
 
 export default {
   name: "ViewActivityRemoteAccess",
@@ -286,6 +288,6 @@ export default {
       this.isLoadingRemoteAccessFactors = false
     },
   },
-  components: { EcButton, EcIcon, ModalCancelAddActivity },
+  components: { EcButton, EcIcon, ModalCancelAddActivity, EcFlex },
 }
 </script>

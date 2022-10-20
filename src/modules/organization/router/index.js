@@ -72,7 +72,7 @@ export default [
     name: "ViewDepartmentManagement",
     props: true,
     meta: {
-      title: "New Division",
+      title: "Departments",
       module: "department",
       landlordAccess: true,
     },

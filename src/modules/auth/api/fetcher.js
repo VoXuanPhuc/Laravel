@@ -5,5 +5,5 @@ export const login = (credential) => {
 }
 
 export const forceChangeNewPassword = (payload) => {
-  return fetcher.post("/identity/api/v1/change-password", payload)
+  return fetcher.post("/identity/api/v1/change-password-challenge", payload)
 }

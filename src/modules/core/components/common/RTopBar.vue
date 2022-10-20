@@ -1,11 +1,30 @@
 <template>
   <EcFlex :class="variantCls.root">
-    <EcFlex class="w-1/2"></EcFlex>
+    <!-- Breadcrum -->
+    <EcFlex class="w-1/2 ml-2">
+      <RBreadcrumb :items="breadcrumbItems" />
+    </EcFlex>
+
+    <!-- Notification and beyond -->
     <EcFlex class="w-1/2 justify-end mr-4">
-      <EcFlex class="items-center mr-4 text-sm"> Hi, {{ userFullName }} </EcFlex>
+      <!-- Notifications -->
+      <EcFlex :class="variantCls.notifications">
+        <EcIcon icon="Bell" />
+      </EcFlex>
+
+      <!-- Settings -->
+      <EcFlex :class="variantCls.settings">
+        <EcIcon icon="Cog" />
+      </EcFlex>
+
       <!-- Avartar -->
       <EcFlex :class="variantCls.avatar_box" @click="handleClickAvatarIcon">
-        <EcText class="text-c1-800 font-semibold">{{ userAvatarLetters }}</EcText>
+        <EcText class="text-cWhite font-semibold">{{ userAvatarLetters }}</EcText>
+      </EcFlex>
+
+      <EcFlex :class="variantCls.logout" @click="handleClickLogout">
+        <EcIcon icon="Logout" />
+        <EcText class="ml-2">Logout</EcText>
       </EcFlex>
 
       <!-- account tool box -->
@@ -21,12 +40,6 @@
             <EcIcon icon="User" width="20" height="20" class="text-cSuccess-600" />
             <EcText class="ml-2">My account</EcText>
           </EcFlex>
-
-          <!-- Log out -->
-          <EcFlex :class="variantCls.menu_item" @click="handleClickLogout">
-            <EcIcon icon="Logout" width="20" height="20" class="text-cError-600" />
-            <EcText class="ml-2">Logout</EcText>
-          </EcFlex>
         </EcBox>
       </Transition>
     </EcFlex>
@@ -39,6 +52,10 @@ import EcFlex from "@/components/EcFlex/index.vue"
 import { goto } from "../../composables"
 import * as helpers from "@/readybc/composables/helpers/helpers"
 import EcText from "@/components/EcText/index.vue"
+import EcBox from "@/components/EcBox/index.vue"
+import EcIcon from "@/components/EcIcon/index.vue"
+import RBreadcrumb from "./RBreadcrumb.vue"
+import { useRoute } from "vue-router"
 
 export default {
   name: "RTopBar",
@@ -57,8 +74,15 @@ export default {
   /* eslint-disable */
   setup() {
     const globalStore = useGlobalStore()
+
+    const route = useRoute()
+
+    console.log(route?.meta)
+    const breadcrumbItems = route?.meta?.breadcrumbs || []
+
     return {
       globalStore,
+      breadcrumbItems,
     }
   },
   beforeMount() {},
@@ -109,6 +133,6 @@ export default {
       this.globalStore.logout()
     },
   },
-  components: { EcFlex, EcText },
+  components: { EcFlex, EcText, EcBox, EcIcon, RBreadcrumb },
 }
 </script>

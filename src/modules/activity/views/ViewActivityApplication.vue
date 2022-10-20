@@ -14,14 +14,30 @@
       <!-- Title and cancel button -->
       <EcFlex>
         <EcText class="w-11/12 font-bold text-lg mb-4">{{ $t("activity.title.software") }}</EcText>
-        <EcButton class="mx-auto mr-0 my-auto mt-0" variant="tertiary-rounded" title="Cancel" @click="handleOpenCancelModal">
+        <EcButton
+          class="mx-auto mr-0 my-auto mt-0"
+          variant="tertiary-rounded"
+          v-tooltip="{ text: 'Cancel doing activity' }"
+          @click="handleOpenCancelModal"
+        >
           <EcIcon class="text-sm text-cError-500" icon="X" />
         </EcButton>
       </EcFlex>
 
       <!-- Applications -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
+          <!-- Add button -->
+          <EcButton
+            v-if="form.applications.length < applications.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreApplication"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(app, index) in form.applications" :key="index">
@@ -41,23 +57,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.applications.length - 1"
+              v-if="form.applications.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveApplication(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.applications.length - 1 && form.applications.length < applications.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreApplication"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End app access select -->
           </EcFlex>
 
@@ -107,7 +114,19 @@
 
       <!-- Equipments -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.equipments") }}</EcLabel>
+        <EcFlex>
+          <EcLabel class="text-sm"> {{ $t("activity.labels.equipments") }}</EcLabel>
+
+          <!-- Add button -->
+          <EcButton
+            v-if="form.equipments.length < equipments.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreEquipment"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(equipment, index) in form.equipments" :key="index">
@@ -127,23 +146,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.equipments.length - 1"
+              v-if="form.equipments.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveEquipment(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.equipments.length - 1 && form.equipments.length < equipments.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreEquipment"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End app access select -->
           </EcFlex>
 
@@ -198,6 +208,8 @@ import { useActivityApplicationsAndEquipments } from "../use/useActivityApplicat
 
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useActivityDetail } from "../use/useActivityDetail"
+import EcFlex from "@/components/EcFlex/index.vue"
+import EcLabel from "@/components/EcLabel/index.vue"
 
 export default {
   name: "ViewActivityApplication",
@@ -422,6 +434,6 @@ export default {
       this.isLoadingEquipments = false
     },
   },
-  components: { ModalCancelAddActivity },
+  components: { ModalCancelAddActivity, EcFlex, EcLabel },
 }
 </script>

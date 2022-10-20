@@ -51,6 +51,7 @@ export default {
       viewGraph: "View Graph",
       delete: "Delete",
       deleteDependency: "Delete dependency",
+      downloadSVG: "Download SVG",
     },
 
     title: {

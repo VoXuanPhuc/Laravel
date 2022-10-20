@@ -69,6 +69,7 @@
 <script>
 import LayoutAuth from "@/modules/auth/components/LayoutAuth"
 import { useForceChangePassword } from "../use/useForceChangePassword"
+import { useNewPasswordStore } from "../stores/useNewPassword"
 import { goto } from "@/modules/core/composables"
 import { useGlobalStore } from "@/stores/global"
 
@@ -78,6 +79,17 @@ export default {
     LayoutAuth,
   },
 
+  props: {
+    username: {
+      type: String,
+    },
+    session: {
+      type: String,
+    },
+    firstName: {
+      type: String,
+    },
+  },
   data() {
     return {
       isLoading: false,
@@ -87,6 +99,7 @@ export default {
   },
   setup() {
     const globalStore = useGlobalStore()
+    const newPasswordStore = useNewPasswordStore()
     const { form, v$, submitChangePassword } = useForceChangePassword()
 
     return {
@@ -94,15 +107,14 @@ export default {
       v$,
       submitChangePassword,
       globalStore,
+      newPasswordStore,
     }
   },
 
   mounted() {
-    const { username, firstName, session } = this.$route.params
-
-    this.form.username = username
-    this.form.first_name = firstName
-    this.form.session_value = session
+    this.form.username = this.newPasswordStore?.getNewPasswordChallenge?.username
+    this.form.first_name = this.newPasswordStore?.getNewPasswordChallenge?.firstName
+    this.form.session_value = this.newPasswordStore?.getNewPasswordChallenge?.session
 
     if (!this.form.username || !this.form.first_name || !this.form.session_value) {
       this.globalStore.addErrorToastMessage(this.$t("auth.errors.invalidSession"))

@@ -38,6 +38,8 @@
             @input="v$.form.description.$touch()"
           />
         </EcBox>
+
+        <EcCheckboxGroup :options="permissions"> </EcCheckboxGroup>
       </EcFlex>
 
       <EcFlex v-if="!isLoading" class="mt-6">
@@ -59,24 +61,34 @@
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useRoleNew } from "../use/useRoleNew"
+import EcCheckboxGroup from "@/components/EcCheckboxGroup/index.vue"
 
 export default {
   name: "ViewRoleNew",
   setup() {
     const { form, v$, createNewRole } = useRoleNew()
-
     const isLoading = ref(false)
     const router = useRouter()
 
+    const permissions = [
+      {
+        name: "XX",
+        value: "C",
+      },
+      {
+        name: "XX",
+        value: "C",
+      },
+    ]
     return {
       form,
       v$,
       createNewRole,
       isLoading,
       router,
+      permissions,
     }
   },
-
   methods: {
     /**
      *
@@ -92,26 +104,22 @@ export default {
       if (this.v$.form.$invalid) {
         return
       }
-
       this.isLoading = true
-
       const payload = {
         name: this.form.name,
         label: this.form.label,
         description: this.form.description,
         tenant_id: 1,
       }
-
       await this.createNewRole(payload)
-
       this.isLoading = false
       this.router.push({ name: "ViewRoles" })
     },
-
     // Redirect to role list if cancel
     handleCancel() {
       this.router.push({ name: "ViewRoles" })
     },
   },
+  components: { EcCheckboxGroup },
 }
 </script>

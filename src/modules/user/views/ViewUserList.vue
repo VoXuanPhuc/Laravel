@@ -60,7 +60,7 @@
             </EcText>
           </RTableCell>
 
-          <!-- Status -->
+          <!-- Confirmation Status -->
           <RTableCell>
             <EcText class="w-64" :variant="getStatusType(item.status)">
               {{ item.status }}
@@ -277,13 +277,7 @@ export default {
       if (error) {
         handleErrorForUser({ error, $t: this.$t })
       } else {
-        this.globalStore.addToastMessage({
-          type: "success",
-          content: {
-            type: "message",
-            text: this.$t("user.message.reinviteSuccess"),
-          },
-        })
+        this.globalStore.addSuccessToastMessage(this.$t("user.message.reinviteSuccess"))
       }
     },
   },

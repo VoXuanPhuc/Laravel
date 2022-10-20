@@ -41,7 +41,7 @@ export function useUserNew() {
         throw new Error(response.error)
       }
 
-      globalStore.addToastMessage({ type: "success", content: "Created success, loading..." })
+      globalStore.addSuccessToastMessage("Created success, loading...")
 
       goto("ViewUserDetail", {
         params: {
@@ -49,7 +49,7 @@ export function useUserNew() {
         },
       })
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
     }
   }
 

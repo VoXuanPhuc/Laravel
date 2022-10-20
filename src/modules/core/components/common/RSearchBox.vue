@@ -4,7 +4,7 @@
       type="text"
       :value="modelValue"
       :class="[isSearched ? 'pr-20' : 'pr-12', variantCls.textBox]"
-      class="bg-cWhite font-medium text-c0-500 pl-4 h-10 border border-c0-300 w-full rounded-lg focus:outline-none focus:border-c1-500"
+      class="bg-cWhite font-medium text-c0-500 pl-4 h-8 border border-c0-300 w-full rounded-lg focus:outline-none focus:border-c1-500"
       :placeholder="placeholder"
       @focus="handleFocus()"
       @blur="handleBlur()"
@@ -65,13 +65,13 @@ export default {
         md: {
           textBox: "h-12",
           crossSize: "16",
-          searchSize: "24",
+          searchSize: "20",
         },
 
         sm: {
           textBox: "h-10",
           crossSize: "12",
-          searchSize: "20",
+          searchSize: "16",
         },
       },
     }

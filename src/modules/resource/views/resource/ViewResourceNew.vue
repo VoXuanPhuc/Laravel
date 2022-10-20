@@ -43,10 +43,9 @@
 
       <!-- Status -->
       <EcFlex class="flex-wrap max-w-md items-center mb-8">
-        <EcBox class="w-full sm:w-6/12 sm:pr-6">
+        <EcBox class="w-full sm:w-6/12">
           <!-- select box -->
           <RFormInput
-            class="w-full"
             v-model="resource.status"
             componentName="EcSelect"
             :label="$t('resource.labels.status')"
@@ -60,22 +59,24 @@
       </EcFlex>
 
       <!-- Categories -->
-      <EcFlex class="flex-wrap max-w-md items-center mb-8">
-        <EcBox class="w-full sm:w-6/12 sm:pr-6">
-          <EcFlex class="mb-3">
-            <EcLabel class="text-sm"> {{ $t("resource.category.label") }}</EcLabel>
-            <EcButton
-              variant="primary-rounded"
-              class="h-6 ml-2"
-              title="Did not see category? Add new"
-              @click="handleOpenAddNewCategoryModal"
-            >
-              <EcIcon icon="Plus" class="h-6 w-4" />
-            </EcButton>
-          </EcFlex>
-          <!-- select box -->
+      <EcBox class="flex-wrap max-w-md items-center mb-8">
+        <!-- Title and add button -->
+        <EcFlex class="mb-3">
+          <EcLabel class="text-sm"> {{ $t("resource.category.label") }}</EcLabel>
+          <EcButton
+            variant="primary-rounded"
+            class="h-6 ml-2"
+            v-tooltip="{ text: 'New category' }"
+            @click="handleOpenAddNewCategoryModal"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
+
+        <!-- select box -->
+        <EcFlex class="items-center">
           <RFormInput
-            class="w-full"
+            class="w-full sm:w-6/12"
             v-model="resource.category.uid"
             componentName="EcSelect"
             :allowSelectNothing="false"
@@ -85,9 +86,9 @@
             field="resource.category.uid"
             @change="vldator$.resource.category.uid.$touch()"
           />
-        </EcBox>
-        <EcSpinner v-if="isLoadingCategories"></EcSpinner>
-      </EcFlex>
+          <EcSpinner v-if="isLoadingCategories" class="ml-2"></EcSpinner>
+        </EcFlex>
+      </EcBox>
 
       <!-- Owners select -->
       <EcBox class="w-full mb-8">
@@ -96,7 +97,7 @@
           <EcButton
             variant="primary-rounded"
             class="h-6 ml-2"
-            title="Did not see owner? Add new"
+            v-tooltip="{ text: 'Did not see owner? Add a new one' }"
             @click="handleOpenAddNewOwnerModal"
           >
             <EcIcon icon="Plus" class="h-6 w-4" />
@@ -127,7 +128,7 @@
               variant="tertiary-rounded"
               @click="handleRemoveOwner(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
             <!-- Add button -->
@@ -135,10 +136,10 @@
               v-if="index == resource.owners.length - 1 && resource.owners.length < owners.length"
               class="ml-2"
               variant="primary-rounded"
-              title="Add more owner who owns this resource"
+              v-tooltip="{ text: 'Add more owner who owns this resource' }"
               @click="handleAddMoreOwner"
             >
-              <EcIcon icon="Plus" />
+              <EcIcon icon="Plus" width="16" height="16" />
             </EcButton>
             <!-- End role select -->
           </EcFlex>

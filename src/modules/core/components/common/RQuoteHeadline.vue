@@ -57,13 +57,7 @@ export default {
         document.getSelection().addRange(selected)
       }
 
-      globalStore.addToastMessage({
-        type: "success",
-        content: {
-          type: "message",
-          text: t("core.copyLinkSuccess"),
-        },
-      })
+      globalStore.addSuccessToastMessage(t("core.copyLinkSuccess"))
     }
 
     return { isMouseHovering, routePath, handleMouseEnter, handleMouseLeave, copyLink }

@@ -38,11 +38,11 @@ export const useRoleNew = () => {
         throw new Error(data.error)
       }
 
-      globalStore.addToastMessage({ type: "success", content: "Added role successfully" })
+      globalStore.addSuccessToastMessage("Added role successfully")
 
       return data
     } catch (error) {
-      globalStore.addToastMessage({ type: "error", content: error?.message })
+      globalStore.addErrorToastMessage(error?.message)
       return error
     }
   }

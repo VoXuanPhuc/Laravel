@@ -13,6 +13,7 @@ export default {
     activities: "Activities",
     reports: "Reports",
     settings: "Settings",
+    assessment: "Assessment",
     logout: "Log Out",
 
     // Others

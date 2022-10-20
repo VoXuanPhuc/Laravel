@@ -14,14 +14,30 @@
       <!-- Title and cancel button -->
       <EcFlex>
         <EcText class="w-11/12 font-bold text-lg mb-4">{{ $t("activity.title.remote") }}</EcText>
-        <EcButton class="mx-auto mr-0 my-auto mt-0" variant="tertiary-rounded" title="Cancel" @click="handleOpenCancelModal">
+        <EcButton
+          class="mx-auto mr-0 my-auto mt-0"
+          variant="tertiary-rounded"
+          v-tooltip="{ text: 'Cancel doing activity' }"
+          @click="handleOpenCancelModal"
+        >
           <EcIcon class="text-sm text-cError-500" icon="X" />
         </EcButton>
       </EcFlex>
 
       <!-- Remote factors -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
+          <!-- Add button -->
+          <EcButton
+            v-if="form.remote_access_factors.length < remoteAccessFactors.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreRemoteAccessFactor"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- remote access row -->
         <EcBox class="items-center mb-2 w-full" v-for="(remoteAccessFactor, index) in form.remote_access_factors" :key="index">
@@ -41,25 +57,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.remote_access_factors.length - 1"
+              v-if="form.remote_access_factors.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveRemoteAccessFactor(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="
-                index == form.remote_access_factors.length - 1 && form.remote_access_factors.length < remoteAccessFactors.length
-              "
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreRemoteAccessFactor"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End Remote access select -->
           </EcFlex>
 
@@ -83,6 +88,7 @@
         <EcBox class="w-full sm:w-6/12 sm:pr-6">
           <RFormInput
             v-model="form.on_site_requires"
+            :disabled="isOnSiteDisabled"
             componentName="EcInputText"
             :label="$t('activity.labels.unableEnableRemote')"
             :validator="v$"
@@ -178,6 +184,17 @@ export default {
 
         return remoteAccessFactor
       })
+    },
+
+    /**
+     * Check disable
+     */
+    isOnSiteDisabled() {
+      return (
+        this.form.remote_access_factors.filter((item) => {
+          return item?.uid?.length > 0
+        }).length > 0
+      )
     },
   },
   methods: {

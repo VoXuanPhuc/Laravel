@@ -30,6 +30,7 @@ import LayoutAuth from "./LayoutAuth"
 import ViewLogin from "./ViewLogin"
 import RSidebar from "./RSidebar"
 import RSidebarMenu from "./RSidebarMenu"
+import RSidebarMenuItem from "./RSidebarMenuItem"
 import RTopBar from "./RTopBar"
 import RLayoutDefault from "./RLayoutDefault"
 
@@ -67,6 +68,7 @@ const variants = {
   RSidebar,
   RTopBar,
   RSidebarMenu,
+  RSidebarMenuItem,
   RLayoutDefault,
 }
 

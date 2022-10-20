@@ -42,15 +42,13 @@ export const useLoginStore = defineStore("login", () => {
         password: this.form.password,
       })
 
-      if (data && data.challenge_name) {
+      if (data && data.challengeName) {
         return data
       }
 
       if (!data || !data.accessToken) {
         throw new Error(t("auth.errors.login"))
       }
-
-      
 
       localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, data.accessToken)
       localStorage.setItem(process.env.VUE_APP_ID_TOKEN_KEY, data.idToken)

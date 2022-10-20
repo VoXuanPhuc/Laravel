@@ -17,6 +17,7 @@
         :selected="option[valueKey] === modelValue"
         :value="option[valueKey]"
         :disabled="option.disabled"
+        :class="option.disabled ? variantCls.disabledOption : ''"
       >
         {{ option[nameKey] }}
       </option>

@@ -24,50 +24,26 @@ export function defaultErrorHandler(error = {}) {
   const { code, message } = centralizeError(error)
 
   if (code === 500) {
-    globalStore.addToastMessage({
-      type: "error",
-      content: {
-        type: "message",
-        text: i18n.global.t("errors.system"),
-      },
-    })
+    globalStore.addErrorToastMessage(i18n.global.t("errors.system"))
     return
   }
 
   if (code === 401) {
-    globalStore.addToastMessage({
-      type: "error",
-      content: {
-        type: "message",
-        text: i18n.global.t("errors.token"),
-      },
-    })
+    globalStore.addErrorToastMessage(i18n.global.t("errors.token"))
 
     setTimeout(() => {
       logout()
-    }, 1500)
+    }, 500)
     return
   }
 
   if (code === 403) {
-    globalStore.addToastMessage({
-      type: "error",
-      content: {
-        type: "message",
-        text: i18n.global.t("errors.permission"),
-      },
-    })
+    globalStore.addErrorToastMessage(i18n.global.t("errors.permission"))
     return
   }
 
   if (code === 404) {
-    globalStore.addToastMessage({
-      type: "error",
-      content: {
-        type: "message",
-        text: i18n.global.t("errors.notFound"),
-      },
-    })
+    globalStore.addErrorToastMessage(i18n.global.t("errors.notFound"))
     return
   }
 

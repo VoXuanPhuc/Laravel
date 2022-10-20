@@ -5,7 +5,7 @@
 <script>
 export default {
   name: "EcTooltip",
-
+  inject: ["getComponentVariants"],
   props: {
     variant: {
       type: String,

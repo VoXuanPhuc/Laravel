@@ -7,7 +7,7 @@ import useVuelidate from "@vuelidate/core"
 export function useOwnerNew() {
   const globalStore = useGlobalStore()
   const form = ref({
-    is_invite: true,
+    is_invite: false,
   })
 
   const rules = {

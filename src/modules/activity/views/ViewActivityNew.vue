@@ -41,6 +41,23 @@
         </EcBox>
       </EcFlex> -->
 
+      <!-- Assignee -->
+      <EcFlex class="flex-wrap max-w-md items-center mb-8">
+        <EcBox class="w-full sm:w-6/12 sm:pr-6">
+          <RFormInput
+            v-model="form.assignee"
+            :label="$t('activity.assignee.label')"
+            componentName="EcMultiSelect"
+            :options="filteredUsers"
+            :isSingleSelect="true"
+            :valueKey="'uid'"
+            :validator="v$"
+            field="form.assignee"
+          />
+        </EcBox>
+        <EcSpinner class="my-auto mb-1" v-if="isLoadingUsers"></EcSpinner>
+      </EcFlex>
+
       <!-- Divisions -->
       <EcFlex class="flex-wrap max-w-md items-center mb-8">
         <EcBox class="w-full sm:w-6/12 sm:pr-6">
@@ -54,7 +71,7 @@
             field="form.division.uid"
           />
         </EcBox>
-        <EcSpinner v-if="isLoadingDivisions"></EcSpinner>
+        <EcSpinner class="my-auto mb-1" v-if="isLoadingDivisions"></EcSpinner>
       </EcFlex>
 
       <!-- Business Units -->
@@ -70,12 +87,25 @@
             field="form.business_unit.uid"
           />
         </EcBox>
-        <EcSpinner v-if="isLoadingBusinessUnits"></EcSpinner>
+        <EcSpinner class="my-auto mb-1" v-if="isLoadingBusinessUnits"></EcSpinner>
       </EcFlex>
 
       <!-- Roles select -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.roles") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.roles") }}</EcLabel>
+
+          <!-- Add button -->
+          <EcButton
+            v-if="form.roles.length < roles.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreRole"
+            v-tooltip="{ text: 'Add more role' }"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- Role row -->
         <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.roles" :key="index">
@@ -86,33 +116,20 @@
               componentName="EcSelect"
               :options="filteredRoles"
               :valueKey="'uid'"
+              d
               :nameKey="'label'"
               :validator="v$"
               field="form.roles[index].uid"
             />
 
             <!-- Loading roles -->
-            <EcSpinner v-if="isLoadingRoles" class="ml-2"></EcSpinner>
+            <EcSpinner class="my-auto mb-1 ml-2" v-if="isLoadingRoles"></EcSpinner>
 
             <!-- Remove button -->
-            <EcButton
-              v-if="index !== form.roles.length - 1"
-              class="ml-2"
-              variant="tertiary-rounded"
-              @click="handleRemoveRole(index)"
-            >
-              <EcIcon class="text-c1-300" icon="X" />
+            <EcButton v-if="form.roles.length > 1" class="ml-2" variant="tertiary-rounded" @click="handleRemoveRole(index)">
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.roles.length - 1 && form.roles.length < roles.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreRole"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End role select -->
           </EcFlex>
 
@@ -133,7 +150,19 @@
 
       <!-- Alternative roles select -->
       <EcBox class="w-full mb-8" v-if="filteredAlternativeRoles.length > 0">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
+          <!-- Add button -->
+          <EcButton
+            v-if="form.alternative_roles.length < filteredAlternativeRoles.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreAlternativeRole"
+            v-tooltip="{ text: 'Add more alternative role' }"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- Alternative Role row -->
         <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.alternative_roles" :key="index">
@@ -154,23 +183,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.alternative_roles.length - 1"
+              v-if="form.alternative_roles.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveAlternativeRole(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.alternative_roles.length - 1 && form.alternative_roles.length < filteredAlternativeRoles.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreAlternativeRole"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End alternative role select -->
           </EcFlex>
 
@@ -222,7 +242,19 @@
 
       <!-- Utilities -->
       <EcBox class="w-full mb-8">
-        <EcLabel class="text-sm"> {{ $t("activity.labels.utilities") }}</EcLabel>
+        <EcFlex class="items-center">
+          <EcLabel class="text-sm"> {{ $t("activity.labels.utilities") }}</EcLabel>
+          <!-- Add button -->
+          <EcButton
+            v-if="form.utilities.length < utilities.length"
+            class="ml-2"
+            variant="primary-rounded"
+            @click="handleAddMoreUtility"
+            v-tooltip="{ text: 'You can add more utility' }"
+          >
+            <EcIcon icon="Plus" width="16" height="16" />
+          </EcButton>
+        </EcFlex>
 
         <!-- Utility row -->
         <EcBox class="items-center mb-2 w-full" v-for="(role, index) in form.utilities" :key="index">
@@ -242,23 +274,14 @@
 
             <!-- Remove button -->
             <EcButton
-              v-if="index !== form.utilities.length - 1"
+              v-if="form.utilities.length > 1"
               class="ml-2"
               variant="tertiary-rounded"
               @click="handleRemoveUtility(index)"
             >
-              <EcIcon class="text-c1-300" icon="X" />
+              <EcIcon class="text-c1-400" icon="X" width="16" height="16" />
             </EcButton>
 
-            <!-- Add button -->
-            <EcButton
-              v-if="index == form.utilities.length - 1 && form.utilities.length < utilities.length"
-              class="ml-2"
-              variant="primary-rounded"
-              @click="handleAddMoreUtility"
-            >
-              <EcIcon icon="Plus" />
-            </EcButton>
             <!-- End role select -->
           </EcFlex>
 
@@ -310,6 +333,7 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
+import { useUserList } from "@/modules/user/use/useUserList"
 import { useRoleList } from "@/modules/user/use/useRoleList"
 import { useActivityNew } from "../use/useActivityNew"
 import { useActivityDetail } from "../use/useActivityDetail"
@@ -320,6 +344,7 @@ import { useGlobalStore } from "@/stores/global"
 import { useBusinessUnitList } from "@/modules/organization/use/business_unit/useBusinessUnitList"
 import isEmpty from "lodash.isempty"
 import EcBox from "@/components/EcBox/index.vue"
+import EcFlex from "@/components/EcFlex/index.vue"
 
 export default {
   name: "ViewActivityNew",
@@ -327,10 +352,12 @@ export default {
     return {
       isModalCancelOpen: false,
       isLoading: false,
+      isLoadingUsers: false,
       isLoadingRoles: false,
       isLoadingUtilities: false,
       isLoadingDivisions: false,
       isLoadingBusinessUnits: false,
+      users: [],
       roles: [],
       utilities: [],
       divisions: [],
@@ -346,6 +373,7 @@ export default {
     }
   },
   mounted() {
+    this.fetchUsers()
     this.fetchRoles()
     this.fetchUtilities()
     this.fetchDivisions()
@@ -358,14 +386,18 @@ export default {
     const { getDivisions } = useDivisionList()
     const { getBusinessUnits } = useBusinessUnitList()
 
+    const { fetchUserList } = useUserList()
     const { getRoles } = useRoleList()
     const { getUtilities } = useUtilities()
+
+    // New activity
     const { form, v$, createNewActivity } = useActivityNew()
 
     return {
       // Pre load
       getActivity,
       updateActivity,
+      fetchUserList,
       getRoles,
       getUtilities,
       getDivisions,
@@ -378,6 +410,15 @@ export default {
   },
 
   computed: {
+    // Users
+    filteredUsers() {
+      return this.users?.map((item) => {
+        return {
+          name: [item.firstName, item.lastName].join(" "),
+          uid: item.id,
+        }
+      })
+    },
     /**
      * Filtered roles
      */
@@ -534,7 +575,14 @@ export default {
       const { uid } = this.$route.params
       this.isLoading = true
 
-      const response = await this.getActivity(uid, ["division", "businessUnit", "roles", "alternativeRoles", "utilities"])
+      const response = await this.getActivity(uid, [
+        "assignee",
+        "division",
+        "businessUnit",
+        "roles",
+        "alternativeRoles",
+        "utilities",
+      ])
 
       if (response && response.uid) {
         this.transformData(response)
@@ -561,6 +609,11 @@ export default {
         this.form.business_unit = response.business_unit
       }
 
+      // Assignee
+      if (response?.assignee) {
+        this.form.assignee = response.assignee
+      }
+
       // Roles
       if (response?.roles?.length > 0) {
         this.form.roles = response.roles
@@ -575,6 +628,18 @@ export default {
       if (response?.utilities?.length > 0) {
         this.form.utilities = response.utilities
       }
+    },
+
+    /**
+     * Fetch users
+     */
+    async fetchUsers() {
+      this.isLoadingUsers = true
+      const response = await this.fetchUserList()
+      if (response) {
+        this.users = response
+      }
+      this.isLoadingUsers = false
     },
 
     /**
@@ -629,6 +694,6 @@ export default {
       this.isLoadingBusinessUnits = false
     },
   },
-  components: { ModalCancelAddActivity, EcBox },
+  components: { ModalCancelAddActivity, EcBox, EcFlex },
 }
 </script>

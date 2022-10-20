@@ -29,6 +29,15 @@ export default {
           selected: "text-cWhite",
         },
       },
+
+      data: {
+        wrapper: "mx-auto mr-0",
+        text: {
+          wrapper: "font-medium tracking-wider leading-tight text-sm truncate",
+          idle: "text-c1-800  text-xs bg-c1-100 pl-2 pr-2 rounded-lg",
+          selected: "text-c1-800 text-xs  bg-c1-100 pl-2 pr-2 rounded-lg",
+        },
+      },
     },
   },
 }

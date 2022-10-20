@@ -11,7 +11,7 @@
       {{ placeholder }}
     </span>
     <div v-else :class="isGroupOptions ? variantCls.tagRootGroupOptions : variantCls.tagRoot">
-      <div v-for="(tag, idx) in tags" :key="tag[valueKey]" :class="variantCls.tag">
+      <div v-for="(tag, idx) in tags" :key="tag[valueKey]" :class="variantCls.tag + ` ${tag?.tag_color || 'bg-c1-800'} `">
         <span> {{ isGroupOptions ? tag?.type + ": " : "" }} {{ tag[nameKey] }}</span>
         <span class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)">&times;</span>
       </div>
@@ -223,7 +223,11 @@ export default {
   watch: {
     modelValue: {
       handler() {
-        this.tags = this.modelValue || []
+        if (this.isSingleSelect) {
+          this.tags = this.modelValue[this.valueKey] ? [this.modelValue] : []
+        } else {
+          this.tags = this.modelValue || []
+        }
       },
       immediate: true,
       deep: true,
@@ -289,7 +293,12 @@ export default {
       this.toggleOptions(false)
 
       this.searchTerm = ""
-      this.$emit("update:modelValue", this.tags)
+
+      if (this.isSingleSelect) {
+        this.$emit("update:modelValue", this.tags[0])
+      } else {
+        this.$emit("update:modelValue", this.tags)
+      }
     },
 
     /**

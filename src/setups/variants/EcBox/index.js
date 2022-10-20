@@ -7,7 +7,7 @@ export default {
   },
   "card-1": {
     el: {
-      root: "rounded-lg shadow px-2 sm:px-4 py-8 bg-cWhite",
+      root: "rounded-lg shadow px-2 sm:px-4 lg:py-4 bg-cWhite",
     },
   },
   "card-2": {

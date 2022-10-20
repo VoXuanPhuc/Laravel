@@ -1,22 +1,18 @@
 <template>
-  <svg
-    width="512px"
-    height="512px"
-    viewBox="0 0 512 512"
-    role="img"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-labelledby="activityIconTitle"
-    stroke="currentColor"
-    stroke-width="62"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="none"
-    color="#000000"
-  >
-    <title id="activityIconTitle">Activity</title>
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
-      points="21 14 18 14 15 7 10 17 7 11 5 14 3 14"
-      d="M448 298.667L384 298.667L320 149.333L213.333 362.667L149.333 234.667L106.667 298.667L64 298.667"
+      d="M11 20.1667C16.0417 20.1667 20.1667 16.0417 20.1667 11C20.1667 5.95837 16.0417 1.83337 11 1.83337C5.95833 1.83337 1.83333 5.95837 1.83333 11C1.83333 16.0417 5.95833 20.1667 11 20.1667Z"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.10417 10.9999L9.69834 13.5941L14.8958 8.40576"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </svg>
 </template>

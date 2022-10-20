@@ -283,13 +283,7 @@ export default {
         handleErrorForUser({ error, $t: t })
         return
       } else {
-        globalStore.addToastMessage({
-          type: "success",
-          content: {
-            type: "message",
-            text: t("setting.updateNameSuccessNote"),
-          },
-        })
+        globalStore.addSuccessToastMessage(t("setting.updateNameSuccessNote"))
       }
       closeModalAndClearForms()
       getMe()
@@ -318,6 +312,7 @@ export default {
 
     const handleUpdatePassword = async () => {
       v.value.$touch()
+
       if (v.value.$invalid) return
       // const variables = {
       //   input: {
@@ -334,13 +329,7 @@ export default {
         handleErrorForUser({ error, $t: t })
         return
       } else {
-        this.globalStore.addToastMessage({
-          type: "success",
-          content: {
-            type: "message",
-            text: t("setting.updatePasswordSuccessNote"),
-          },
-        })
+        globalStore.addSuccessToastMessage(t("setting.updatePasswordSuccessNote"))
       }
       closeAndClearModalPassord()
     }
@@ -394,6 +383,8 @@ export default {
       openLangModal,
       closeLangModal,
       handleUpdateLocale,
+
+      globalStore,
     }
   },
 }
