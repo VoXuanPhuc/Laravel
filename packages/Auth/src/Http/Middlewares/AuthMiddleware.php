@@ -16,10 +16,10 @@ class AuthMiddleware
         $this->auth = $auth;
     }
 
-    public function handle($request, Closure $next, $guard = null ) {
+    public function handle($request, Closure $next ) {
 
-        if( $this->auth->guard( $guard )->guest() ) {
-            //throw new UnauthorizedException('Unauthorized', 401);
+        if( !$this->auth->guard()->user() ) {
+            throw new UnauthorizedException('Unauthorized', 401 );
         }
         return $next($request);
     }

@@ -14,9 +14,8 @@ class ActivityServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/web.php');
-        $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/admin-api.php');
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/api.php');
-        
+
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'activity');
     }
@@ -25,7 +24,7 @@ class ActivityServiceProvider extends ServiceProvider
     {
         //event binding
         $this->app->register(ActivityEventServiceProvider::class);
-        
+
         //Repositories binding
         $this->app->register(RepositoriesBindingProvider::class);
 

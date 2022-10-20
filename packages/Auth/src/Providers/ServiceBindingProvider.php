@@ -3,21 +3,18 @@
 namespace Encoda\Auth\Providers;
 
 use Carbon\Laravel\ServiceProvider;
+use Encoda\Auth\Interfaces\AuthChallengeServiceInterface;
 use Encoda\Auth\Interfaces\AuthServiceInterface;
+use Encoda\Auth\Services\AuthChallengeService;
 use Encoda\Auth\Services\AuthService;
-use Encoda\Auth\Services\CognitoAuthService;
 
 class ServiceBindingProvider extends ServiceProvider
 {
 
     public function boot()
     {
-        if( config('config.identity_pool.driver') == 'cognito' ) {
-            $this->app->bind( AuthServiceInterface::class, CognitoAuthService::class );
-        }
-        else {
-            $this->app->bind( AuthServiceInterface::class, AuthService::class );
-        }
+        $this->app->bind( AuthServiceInterface::class, AuthService::class );
+        $this->app->bind( AuthChallengeServiceInterface::class, AuthChallengeService::class );
 
     }
 }

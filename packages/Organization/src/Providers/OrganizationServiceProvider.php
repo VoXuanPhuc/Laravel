@@ -1,10 +1,6 @@
 <?php
 namespace Encoda\Organization\Providers;
 
-use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
-use Encoda\AWSCognito\Client\AWSCognitoClient;
-use Illuminate\Support\Facades\App;
-
 class OrganizationServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 

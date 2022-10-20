@@ -125,7 +125,7 @@ class DependencyScenarioService implements DependencyScenarioServiceInterface
             throw new ServerErrorException('Oops! Update Dependency Scenario error');
         }
 
-        return $dependencyScenario;
+        return $dependencyScenario->loadDependencies();
     }
 
     /**

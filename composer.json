@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "aws/aws-sdk-php": "^3.231",
+        "firebase/php-jwt": "^6.3",
         "laravel/lumen-framework": "^9.0",
         "league/flysystem": "^3.0",
         "maatwebsite/excel": "^3.1",
@@ -29,7 +30,7 @@
             "Database\\Seeders\\": "database/seeders/",
             "Encoda\\Core\\" : "packages/Core/src",
             "Encoda\\CORS\\" : "packages/CORS/src",
-            "Encoda\\Log\\" : "packages/Log/src",
+            "Encoda\\EasyLog\\" : "packages/EasyLog/src",
             "Encoda\\Auth\\" : "packages/Auth/src",
             "Encoda\\AWSCognito\\" : "packages/AWSCognito/src",
             "Encoda\\Identity\\" : "packages/Identity/src",
@@ -49,7 +50,8 @@
             "Encoda\\Dependency\\" : "packages/Dependency/src"
         },
         "files": [
-            "packages/Core/src/Helpers/helpers.php"
+            "packages/Core/src/Helpers/helpers.php",
+            "packages/EasyLog/src/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {

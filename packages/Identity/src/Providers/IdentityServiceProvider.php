@@ -1,10 +1,6 @@
 <?php
 namespace Encoda\Identity\Providers;
 
-use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
-use Encoda\AWSCognito\Client\AWSCognitoClient;
-use Illuminate\Support\Facades\App;
-
 class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
@@ -21,6 +17,7 @@ class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // Other providers
         $this->app->register( EventServiceProvider::class );
+
         //Repositories binding
         $this->app->register(RepositoriesBindingProvider::class );
 
@@ -30,15 +27,5 @@ class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
         //Module service
         $this->app->register(ModuleServiceProvider::class );
 
-        $this->app->singleton( AWSCognitoClient::class, function( $app ) {
-
-            $cognitoIdentityProviderClient = App::make( CognitoIdentityProviderClient::class );
-            return new AWSCognitoClient(
-                $cognitoIdentityProviderClient,
-                env('COGNITO_CLIENT_ID'),
-                env('COGNITO_CLIENT_SECRET'),
-                env('COGNITO_USER_POOL_ID')
-            );
-        }) ;
     }
 }

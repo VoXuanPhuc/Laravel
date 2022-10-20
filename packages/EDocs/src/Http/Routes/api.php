@@ -3,7 +3,7 @@
 use Encoda\EDocs\Http\Controllers\DocumentController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => '/identity/api/v1' ], function(){
+Route::group(['prefix' => '/identity/api/v1', 'middleware' => 'auth' ], function(){
 
     Route::group( ['prefix' => '/edocs' ], function() {
 

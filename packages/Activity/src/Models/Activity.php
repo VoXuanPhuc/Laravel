@@ -5,6 +5,7 @@ namespace Encoda\Activity\Models;
 use Encoda\Activity\Contract\ActivityContract;
 use Encoda\Core\Models\Model;
 use Encoda\Dependency\Traits\DependencyModelTrait;
+use Encoda\Identity\Models\Database\User;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
@@ -71,7 +72,16 @@ class Activity extends Model implements ActivityContract
 
     protected $appends = [
         'type',
+        'tag_color',
     ];
+
+
+    /**
+     * @return BelongsTo
+     */
+    public function assignee() {
+        return $this->belongsTo( User::class, 'assignee_id' );
+    }
 
     /**
      * @return BelongsToMany

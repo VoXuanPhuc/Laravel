@@ -13,5 +13,5 @@ interface PermissionRepositoryInterface extends BaseRepositoryInterface
      * @param string[] $column
      * @return mixed
      */
-    public function findByUid( $uid, $column = ['*'] );
+    public function findByUid($uid, $column = ['*'] );
 }

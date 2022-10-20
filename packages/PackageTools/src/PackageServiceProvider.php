@@ -30,7 +30,8 @@ abstract class PackageServiceProvider extends ServiceProvider
         }
 
         foreach ($this->package->configFileNames as $configFileName) {
-            $this->mergeConfigFrom($this->package->basePath("/../src/Config/{$configFileName}.php"), $configFileName);
+
+            $this->mergeConfigFrom($this->package->basePath("../Config/{$configFileName}.php"), $configFileName);
         }
 
         $this->packageRegistered();
@@ -57,21 +58,23 @@ abstract class PackageServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             foreach ($this->package->configFileNames as $configFileName) {
+
                 $this->publishes([
-                    $this->package->basePath("/../config/{$configFileName}.php") => config_path("{$configFileName}.php"),
+                    $this->package->basePath("../Config/{$configFileName}.php") => config_path("{$configFileName}.php"),
                 ], "{$this->package->shortName()}-config");
             }
 
             if ($this->package->hasViews) {
                 $this->publishes([
-                    $this->package->basePath('/../resources/views') => base_path("resources/views/vendor/{$this->package->shortName()}"),
+                    $this->package->basePath('../Resources/views') => base_path("resources/views/vendor/{$this->package->shortName()}"),
                 ], "{$this->package->shortName()}-views");
             }
 
             $now = Carbon::now();
             foreach ($this->package->migrationFileNames as $migrationFileName) {
 
-                $filePath = $this->package->basePath("/Database/Migrations/{$migrationFileName}.php");
+                $filePath = $this->package->basePath("../Database/Migrations/{$migrationFileName}.php");
+
                 if (! file_exists($filePath)) {
                     // Support for the .stub file extension
                     $filePath .= '.stub';
@@ -90,13 +93,13 @@ abstract class PackageServiceProvider extends ServiceProvider
 
             if ($this->package->hasTranslations) {
                 $this->publishes([
-                    $this->package->basePath('/../resources/lang') => $langPath,
+                    $this->package->basePath('../Resources/lang') => $langPath,
                 ], "{$this->package->shortName()}-translations");
             }
 
             if ($this->package->hasAssets) {
                 $this->publishes([
-                    $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
+                    $this->package->basePath('../Resources/dist') => public_path("vendor/{$this->package->shortName()}"),
                 ], "{$this->package->shortName()}-assets");
             }
         }
@@ -107,17 +110,17 @@ abstract class PackageServiceProvider extends ServiceProvider
 
         if ($this->package->hasTranslations) {
             $this->loadTranslationsFrom(
-                $this->package->basePath('/../resources/lang/'),
+                $this->package->basePath('../Resources/lang/'),
                 $this->package->shortName()
             );
 
-            $this->loadJsonTranslationsFrom($this->package->basePath('/../resources/lang/'));
+            $this->loadJsonTranslationsFrom($this->package->basePath('./Resources/lang/'));
 
             $this->loadJsonTranslationsFrom($langPath);
         }
 
         if ($this->package->hasViews) {
-            $this->loadViewsFrom($this->package->basePath('/../resources/views'), $this->package->viewNamespace());
+            $this->loadViewsFrom($this->package->basePath('../Resources/views'), $this->package->viewNamespace());
         }
 
         foreach ($this->package->viewComponents as $componentClass => $prefix) {
@@ -126,19 +129,19 @@ abstract class PackageServiceProvider extends ServiceProvider
 
         if (count($this->package->viewComponents)) {
             $this->publishes([
-                $this->package->basePath('/../Components') => base_path("app/View/Components/vendor/{$this->package->shortName()}"),
+                $this->package->basePath('../Components') => base_path("app/View/Components/vendor/{$this->package->shortName()}"),
             ], "{$this->package->name}-components");
         }
 
         if ($this->package->publishableProviderName) {
             $this->publishes([
-                $this->package->basePath("/../resources/stubs/{$this->package->publishableProviderName}.php.stub") => base_path("app/Providers/{$this->package->publishableProviderName}.php"),
+                $this->package->basePath("../Resources/stubs/{$this->package->publishableProviderName}.php.stub") => base_path("app/Providers/{$this->package->publishableProviderName}.php"),
             ], "{$this->package->shortName()}-provider");
         }
 
 
         foreach ($this->package->routeFileNames as $routeFileName) {
-            $this->loadRoutesFrom("{$this->package->basePath('/../routes/')}{$routeFileName}.php");
+            $this->loadRoutesFrom("{$this->package->basePath('./Http/Routes/')}{$routeFileName}.php");
         }
 
         foreach ($this->package->sharedViewData as $name => $value) {
@@ -171,7 +174,9 @@ abstract class PackageServiceProvider extends ServiceProvider
             }
         }
 
-        return database_path($migrationsPath . $now->format('Y_m_d_His') . '_' . Str::of($migrationFileName)->snake()->finish('.php'));
+        return database_path(
+            $migrationsPath . $now->format('Y_m_d_His') . '_' . Str::of($migrationFileName)->snake()->finish('.php')
+        );
     }
 
     public function registeringPackage()

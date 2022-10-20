@@ -5,7 +5,6 @@ namespace Encoda\Activity\Repositories\Concrete;
 use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
 use Encoda\Core\Eloquent\Repository;
-use Encoda\Core\Exceptions\NotFoundException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Prettus\Validator\Exceptions\ValidatorException;

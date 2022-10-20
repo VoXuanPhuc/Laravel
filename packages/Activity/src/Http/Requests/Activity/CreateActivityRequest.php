@@ -7,6 +7,7 @@ use Encoda\Core\Http\Requests\FormRequest;
 
 /**
  *
+ * @property $assignee
  * @property $division
  * @property $business_unit
  * @property $roles[]

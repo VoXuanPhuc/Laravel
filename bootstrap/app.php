@@ -61,10 +61,8 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('config');
-$app->configure('cognito');
 $app->configure('auth');
 $app->configure('cors');
-$app->configure('permission');
 $app->configure('jwt');
 
 /*
@@ -127,10 +125,10 @@ $app->register( Encoda\Excel\Providers\EncodaExcelServiceProvider::class  );
 $app->register( Encoda\Dashboard\Providers\DashboardServiceProvider::class  );
 $app->register( Encoda\Notification\Providers\NotificationServiceProvider::class  );
 $app->register( Encoda\Task\Providers\TaskServiceProvider::class  );
-$app->register( Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
+$app->register( Encoda\MultiTenancy\Providers\MultiTenancyServiceProvider::class );
 $app->register( Encoda\Supplier\Providers\SupplierServiceProvider::class );
-$app->register( \Encoda\MultiTenancy\MultiTenancyServiceProvider::class );
 $app->register( Encoda\Dependency\Providers\DependencyServiceProvider::class );
+$app->register( Encoda\EasyLog\Providers\EasyLogServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->alias('context', \Encoda\Core\Facades\Context::class);

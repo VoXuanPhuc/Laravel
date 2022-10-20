@@ -40,10 +40,22 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
+        'id',
         'password',
         'api_token',
         'remember_token',
     ];
+
+    protected $appends = [
+        'name'
+    ];
+
+    /**
+     * @return string
+     */
+    public function getNameAttribute() {
+        return implode( ' ', [ $this->first_name, $this->last_name ] );
+    }
 
         /**
      * @return mixed
@@ -59,5 +71,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function guardName() {
+        return 'api';
     }
 }

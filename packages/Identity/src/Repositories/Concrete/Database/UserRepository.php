@@ -18,4 +18,14 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         return User::class;
     }
+
+    /**
+     * @param $email
+     * @param array|string[] $column
+     * @return mixed
+     */
+    public function findByEmail($email, array $column = ['*']): mixed
+    {
+        return $this->findOneByField( 'email', $email );
+    }
 }

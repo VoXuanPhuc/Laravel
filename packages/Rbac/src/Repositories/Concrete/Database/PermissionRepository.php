@@ -89,14 +89,4 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
         return $result;
     }
 
-
-    /**
-     * @param $uid
-     * @param string[] $column
-     * @return mixed
-     */
-    public function findByUid($uid, $column = ['*'])
-    {
-        return $this->findOneByField('uid', $uid, $column );
-    }
 }

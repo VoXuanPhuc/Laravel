@@ -3,7 +3,7 @@
 use Encoda\Organization\Http\Controllers\Tenant\OrganizationSettingController;
 use Illuminate\Support\Facades\Route;
 
-Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
+Route::group( ['prefix' => '/identity/api/v1/' ] , function() {
 
     Route::get('/configs', [
         'as' => 'organization.configs',

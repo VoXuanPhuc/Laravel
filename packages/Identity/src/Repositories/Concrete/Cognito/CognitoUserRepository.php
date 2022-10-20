@@ -9,6 +9,7 @@ use Encoda\Identity\Models\Database\User;
 use Encoda\Identity\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Container\Container as Application;
 use Illuminate\Support\Facades\Event;
+use Prettus\Repository\Exceptions\RepositoryException;
 
 
 class CognitoUserRepository extends CognitoIdentityBaseRepository implements UserRepositoryInterface
@@ -17,7 +18,11 @@ class CognitoUserRepository extends CognitoIdentityBaseRepository implements Use
     protected CognitoUserService $cognitoUserService;
     protected CognitoAdminService $cognitoUserAdminService;
 
-    public function __construct(Application $app, CognitoUserService $cognitoUserService, CognitoAdminService $cognitoUserAdminService )
+    public function __construct(
+        Application $app,
+        CognitoUserService $cognitoUserService,
+        CognitoAdminService $cognitoUserAdminService
+    )
     {
         $this->cognitoUserService = $cognitoUserService;
         $this->cognitoUserAdminService = $cognitoUserAdminService;
@@ -74,5 +79,21 @@ class CognitoUserRepository extends CognitoIdentityBaseRepository implements Use
     public function delete($id)
     {
         return $this->cognitoUserAdminService->adminDeleteUser( $id );
+    }
+
+    /**
+     * @param $uid
+     * @param string[] $column
+     * @return mixed
+     * @throws RepositoryException
+     */
+    public function findByUid($uid, $column = ['*'])
+    {
+        return $this->find( $uid, $column )->getLinkedUser();
+    }
+
+    public function findByEmail($email, array $column = ['*']): mixed
+    {
+        return $this->find( $email, $column )->getLinkedUser();
     }
 }

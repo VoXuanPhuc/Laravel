@@ -19,7 +19,6 @@ interface ActivityServiceInterface
 
     public function deleteActivity($uid);
 
-    public function getOrgActivities();
 
     public function getDivisionActivities( $divisionUid );
 

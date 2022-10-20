@@ -40,6 +40,7 @@ class Resource extends Model
 
     protected $appends = [
         'type',
+        'tag_color',
     ];
 
     /**

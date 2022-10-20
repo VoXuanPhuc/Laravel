@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Encoda\MultiTenancy\Actions\ForgetCurrentTenantAction;
 use Encoda\MultiTenancy\Actions\MakeTenantCurrentAction;
 use Encoda\MultiTenancy\Models\Concerns\UsesLandlordConnection;
-use Encoda\MultiTenancy\TenantCollection;
+use Encoda\MultiTenancy\Collections\TenantCollection;
 
 class Tenant extends Model
 {

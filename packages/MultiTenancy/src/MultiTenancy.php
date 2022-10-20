@@ -19,6 +19,9 @@ class MultiTenancy
     {
     }
 
+    /**
+     * @throws Exceptions\InvalidConfiguration
+     */
     public function start(): void
     {
         $this
@@ -26,13 +29,19 @@ class MultiTenancy
             ->registerTasksCollection()
             ->configureRequests()
             ->configureQueue();
-        }
+    }
 
+    /**
+     * End
+     */
     public function end(): void
     {
         Tenant::forgetCurrent();
     }
 
+    /**
+     * Determine tenant
+     */
     protected function determineCurrentTenant(): void
     {
         if (! $this->app['config']->get('multitenancy.tenant_finder')) {
@@ -47,6 +56,9 @@ class MultiTenancy
         $tenant?->makeCurrent();
     }
 
+    /**
+     * @return $this
+     */
     protected function registerTasksCollection(): self
     {
         $this->app->singleton(TasksCollection::class, function () {
@@ -58,6 +70,9 @@ class MultiTenancy
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function registerTenantFinder(): self
     {
         if ($this->app['config']->get('multitenancy.tenant_finder')) {
@@ -67,6 +82,9 @@ class MultiTenancy
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function configureRequests(): self
     {
         if (! $this->app->runningInConsole()) {
@@ -76,6 +94,10 @@ class MultiTenancy
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws Exceptions\InvalidConfiguration
+     */
     protected function configureQueue(): self
     {
         $this

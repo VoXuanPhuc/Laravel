@@ -6,6 +6,7 @@ use Encoda\Activity\Validations\ActivityDivisionOrBusinessUnitRequiredValidation
 use Encoda\Core\Http\Requests\FormRequest;
 
 /**
+ * @property $assignee
  * @property $roles
  * @property $alternative_roles
  * @property $utilities

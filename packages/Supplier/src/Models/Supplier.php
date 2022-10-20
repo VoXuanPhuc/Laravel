@@ -45,6 +45,7 @@ class Supplier extends Model
 
     protected $appends = [
         'type',
+        'tag_color',
     ];
 
     /**

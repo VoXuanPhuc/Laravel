@@ -18,6 +18,7 @@ class RbacServiceProvider extends ServiceProvider
         $this->loadRoutesFrom( __DIR__ . '/../Http/Routes/api.php');
         $this->loadMigrationsFrom(__DIR__ .'/../Database/Migrations');
         $this->loadTranslationsFrom( __DIR__ .'/../Resources/lang', 'rbac' );
+        $this->mergeConfigFrom( __DIR__ . '/../Config/permission.php', 'permission' );
     }
 
     public function register()

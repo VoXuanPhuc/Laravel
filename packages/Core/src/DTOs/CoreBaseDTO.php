@@ -9,16 +9,16 @@ use Symfony\Component\Serializer\Serializer;
 class CoreBaseDTO implements Jsonable
 {
 
-    protected $ignores = [];
+    protected array $ignores = [];
 
     /**
      * @param int $options
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         /** @var Serializer $serializer */
-        $serializer = app(Serializer::class);
+        $serializer = app( 'core.serializer' );
 
         return $serializer->serialize( $this, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES  => $this->ignores] );
     }

@@ -3,6 +3,7 @@
  * @var Router $router
  */
 
+use Encoda\Auth\Http\Controllers\AuthChallengeController;
 use Encoda\Auth\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
@@ -24,8 +25,8 @@ Route::group( ['prefix' => '/identity/api/v1/'] , function() {
 
 
     //Change password
-    Route::post('change-password', [
-        'as' => 'auth.change-password',
-        'uses' =>  AuthController::class. '@respondForceChangePasswordChallenge'
+    Route::post('change-password-challenge', [
+        'as' => 'auth.change-password-challenge',
+        'uses' =>  AuthChallengeController::class. '@respondForceChangePasswordChallenge'
     ]);
 });

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreignId('organization_id');
             $table->foreignId('division_id')->nullable(true);
             $table->foreignId('business_unit_id')->nullable(true);
+            $table->foreignId('assignee_id')->nullable(true);
             $table->softDeletesTz();
             $table->timestamps();
 
@@ -50,6 +51,12 @@ return new class extends Migration
                 ->on('business_units')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+
+            $table->foreign('assignee_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
 
             // Indexes
             $table->index('uid');

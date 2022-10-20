@@ -2,8 +2,6 @@
 
 namespace Encoda\Organization\DTOs;
 
-use Encoda\Dashboard\DTOs\BaseDTO;
-
 class OrganizationSettingDTO extends BaseDTO
 {
 

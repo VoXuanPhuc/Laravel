@@ -7,6 +7,7 @@ use Encoda\Core\Commands\StorageLink;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -23,13 +24,6 @@ class CoreServiceProvider extends  ServiceProvider
         //API Resource without wrapping
         //JsonResource::withoutWrapping();
 
-        $this->app->singleton(Serializer::class, function( $app ) {
-
-            $encoders = [new XmlEncoder(), new JsonEncoder()];
-            $normalizers = [new ObjectNormalizer()];
-
-            return new Serializer($normalizers, $encoders);
-        });
     }
 
 
@@ -39,8 +33,33 @@ class CoreServiceProvider extends  ServiceProvider
     public function register()
     {
         $this->app->register(DatabaseServiceProvider::class);
+
+        $this->registerAliases();
+        $this->registerSerializer();
         $this->registerCommands();
         $this->registerContextHandler();
+    }
+
+    /**
+     * Aliases
+     */
+    public function registerAliases() {
+        $this->app->alias('core.serializer', Serializer::class );
+
+    }
+
+    /**
+     *
+     */
+    public function registerSerializer() {
+
+        $this->app->singleton('core.serializer', function( $app ) {
+
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+
+            return new Serializer($normalizers, $encoders);
+        });
     }
 
     /**

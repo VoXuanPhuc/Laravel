@@ -22,9 +22,9 @@ class CognitoUser extends CognitoBaseModel
     public $remember_token;
 
     /**
-     * @var CognitoUser $linkedUser
+     * @var User $linkedUser
      */
-    protected $linkedUser;
+    protected User $linkedUser;
 
     protected array $ignores = [
         'linkedUser'
@@ -34,7 +34,8 @@ class CognitoUser extends CognitoBaseModel
     /**
      * @return mixed
      */
-    public function getRole() {
+    public function getRole(): mixed
+    {
 
         $linkedUserRole = $this->getLinkedUser()->roles->first();
         return $linkedUserRole?->toArray();
@@ -128,24 +129,24 @@ class CognitoUser extends CognitoBaseModel
     /**
      * @return mixed
      */
-    public function getLinkedUser()
+    public function getLinkedUser(): mixed
     {
-        $this->linkedUser = User::where('uid', $this->id )->first();
+        $user = User::where('uid', $this->id )->first();
 
         //Fall back to email
-        if( !$this->linkedUser ) {
-            $this->linkedUser = User::where('email', $this->username )->first();
-
-            if( $this->linkedUser ) {
-                $this->linkedUser->uid = $this->id;
-                $this->linkedUser->save();
-            }
+        if( !$user ) {
+            $user = User::where('email', $this->username )->first();
         }
 
-        //  If user not found then create linked user
-        if( !$this->linkedUser ) {
+        if( $user ) {
+            $this->linkedUser = $user;
+            $this->linkedUser->uid = $this->id;
+            $this->linkedUser->save();
+        }
+        else {
             $this->createLinkedUser();
         }
+
 
         return $this->linkedUser;
     }
@@ -161,7 +162,7 @@ class CognitoUser extends CognitoBaseModel
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
             'email' => $this->username,
-            'password' => Hash::make( $this->password ),
+            'password' => $this->password ? Hash::make( $this->password ) : '',
         ]);
 
         $user->save();

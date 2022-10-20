@@ -3,10 +3,7 @@
 return [
 
     'allow_origins' => [
-        'http://localhost:8080',
-        'http://localhost:3000',
-        'http://*.app-readybc.com:3000',
-        'http://localhost:8080',
+
         'http://app-readybc.com:3000',
         'http://encoda.app-readybc.com:3000',
     ],

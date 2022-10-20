@@ -2,14 +2,14 @@
 namespace Encoda\AWSCognito\Services;
 
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
+use Encoda\Auth\DTOs\AuthChallengeDTO;
+use Encoda\Auth\DTOs\TokenDTO;
 use Encoda\Auth\Exceptions\UserNotFoundException;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
 use Encoda\AWSCognito\Models\CognitoUser;
 use Encoda\Core\Exceptions\BadRequestException;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
-use Matrix\Exception;
 
 class CognitoUserService extends CognitoBaseService
 {
@@ -40,10 +40,11 @@ class CognitoUserService extends CognitoBaseService
     /**
      * @param $username
      * @param $password
-     * @return array
+     * @return TokenDTO | AuthChallengeDTO
      * @throws UserNotFoundException
      */
-    public function authenticate( $username, $password ) {
+    public function authenticate( $username, $password ): TokenDTO | AuthChallengeDTO
+    {
 
         try {
             $response = $this->cognitoClient->getClient()->adminInitiateAuth(
@@ -62,8 +63,7 @@ class CognitoUserService extends CognitoBaseService
         catch ( CognitoIdentityProviderException $exception ) {
 
             if ($exception->getAwsErrorCode() === self::RESET_REQUIRED ) {
-                //TODO: Handle reset required and other exceptions here
-                return false;
+                return (new AuthChallengeDTO())->challengeName( self::RESET_REQUIRED );
             }
 
             throw new UserNotFoundException();
@@ -78,22 +78,21 @@ class CognitoUserService extends CognitoBaseService
 
             $challengeParams = $response->get('ChallengeParameters');
             $userAttributes = json_decode( $challengeParams['userAttributes']);
-            return [
-                'challenge_name' => $challengeName,
-                'session' => $response->get('Session'),
-                'user_uid' => $challengeParams['USER_ID_FOR_SRP'],
-                'first_name' => $userAttributes->given_name,
 
-            ];
+            return ( new AuthChallengeDTO() )
+                ->challengeName( $challengeName )
+                ->session( $response->get('Session') )
+                ->userUid( $challengeParams['USER_ID_FOR_SRP'] )
+                ->firstName( $userAttributes->given_name );
+
         }
 
         //Transform result
-        return [
-            'accessToken' => $authResult['AccessToken'],
-            'expiresIn' => $authResult['ExpiresIn'],
-            'idToken' => $authResult['IdToken'],
-            'refreshToken' => $authResult['RefreshToken'],
-        ];
+        return ( new TokenDTO() )
+            ->accessToken( $authResult['AccessToken'] )
+            ->expiresIn( $authResult['ExpiresIn'] )
+            ->idToken( $authResult['IdToken'] )
+            ->refreshToken( $authResult['RefreshToken'] );
     }
 
     /**
@@ -168,13 +167,11 @@ class CognitoUserService extends CognitoBaseService
     public function respondToAuthChallenge( $challengeResponses ) {
 
         return  $this->cognitoClient->getClient()->respondToAuthChallenge( $challengeResponses );
-
-
     }
 
     /**
      * @param $data
-     * @return array|void
+     * @return TokenDTO
      * @throws BadRequestException
      */
     public function respondForceChangePasswordChallenge( $data ) {
@@ -197,12 +194,12 @@ class CognitoUserService extends CognitoBaseService
             $authResult = $result->get('AuthenticationResult');
 
             if( $authResult ) {
-                return [
-                    'accessToken' => $authResult['AccessToken'],
-                    'expiresIn' => $authResult['ExpiresIn'],
-                    'idToken' => $authResult['IdToken'],
-                    'refreshToken' => $authResult['RefreshToken'],
-                ];
+                return (new TokenDTO())
+                    ->accessToken( $authResult['AccessToken'] )
+                    ->expiresIn( $authResult['ExpiresIn'] )
+                    ->idToken( $authResult['IdToken'] )
+                    ->refreshToken( $authResult['RefreshToken'] )
+                    ;
             }
 
         }
@@ -270,7 +267,12 @@ class CognitoUserService extends CognitoBaseService
      * @param int|string $pagination
      * @return array
      */
-    public function listUsers(array $attributes = [], string $filter = '', int $limit = 60, int|string $pagination = '' ): array
+    public function listUsers(
+        array $attributes = [],
+        string $filter = '',
+        int $limit = 60,
+        int|string $pagination = ''
+    ): array
     {
 
         $result = $this->cognitoClient->getClient()->listUsers([

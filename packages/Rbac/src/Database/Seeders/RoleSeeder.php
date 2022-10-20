@@ -36,7 +36,7 @@ class RoleSeeder extends Seeder
                 'name' => 'general-manger',
                 'label' => 'General Manager',
                 'description' => 'General Manager',
-                'guard_name' => 'api 2',
+                'guard_name' => 'api',
             ],
             [
                 'uid' => '5b9d4671-333d-11ed-aff3-040300000000',
@@ -44,7 +44,7 @@ class RoleSeeder extends Seeder
                 'name' => 'accountant',
                 'label' => 'Accountant',
                 'description' => 'Accountant',
-                'guard_name' => 'api 3',
+                'guard_name' => 'api',
             ],
             [
                 'uid' => '5b9d4712-333d-11ed-aff3-040300000000',
@@ -52,7 +52,7 @@ class RoleSeeder extends Seeder
                 'name' => 'administrator',
                 'label' => 'Administrator',
                 'description' => 'Administrator',
-                'guard_name' => 'api 4',
+                'guard_name' => 'api',
             ],
         ]);
     }

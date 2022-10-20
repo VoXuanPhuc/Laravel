@@ -15,14 +15,12 @@ use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
-use Encoda\Organization\Models\BusinessUnit;
+use Encoda\Identity\Repositories\Interfaces\UserRepositoryInterface;
 use Encoda\Organization\Models\Organization;
 use Encoda\Organization\Services\Interfaces\BusinessUnitServiceInterface;
 use Encoda\Organization\Services\Interfaces\DivisionServiceInterface;
 use Encoda\Rbac\Repositories\Interfaces\RoleRepositoryInterface;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -33,6 +31,8 @@ use Throwable;
 class ActivityService extends BaseActivityService implements ActivityServiceInterface
 {
 
+    use ActivityServiceTrait;
+
     public function __construct(
         protected ActivityRepositoryInterface           $activityRepository,
         protected DivisionServiceInterface              $divisionService,
@@ -40,6 +40,7 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
         protected RoleRepositoryInterface               $roleRepository,
         protected AlternativeRoleRepositoryInterface    $alternativeRoleRepository,
         protected UtilityRepositoryInterface            $utilityRepository,
+        protected UserRepositoryInterface               $userRepository,
     )
     {
     }
@@ -67,7 +68,9 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
         FilterFluent::init()
             ->setTable(Activity::getTableName())
             ->setQuery($query)
-            ->setAllowedFilters(['name', 'description', 'on_site_requires', 'is_remote', 'min_people', 'status', 'step'])
+            ->setAllowedFilters(
+                ['name', 'description', 'on_site_requires', 'is_remote', 'min_people', 'status', 'step']
+            )
             ->validate()
             ->applyFilter();
         return $query;
@@ -141,6 +144,11 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
            /** @var Activity $activity */
            $activity = $this->activityRepository->create( $request->only( $this->activityRepository->getFillable()));
 
+           // Assignee
+           $activity->assignee()->associate(
+               $this->getUser( $request->assignee )
+           )->save();
+
            // Roles
            $activity->roles()->sync(
                $this->getRoles($request->roles )
@@ -188,7 +196,14 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
             DB::beginTransaction();
 
             /** @var Activity $activity */
-            $activity = $this->activityRepository->update( $request->only( $this->activityRepository->getFillable()), $activity->id );
+            $activity = $this->activityRepository->update(
+                $request->only( $this->activityRepository->getFillable()
+                ), $activity->id );
+
+            // Roles
+            $activity->assignee()->associate(
+                $this->getUser($request->assignee )
+            )->save();
 
             // Roles
             $activity->roles()->sync(
@@ -242,46 +257,6 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
         return true;
     }
 
-
-    /**
-     * @param array $roles
-     * @return mixed
-     */
-    private function getRoles(array $roles)
-    {
-
-         return $this->roleRepository->findByUids(
-             array_map(function ($role){
-                 return $role['uid'];
-             }, $roles),
-             'id');
-    }
-
-    /**
-     * @param array $alternativeRoles
-     * @return LengthAwarePaginator|Collection|mixed
-     */
-    private function getAlternativeRoles(array $alternativeRoles)
-    {
-
-        return $this->alternativeRoleRepository->findByUids(
-            array_map(function ($role){
-                return $role['uid'];
-            }, $alternativeRoles),
-            'id');
-    }
-
-    /**
-     * @param array $utilities
-     */
-    private function getUtilities(array $utilities)
-    {
-        return $this->utilityRepository->findByUids(
-            array_map(function ($u){
-                return $u['uid'];
-            }, $utilities),
-    'id');
-    }
 
     /**
      * @return mixed

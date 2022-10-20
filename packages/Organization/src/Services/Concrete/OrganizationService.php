@@ -88,6 +88,9 @@ class OrganizationService implements OrganizationServiceInterface
         try {
 
             $organization = $this->getOrganization( $uid );
+            activity()
+                ->performedOn($organization)
+                ->log('edited');
 
             /** @var Organization $updatedOrganization */
             $updatedOrganization = $this->organizationRepository->update( $request->all(), $organization->id );

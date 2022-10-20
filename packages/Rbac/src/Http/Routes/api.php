@@ -11,7 +11,7 @@ use Encoda\Rbac\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
-Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , function() {
+Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth:api']] , function() {
 
     /** ========== USER ROLES ================= */
     Route::patch( '/users/{userUid}/roles', [

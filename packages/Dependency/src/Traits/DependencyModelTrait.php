@@ -27,8 +27,19 @@ trait DependencyModelTrait
             Supplier::class => DependableObjectTypeEnum::SUPPLIER->value,
             default => '',
         };
+    }
 
+    /**
+     * @return string
+     */
+    public function getTagColorAttribute() {
 
+        return match (get_class($this)) {
+            Activity::class => 'bg-c1-800',
+            Resource::class => 'bg-cWarning-600',
+            Supplier::class => 'bg-cSuccess-600',
+            default => 'bg-c1-800',
+        };
     }
 
     /**

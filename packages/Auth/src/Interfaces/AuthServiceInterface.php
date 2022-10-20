@@ -11,5 +11,4 @@ interface AuthServiceInterface
 
     public function authenticate(\Illuminate\Http\Request $request);
 
-    public function respondForceChangePasswordChallenge(ChangePasswordRequest $request);
 }

@@ -156,6 +156,7 @@ abstract class Repository extends BaseRepository implements RepositoryInterface
      * Apply paging into models
      *
      * @param      $query
+     * @param bool $forcePaginate
      * @param bool $filters
      *
      * @return mixed

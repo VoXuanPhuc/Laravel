@@ -4,6 +4,9 @@ namespace Encoda\Core\Exceptions;
 
 use App\Exceptions\Handler;
 use Encoda\Core\Http\HttpStatus\HttpStatusCode;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -11,18 +14,23 @@ class ExceptionHandler extends Handler
 {
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Throwable $exception
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return JsonResponse|Response
      * @throws Throwable
      */
     public function render($request, Throwable $exception)
     {
         if( $request->wantsJson() || $request->acceptsJson() || $request->isJson() ) {
 
-            $statusCode = !in_array( $exception->getCode(), HttpStatusCode::STATUS_CODES ) ? HttpStatusCode::INTERNAL_SERVER_ERROR : $exception->getCode();
+            $statusCode = !in_array( $exception->getCode(), HttpStatusCode::STATUS_CODES )
+                            ? HttpStatusCode::INTERNAL_SERVER_ERROR
+                            : $exception->getCode();
 
-            if( property_exists( $exception, 'status') && in_array( $exception->status, HttpStatusCode::STATUS_CODES  ) ) {
+            if(
+                property_exists( $exception, 'status')
+                && in_array( $exception->status, HttpStatusCode::STATUS_CODES  )
+            ) {
                 $statusCode = $exception->status;
             }
             //Get the original http code from exception if exists

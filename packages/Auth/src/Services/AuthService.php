@@ -2,6 +2,8 @@
 
 namespace Encoda\Auth\Services;
 
+use Encoda\Auth\DTOs\AuthChallengeDTO;
+use Encoda\Auth\DTOs\TokenDTO;
 use Encoda\Auth\Exceptions\UnauthorizedException;
 use Encoda\Auth\Interfaces\AuthServiceInterface;
 use Encoda\Core\Exceptions\BadRequestException;
@@ -15,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AuthService implements AuthServiceInterface
 {
-
 
     /**
      * @param $username
@@ -40,12 +41,17 @@ class AuthService implements AuthServiceInterface
 
     /**
      * @param Request $request
-     * @return array
-     * @throws UnauthorizedException
+     * @return AuthChallengeDTO|TokenDTO
+     * @throws UnauthorizedException|BadRequestException
      */
-    public function authenticate(Request $request)
+    public function authenticate( Request $request )
     {
-        $token = $this->getToken( $request->get('username'), $request->get('password'));
+        if( empty( $request->username ) || empty( $request->password ) ) {
+
+            throw new BadRequestException( __('auth::app.login.credentials_are_required') );
+        }
+
+        $token = $this->getToken( $request->username, $request->password );
 
         return $this->tokenData( $token );
     }
@@ -53,21 +59,19 @@ class AuthService implements AuthServiceInterface
 
     /**
      * @param $token
-     * @return array
+     * @return AuthChallengeDTO|TokenDTO
      */
     protected function tokenData( $token ) {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ];
-    }
 
-    /**
-     * @param Request $request
-     */
-    public function respondForceChangePasswordChallenge(\Illuminate\Http\Request $request)
-    {
-        // TODO: Implement changePassword() method.
+        // Should be from Cognito
+        if( $token instanceof TokenDTO || $token instanceof AuthChallengeDTO ) {
+            return $token;
+        }
+
+        return ( new TokenDTO() )
+            ->accessToken( $token )
+            ->expiresIn(
+                auth()->factory()->getTTL() * 60
+            );
     }
 }

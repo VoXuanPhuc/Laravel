@@ -31,6 +31,9 @@ class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, 
         $this->fill( $attributes );
     }
 
+    /**
+     * @param $attributes
+     */
     protected function fill( $attributes ) {
          foreach ( $attributes as $key => $value ) {
              $this->{$key} = $value;
@@ -38,6 +41,10 @@ class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, 
      }
 
 
+    /**
+     * @param int $options
+     * @return string
+     */
      public function toJson($options = 0)
      {
          /** @var Serializer $serializer */
@@ -47,6 +54,9 @@ class CognitoBaseModel implements AuthenticatableContract,AuthorizableContract, 
      }
 
 
+    /**
+     * @return string
+     */
      protected function getKeyName() {
          return $this->primaryKey;
      }

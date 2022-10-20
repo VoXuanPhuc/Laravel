@@ -1,6 +1,9 @@
 <?php
 namespace Encoda\Identity\Services\Concrete;
 
+use Encoda\Auth\Exceptions\UserNotFoundException;
+use Encoda\AWSCognito\DTO\AuthChallengeDTO;
+use Encoda\AWSCognito\DTO\TokenDTO;
 use Encoda\AWSCognito\Services\CognitoUserService;
 use Encoda\Identity\Http\Requests\User\UpdateUserRequest;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
@@ -71,6 +74,12 @@ class UserService implements UserServiceInterface
         //TODO: Database confirm signup code
     }
 
+    /**
+     * @param $username
+     * @param $password
+     * @return AuthChallengeDTO|TokenDTO
+     * @throws UserNotFoundException
+     */
     public function authenticate($username, $password)
     {
        return $this->cognitoUserService->authenticate( $username, $password );
