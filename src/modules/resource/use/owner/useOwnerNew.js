@@ -14,7 +14,7 @@ export function useOwnerNew() {
     form: {
       first_name: { required },
       last_name: { required },
-      email: { required, email },
+      email: { email },
       is_invite: { required },
     },
   }

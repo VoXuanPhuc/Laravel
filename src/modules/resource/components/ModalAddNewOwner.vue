@@ -136,6 +136,7 @@ export default {
       this.form.first_name = null
       this.form.last_name = null
       this.form.email = null
+      this.form.is_invite = false
 
       this.v$.form.$reset()
     },

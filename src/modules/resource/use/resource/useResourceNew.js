@@ -1,6 +1,6 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
-import { required, helpers } from "@vuelidate/validators"
+import { required } from "@vuelidate/validators"
 import * as api from "../../api/resourceFetcher"
 import { useGlobalStore } from "@/stores/global"
 
@@ -16,15 +16,9 @@ export function useResourceNew() {
     resource: {
       name: { required },
       description: {},
-      status: { required },
-      category: {
-        uid: { required },
-      },
-      owners: {
-        $each: helpers.forEach({
-          uid: { required },
-        }),
-      },
+      status: {},
+      category: {},
+      owners: {},
     },
   }
 
