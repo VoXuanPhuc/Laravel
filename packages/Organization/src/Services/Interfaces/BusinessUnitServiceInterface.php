@@ -11,9 +11,9 @@ interface BusinessUnitServiceInterface
 
     public function listBusinessUnit( $divisionUid );
     public function listBusinessUnitByOrg();
-    public function getBusinessUnit( $divisionUid, $uid );
+    public function getBusinessUnit( $uid );
     public function getBusinessUnitWithoutDivision(  $uid );
-    public function createBusinessUnit( CreateBusinessUnitRequest $request, $divisionUid );
-    public function updateBusinessUnit( UpdateBusinessUnitRequest $request, $divisionUid, $uid );
-    public function deleteBusinessUnit( $divisionUid, $uid );
+    public function createBusinessUnit( CreateBusinessUnitRequest $request);
+    public function updateBusinessUnit( UpdateBusinessUnitRequest $request, $uid );
+    public function deleteBusinessUnit( $uid );
 }

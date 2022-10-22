@@ -41,36 +41,39 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => ['auth:api']] , 
 
 
     /** =========== Business Unit routing ====== */
-    Route::get('/business-units', [
-        'as' => 'business-units.list',
-        'uses' =>  BusinessUnitController::class. '@businessUnitByOrg'
-    ]);
+    Route::group(['prefix' => 'business-units'], function(){
+        Route::get('/', [
+            'as' => 'business-units.list',
+            'uses' =>  BusinessUnitController::class. '@businessUnitByOrg'
+        ]);
+
+        Route::get('/{uid}', [
+            'as' => 'business-units.detail',
+            'uses' =>  BusinessUnitController::class. '@detail'
+        ]);
+
+        Route::post('/', [
+            'as' => 'business-units.create',
+            'uses' =>  BusinessUnitController::class. '@create'
+        ]);
+
+        Route::put('/{uid}', [
+            'as' => 'business-units.update',
+            'uses' =>  BusinessUnitController::class. '@update'
+        ]);
+
+        Route::delete('/{uid}', [
+            'as' => 'business-units.delete',
+            'uses' =>  BusinessUnitController::class. '@delete'
+        ]);
+    });
+
 
     Route::group(['prefix' => 'divisions/{divisionUid}'], function() {
 
         Route::get('/business-units', [
             'as' => 'business-units.list',
             'uses' =>  BusinessUnitController::class. '@index'
-        ]);
-
-        Route::post('/business-units', [
-            'as' => 'business-units.create',
-            'uses' =>  BusinessUnitController::class. '@create'
-        ]);
-
-        Route::get('/business-units/{uid}', [
-            'as' => 'business-units.detail',
-            'uses' =>  BusinessUnitController::class. '@detail'
-        ]);
-
-        Route::put('/business-units/{uid}', [
-            'as' => 'business-units.update',
-            'uses' =>  BusinessUnitController::class. '@update'
-        ]);
-
-        Route::delete('/business-units/{uid}', [
-            'as' => 'business-units.delete',
-            'uses' =>  BusinessUnitController::class. '@delete'
         ]);
 
     });

@@ -88,12 +88,11 @@ class BusinessUnitService implements BusinessUnitServiceInterface
     }
 
     /**
-     * @param $divisionUid
      * @param $uid
      * @return mixed
      * @throws NotFoundException
      */
-    public function getBusinessUnit( $divisionUid, $uid)
+    public function getBusinessUnit( $uid )
     {
         $businessUnit = $this->businessUnitRepository->findByUid( $uid );
 
@@ -106,16 +105,18 @@ class BusinessUnitService implements BusinessUnitServiceInterface
 
     /**
      * @param CreateBusinessUnitRequest $request
-     * @param $divisionUid
      * @return LengthAwarePaginator|Collection|mixed
      */
-    public function createBusinessUnit(CreateBusinessUnitRequest $request, $divisionUid )
+    public function createBusinessUnit(CreateBusinessUnitRequest $request)
     {
-        $division = $this->divisionService->getDivision( $divisionUid );
+        if(isset($request->get('division')['uid']) && $divisionUid = ($request->get('division')['uid'])){
+            $division = $this->divisionService->getDivision( $divisionUid );
 
-        $request->merge([
-            'division_id' => $division->id,
-        ]);
+            $request->merge([
+                'division_id' => $division->id,
+            ]);
+        }
+
 
         return $this->businessUnitRepository->create( $request->all() );
     }
@@ -127,15 +128,18 @@ class BusinessUnitService implements BusinessUnitServiceInterface
      * @return LengthAwarePaginator|Collection|mixed
      * @throws NotFoundException
      */
-    public function updateBusinessUnit(UpdateBusinessUnitRequest $request, $divisionUid, $uid)
+    public function updateBusinessUnit(UpdateBusinessUnitRequest $request, $uid)
     {
-        $businessUnit = $this->getBusinessUnit( $divisionUid, $uid );
+        $businessUnit = $this->getBusinessUnit( $uid );
 
-        if( $divisionUid != $request->division['uid'] ) {
-            $division = $this->divisionService->getDivision( $request->division['uid'] );
-
+        if(isset($request->get('division')['uid']) && $divisionUid = ($request->get('division')['uid'])){
+            $division = $this->divisionService->getDivision( $divisionUid );
             $request->merge([
                 'division_id' => $division->id,
+            ]);
+        }else{
+            $request->merge([
+                'division_id' => null,
             ]);
         }
 
@@ -151,9 +155,9 @@ class BusinessUnitService implements BusinessUnitServiceInterface
      * @return bool
      * @throws NotFoundException
      */
-    public function deleteBusinessUnit( $divisionUid,$uid)
+    public function deleteBusinessUnit($uid)
     {
-        $businessUnit = $this->getBusinessUnit( $divisionUid, $uid );
+        $businessUnit = $this->getBusinessUnit( $uid );
 
         if( $this->businessUnitRepository->delete( $businessUnit->id ) ) {
             return true;

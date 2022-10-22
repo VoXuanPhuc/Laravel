@@ -11,7 +11,7 @@ class CreateDivisionRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'string'
         ];
     }
 }

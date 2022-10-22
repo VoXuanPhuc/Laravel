@@ -37,9 +37,9 @@ class AdminBusinessUnitController extends Controller
      * @param $uid
      * @return mixed
      */
-    public function detail( $divisionUid, $uid ) {
+    public function detail( $uid ) {
 
-        return $this->businessUnitService->getBusinessUnit( $divisionUid, $uid);
+        return $this->businessUnitService->getBusinessUnit($uid);
     }
 
     /**
@@ -47,9 +47,9 @@ class AdminBusinessUnitController extends Controller
      * @param $divisionUid
      * @return mixed
      */
-    public function create( CreateBusinessUnitRequest $request, $divisionUid ) {
+    public function create( CreateBusinessUnitRequest $request) {
 
-        return $this->businessUnitService->createBusinessUnit( $request, $divisionUid );
+        return $this->businessUnitService->createBusinessUnit( $request );
     }
 
     /**
@@ -58,8 +58,8 @@ class AdminBusinessUnitController extends Controller
      * @param $uid
      * @return mixed
      */
-    public function update( UpdateBusinessUnitRequest $request, $divisionUid, $uid ) {
-        return $this->businessUnitService->updateBusinessUnit( $request, $divisionUid, $uid );
+    public function update( UpdateBusinessUnitRequest $request, $uid ) {
+        return $this->businessUnitService->updateBusinessUnit( $request, $uid );
     }
 
     /**
@@ -67,8 +67,8 @@ class AdminBusinessUnitController extends Controller
      * @param $uid
      * @return mixed
      */
-    public function delete ( $divisionUid, $uid ) {
-        return $this->businessUnitService->deleteBusinessUnit( $divisionUid, $uid );
+    public function delete ( $uid ) {
+        return $this->businessUnitService->deleteBusinessUnit( $uid );
     }
 
     /**
