@@ -18,7 +18,7 @@ export const useBusinessUnitNew = () => {
     form: {
       name: { required },
       division: {
-        uid: { required },
+        uid: {},
       },
       description: { required },
     },

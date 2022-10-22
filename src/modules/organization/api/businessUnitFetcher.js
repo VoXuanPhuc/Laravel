@@ -7,7 +7,7 @@ import fetcher from "@/modules/core/api/fetcher"
  * @returns
  */
 export const fetchBusinessUnit = async (divisionUid, uid) => {
-  return fetcher.get(`identity/api/v1/divisions/${divisionUid}/business-units/${uid}`)
+  return fetcher.get(`identity/api/v1/business-units/${uid}`)
 }
 
 /**
@@ -34,7 +34,7 @@ export const fetchBusinessUnitListByDivision = async (divisionUid) => {
  * @returns
  */
 export const createBusinessUnit = async (payload, divisionUid) => {
-  return fetcher.post(`identity/api/v1/divisions/${divisionUid}/business-units`, payload)
+  return fetcher.post(`identity/api/v1/business-units`, payload)
 }
 
 /**
@@ -44,8 +44,8 @@ export const createBusinessUnit = async (payload, divisionUid) => {
  * @param {*} uid
  * @returns
  */
-export const updateBusinessUnit = async (payload, divisionUid, uid) => {
-  return fetcher.put(`identity/api/v1/divisions/${divisionUid}/business-units/${uid}`, payload)
+export const updateBusinessUnit = async (payload, uid) => {
+  return fetcher.put(`identity/api/v1/business-units/${uid}`, payload)
 }
 
 /**
@@ -54,6 +54,6 @@ export const updateBusinessUnit = async (payload, divisionUid, uid) => {
  * @param {*} uid
  * @returns
  */
-export const deleteBusinessUnit = async (divisionUid, uid) => {
-  return fetcher.delete(`identity/api/v1/divisions/${divisionUid}/business-units/${uid}`)
+export const deleteBusinessUnit = async (uid) => {
+  return fetcher.delete(`identity/api/v1/business-units/${uid}`)
 }

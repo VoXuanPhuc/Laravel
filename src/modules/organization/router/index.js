@@ -116,7 +116,7 @@ export default [
 
   // Division new BU
   {
-    path: "/departments/divisions/:divisionUid/business-units/new",
+    path: "/departments/business-units/new",
     component: ViewDivisionBusinessUnitNew,
     name: "ViewDivisionBusinessUnitNew",
     props: true,
@@ -140,7 +140,7 @@ export default [
     },
   },
   {
-    path: "/departments/divisions/:divisionUid/business-units/:businessUnitUid",
+    path: "/departments/business-units/:businessUnitUid",
     component: ViewBusinessUnitDetail,
     name: "ViewBusinessUnitDetail",
     props: true,

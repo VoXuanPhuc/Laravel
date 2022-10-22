@@ -161,12 +161,7 @@ export default {
         return
       }
       this.isUpdateLoading = true
-      const response = await this.updateBusinessUnit(
-        this.businessUnit,
-        this.organizationUid,
-        this.divisionUid,
-        this.businessUnitUid
-      )
+      const response = await this.updateBusinessUnit(this.businessUnit, this.businessUnitUid)
 
       if (response && response.uid) {
         this.businessUnit = response

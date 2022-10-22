@@ -18,9 +18,9 @@ export const useBusinessUnitDetail = () => {
     businessUnit: {
       name: { required },
       division: {
-        uid: { required },
+        uid: {},
       },
-      description: { required },
+      description: {},
     },
   }
 
@@ -36,7 +36,7 @@ export const useBusinessUnitDetail = () => {
   const getBusinessUnit = async (divisionUid, uid) => {
     try {
       const { data } = await api.fetchBusinessUnit(divisionUid, uid)
-
+      data.division = data.division ?? { uid: "" }
       return data
     } catch (error) {
       globalStore.addErrorToastMessage(error?.message)
@@ -51,10 +51,10 @@ export const useBusinessUnitDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const updateBusinessUnit = async (payload, divisionUid, uid) => {
+  const updateBusinessUnit = async (payload, uid) => {
     try {
-      const { data } = await api.updateBusinessUnit(payload, divisionUid, uid)
-
+      const { data } = await api.updateBusinessUnit(payload, uid)
+      data.division = data.division ?? { uid: "" }
       globalStore.addSuccessToastMessage("Updated")
       return data
     } catch (error) {
@@ -70,9 +70,9 @@ export const useBusinessUnitDetail = () => {
    * @param {*} uid
    * @returns
    */
-  const deleteBusinessUnit = async (divisionUid, uid) => {
+  const deleteBusinessUnit = async (uid) => {
     try {
-      const { data } = await api.deleteBusinessUnit(divisionUid, uid)
+      const { data } = await api.deleteBusinessUnit(uid)
 
       globalStore.addSuccessToastMessage("Deleted")
       return data
