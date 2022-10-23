@@ -13,31 +13,24 @@ class RemoteAccessFactorSeeder extends Seeder
 
         $organizationId = Organization::whereRaw("code = 'ENCODA'")->first()->id;
 
-        DB::table('remote_access_factors')->insert([
-            [
-                'uid' => '5ba34077-333d-11ed-aff3-040300000000',
-                'name' => 'Internet',
-                'description' => 'Remote access via internet',
+        $remoteAccessFactors = [
+            'VPN',
+            '2FA Token',
+        ];
+
+        $data = array_map( function( $rfa ) use ( $organizationId ) {
+            return [
+
+                'name' => $rfa,
+                'description' => $rfa,
                 'organization_id' => $organizationId,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba34125-333d-11ed-aff3-040300000000',
-                'name' => 'Banking token',
-                'description' => 'Remote access via Banking token',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba34209-333d-11ed-aff3-040300000000',
-                'name' => 'VPN',
-                'description' => 'Remote access via VPN',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-        ]);
+            ];
+
+        }, $remoteAccessFactors );
+
+
+        DB::table('remote_access_factors')->insert( $data );
     }
 }

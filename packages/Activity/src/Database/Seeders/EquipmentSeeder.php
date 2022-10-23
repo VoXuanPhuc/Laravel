@@ -11,32 +11,30 @@ class EquipmentSeeder extends Seeder
 {
     public function run() {
         $organizationId = Organization::whereRaw("code = 'ENCODA'")->first()->id;
+        $equipments = [
+            'Laptop / PC',
+            'Tablet',
+            'Mobile Phone',
+            'Landline',
+            'Headphones',
+            '2FA Token / Authenticator',
+            'Car (type - 2WD / 4WD)',
+            'Truck (type and number)',
+            'Forklift (type and number)',
+        ];
 
-        DB::table('equipments')->insert([
-            [
-                'uid' => '5ba2ae1d-333d-11ed-aff3-040300000000',
-                'name' => 'Laptop',
-                'description' => 'Laptop device',
+        $data = array_map( function( $equipment ) use ( $organizationId ){
+            return [
+
+                'name' => $equipment,
+                'description' => $equipment,
                 'organization_id' => $organizationId,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba2b3c2-333d-11ed-aff3-040300000000',
-                'name' => 'Computer',
-                'description' => 'Computer device',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba2b668-333d-11ed-aff3-040300000000',
-                'name' => 'Smart phone',
-                'description' => 'Smart phone device',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-        ]);
+            ];
+
+        }, $equipments );
+
+        DB::table('equipments')->insert( $data );
     }
 }

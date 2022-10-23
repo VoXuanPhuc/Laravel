@@ -13,31 +13,29 @@ class ApplicationSeeder extends Seeder
 
         $organizationId = Organization::whereRaw("code = 'ENCODA'")->first()->id;
 
-        DB::table('applications')->insert([
-            [
-                'uid' => '5ba20994-333d-11ed-aff3-040300000000',
-                'name' => 'NAB Internet Banking',
-                'description' => 'NAB Internet Banking software',
+        $apps = [
+            'MS Office / O365 (Excel, Word, PowerPoint, Publisher, browser etc)',
+            'Outlook',
+            'Adobe',
+            'PowerBI',
+            'SharePoint',
+            'Dropbox',
+            'Microsoft Teams',
+            'Zoom',
+            'Authenticator',
+        ];
+
+        $data = array_map( function ( $app ) use ( $organizationId ) {
+            return [
+                'name' => $app,
+                'description' => $app,
                 'organization_id' => $organizationId,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba20a43-333d-11ed-aff3-040300000000',
-                'name' => 'Software package 2',
-                'description' => 'Software package 2 description',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'uid' => '5ba20b22-333d-11ed-aff3-040300000000',
-                'name' => 'Software package 3',
-                'description' => 'Software package 3 description',
-                'organization_id' => $organizationId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-        ]);
+            ];
+
+        }, $apps );
+
+        DB::table('applications')->insert( $data );
     }
 }
