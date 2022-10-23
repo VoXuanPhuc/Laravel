@@ -44,7 +44,9 @@ class OrganizationRepository extends Repository implements OrganizationRepositor
      */
     public function update(array $attributes, $id)
     {
-        $attributes['friendly_url'] = !empty($attributes['friendly_url']) ? $attributes['friendly_url'] : strtolower( $attributes['code'] );
+        $attributes['friendly_url'] = !empty($attributes['friendly_url'])
+                                        ? $attributes['friendly_url']
+                                        : strtolower( $attributes['code'] );
 
         // Only generate domain for other Org, not Escalate
         if( !$attributes['landlord'] ) {

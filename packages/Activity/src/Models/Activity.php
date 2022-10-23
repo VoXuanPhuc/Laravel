@@ -5,6 +5,8 @@ namespace Encoda\Activity\Models;
 use Encoda\Activity\Contract\ActivityContract;
 use Encoda\Core\Models\Model;
 use Encoda\Dependency\Traits\DependencyModelTrait;
+use Encoda\EasyLog\Entities\LogOptions;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\Identity\Models\Database\User;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\BusinessUnit;
@@ -27,6 +29,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Activity extends Model implements ActivityContract
 {
     use SoftDeletes, MultiTenancyModel, DependencyModelTrait;
+    use EasyActionLogTrait;
 
     const CREATED = 1;
     const IN_PROGRESS = 2;

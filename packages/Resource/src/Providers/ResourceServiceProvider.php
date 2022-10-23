@@ -2,6 +2,10 @@
 
 namespace Encoda\Resource\Providers;
 
+use Encoda\Resource\Models\Resource;
+use Encoda\Resource\Models\ResourceCategory;
+use Encoda\Resource\Models\ResourceOwner;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class ResourceServiceProvider extends ServiceProvider
@@ -31,6 +35,17 @@ class ResourceServiceProvider extends ServiceProvider
 
         // Event listeners
         $this->app->register( EventServiceProvider::class );
+
+        $this->morphMap();
+    }
+
+    protected function morphMap() {
+        Relation::morphMap([
+            'Resource' => Resource::class,
+            'ResourceCategory' => ResourceCategory::class,
+            'ResourceOwner' => ResourceOwner::class,
+        ]);
+
     }
 }
 

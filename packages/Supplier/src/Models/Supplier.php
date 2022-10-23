@@ -4,8 +4,9 @@ namespace Encoda\Supplier\Models;
 
 use Encoda\Core\Models\Model;
 use Encoda\Core\Traits\HasUID;
-use Encoda\Dependency\Enums\DependencyTypeEnum;
 use Encoda\Dependency\Traits\DependencyModelTrait;
+use Encoda\EasyLog\Entities\LogOptions;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Organization\Models\Organization;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Supplier extends Model
 {
     use HasUID, MultiTenancyModel, DependencyModelTrait;
+    use EasyActionLogTrait;
     /**
      * @var string
      */

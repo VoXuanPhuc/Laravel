@@ -34,6 +34,7 @@ class DependencyServiceProvider extends ServiceProvider
         //Service binding
         $this->app->register(ServiceBindingProvider::class );
 
+        // Morph Maps
         Relation::morphMap([
             DependableObjectTypeEnum::ACTIVITY->value => Activity::class,
             DependableObjectTypeEnum::RESOURCE->value => Resource::class,

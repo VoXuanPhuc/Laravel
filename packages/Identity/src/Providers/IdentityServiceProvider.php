@@ -1,6 +1,9 @@
 <?php
 namespace Encoda\Identity\Providers;
 
+use Encoda\Identity\Models\Database\User;
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
@@ -27,5 +30,16 @@ class IdentityServiceProvider extends \Illuminate\Support\ServiceProvider
         //Module service
         $this->app->register(ModuleServiceProvider::class );
 
+        // Morph map
+        $this->morphMap();
+    }
+
+    /**
+     * Morph map
+     */
+    protected function morphMap() {
+        Relation::morphMap([
+            'User' => User::class,
+        ]);
     }
 }

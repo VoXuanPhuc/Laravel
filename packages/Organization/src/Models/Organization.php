@@ -9,7 +9,7 @@ use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Models\Utility;
 use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\EasyLog\Entities\LogOptions;
-use Encoda\EasyLog\Traits\EasyActionLog;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Organization extends Tenant
 {
 
-    use SoftDeletes, EasyActionLog;
+    use SoftDeletes, EasyActionLogTrait;
 
     protected $table = 'organizations';
 
@@ -206,11 +206,4 @@ class Organization extends Tenant
         return $this->hasMany(DependencyScenario::class);
     }
 
-    /**
-     * @return LogOptions
-     */
-    public function getEasyLogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
 }

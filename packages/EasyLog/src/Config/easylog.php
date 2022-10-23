@@ -17,7 +17,7 @@ return [
      * If no log name is passed to the activity() helper
      * we use this default log name.
      */
-    'default_log_name' => 'default',
+    'default_log_name' => 'rbc',
 
     /*
      * You can specify an auth driver here that gets user models.
@@ -32,7 +32,7 @@ return [
 
     /*
      * This model will be used to log activity.
-     * It should implement the Spatie\Activitylog\Contracts\Activity interface
+     * It should implement the Encoda\EasyLog\Contracts\Activity interface
      * and extend Illuminate\Database\Eloquent\Model.
      */
     'easy_log_model' => \Encoda\EasyLog\Models\EasyLog::class,

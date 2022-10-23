@@ -4,7 +4,7 @@ namespace Encoda\EasyLog\Traits;
 
 use Encoda\EasyLog\Exceptions\InvalidConfiguration;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Encoda\EasyLog\EasyLogServiceProvider;
+use Encoda\EasyLog\Providers\EasyLogServiceProvider;
 
 trait CausesActivity
 {

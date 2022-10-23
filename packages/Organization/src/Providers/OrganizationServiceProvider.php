@@ -1,6 +1,13 @@
 <?php
 namespace Encoda\Organization\Providers;
 
+use Encoda\Organization\Models\BusinessUnit;
+use Encoda\Organization\Models\Division;
+use Encoda\Organization\Models\Industry;
+use Encoda\Organization\Models\Organization;
+use Encoda\Organization\Models\OrganizationOwner;
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 class OrganizationServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
@@ -25,7 +32,22 @@ class OrganizationServiceProvider extends \Illuminate\Support\ServiceProvider
         //Service binding
         $this->app->register(ServiceBindingProvider::class );
 
+        //Morph map
+        $this->morphMap();
+
+    }
 
 
+    /**
+     * Morph map
+     */
+    protected function morphMap() {
+        Relation::morphMap([
+            'Organization' => Organization::class,
+            'Industry' => Industry::class,
+            'OrganizationOwner' => OrganizationOwner::class,
+            'Division' => Division::class,
+            'BusinessUnit' => BusinessUnit::class,
+        ]);
     }
 }

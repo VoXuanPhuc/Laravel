@@ -2,10 +2,14 @@
 
 namespace Encoda\Organization\Models;
 
+use Encoda\EasyLog\Entities\LogOptions;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class OrganizationOwner extends Model
 {
+
+    use EasyActionLogTrait;
 
     protected $table = 'organization_owners';
 

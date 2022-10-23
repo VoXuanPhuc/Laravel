@@ -4,12 +4,14 @@ namespace Encoda\EasyLog\Traits;
 
 use Carbon\CarbonInterval;
 use DateInterval;
+use Encoda\EasyLog\Exceptions\InvalidConfiguration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Encoda\EasyLog\EasyLogger;
 use Encoda\EasyLog\Providers\EasyLogServiceProvider;
@@ -18,7 +20,7 @@ use Encoda\EasyLog\Contracts\LoggablePipe;
 use Encoda\EasyLog\Entities\EventLogBag;
 use Encoda\EasyLog\Entities\LogOptions;
 
-trait EasyActionLog
+trait EasyActionLogTrait
 {
     public static array $changesPipes = [];
 
@@ -28,10 +30,22 @@ trait EasyActionLog
 
     public bool $enableLoggingModelsEvents = true;
 
-    abstract public function getEasyLogOptions(): LogOptions;
+
+    /**
+     * @return LogOptions
+     */
+    public function getEasyLogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ;
+    }
 
 
-    protected static function bootEasyActionLog(): void
+    /**
+     * Boot easy log
+     */
+    protected static function bootEasyActionLogTrait(): void
     {
         // Hook into eloquent events that only specified in $eventToBeRecorded array,
         // checking for "updated" event hook explicitly to temporary hold original
@@ -41,13 +55,14 @@ trait EasyActionLog
 
             if ($eventName === 'updated') {
                 static::updating(function (Model $model) {
+
                     $oldValues = (new static())->setRawAttributes($model->getRawOriginal());
                     $model->oldAttributes = static::logChanges($oldValues);
                 });
             }
 
             static::$eventName(function (Model $model) use ($eventName) {
-                dd($model);
+
                 $model->easyLogOptions = $model->getEasyLogOptions();
 
                 if (! $model->shouldLogEvent($eventName)) {
@@ -104,11 +119,18 @@ trait EasyActionLog
         static::$changesPipes[] = $pipe;
     }
 
+    /**
+     * @param array $changes
+     * @return bool
+     */
     public function isLogEmpty(array $changes): bool
     {
         return empty($changes['attributes'] ?? []) && empty($changes['old'] ?? []);
     }
 
+    /**
+     * @return $this
+     */
     public function disableLogging(): self
     {
         $this->enableLoggingModelsEvents = false;
@@ -116,6 +138,9 @@ trait EasyActionLog
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function enableLogging(): self
     {
         $this->enableLoggingModelsEvents = true;
@@ -123,11 +148,19 @@ trait EasyActionLog
         return $this;
     }
 
-    public function activities(): MorphMany
+    /**
+     * @return MorphMany
+     * @throws InvalidConfiguration
+     */
+    public function actions(): MorphMany
     {
         return $this->morphMany(EasyLogServiceProvider::determineEasyLogModel(), 'subject');
     }
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         if (! empty($this->easyLogOptions->descriptionForEvent)) {
@@ -137,6 +170,9 @@ trait EasyActionLog
         return $eventName;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLogNameToUse(): ?string
     {
         if (! empty($this->easyLogOptions->logName)) {
@@ -158,6 +194,7 @@ trait EasyActionLog
         $events = collect([
             'created',
             'updated',
+          //  'saved',
             'deleted',
         ]);
 
@@ -249,6 +286,9 @@ trait EasyActionLog
         return $attributes;
     }
 
+    /**
+     * @return bool
+     */
     public function shouldLogUnguarded(): bool
     {
         if (! $this->easyLogOptions->logUnguarded) {
@@ -335,6 +375,10 @@ trait EasyActionLog
         return $properties;
     }
 
+    /**
+     * @param Model $model
+     * @return array
+     */
     public static function logChanges(Model $model): array
     {
         $changes = [];
@@ -383,6 +427,11 @@ trait EasyActionLog
         return $changes;
     }
 
+    /**
+     * @param Model $model
+     * @param string $attribute
+     * @return null[]
+     */
     protected static function getRelatedModelAttributeValue(Model $model, string $attribute): array
     {
         $relatedModelNames = explode('.', $attribute);
@@ -402,6 +451,11 @@ trait EasyActionLog
         return [implode('.', $attributeName) => $relatedModel->$relatedAttribute ?? null];
     }
 
+    /**
+     * @param Model $model
+     * @param string $relation
+     * @return string
+     */
     protected static function getRelatedModelRelationName(Model $model, string $relation): string
     {
         return Arr::first([
@@ -413,6 +467,11 @@ trait EasyActionLog
         }, $relation);
     }
 
+    /**
+     * @param Model $model
+     * @param string $attribute
+     * @return mixed
+     */
     protected static function getModelAttributeJsonValue(Model $model, string $attribute): mixed
     {
         $path = explode('->', $attribute);

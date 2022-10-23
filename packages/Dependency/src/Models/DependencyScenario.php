@@ -4,6 +4,7 @@ namespace Encoda\Dependency\Models;
 
 use Encoda\Core\Traits\HasUID;
 use Encoda\Dependency\Enums\DependableTypeEnum;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class DependencyScenario extends Model
 {
 
     use MultiTenancyModel, HasUID;
+    use EasyActionLogTrait;
 
     /**
      * @var string

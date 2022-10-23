@@ -3,8 +3,9 @@
 namespace Encoda\Resource\Models;
 
 use Encoda\Core\Models\Model;
-use Encoda\Dependency\Enums\DependencyTypeEnum;
 use Encoda\Dependency\Traits\DependencyModelTrait;
+use Encoda\EasyLog\Entities\LogOptions;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Resource\Enums\ResourceStatusEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ class Resource extends Model
 {
 
     use SoftDeletes, MultiTenancyModel, DependencyModelTrait;
+    use EasyActionLogTrait;
 
     protected $table = 'resources';
 

@@ -3,6 +3,7 @@
 namespace Encoda\Resource\Models;
 
 use Encoda\Core\Models\Model;
+use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
@@ -10,6 +11,7 @@ class ResourceOwner extends Model
 {
 
     use MultiTenancyModel;
+    use EasyActionLogTrait;
 
     protected $table = 'resource_owners';
 
