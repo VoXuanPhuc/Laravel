@@ -3,6 +3,8 @@
 namespace Encoda\Supplier\Providers;
 
 use Carbon\Laravel\ServiceProvider;
+use Encoda\Supplier\Models\Supplier;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class SupplierServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,16 @@ class SupplierServiceProvider extends ServiceProvider
         //Service binding
         $this->app->register(ServicesBindingProvider::class );
 
+        // Morph map
+        $this->morphMap();
+    }
 
+    /**
+     * Morph map
+     */
+    protected function morphMap() {
+        Relation::morphMap([
+            'Supplier' => Supplier::class,
+        ]);
     }
 }
