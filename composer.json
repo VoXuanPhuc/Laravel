@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "aws/aws-sdk-php": "^3.231",
+        "doctrine/dbal": "^3.5",
         "firebase/php-jwt": "^6.3",
         "laravel/lumen-framework": "^9.0",
         "league/flysystem": "^3.7",
@@ -48,7 +49,8 @@
             "Encoda\\PackageTools\\" : "packages/PackageTools/src",
             "Encoda\\MultiTenancy\\" : "packages/MultiTenancy/src",
             "Encoda\\Supplier\\" : "packages/Supplier/src",
-            "Encoda\\Dependency\\" : "packages/Dependency/src"
+            "Encoda\\Dependency\\" : "packages/Dependency/src",
+            "Encoda\\BCP\\" : "packages/BCP/src"
         },
         "files": [
             "packages/Core/src/Helpers/helpers.php",

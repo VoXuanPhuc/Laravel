@@ -15,4 +15,9 @@ class DocumentController extends Controller
     public function upload( UploadFileRequest $request ) {
         return $this->documentService->upload( $request );
     }
+
+    public function delete(string $uid)
+    {
+        return $this->documentService->delete( $uid );
+    }
 }

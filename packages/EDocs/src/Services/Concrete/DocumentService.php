@@ -7,6 +7,7 @@ use Encoda\Core\Exceptions\NotFoundException as NotFoundExceptionAlias;
 use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Core\Helpers\FileHelper;
 use Encoda\EDocs\Http\Requests\UploadFileRequest;
+use Encoda\EDocs\Models\Document;
 use Encoda\EDocs\Repositories\Interfaces\DocumentRepositoryInterface;
 use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Illuminate\Http\Request;
@@ -52,9 +53,8 @@ class DocumentService implements DocumentServiceInterface
         try {
 
             $file = $request->file('file');
-
             $filePath   = $file->store( $this->getDirPath( $request ) );
-            $fileUrl    = Storage::url( $filePath );
+            Storage::url( $filePath );
             $document = $this->documentRepository->create([
                 'name' => FileHelper::getOriginalName($file),
                 'path' => $filePath,
@@ -85,6 +85,7 @@ class DocumentService implements DocumentServiceInterface
     }
     public function delete($uid)
     {
-        // TODO: Implement delete() method.
+        $document = $this->getDocument($uid);
+        return $document->delete();
     }
 }
