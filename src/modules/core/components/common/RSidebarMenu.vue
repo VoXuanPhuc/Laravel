@@ -110,6 +110,12 @@ export default {
         text: "core.assessment",
         routeName: "Assessment",
       },
+      {
+        module: "business_continuity_plan",
+        icon: "BCP",
+        text: "core.business_continuity_plan",
+        routeName: "ViewBCPList",
+      },
       // {
       //   module: "chatroom",
       //   icon: "chat-alt",

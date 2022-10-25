@@ -75,4 +75,29 @@ export default {
       root: "inline-block font-medium text-sm rounded-full px-4 py-2 text-center leading-tight text-c0-500 bg-c0-300 bg-opacity-25",
     },
   },
+  "square-pill-td": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cWhite bg-c3-100",
+    },
+  },
+  "square-pill-ip": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cBlack bg-c3-200",
+    },
+  },
+  "square-pill-na": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cBlack bg-c3-300",
+    },
+  },
+  "square-pill-ovd": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cBlack bg-c3-400",
+    },
+  },
+  "square-pill-utd": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cWhite bg-c3-500",
+    },
+  },
 }

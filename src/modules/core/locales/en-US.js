@@ -14,6 +14,7 @@ export default {
     reports: "Reports",
     settings: "Settings",
     assessment: "Assessment",
+    business_continuity_plan: "BCP",
     logout: "Log Out",
 
     // Others

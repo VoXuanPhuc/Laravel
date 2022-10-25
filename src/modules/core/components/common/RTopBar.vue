@@ -77,7 +77,6 @@ export default {
 
     const route = useRoute()
 
-    console.log(route?.meta)
     const breadcrumbItems = route?.meta?.breadcrumbs || []
 
     return {

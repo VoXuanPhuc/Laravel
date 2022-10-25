@@ -26,7 +26,7 @@ const checkAuthGuard = (router) => {
 
   router.beforeEach(async (to, from, next) => {
     // If they enter the link which not allowed
-    debugger
+
     if (!globalStore.getAllowedModuleIDs?.includes(to.meta.module)) {
       console.log(to)
     }

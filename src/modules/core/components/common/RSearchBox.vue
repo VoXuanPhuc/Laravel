@@ -12,7 +12,7 @@
       @keyup="handleKeyup($event)"
     />
     <EcFlex
-      v-if="isSearched"
+      v-if="isSearched && modelValue?.length > 0"
       class="absolute justify-center items-center rounded-full w-5 h-5 bg-c0-100 text-c1-500 cursor-pointer"
       :style="clearSearchStyle"
       @click="handleClearSearch()"
@@ -22,7 +22,7 @@
     <EcFlex
       :class="isFocus ? 'text-c1-500' : 'text-c1-200'"
       class="absolute right-0 inset-y-0 justify-center items-center px-3 cursor-pointer hover:text-c1-500"
-      @click="$emit('search', value)"
+      @click="handleSearch(modelValue)"
     >
       <EcBox class="absolute left-0 h-10 bg-c0-300" style="width: 1px; background-color: #e8edf6" />
       <EcIcon :width="variantCls.searchSize" :height="variantCls.searchSize" icon="Search" />
@@ -33,7 +33,7 @@
 <script>
 export default {
   name: "RSearchBox",
-  emits: ["clear-search", "update:modelValue"],
+  emits: ["search", "clear-search", "update:modelValue"],
   props: {
     modelValue: {
       type: String,
@@ -90,21 +90,55 @@ export default {
     },
   },
   methods: {
+    /**
+     *
+     */
     handleFocus() {
       this.isFocus = true
     },
+
+    /**
+     *
+     */
     handleBlur() {
       this.isFocus = false
     },
+
+    handleSearch(value) {
+      if (value?.length <= 0) {
+        return
+      }
+
+      this.$emit("search", value)
+    },
+
+    /**
+     * Clear search
+     */
     handleClearSearch() {
+      this.$emit("update:modelValue", null)
       this.$emit("clear-search")
     },
+
+    /**
+     *
+     * @param {*} event
+     */
     handleInput(event) {
       this.$emit("update:modelValue", event.target.value)
     },
+
+    /**
+     *
+     * @param {*} event
+     */
     handleKeyup(event) {
       if (event.key === "Escape") {
         this.handleClearSearch()
+      }
+
+      if (event.key === "Enter") {
+        this.handleSearch(event.target.value)
       }
     },
   },

@@ -47,7 +47,7 @@ export default {
   },
   "center-5xl": {
     el: {
-      root: "bg-cWhite shadow rounded-lg border border-c1-500 m-auto h-auto w-full overflow-y-auto max-w-5xl max-h-modal p-10 sm:px-24",
+      root: "bg-cWhite shadow rounded-lg border border-c1-500 m-auto h-auto w-full overflow-y-auto max-w-5xl max-h-modal p-10 ",
       overlayEnter: "opacity-0",
       overlayEnterActive: "transition duration-200 ease-ease-in",
       overlayLeaveActive: "transition duration-200 ease-ease-out",

@@ -108,6 +108,7 @@ export default {
     Archive: lazyLoad("Archive"),
     Report: lazyLoad("Report"),
     Assessment: lazyLoad("Assessment"),
+    BCP: lazyLoad("BCP"),
   },
 }
 </script>

@@ -234,7 +234,7 @@ export default {
 
       await Promise.all(uploadQueue).finally(() => {
         this.uploading = false
-        this.$emit("files:uploaded")
+        this.$emit("files:uploaded", this.fileList)
       })
     },
 
@@ -297,7 +297,7 @@ export default {
         fileObj.status = this.FILE_STATUS.UPLOADED
       }
 
-      fileObj.reponse = data
+      fileObj.response = data
 
       //Send event back to parent compent to use the response if needed
       this.$emit("handleSingleUploadResult", data)

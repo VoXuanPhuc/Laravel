@@ -11,7 +11,7 @@
       {{ placeholder }}
     </span>
     <div v-else :class="isGroupOptions ? variantCls.tagRootGroupOptions : variantCls.tagRoot">
-      <div v-for="(tag, idx) in tags" :key="tag[valueKey]" :class="variantCls.tag + ` ${tag?.tag_color || 'bg-c1-800'} `">
+      <div v-for="(tag, idx) in tags" :key="tag[valueKey]" :class="[variantCls.tag, ` ${tag?.tag_color || 'bg-c1-800'} `]">
         <span> {{ isGroupOptions ? tag?.type + ": " : "" }} {{ tag[nameKey] }}</span>
         <span class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)">&times;</span>
       </div>
