@@ -8,6 +8,7 @@ use Encoda\Activity\Models\Equipment;
 use Encoda\Activity\Models\RemoteAccessFactor;
 use Encoda\Activity\Models\Utility;
 use Encoda\BCP\Models\BCP;
+use Encoda\BIA\Models\BIA;
 use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
@@ -220,6 +221,13 @@ class Organization extends Tenant
     public function bcp(): HasMany
     {
         return $this->hasMany(BCP::class);
+    }
+    /**
+     * @return HasMany
+     */
+    public function bia(): HasMany
+    {
+        return $this->hasMany(BIA::class);
     }
 
 }

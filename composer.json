@@ -50,7 +50,8 @@
             "Encoda\\MultiTenancy\\" : "packages/MultiTenancy/src",
             "Encoda\\Supplier\\" : "packages/Supplier/src",
             "Encoda\\Dependency\\" : "packages/Dependency/src",
-            "Encoda\\BCP\\" : "packages/BCP/src"
+            "Encoda\\BCP\\" : "packages/BCP/src",
+            "Encoda\\BIA\\" : "packages/BIA/src"
         },
         "files": [
             "packages/Core/src/Helpers/helpers.php",

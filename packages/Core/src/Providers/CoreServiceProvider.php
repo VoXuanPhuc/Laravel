@@ -95,6 +95,9 @@ class CoreServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @return void
+     */
     protected function registerValidation()
     {
         Validator::extend('date_utc', function ($attribute, $value, $parameters, $validator) {

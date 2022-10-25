@@ -130,6 +130,7 @@ $app->register( Encoda\Supplier\Providers\SupplierServiceProvider::class );
 $app->register( Encoda\Dependency\Providers\DependencyServiceProvider::class );
 $app->register( Encoda\EasyLog\Providers\EasyLogServiceProvider::class );
 $app->register( \Encoda\BCP\Providers\BCPServiceProvider::class );
+$app->register( Encoda\BIA\Providers\BIAServiceProvider::class );
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->alias('context', \Encoda\Core\Facades\Context::class);
