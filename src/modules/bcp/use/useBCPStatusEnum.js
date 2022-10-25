@@ -9,16 +9,19 @@ export function useBCPStatusEnum() {
       name: "In Progress",
       value: 2,
       tag_color: "bg-c3-200",
+      tag_text_color: "text-cBlack",
     },
     {
       name: "Needs Attention",
       value: 3,
       tag_color: "bg-c3-300",
+      tag_text_color: "text-cBlack",
     },
     {
       name: "Overdue",
       value: 4,
       tag_color: "bg-c3-400",
+      tag_text_color: "text-cBlack",
     },
     {
       name: "Up to date",

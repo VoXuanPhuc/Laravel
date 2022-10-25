@@ -28,13 +28,13 @@
         <!-- From -->
         <EcLabel class="text-start">{{ $t("bcp.labels.from") }}</EcLabel>
         <EcFlex class="ml-2">
-          <RFormInput v-model="filterForm.from" componentName="EcDatePicker" field="filterForm.from" />
+          <RFormInput v-model="dateFilter.from" componentName="EcDatePicker" field="dateFilter.from" />
         </EcFlex>
 
         <!-- To -->
         <EcLabel class="items-center ml-4">{{ $t("bcp.labels.to") }}</EcLabel>
         <EcFlex class="ml-2">
-          <RFormInput v-model="filterForm.to" componentName="EcDatePicker" field="filterForm.to" />
+          <RFormInput v-model="dateFilter.to" componentName="EcDatePicker" field="dateFilter.to" />
         </EcFlex>
       </EcFlex>
 
@@ -173,14 +173,6 @@ export default {
     const { getBCPList, downloadBCPs, bcps } = useBCPList()
 
     const { statuses } = useBCPStatusEnum()
-    const lastMonth = new Date()
-
-    lastMonth.setMonth(lastMonth.getMonth() - 1)
-
-    const filterForm = ref({
-      from: lastMonth.toISOString().slice(0, 10),
-      to: new Date().toISOString().slice(0, 10),
-    })
 
     return {
       globalStore,
@@ -188,7 +180,6 @@ export default {
       downloadBCPs,
       bcps,
       statuses,
-      filterForm,
     }
   },
   data() {
@@ -201,6 +192,16 @@ export default {
         total: 0,
       },
     }
+
+    // Date filter
+    const lastMonth = new Date()
+
+    lastMonth.setMonth(lastMonth.getMonth() - 1)
+
+    const dateFilter = ref({
+      from: lastMonth.toISOString().slice(0, 10),
+      to: new Date().toISOString().slice(0, 10),
+    })
 
     return {
       headerData: [
@@ -220,6 +221,7 @@ export default {
       toDeleteBCPUid: null,
       toDeleteBCPName: "",
       filters,
+      dateFilter,
     }
   },
   mounted() {
@@ -252,6 +254,14 @@ export default {
       this.filters.page.number = this.currentPage
       this.fetchBCPs()
     },
+
+    dateFilter: {
+      handler() {
+        this.filters.page.number = this.currentPage
+        this.fetchBCPs()
+      },
+      deep: true,
+    },
   },
   methods: {
     formatData,
@@ -262,6 +272,8 @@ export default {
      */
     async fetchBCPs() {
       this.isLoading = true
+
+      this.addDateToFilterQuery()
 
       const bcpsRes = await this.getBCPList(this.filters)
 
@@ -275,6 +287,18 @@ export default {
       }
 
       this.isLoading = false
+    },
+
+    /**
+     * Add date filter to filter querry
+     */
+    addDateToFilterQuery() {
+      // Always add date filter before get list
+      this.filters.filter[1] = {
+        name: "created_at",
+        type: "between",
+        value: `${this.dateFilter.from} 00:00:00, ${this.dateFilter.to} 23:59:59`,
+      }
     },
     /**
      * convert resource status to string status
@@ -367,13 +391,11 @@ export default {
      * Handle search
      */
     handleSearch() {
-      this.filters.filter = [
-        {
-          name: "search",
-          type: "contain",
-          value: this.searchQuery,
-        },
-      ]
+      this.filters.filter[0] = {
+        name: "search",
+        type: "contain",
+        value: this.searchQuery,
+      }
 
       // Always clear current paging for search performing
       this.filters.page = {}
