@@ -19,7 +19,7 @@ class BCP extends Model
     /**
      * @var string
      */
-    protected $table = 'bcp';
+    protected $table = 'bcps';
 
     /**
      * @var string[]
@@ -44,11 +44,27 @@ class BCP extends Model
         'due_date'
     ];
 
+    protected $appends = [
+        'report_count'
+    ];
+
+    protected $casts = [
+        'status' => 'int'
+    ];
+
     /**
      * @return Collection
      */
     public function getReportsAttribute()
     {
         return $this->getDocuments('reports');
+    }
+
+    /**
+     * @return int
+     */
+    public function getReportCountAttribute()
+    {
+        return $this->getDocuments('reports')->count();
     }
 }

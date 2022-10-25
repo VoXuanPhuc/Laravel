@@ -5,6 +5,7 @@ namespace Encoda\Core\Helpers;
 use Closure;
 use Encoda\Core\Enums\FilterTypes;
 use Encoda\Core\Facades\Context;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -213,7 +214,7 @@ class FilterFluent
     }
 
     /**
-     * @param        $query
+     * @param        Builder $query
      * @param        $type
      * @param        $column
      * @param        $value
@@ -249,6 +250,10 @@ class FilterFluent
             case FilterTypes::IN:
                 $arrayValue = array_map('trim', explode(',', $value));
                 $query->whereIn($column, array_filter($arrayValue));
+                break;
+            case FilterTypes::BETWEEN:
+                $arrayValue = array_map('trim', explode(',', $value));
+                $query->whereBetween($column, array_filter($arrayValue));
                 break;
             case FilterTypes::BOOLEAN:
                 $query->where($column, '=', filter_var($value, FILTER_VALIDATE_BOOLEAN));

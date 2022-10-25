@@ -47,8 +47,7 @@ class BCPService implements BCPServiceInterface
         $this->applySearchFilter($query);
         $this->applySortFilter($query);
 
-        return
-            $this->bcpRepository->applyPaging($query);
+        return  $this->bcpRepository->applyPaging($query);
 
     }
 
@@ -64,13 +63,18 @@ class BCPService implements BCPServiceInterface
         FilterFluent::init()
             ->setTable(BCP::getTableName())
             ->setQuery($query)
-            ->setAllowedFilters(['search', 'name', 'description', 'status', 'due_date'])
+            ->setAllowedFilters(['search', 'name', 'description', 'status', 'due_date', 'created_at'])
             ->setCustomFilter('search', static function ($query, $type, $column, $value) {
-                $query->where('name', 'LIKE', '%' . $value . '%')
-                    ->orWhere('description', 'LIKE', '%' . $value . '%');
+                // Group where name like and description like
+                $query->where( function( $query) use ( $value) {
+                    $query->where('name', 'LIKE', '%' . $value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $value . '%');
+                });
+
             })
             ->validate()
-            ->applyFilter();
+            ->applyFilter()
+        ;
     }
 
     /**
@@ -141,9 +145,6 @@ class BCPService implements BCPServiceInterface
         }
         DB::beginTransaction();
 
-
-
-
         return $bcp->refresh()->setAppends(['reports']);
     }
 
@@ -153,10 +154,9 @@ class BCPService implements BCPServiceInterface
      *
      * @return mixed
      * @throws NotFoundException
-     * @throws ValidatorException
      * @throws ServerErrorException
      */
-    public function update(UpdateBCPRequest $request, string $uid)
+    public function update(UpdateBCPRequest $request, string $uid): mixed
     {
         $bcp = $this->getBCP($uid);
         try{

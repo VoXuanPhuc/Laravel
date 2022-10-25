@@ -70,6 +70,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
             SystemFeatureEnum::SUPPLIER,
             SystemFeatureEnum::DEPENDENCY,
             SystemFeatureEnum::ASSESSMENT,
+            SystemFeatureEnum::BCP,
         ];
 
         return array_merge( $defaultModules, $tenantModules );

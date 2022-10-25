@@ -2,10 +2,11 @@
 
 namespace Encoda\BCP\Enums;
 
-Enum BCPStatusEnum: string
+Enum BCPStatusEnum: int
 {
-    case IN_PROGRESS = "in_progress";
-    case NEEDS_ATTENTION = "needs_attention";
-    case OVER_DUE = "over_due";
-    case UP_TO_DATE = "up_to_date";
+    case TODO = 1;
+    case IN_PROGRESS = 2;
+    case NEEDS_ATTENTION = 3;
+    case OVER_DUE = 4;
+    case UP_TO_DATE = 5;
 }

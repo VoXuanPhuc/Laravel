@@ -14,6 +14,7 @@ enum SystemFeatureEnum : string
     case SUPPLIER ='supplier';
     case DEPENDENCY ='dependency';
     case ASSESSMENT ='assessment';
+    case BCP ='business_continuity_plan';
     case INDUSTRY ='industry';
     case USER ='user';
     case REPORT ='report';

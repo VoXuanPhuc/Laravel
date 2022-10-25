@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->unique()->index('idx_org_code');
             $table->string('description')->nullable(true);
-            $table->string('logo_path')->nullable(true);
+            $table->text('logo_path')->nullable(true);
             $table->string('domain')->unique()->index('idx_domain');
             $table->string('address')->nullable(true);
             $table->boolean('is_archived')->nullable(true)->default(false);

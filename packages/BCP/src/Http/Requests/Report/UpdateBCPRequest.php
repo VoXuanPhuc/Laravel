@@ -19,9 +19,9 @@ class UpdateBCPRequest extends FormRequest
     {
         return [
             'name'         => 'required|string|max:255',
-            'description'  => 'string',
+//            'description'  => 'string',
             'status'       => [Rule::in((array_column(BCPStatusEnum::cases(), 'value')))],
-            'due_date'     => 'required|date_utc|after:now',
+            'due_date'     => 'required|after:now',
             'reports'      => 'array|filled',
             'reports.*.uid' => 'required'
         ];

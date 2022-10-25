@@ -15,6 +15,7 @@ enum FilterTypes: string
     case LESS_THAN_OR_EQUAL = 'LTE';
     case GREATER_THAN_OR_EQUAL = 'GTE';
     case IN = 'IN';
+    case BETWEEN = 'BETWEEN';
     case BOOLEAN = 'BOOLEAN';
 
 }

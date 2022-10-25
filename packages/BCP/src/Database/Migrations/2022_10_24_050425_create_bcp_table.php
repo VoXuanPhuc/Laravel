@@ -3,11 +3,12 @@
 use Encoda\BCP\Enums\BCPStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    protected string $tableName = 'bcp';
+    protected string $tableName = 'bcps';
     /**
      * Run the migrations.
      *
@@ -29,6 +30,7 @@ return new class extends Migration
                     ->on('organizations')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
+
                 $table->dateTimeTz('due_date');
                 $table->softDeletesTz();
                 $table->timestampsTz();
