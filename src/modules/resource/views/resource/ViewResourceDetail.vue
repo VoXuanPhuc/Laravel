@@ -329,12 +329,20 @@ export default {
       await this.updateResource(this.resource, uid)
 
       this.isUpdateLoading = false
+      this.goToViewResourceList()
     },
 
     /**
      * Cancel update resource
      */
     handleClickCancel() {
+      this.goToViewResourceList()
+    },
+
+    /**
+     * redirect to main resource screen
+     */
+    goToViewResourceList() {
       goto("ViewResourceList")
     },
 
