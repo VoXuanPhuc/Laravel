@@ -13,9 +13,7 @@ class UpdateResourceRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'status' => 'required|numeric',
-            'category' => ['required',  new ResourceCategoryDataValidation()],
-            'owners' => ['required', new ResourceOwnerArrayValidation() ]
+            'status' => 'nullable|numeric'
         ];
     }
 }

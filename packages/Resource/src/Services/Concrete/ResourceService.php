@@ -108,14 +108,15 @@ class ResourceService implements ResourceServiceInterface
     public function createResource( CreateResourceRequest $request )
     {
 
-        $category = $this->categoryService->getResourceCategory( $request->category['uid'] );
         $owners = $this->getOwners( $request );
-
-        $request->merge(
-            [
-                'resources_category_id' => $category->id,
-            ]
-        );
+        if (isset($request->category['uid'])){
+            $category = $this->categoryService->getResourceCategory( $request->category['uid'] );
+            $request->merge(
+                [
+                    'resources_category_id' => $category->id,
+                ]
+            );
+        }
 
         try {
 
@@ -150,10 +151,11 @@ class ResourceService implements ResourceServiceInterface
     {
         $resource = $this->getResource( $uid );
 
-        $category = $this->categoryService->getResourceCategory( $request->category['uid']);
         $owners = $this->getOwners( $request );
-
-        $request->merge( [ 'resources_category_id' => $category->id, ] );
+        if (isset($request->category['uid'])) {
+            $category = $this->categoryService->getResourceCategory( $request->category['uid']);
+            $request->merge(['resources_category_id' => $category->id,]);
+        }
 
         try {
 

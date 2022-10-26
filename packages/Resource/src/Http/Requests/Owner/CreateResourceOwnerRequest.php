@@ -12,7 +12,7 @@ class CreateResourceOwnerRequest extends FormRequest
         return [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|email|unique:resource_owners|max:255',
+            'email' => 'required_if:is_invite,true|nullable|email|unique:resource_owners|max:255',
             'is_invite' => 'required|boolean',
         ];
     }

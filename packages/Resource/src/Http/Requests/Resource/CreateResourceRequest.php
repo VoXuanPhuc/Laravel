@@ -13,9 +13,7 @@ class CreateResourceRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:resources|max:255',
-            'status' => 'required|numeric',
-            'category' => ['required',  new ResourceCategoryDataValidation()],
-            'owners' => ['required', new ResourceOwnerArrayValidation() ]
+            'status' => 'numeric'
         ];
     }
 }
