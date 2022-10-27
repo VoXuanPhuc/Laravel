@@ -61,14 +61,14 @@
       </EcFlex>
 
       <!-- Reports -->
-      <EcFlex class="flex-wrap max-w-md items-center mb-8">
+      <EcFlex class="flex-wrap items-center mb-8">
         <EcBox class="w-full">
           <!-- Title and upload button -->
           <EcFlex class="items-center">
             <EcLabel>{{ $t("bcp.plans.reports") }}</EcLabel>
             <EcButton
-              variant="primary-rounded"
-              class="ml-2"
+              variant="transparent"
+              class="ml-4 text-c1-800"
               v-tooltip="{ text: 'Upload BCP Reports' }"
               @click="handleOpenBCPFileUploadModal"
             >
@@ -76,30 +76,18 @@
             </EcButton>
           </EcFlex>
 
-          <!-- Title and upload button -->
-          <EcFlex v-for="(file, idx) in bcp.reports" :key="file.uid" class="items-center my-auto mt-4 ml-4 border-b border-c3-50">
-            <EcBox>
-              <!-- File name and date -->
-              <EcLabel class="text-md hover:cursor-pointer text-c1-800" @click="handleOpenFileUrl(file.url)"
-                >{{ ++idx }}. {{ file.name }}
-              </EcLabel>
-
-              <EcLabel class="text-xs ml-2">{{ file?.created_at }}</EcLabel>
-            </EcBox>
-            <!-- Remove file button -->
-            <EcButton
-              variant="transparent"
-              class="mr-0 text-cError-400"
-              v-tooltip="{ text: 'Remove file' }"
-              @click="handleRemoveUploadedFile(file.uid)"
-            >
-              <EcIcon :icon="reportFilesDeleting[file.uid] ? 'Spinner' : 'X'" width="12" height="12" />
-            </EcButton>
-          </EcFlex>
+          <!-- Report row -->
+          <RFileSlider class="mt-4" :files="bcp.reports" @fileDeleted="handleRemoveUploadedFile"></RFileSlider>
         </EcBox>
 
         <!-- End -->
       </EcFlex>
+
+      <!-- Activity -->
+      <EcFlex class="flex-wrap items-center mb-8">
+        <RActivityLog :uid="uid" :fetcher="getBCPLogs" />
+      </EcFlex>
+      <!-- End Activity -->
 
       <!-- End body -->
       <!-- Actions -->
@@ -136,6 +124,7 @@
 <script>
 import { goto } from "@/modules/core/composables"
 import { useBCPDetail } from "@/modules/bcp/use/useBCPDetail"
+import { useBCPLog } from "@/modules/bcp/use/useBCPLog"
 import { useBCPStatusEnum } from "@/modules/bcp/use/useBCPStatusEnum"
 import { useGlobalStore } from "@/stores/global"
 import ModalUploadBCPFile from "../components/ModalUploadBCPFile.vue"
@@ -168,12 +157,14 @@ export default {
     const { removeReportFile } = useBCPDetail()
     const { statuses } = useBCPStatusEnum()
 
+    const { getBCPLogs } = useBCPLog()
     const modalUploadRef = ref()
 
     return {
       getBCP,
       updateBCP,
       deleteBCP,
+      getBCPLogs,
       bcp,
       v$,
       globalStore,
@@ -196,7 +187,12 @@ export default {
       }
       this.isUpdateLoading = true
       this.bcp.status = this.bcp.statusObj?.value
-      await this.updateBCP(this.bcp, this.uid)
+      const res = await this.updateBCP(this.bcp, this.uid)
+
+      if (res) {
+        this.transformData(res)
+      }
+
       this.isUpdateLoading = false
     },
     /**
@@ -233,19 +229,11 @@ export default {
      * @param {*} url
      */
     async handleRemoveUploadedFile(uid) {
-      this.reportFilesDeleting[uid] = true
-
-      const res = await this.removeReportFile(uid)
-
-      this.reportFilesDeleting[uid] = false
-
-      if (res) {
-        this.bcp.reports.forEach((item, idx) => {
-          if (item?.uid === uid) {
-            this.bcp.reports.splice(idx, 1)
-          }
-        })
-      }
+      this.bcp.reports.forEach((item, idx) => {
+        if (item?.uid === uid) {
+          this.bcp.reports.splice(idx, 1)
+        }
+      })
     },
 
     // Upload file callback
@@ -258,6 +246,7 @@ export default {
           uid: file?.response?.uid,
           name: file?.response?.name,
           url: file?.response?.url,
+          mime_type: file?.response?.mime_type,
         })
       })
     },
@@ -293,12 +282,15 @@ export default {
 
       // Status
       this.bcp.statusObj = this.statuses?.find((status) => {
-        
-        return (status.value === response?.status)
+        return status.value === response?.status
       })
-  
 
       // Files
+    },
+
+    // Format Datetime
+    formatDateTime(str) {
+      return this.globalStore.formatDateTime(str)
     },
   },
   components: { ModalUploadBCPFile },

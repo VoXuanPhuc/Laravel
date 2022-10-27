@@ -25,6 +25,7 @@ import EcHeadline from "./EcHeadline"
 import EcLabel from "./EcLabel"
 import EcTooltip from "./EcTooltip"
 import EcNetwork from "./EcNetwork"
+import EcPdfViewer from "./EcPdfViewer"
 // import EcIcon from "./EcIcon"
 import LayoutAuth from "./LayoutAuth"
 import ViewLogin from "./ViewLogin"
@@ -62,6 +63,7 @@ const variants = {
   EcLabel,
   EcTooltip,
   EcNetwork,
+  EcPdfViewer,
   // EcIcon,
   LayoutAuth,
   ViewLogin,

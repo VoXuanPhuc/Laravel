@@ -1323,6 +1323,13 @@
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
+"@tinymce/tinymce-vue@^4":
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-vue/-/tinymce-vue-4.0.7.tgz#811dd87a2a9f70e60c43c2d9d932771c0c8b4677"
+  integrity sha512-1esB8wGWrjPCY+rK8vy3QB1cxwXo7HLJWuNrcyPl6LOVR+QJjub0OiV/C+TUEsLN6OpCtRv+QnIqMC5vXz783Q==
+  dependencies:
+    tinymce "^5.5.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -2130,7 +2137,7 @@ ajv-formats@^2.1.1:
   dependencies:
     ajv "^8.0.0"
 
-ajv-keywords@^3.5.2:
+ajv-keywords@^3.1.0, ajv-keywords@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
@@ -2142,7 +2149,7 @@ ajv-keywords@^5.0.0:
   dependencies:
     fast-deep-equal "^3.1.3"
 
-ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
+ajv@^6.1.0, ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
   version "6.12.6"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
   integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
@@ -2414,6 +2421,11 @@ babel-plugin-polyfill-regenerator@^0.3.1:
   integrity sha512-Y2B06tvgHYt1x0yz17jGkGeeMr5FeKUu+ASJ+N6nB5lQ8Dapfg42i0OVrf8PNGJ3zKL4A23snMi1IRwrqqND7A==
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.3.1"
+
+babel-plugin-syntax-dynamic-import@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-dynamic-import/-/babel-plugin-syntax-dynamic-import-6.18.0.tgz#8d6a26229c83745a9982a441051572caa179b1da"
+  integrity sha512-MioUE+LfjCEz65Wf7Z/Rm4XCP5k2c+TbMd2Z2JKc7U9uwjBhAfNPE48KC4GTGKhppMeYVepwDBNO/nGY6NYHBA==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -5236,7 +5248,7 @@ loader-runner@^4.1.0, loader-runner@^4.2.0:
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.3.0.tgz#c1b4a163b99f614830353b16755e7149ac2314e1"
   integrity sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==
 
-loader-utils@^1.0.2, loader-utils@^1.1.0:
+loader-utils@^1.0.0, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.0.tgz#c579b5e34cb34b1a74edc6c1fb36bfa371d5a613"
   integrity sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
@@ -6125,6 +6137,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+pdfjs-dist@2.6.347:
+  version "2.6.347"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.6.347.tgz#f257ed66e83be900cd0fd28524a2187fb9e25cd5"
+  integrity sha512-QC+h7hG2su9v/nU1wEI3SnpPIrqJODL7GTDFvR74ANKGq1AFJW16PH8VWnhpiTi9YcLSFV9xLeWSgq+ckHLdVQ==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -6622,6 +6639,14 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+raw-loader@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-4.0.2.tgz#1aac6b7d1ad1501e66efdac1522c73e59a584eb6"
+  integrity sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
+
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
@@ -6902,6 +6927,14 @@ sass-loader@^13.1.0:
   dependencies:
     klona "^2.0.4"
     neo-async "^2.6.2"
+
+schema-utils@^0.4.0:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
+  integrity sha512-v/iwU6wvwGK8HbU9yi3/nhGzP0yGSuhQMzL6ySiec1FSrZZDkhm4noOSWzrNFo/jEc+SJY6jRTwuwbSXJPDUnQ==
+  dependencies:
+    ajv "^6.1.0"
+    ajv-keywords "^3.1.0"
 
 schema-utils@^2.6.5:
   version "2.7.1"
@@ -7543,6 +7576,11 @@ thunky@^1.0.2:
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
 
+tinymce@^5.5.0:
+  version "5.10.6"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.10.6.tgz#ea03927e9d20c035619dfd32ec4fd471c55e32c5"
+  integrity sha512-bnF2LUoycDsoZZLQBNHbOijrmoJuEeR1rQdqgo4s77BedufpOVnDh00OZKbseHeTMCxhVH05wvOqxLsi6vpeZw==
+
 to-fast-properties@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
@@ -7866,6 +7904,28 @@ vue-loader@^17.0.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
+vue-pdf-embed@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vue-pdf-embed/-/vue-pdf-embed-1.1.4.tgz#80a95c313ffc4f76c14d9c90ca28c567d5469729"
+  integrity sha512-d4c7nM3LneWUiL4MssIyPHfGgVMRPh4Z7UgLsXMZ+lbAtH/6SBUFHdzZQLY2BASdh16BM/v6YCbmtQU+KIQdrg==
+
+vue-pdf@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/vue-pdf/-/vue-pdf-4.3.0.tgz#d5f790ee7967e7b7aa9089b97b11ab168e19dbd0"
+  integrity sha512-zd3lJj6CbtrawgaaDDciTDjkJMUKiLWtbEmBg5CvFn9Noe9oAO/GNy/fc5c59qGuFCJ14ibIV1baw4S07e5bSQ==
+  dependencies:
+    babel-plugin-syntax-dynamic-import "^6.18.0"
+    loader-utils "^1.4.0"
+    pdfjs-dist "2.6.347"
+    raw-loader "^4.0.2"
+    vue-resize-sensor "^2.0.0"
+    worker-loader "^2.0.0"
+
+vue-resize-sensor@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-resize-sensor/-/vue-resize-sensor-2.0.0.tgz#3a587fd6802e1688709cf2c5aadae7a0075952bf"
+  integrity sha512-W+y2EAI/BxS4Vlcca9scQv8ifeBFck56DRtSwWJ2H4Cw1GLNUYxiZxUHHkuzuI5JPW/cYtL1bPO5xPyEXx4LmQ==
+
 vue-router@^4.1.5:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.5.tgz#256f597e3f5a281a23352a6193aa6e342c8d9f9a"
@@ -7885,6 +7945,11 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue3-carousel@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/vue3-carousel/-/vue3-carousel-0.2.4.tgz#03f2ea3c07acfc9aa71ccdc1ca89d1482e73bb2b"
+  integrity sha512-6QtXKMIzzLj7zCPTky50d5nxRLxuvH6OPtfRn41NkejkX5hov6G2ZdxEfWXO20f7MyW2nbIdAqNjw3dGTvJn4g==
 
 vue@^3.2.40:
   version "3.2.40"
@@ -8119,6 +8184,14 @@ word@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/word/-/word-0.3.0.tgz#8542157e4f8e849f4a363a288992d47612db9961"
   integrity sha512-OELeY0Q61OXpdUfTp+oweA/vtLVg5VDOXh+3he3PNzLGG/y0oylSOC1xRVj0+l4vQ3tj/bB1HVHv1ocXkQceFA==
+
+worker-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-2.0.0.tgz#45fda3ef76aca815771a89107399ee4119b430ac"
+  integrity sha512-tnvNp4K3KQOpfRnD20m8xltE3eWh89Ye+5oj7wXEEHKac1P4oZ6p9oTj8/8ExqoSBnk9nu5Pr4nKfQ1hn2APJw==
+  dependencies:
+    loader-utils "^1.0.0"
+    schema-utils "^0.4.0"
 
 wrap-ansi@^3.0.1:
   version "3.0.1"

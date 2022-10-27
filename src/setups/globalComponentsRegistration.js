@@ -27,6 +27,9 @@ import EcLabel from "@/components/EcLabel"
 import EcIcon from "@/components/EcIcon"
 import EcTooltip from "@/components/EcTooltip"
 import EcNetwork from "@/components/EcNetwork"
+import EcCarousel from "@/components/EcCarousel"
+import EcPdfViewer from "@/components/EcPdfViewer"
+import EcImageViewer from "@/components/EcImageViewer"
 
 // Project components
 import RMessage from "@/modules/core/components/common/RMessage"
@@ -52,6 +55,11 @@ import RFileRow from "@/modules/core/components/common/RFileRow"
 import RUploadFiles from "@/modules/core/components/common/RUploadFiles"
 import RLoading from "@/modules/core/components/common/RLoading"
 import RTopBar from "@/modules/core/components/common/RTopBar"
+import RModalPreview from "@/modules/core/components/common/RModalPreview"
+import RFileSlider from "@/modules/core/components/common/RFileSlider"
+import RActivityLog from "@/modules/core/components/common/RActivityLog"
+import RActivityLogRow from "@/modules/core/components/common/RActivityLogRow"
+import RCommentRow from "@/modules/core/components/common/RCommentRow"
 
 // Table
 import RTable from "@/modules/core/components/RTable/RTable"
@@ -91,6 +99,9 @@ const baseComponents = {
   EcIcon,
   EcTooltip,
   EcNetwork,
+  EcCarousel,
+  EcPdfViewer,
+  EcImageViewer,
 }
 
 const coreComponents = {
@@ -111,6 +122,11 @@ const coreComponents = {
   RSearchBox,
   RLoading,
   RTopBar,
+  RModalPreview,
+  RFileSlider,
+  RActivityLog,
+  RActivityLogRow,
+  RCommentRow,
 
   RTable,
   RTableAction,

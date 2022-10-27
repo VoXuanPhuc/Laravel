@@ -13,6 +13,7 @@
                   :documentTitle="logoTitle"
                   :maxFileNum="1"
                   :isImage="true"
+                  :dir="'logo'"
                   :isUploadOnSelect="true"
                   :uploadedFileUrls="uploadedFileUrls"
                   dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"

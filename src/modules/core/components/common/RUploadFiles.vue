@@ -68,7 +68,7 @@ import { apiUploadFile } from "../../api/fileUploader"
 
 export default {
   name: "RUploadFiles",
-  emits: ["handleSingleUploadResult", "handleBulkFilesUpload"],
+  emits: ["files:uploaded", "handleSingleUploadResult", "handleBulkFilesUpload"],
   props: {
     isUploadOnSelect: {
       type: Boolean,
@@ -108,7 +108,7 @@ export default {
     },
     dir: {
       type: String,
-      default: "core.default_dir",
+      default: "misc",
     },
     maxFileNum: {
       type: Number,

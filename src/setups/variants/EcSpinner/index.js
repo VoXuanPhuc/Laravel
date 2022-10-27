@@ -2,7 +2,7 @@ export default {
   default: "basic",
   basic: {
     el: {
-      circle: "inline-block w-4 h-4 border-t-2 rounded-full border-c1-500",
+      circle: "inline-block w-4 h-4 border-t-2 rounded-full border-c1-800",
       dots: "flex justify-center items-center w-auto h-auto",
       dotsItem: "w-4 h-4 rounded-full inline-block bg-c1-500",
     },

@@ -2,6 +2,7 @@ import { ref } from "vue"
 import * as api from "../api/bcpFetcher"
 import { useI18n } from "vue-i18n"
 import { useGlobalStore } from "@/stores/global"
+import { downloadFromBlob } from "@/readybc/composables/helpers/downloadHelper"
 
 export function useBCPList() {
   const globalStore = useGlobalStore()
@@ -51,9 +52,31 @@ export function useBCPList() {
     }
   }
 
+  /**
+   *
+   * @param {*} uid
+   * @returns
+   */
+  async function exportBCPRecord(uid) {
+    try {
+      const { data } = await api.exportBCP(uid)
+      debugger
+      if (!data) {
+        globalStore.addErrorToastMessage(this.$t("bcp.errors.download"))
+        return
+      }
+
+      downloadFromBlob(data, `Business_Continuity_Plan`, "zip")
+    } catch (error) {
+      globalStore.addErrorToastMessage(error ? error?.message : this.$t("bcp.errors.download"))
+      return false
+    }
+  }
+
   return {
     getBCPList,
     downloadBCPs,
+    exportBCPRecord,
     bcps,
     t,
   }

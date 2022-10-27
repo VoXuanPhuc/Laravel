@@ -109,6 +109,13 @@ export default {
     Report: lazyLoad("Report"),
     Assessment: lazyLoad("Assessment"),
     BCP: lazyLoad("BCP"),
+    Document: lazyLoad("Document"),
+    CSV: lazyLoad("CSV"),
+    PDF: lazyLoad("PDF"),
+    TXT: lazyLoad("TXT"),
+    OfficeWord: lazyLoad("OfficeWord"),
+    OfficeExcel: lazyLoad("OfficeExcel"),
+    OfficePPT: lazyLoad("OfficePPT"),
   },
 }
 </script>

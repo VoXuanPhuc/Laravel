@@ -3,7 +3,7 @@
     <li v-for="(p, idx) in paginationList" :key="idx">
       <button :class="getPageLinkClass(p)" class="w-8 h-8" @click="handleClickPage(p)">
         <template v-if="p.type == 'icon'">
-          <EcIcon class="text-c1-800 w-6" :icon="p.icon" />
+          <EcIcon class="text-c1-800" :icon="p.icon" width="14" />
         </template>
         <template v-else-if="p.type == 'three-dots'"> ... </template>
         <template v-else>

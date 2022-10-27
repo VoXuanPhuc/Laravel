@@ -61,14 +61,14 @@
       </EcFlex>
 
       <!-- Reports -->
-      <EcFlex class="flex-wrap max-w-md items-center mb-8">
+      <EcFlex class="flex-wrap items-center mb-8">
         <EcBox class="w-full">
           <!-- Title and upload button -->
           <EcFlex class="items-center">
             <EcLabel>{{ $t("bcp.plans.reports") }}</EcLabel>
             <EcButton
-              variant="primary-rounded"
-              class="ml-2"
+              variant="transparent"
+              class="ml-4 text-c1-800"
               v-tooltip="{ text: 'Upload BCP Reports' }"
               @click="handleOpenBCPFileUploadModal"
             >
@@ -76,20 +76,8 @@
             </EcButton>
           </EcFlex>
 
-          <!-- Title and upload button -->
-          <EcFlex v-for="(file, idx) in bcp.reports" :key="file.uid" class="items-center my-auto mt-4 ml-4 border-b border-c3-50">
-            <EcLabel class="text-md hover:cursor-pointer text-c1-800" @click="handleOpenFileUrl(file.url)"
-              >{{ ++idx }}. {{ file.name }}</EcLabel
-            >
-            <EcButton
-              variant="transparent"
-              class="mr-0 text-cError-400"
-              v-tooltip="{ text: 'Remove file' }"
-              @click="handleRemoveUploadedFile(file.uid)"
-            >
-              <EcIcon :icon="reportFilesDeleting[file.uid] ? 'Spinner' : 'X'" width="12" height="12" />
-            </EcButton>
-          </EcFlex>
+          <!-- Report row -->
+          <RFileSlider class="mt-4" :files="bcp.reports" @fileDeleted="handleRemoveUploadedFile"></RFileSlider>
         </EcBox>
 
         <!-- End -->
@@ -209,28 +197,12 @@ export default {
      *
      * @param {*} url
      */
-    handleOpenFileUrl(url) {
-      window.open(url, "_blank")
-    },
-
-    /**
-     *
-     * @param {*} url
-     */
     async handleRemoveUploadedFile(uid) {
-      this.reportFilesDeleting[uid] = true
-
-      const res = await this.removeReportFile(uid)
-
-      this.reportFilesDeleting[uid] = false
-
-      if (res) {
-        this.bcp.reports.forEach((item, idx) => {
-          if (item?.uid === uid) {
-            this.bcp.reports.splice(idx, 1)
-          }
-        })
-      }
+      this.bcp.reports.forEach((item, idx) => {
+        if (item?.uid === uid) {
+          this.bcp.reports.splice(idx, 1)
+        }
+      })
     },
 
     // Upload file callback
@@ -243,6 +215,8 @@ export default {
           uid: file?.response?.uid,
           name: file?.response?.name,
           url: file?.response?.url,
+          size: file?.response?.size,
+          mime_type: file?.response?.mime_type,
         })
       })
     },

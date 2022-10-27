@@ -44,19 +44,45 @@ export const deleteBCP = async (uid) => {
  * @returns
  */
 export const fetchBCPList = async (filters) => {
-  const query = "?" + qs.stringify(filters)
-  return fetcher.get(`/identity/api/v1/bcps` + query)
+  return fetcher.get(`/identity/api/v1/bcps`, {
+    params: filters,
+    paramsSerializer: (params) => {
+      return qs.stringify(params)
+    },
+  })
 }
 
 /**
  * Download activities
  * @returns
  */
-export const downloadBCPs = async (categoryUid) => {
-  var query = new URLSearchParams()
-  query.append("categoryUid", categoryUid)
-
-  return fetcher.get(`/identity/api/v1/bcps/download/all?` + query.toString(), {
+export const downloadBCPs = async (filters) => {
+  return fetcher.get(`/identity/api/v1/bcps/download/all`, {
+    params: filters,
+    paramsSerializer: (params) => {
+      return qs.stringify(params)
+    },
     responseType: "blob",
   })
+}
+
+/**
+ *
+ * @param {*} uid
+ * @returns
+ */
+
+export const exportBCP = async (uid) => {
+  return fetcher.get(`/identity/api/v1/bcps/${uid}/export`, {
+    responseType: "blob",
+  })
+}
+
+/**
+ *
+ * @param {*} uid
+ * @returns
+ */
+export const fetchBCPLogs = async (uid) => {
+  return fetcher.get(`identity/api/v1/bcps/${uid}/logs`)
 }

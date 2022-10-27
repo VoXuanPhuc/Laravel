@@ -13,6 +13,7 @@ import setting from "@/modules/setting/router/index"
 import supplier from "@/modules/supplier/router/index"
 import dependency from "@/modules/dependency/router/index"
 import businessContinuityPlan from "@/modules/bcp/router/index"
+import assessment from "@/modules/assessment/router/index"
 
 const routes = [
   {
@@ -32,6 +33,7 @@ const routes = [
   ...supplier,
   ...dependency,
   ...businessContinuityPlan,
+  ...assessment,
 
   {
     path: "/:catchAll(.*)",

@@ -98,12 +98,15 @@
           <!-- Action -->
           <RTableCell :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }" :isTruncate="false" variant="gradient">
             <EcFlex class="items-center justify-center h-full">
-              <RTableAction class="w-30">
+              <RTableAction class="w-30" :isLoading="recordLoading[item.uid]">
                 <!-- View action -->
-                <!-- <EcFlex class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100">
-                  <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("bcp.buttons.view") }}</EcText>
-                </EcFlex> -->
+                <EcFlex
+                  class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100"
+                  @click="handleClickExportBCPRecord(item.uid)"
+                >
+                  <EcIcon class="mr-3" icon="DocumentDownload" />
+                  <EcText class="font-medium">{{ $t("bcp.buttons.export") }}</EcText>
+                </EcFlex>
 
                 <!-- Edit action -->
                 <EcFlex
@@ -170,7 +173,7 @@ export default {
   setup() {
     // Pre load
     const globalStore = useGlobalStore()
-    const { getBCPList, downloadBCPs, bcps } = useBCPList()
+    const { getBCPList, downloadBCPs, exportBCPRecord, bcps } = useBCPList()
 
     const { statuses } = useBCPStatusEnum()
 
@@ -178,6 +181,7 @@ export default {
       globalStore,
       getBCPList,
       downloadBCPs,
+      exportBCPRecord,
       bcps,
       statuses,
     }
@@ -222,6 +226,7 @@ export default {
       toDeleteBCPName: "",
       filters,
       dateFilter,
+      recordLoading: [],
     }
   },
   mounted() {
@@ -347,6 +352,18 @@ export default {
       this.isDownloading = true
       await this.downloadBCPs(this.selectedCategory)
       this.isDownloading = false
+    },
+
+    /**
+     *
+     * @param {*} uid
+     */
+    async handleClickExportBCPRecord(uid) {
+      this.recordLoading[uid] = true
+
+      await this.exportBCPRecord(uid)
+
+      this.recordLoading[uid] = false
     },
 
     /**

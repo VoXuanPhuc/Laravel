@@ -92,11 +92,18 @@ export default {
         text: "core.industries",
         routeName: "ViewIndustryList",
       },
+
       {
-        module: "user",
-        icon: "User",
-        text: "core.users",
-        routeName: "ViewUserList",
+        module: "business_continuity_plan",
+        icon: "BCP",
+        text: "core.business_continuity_plan",
+        routeName: "ViewBCPList",
+      },
+      {
+        module: "assessment",
+        icon: "Assessment",
+        text: "core.assessment",
+        routeName: "ViewBIAList",
       },
       {
         module: "report",
@@ -105,16 +112,10 @@ export default {
         routeName: "ViewReport",
       },
       {
-        module: "assessment",
-        icon: "Assessment",
-        text: "core.assessment",
-        routeName: "Assessment",
-      },
-      {
-        module: "business_continuity_plan",
-        icon: "BCP",
-        text: "core.business_continuity_plan",
-        routeName: "ViewBCPList",
+        module: "user",
+        icon: "User",
+        text: "core.users",
+        routeName: "ViewUserList",
       },
       // {
       //   module: "chatroom",

@@ -10,6 +10,7 @@ import setting from "@/modules/setting/locales/en-US"
 import supplier from "@/modules/supplier/locales/en-US"
 import dependency from "@/modules/dependency/locales/en-US"
 import businessContinuityPlan from "@/modules/bcp/locales/en-US"
+import assessment from "@/modules/assessment/locales/en-US"
 
 export default {
   ...core,
@@ -24,6 +25,7 @@ export default {
   ...supplier,
   ...dependency,
   ...businessContinuityPlan,
+  ...assessment,
 
   errors: {
     system: "System error, please contact administrator",

@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { useGlobalStore } from "@/stores/global"
+
 export default {
   name: "RDroppableZone",
   emits: ["change"],
@@ -52,7 +54,7 @@ export default {
     accept: {
       type: Array,
       default: () => {
-        return ["jpg", "jpeg", "png", "gif", "tiff", "webp", "pdf", "doc", "xdoc", "csv", "xls", "xlsx", "txt"]
+        return ["jpg", "jpeg", "png", "gif", "tiff", "webp", "pdf", "doc", "xdoc", "csv", "xls", "xlsx", "ppt", "pptx", "txt"]
       },
     },
     multiple: {
@@ -75,6 +77,14 @@ export default {
   data() {
     return {
       onDragging: 0,
+    }
+  },
+
+  setup() {
+    const globalStore = useGlobalStore()
+
+    return {
+      globalStore,
     }
   },
   computed: {
@@ -115,31 +125,26 @@ export default {
     handleClickBrowse() {
       this.$refs.fileInput.click()
     },
+
+    /**
+     * Filter valid files
+     * @param {*} fileList
+     */
     filterValidFiles(fileList) {
       const acceptedFiles = []
       Array.prototype.slice.call(fileList).forEach((file) => {
         // Exclude files that not in accept type list
         const extension = file.name.match(/\.([\w]+)$/)?.[1]
         if (!this.accept.includes(extension.toLowerCase())) {
-          this.$store.dispatch("addToastMessage", {
-            type: "error",
-            content: {
-              type: "message",
-              text: this.$t("core.fileNotSupported", { type: extension }),
-            },
-          })
+          this.globalStore.addErrorToastMessage(this.$t("core.fileNotSupported", { type: extension }))
+
           return
         }
 
         // Exclude duplicate files
         if (this.files.some((item) => item.name === file.name)) {
-          this.$store.dispatch("addToastMessage", {
-            type: "error",
-            content: {
-              type: "message",
-              text: this.$t("core.fileHasExisted", { name: file.name }),
-            },
-          })
+          this.globalStore.addErrorToastMessage(this.$t("core.fileHasExisted", { name: file.name }))
+
           return
         }
 

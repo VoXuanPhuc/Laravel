@@ -100,4 +100,9 @@ export default {
       root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cWhite bg-c3-500",
     },
   },
+  "square-pill-apv": {
+    el: {
+      root: "inline-block font-medium text-sm rounded px-4 py-2 text-center leading-tight text-cWhite bg-c1-800",
+    },
+  },
 }
