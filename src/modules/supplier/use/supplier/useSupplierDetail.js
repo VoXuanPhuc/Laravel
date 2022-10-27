@@ -20,7 +20,6 @@ export function useSupplierDetail() {
       description: { maxLength: maxLength(1023) },
       email: { email, required, maxLength: maxLength(255) },
       phone_number: { required, maxLength: maxLength(15) },
-      fax: { required, maxLength: maxLength(255) },
       address: { required, maxLength: maxLength(255) },
       categories: { required },
     },

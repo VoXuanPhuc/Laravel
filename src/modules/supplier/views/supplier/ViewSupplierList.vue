@@ -45,12 +45,6 @@
             </EcText>
           </RTableCell>
 
-          <!-- Tax code-->
-          <RTableCell>
-            <EcText class="w-24">
-              {{ item.fax }}
-            </EcText>
-          </RTableCell>
 
           <!-- desc -->
           <RTableCell>
@@ -69,14 +63,6 @@
           <RTableCell :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }" :isTruncate="false" variant="gradient">
             <EcFlex class="items-center justify-center h-full">
               <RTableAction class="w-30">
-                <!-- View action -->
-                <EcFlex
-                  class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100"
-                  @click="handleClickEditSupplier(item.uid)"
-                >
-                  <EcIcon class="mr-3" icon="Eye" />
-                  <EcText class="font-medium">{{ $t("supplier.buttons.view") }}</EcText>
-                </EcFlex>
 
                 <!-- Edit action -->
                 <EcFlex
@@ -125,7 +111,6 @@ export default {
     return {
       headerData: [
         { label: this.$t("supplier.labels.supplierName") },
-        { label: this.$t("supplier.labels.fax") },
         { label: this.$t("supplier.labels.contactPoint") },
         { label: this.$t("supplier.labels.createdAt") },
       ],

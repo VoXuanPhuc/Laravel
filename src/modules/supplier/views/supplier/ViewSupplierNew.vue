@@ -87,17 +87,6 @@
             />
           </EcBox>
 
-          <!-- taxCode -->
-          <EcBox class="w-1/2 mb-6">
-            <RFormInput
-              v-model="supplier.fax"
-              :label="$t('supplier.fax')"
-              :validator="supplierValidator$"
-              componentName="EcInputText"
-              field="supplier.fax"
-              @input="supplierValidator$.supplier.fax.$touch()"
-            />
-          </EcBox>
 
           <!-- phone -->
           <EcBox class="w-1/2 mb-6">
