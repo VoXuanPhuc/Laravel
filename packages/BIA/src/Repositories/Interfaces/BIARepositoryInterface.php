@@ -2,7 +2,9 @@
 
 namespace Encoda\BIA\Repositories\Interfaces;
 
-interface BIARepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface BIARepositoryInterface extends RepositoryInterface
 {
 
 }

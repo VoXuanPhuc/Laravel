@@ -53,13 +53,17 @@ class DocumentService implements DocumentServiceInterface
         try {
 
             $file = $request->file('file');
-            $filePath   = $file->store( $this->getDirPath( $request ) );
+            $filePath   = $file->storeAs(
+                $this->getDirPath( $request ),
+                FileHelper::hashName( $file )
+            );
+
             Storage::url( $filePath );
             $document = $this->documentRepository->create([
                 'name' => FileHelper::getOriginalName($file),
                 'path' => $filePath,
                 'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType(),
+                'mime_type' => $file->getClientMimeType(),
                 'created_by' => Auth::user()?->id
             ]);
             return $document->fresh();
@@ -81,7 +85,7 @@ class DocumentService implements DocumentServiceInterface
         if( $request->dir ) {
             $path = $request->dir;
         }
-        return 'organization/' .  tenant()->uid . '/' . $path;
+        return 'organization/' .  tenant()->code . '/' . $path;
     }
     public function delete($uid)
     {

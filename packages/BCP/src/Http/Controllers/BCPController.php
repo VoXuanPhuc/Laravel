@@ -4,6 +4,7 @@ namespace Encoda\BCP\Http\Controllers;
 
 use Encoda\BCP\Http\Requests\Report\CreateBCPRequest;
 use Encoda\BCP\Http\Requests\Report\UpdateBCPRequest;
+use Encoda\BCP\Services\Interfaces\BCPExportingServiceInterface;
 use Encoda\BCP\Services\Interfaces\BCPServiceInterface;
 
 /**
@@ -13,9 +14,11 @@ class BCPController extends Controller
 {
     /**
      * @param BCPServiceInterface $bcpService
+     * @param BCPExportingServiceInterface $bcpExportingService
      */
     public function __construct(
-        protected BCPServiceInterface $bcpService
+        protected BCPServiceInterface $bcpService,
+        protected BCPExportingServiceInterface $bcpExportingService
     )
     {
     }
@@ -68,5 +71,25 @@ class BCPController extends Controller
     {
         return $this->bcpService->delete($uid);
     }
+
+
+    /**
+     * @param string $uid
+     *
+     * @return mixed
+     */
+    public function export(string $uid): mixed
+    {
+        return $this->bcpExportingService->exportRecord( $uid );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function exportAll(): mixed
+    {
+        return $this->bcpExportingService->exportAll();
+    }
+
 
 }

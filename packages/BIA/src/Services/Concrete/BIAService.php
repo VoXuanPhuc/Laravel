@@ -64,7 +64,7 @@ class BIAService implements BIAServiceInterface
         FilterFluent::init()
             ->setTable(BIA::getTableName())
             ->setQuery($query)
-            ->setAllowedFilters(['search', 'name', 'description', 'status', 'due_date'])
+            ->setAllowedFilters(['search', 'name', 'description', 'status', 'due_date','created_at'])
             ->setCustomFilter('search', static function ($query, $type, $column, $value) {
                 $query->where('name', 'LIKE', '%' . $value . '%')
                     ->orWhere('description', 'LIKE', '%' . $value . '%');
@@ -98,10 +98,7 @@ class BIAService implements BIAServiceInterface
      */
     public function getBIA(string $uid)
     {
-        $bia = $this->biaRepository->query()
-            ->hasUID($uid)
-            ->get()
-            ->first();
+        $bia = $this->biaRepository->findByUid( $uid );
 
         if (!$bia) {
             throw new NotFoundException('BIA not found');
@@ -119,6 +116,7 @@ class BIAService implements BIAServiceInterface
     public function create(CreateBIARequest $request)
     {
         try{
+            DB::beginTransaction();
             /**
              * @var Resource $resource
              * @var BIA      $bia
@@ -139,9 +137,6 @@ class BIAService implements BIAServiceInterface
             Log::error($e);
             throw new ServerErrorException('Oops! Create BIA error');
         }
-        DB::beginTransaction();
-
-
 
 
         return $bia->refresh()->setAppends(['reports']);
@@ -153,7 +148,6 @@ class BIAService implements BIAServiceInterface
      *
      * @return mixed
      * @throws NotFoundException
-     * @throws ValidatorException
      * @throws ServerErrorException
      */
     public function update(UpdateBIARequest $request, string $uid)

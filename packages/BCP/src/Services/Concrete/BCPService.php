@@ -123,6 +123,7 @@ class BCPService implements BCPServiceInterface
     public function create(CreateBCPRequest $request)
     {
         try{
+            DB::beginTransaction();
             /**
              * @var Resource $resource
              * @var BCP      $bcp
@@ -143,7 +144,7 @@ class BCPService implements BCPServiceInterface
             Log::error($e);
             throw new ServerErrorException('Oops! Create BCP error');
         }
-        DB::beginTransaction();
+
 
         return $bcp->refresh()->setAppends(['reports']);
     }

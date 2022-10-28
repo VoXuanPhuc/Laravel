@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- *
+ * @property $name
+ * @property $uid
+ * @property $due_date
  */
 class BIA extends Model
 {
@@ -44,11 +46,26 @@ class BIA extends Model
         'due_date'
     ];
 
+    protected $appends = [
+        'report_count'
+    ];
+
+    protected $casts = [
+        'status' => 'int'
+    ];
+
     /**
      * @return Collection
      */
     public function getReportsAttribute()
     {
         return $this->getDocuments('reports');
+    }
+    /**
+     * @return int
+     */
+    public function getReportCountAttribute()
+    {
+        return $this->getDocuments('reports')->count();
     }
 }

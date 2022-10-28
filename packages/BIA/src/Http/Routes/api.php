@@ -3,7 +3,7 @@
 use Encoda\BIA\Http\Controllers\BIAController;
 use Illuminate\Support\Facades\Route;
 
-Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
+Route::group( ['prefix' => '/identity/api/v1/', ] , function() {
 
     /** DEPENDENCY SCENARIOS */
     Route::group(['prefix' => 'bias'], function() {
@@ -27,10 +27,19 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'as' => 'bia.update',
             'uses' =>  BIAController::class. '@update'
         ]);
+        Route::get('/{uid}/export', [
+            'as' => 'bia.export',
+            'uses' =>  BIAController::class. '@export'
+        ]);
 
         Route::delete('/{uid}', [
             'as' => 'bia.delete',
             'uses' =>  BIAController::class. '@delete'
+        ]);
+
+        Route::get('/download/all', [
+            'as' => 'bia.download-all',
+            'uses' =>  BIAController::class. '@exportAll'
         ]);
     });
 });

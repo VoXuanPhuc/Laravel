@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
 /**
- *
+ * @property $name
+ * @property $url
  */
 class Document extends Model
 {

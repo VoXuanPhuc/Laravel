@@ -186,7 +186,9 @@ class FilterFluent
     public function validateColumn(string $column): void
     {
         if (!in_array($column, $this->allowedFilters)) {
-            throw ValidationException::withMessages(['filter[column]' => __('core::validation.invalid', ['attribute' => 'filter[column]'])]);
+            throw ValidationException::withMessages(
+                ['filter[column]' => __('core::validation.invalid', ['attribute' => $column])]
+            );
         }
     }
 

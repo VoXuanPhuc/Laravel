@@ -23,6 +23,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'uses' =>  BCPController::class. '@detail'
         ]);
 
+        Route::get('/{uid}/export', [
+            'as' => 'bcp.export',
+            'uses' =>  BCPController::class. '@export'
+        ]);
+
         Route::put('/{uid}', [
             'as' => 'bcp.update',
             'uses' =>  BCPController::class. '@update'
@@ -32,5 +37,12 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'as' => 'bcp.delete',
             'uses' =>  BCPController::class. '@delete'
         ]);
+
+
+        Route::get('/download/all', [
+            'as' => 'bcp.exportAll',
+            'uses' =>  BCPController::class. '@exportAll'
+        ]);
+
     });
 });

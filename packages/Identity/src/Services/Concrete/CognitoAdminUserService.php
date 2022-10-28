@@ -2,6 +2,7 @@
 
 namespace Encoda\Identity\Services\Concrete;
 
+use Encoda\Core\Exceptions\BadRequestException;
 use Encoda\Identity\Http\Requests\Admin\AdminCreateUserRequest;
 use Encoda\Identity\Services\Interfaces\AdminUserServiceInterface;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class CognitoAdminUserService implements AdminUserServiceInterface
     /**
      * @param AdminCreateUserRequest $request
      * @return mixed|null
+     * @throws BadRequestException
      */
     public function adminCreateUser( AdminCreateUserRequest $request )
     {

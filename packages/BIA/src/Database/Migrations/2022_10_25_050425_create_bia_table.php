@@ -29,7 +29,9 @@ return new class extends Migration
                     ->on('organizations')
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
+
                 $table->dateTimeTz('due_date');
+
                 $table->softDeletesTz();
                 $table->timestampsTz();
                 // Indexes
