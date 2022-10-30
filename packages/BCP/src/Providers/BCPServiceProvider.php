@@ -2,6 +2,8 @@
 
 namespace Encoda\BCP\Providers;
 
+use Encoda\BCP\Models\BCP;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -32,6 +34,17 @@ class BCPServiceProvider extends ServiceProvider
 
         //Service binding
         $this->app->register(ServiceBindingProvider::class);
+
+        $this->morphMap();
     }
 
+    /**
+     * Map
+     */
+    protected function morphMap() {
+        Relation::morphMap([
+            'BCP' => BCP::class,
+        ]);
+
+    }
 }

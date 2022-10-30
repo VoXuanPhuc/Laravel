@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel
 {
+
+    protected $attributeNameMaps = [];
+
     /**
      * Get table name
      *
@@ -14,4 +17,15 @@ class Model extends BaseModel
     {
         return with(new static)->getTable();
     }
+
+    /**
+     * @param $attr
+     * @return mixed
+     */
+    public function getAttributeName( $attr ): mixed
+    {
+        return $this->attributeNameMaps[ $attr ] ?? $attr;
+
+    }
+
 }

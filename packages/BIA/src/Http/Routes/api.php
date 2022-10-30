@@ -1,9 +1,10 @@
 <?php
 
 use Encoda\BIA\Http\Controllers\BIAController;
+use Encoda\BIA\Http\Controllers\BIALogController;
 use Illuminate\Support\Facades\Route;
 
-Route::group( ['prefix' => '/identity/api/v1/', ] , function() {
+Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth'] ] , function() {
 
     /** DEPENDENCY SCENARIOS */
     Route::group(['prefix' => 'bias'], function() {
@@ -27,9 +28,15 @@ Route::group( ['prefix' => '/identity/api/v1/', ] , function() {
             'as' => 'bia.update',
             'uses' =>  BIAController::class. '@update'
         ]);
+
         Route::get('/{uid}/export', [
             'as' => 'bia.export',
             'uses' =>  BIAController::class. '@export'
+        ]);
+
+        Route::get('/{uid}/logs', [
+            'as' => 'bia.logs',
+            'uses' =>  BIALogController::class. '@logs'
         ]);
 
         Route::delete('/{uid}', [

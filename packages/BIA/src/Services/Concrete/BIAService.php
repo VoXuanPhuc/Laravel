@@ -98,13 +98,14 @@ class BIAService implements BIAServiceInterface
      */
     public function getBIA(string $uid)
     {
+        /** @var BIA $bia */
         $bia = $this->biaRepository->findByUid( $uid );
 
         if (!$bia) {
             throw new NotFoundException('BIA not found');
         }
 
-        return $bia->setAppends(['reports']);
+        return $bia->append('reports');
     }
 
     /**

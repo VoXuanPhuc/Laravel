@@ -2,6 +2,8 @@
 
 namespace Encoda\BIA\Providers;
 
+use Encoda\BIA\Models\BIA;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -32,6 +34,16 @@ class BIAServiceProvider extends ServiceProvider
 
         //Service binding
         $this->app->register(ServiceBindingProvider::class);
+
+        $this->morphMap();
     }
 
+    /**
+     * Morph Map
+     */
+    protected function morphMap() {
+        Relation::morphMap([
+            'BIA' => BIA::class,
+        ]);
+    }
 }

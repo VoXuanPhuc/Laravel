@@ -1,6 +1,7 @@
 <?php
 
 use Encoda\BCP\Http\Controllers\BCPController;
+use Encoda\BCP\Http\Controllers\BCPLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
@@ -26,6 +27,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
         Route::get('/{uid}/export', [
             'as' => 'bcp.export',
             'uses' =>  BCPController::class. '@export'
+        ]);
+
+        Route::get('/{uid}/logs', [
+            'as' => 'bcp.export',
+            'uses' =>  BCPLogController::class. '@logs'
         ]);
 
         Route::put('/{uid}', [

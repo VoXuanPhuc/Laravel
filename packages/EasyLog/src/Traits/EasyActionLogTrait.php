@@ -37,7 +37,8 @@ trait EasyActionLogTrait
     public function getEasyLogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logFillable()
+            ->logAll()
+            ->logOnlyDirty()
             ;
     }
 

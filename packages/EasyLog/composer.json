@@ -68,7 +68,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Encoda\\Log\\EasyLogServiceProvider"
+                "Encoda\\EasyLog\\EasyLogServiceProvider"
             ]
         }
     },

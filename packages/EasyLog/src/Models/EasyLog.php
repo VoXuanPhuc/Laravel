@@ -3,6 +3,7 @@
 namespace Encoda\EasyLog\Models;
 
 use Carbon\Carbon;
+use Encoda\EasyLog\Enums\LogEventEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -39,11 +40,29 @@ use Encoda\EasyLog\Contracts\EasyLog as EasyLogContract;
  */
 class EasyLog extends \Encoda\Core\Models\Model implements EasyLogContract
 {
+
+    use EasyLogChangesTrait, EasyLogCauserTrait, EasyLogDateTrait;
+
     public $guarded = [];
 
+    protected $hidden = [
+        'id',
+        'properties',
+        'subject_id',
+        'causer',
+        'causer_id',
+        'causer_type',
+        'batch_uuid',
+//        'created_at',
+        'updated_at',
+    ];
     protected $casts = [
         'properties' => 'collection',
+        'event' => LogEventEnum::class,
     ];
+
+
+    protected $appends = [];
 
     public function __construct(array $attributes = [])
     {
