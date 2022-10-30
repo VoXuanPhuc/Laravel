@@ -1,0 +1,11 @@
+<template>
+  <svg viewBox="0 0 757 484" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M757 0L274.334 484L0 208.961H166.779L273.404 315.839L588.361 0H757Z" fill="#EFF9FF" />
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "DashboardBg",
+}
+</script>

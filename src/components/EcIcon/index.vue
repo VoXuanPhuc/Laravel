@@ -116,6 +116,14 @@ export default {
     OfficeWord: lazyLoad("OfficeWord"),
     OfficeExcel: lazyLoad("OfficeExcel"),
     OfficePPT: lazyLoad("OfficePPT"),
+    NotiPinned: lazyLoad("NotiPinned"),
+    NotiStar: lazyLoad("NotiStar"),
+    NotiCard: lazyLoad("NotiCard"),
+    NotiMessage: lazyLoad("NotiMessage"),
+    NotiClose: lazyLoad("NotiClose"),
+    NotiCollapse: lazyLoad("NotiCollapse"),
+    DashboardBg: lazyLoad("DashboardBg"),
+    DActivityDoc: lazyLoad("DActivityDoc"),
   },
 }
 </script>
