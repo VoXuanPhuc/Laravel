@@ -16,8 +16,8 @@
       </EcBox>
       <EcBox class="ml-3">
         <EcLabel class="font-semibold">Pinned Notification</EcLabel>
-        <EcText> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
-        <EcText class="mt-3">Now</EcText>
+        <EcText class="text-c3-100"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
+        <EcText class="mt-3 text-c3-100">Now</EcText>
       </EcBox>
     </EcFlex>
 
@@ -31,8 +31,8 @@
 
       <EcBox class="ml-3">
         <EcLabel class="font-semibold">Notification 2</EcLabel>
-        <EcText> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
-        <EcText class="mt-3">Yesterday</EcText>
+        <EcText class="text-c3-100"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
+        <EcText class="mt-3 text-c3-100">Yesterday</EcText>
       </EcBox>
     </EcFlex>
 
@@ -45,8 +45,8 @@
       </EcBox>
       <EcBox class="ml-3">
         <EcLabel class="font-semibold">Notification 3</EcLabel>
-        <EcText> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
-        <EcText class="mt-3">7 days ago</EcText>
+        <EcText class="text-c3-100"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.... </EcText>
+        <EcText class="mt-3 text-c3-100">7 days ago</EcText>
       </EcBox>
     </EcFlex>
 

@@ -11,6 +11,11 @@ export default {
       root: "bg-c0-50 shadow text-cBlack text-lg rounded-md leading-tight border border-c0-300 px-5 appearance-none w-full h-10 placeholder-c0-500 focus:outline-none focus:border-c1-500",
     },
   },
+  "primary-dashboard": {
+    el: {
+      root: "bg-c4-50 text-c3-100 text-md rounded-lg leading-tight px-5 appearance-none w-full h-10 placeholder-c0-500 focus:outline-none focus:border-c1-500",
+    },
+  },
   "primary-disabled": {
     description: "Disabled input",
     el: {
