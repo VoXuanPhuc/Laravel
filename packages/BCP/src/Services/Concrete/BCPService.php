@@ -208,7 +208,7 @@ class BCPService implements BCPServiceInterface
 
         return $this->bcpRepository
             ->orderBy('created_at', 'DESC')
-            ->take(2)
+            ->take( config('dashboard.bcp.rows') ?? 2 )
             ->all()
             ;
     }

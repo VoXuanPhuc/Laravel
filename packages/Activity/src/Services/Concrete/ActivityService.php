@@ -324,7 +324,7 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
     {
         return $this->activityRepository
             ->orderBy('created_at', 'DESC')
-            ->take(2)
+            ->take( config('dashboard.activity.rows') ?? 2 )
             ->all()
             ;
     }

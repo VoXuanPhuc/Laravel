@@ -14,6 +14,7 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ .'/../Database/Migrations');
         $this->loadTranslationsFrom( __DIR__ .'/../Resources/lang', 'dashboard' );
+        $this->mergeConfigFrom( __DIR__ .'/../Config/dashboard.php', 'dashboard' );
     }
 
     public function register()

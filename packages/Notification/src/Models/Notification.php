@@ -22,6 +22,17 @@ class Notification extends Model
 
     protected $table = 'notifications';
 
+    protected $casts = [
+        'pinned' => 'boolean'
+    ];
+
+    /**
+     * Mark as read
+     */
+    public function markAsRead() {
+        $this->read_at = Carbon::now();
+        $this->update();
+    }
 
     /**
      * @return mixed

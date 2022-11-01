@@ -8,4 +8,6 @@ interface NotificationServiceInterface
 
     public function allNotifications();
 
+    public function markNotificationAsRead($uid);
+
 }

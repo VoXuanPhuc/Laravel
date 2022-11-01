@@ -19,6 +19,7 @@ trait EcHasNotificationTrait
         return $this->morphMany( Notification::class, 'notifiable' )
             ->orderBy('created_at', $sort )
             ->wherePinned(true)
+            ->whereNull('read_at')
             ->take( config('notification.dashboard.newest') ?: 1  )
             ;
     }
@@ -38,6 +39,7 @@ trait EcHasNotificationTrait
         return $this->morphMany( Notification::class, 'notifiable' )
             ->orderBy('created_at', $sort )
             ->whereNotIn( 'id', $toIgnoreNotificationIds )
+            ->whereNull('read_at')
             ->take(config('notification.dashboard.newest') ?: 2 )
             ;
     }

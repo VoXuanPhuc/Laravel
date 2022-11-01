@@ -18,6 +18,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
             'uses' =>  NotificationController::class. '@index'
         ] );
 
+        Route::patch( '/{uid}/mark-as-read', [
+            'as' => 'notifications.read',
+            'uses' =>  NotificationController::class. '@markAsRead'
+        ] );
+
         // Notification to display on client dashboard
         Route::get( '/dashboard', [
             'as' => 'notifications.dashboard',

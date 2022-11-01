@@ -2,7 +2,7 @@
 
 namespace Encoda\Notification\Services\Concrete;
 
-use Encoda\Notification\DTOs\DashboardNotificationDTO;
+use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Notification\Repositories\Interfaces\NotificationRepositoryInterface;
 use Encoda\Notification\Services\Interfaces\NotificationServiceInterface;
 
@@ -16,11 +16,33 @@ class NotificationService implements NotificationServiceInterface
     {
     }
 
+    /**
+     * @param $uid
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function getNotification( $uid ) {
+
+        $notification = $this->notificationRepository->findByUid( $uid );
+
+        if( !$notification ) {
+            throw new NotFoundException('Notification not found' );
+        }
+
+        return $notification;
+    }
 
     public function allNotifications()
     {
         $user = auth()->user();
 
         return $user->pinnedNotifications;
+    }
+
+    public function markNotificationAsRead($uid )
+    {
+        $notification = $this->getNotification( $uid );
+
+        $notification->markAsRead();
     }
 }

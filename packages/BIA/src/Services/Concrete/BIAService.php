@@ -198,7 +198,7 @@ class BIAService implements BIAServiceInterface
     {
         return $this->biaRepository
             ->orderBy('created_at', 'DESC')
-            ->take(2)
+            ->take( config('dashboard.bia.rows') ?? 2 )
             ->all()
             ;
     }

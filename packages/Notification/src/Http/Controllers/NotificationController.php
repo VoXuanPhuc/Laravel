@@ -21,4 +21,11 @@ class NotificationController extends Controller
 
         return $this->notificationService->allNotifications();
     }
+    /**
+     * @return mixed
+     */
+    public function markAsRead( $uid ) {
+
+        return $this->notificationService->markNotificationAsRead( $uid );
+    }
 }
