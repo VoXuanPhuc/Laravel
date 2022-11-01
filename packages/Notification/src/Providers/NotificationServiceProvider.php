@@ -14,10 +14,12 @@ class NotificationServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ .'/../Database/Migrations');
         $this->loadTranslationsFrom( __DIR__ .'/../Resources/lang', 'dashboard' );
+        $this->mergeConfigFrom( __DIR__ . '/../Config/notification.php', 'notification');
     }
 
     public function register()
     {
         $this->app->register( ServiceBindingProvider::class );
+        $this->app->register( RepositoryBindingProvider::class );
     }
 }

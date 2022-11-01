@@ -24,7 +24,9 @@ return new class extends Migration
 
             $table->string('type');
             $table->morphs('notifiable');
+            $table->string('title');
             $table->text('data');
+            $table->boolean('pinned')->nullable();
             $table->timestamp('read_at')->nullable();
 
             $table->softDeletesTz();

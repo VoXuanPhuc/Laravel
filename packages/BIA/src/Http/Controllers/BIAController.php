@@ -32,6 +32,14 @@ class BIAController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function top(): mixed
+    {
+        return $this->biaService->top();
+    }
+
+    /**
      * @param string $uid
      *
      * @return mixed

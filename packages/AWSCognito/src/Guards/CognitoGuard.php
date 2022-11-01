@@ -68,6 +68,7 @@ class CognitoGuard implements Guard
     /**
      * @param array $credentials
      * @return bool
+     * @throws UserNotFoundException
      */
     public function validate(array $credentials = []): bool
     {

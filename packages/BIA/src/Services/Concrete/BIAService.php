@@ -190,4 +190,16 @@ class BIAService implements BIAServiceInterface
     {
         return $this->getBIA($uid)->delete();
     }
+
+    /**
+     * @return mixed
+     */
+    public function top()
+    {
+        return $this->biaRepository
+            ->orderBy('created_at', 'DESC')
+            ->take(2)
+            ->all()
+            ;
+    }
 }

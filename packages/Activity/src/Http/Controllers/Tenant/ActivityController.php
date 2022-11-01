@@ -32,6 +32,13 @@ class ActivityController extends Controller
     {
         return $this->activityService->listActivities();
     }
+    /**
+     * @return mixed
+     */
+    public function top(): mixed
+    {
+        return $this->activityService->top();
+    }
 
     /**
      * @param $uid

@@ -26,4 +26,6 @@ interface ActivityServiceInterface
 
     public function export( $divisionUid = '', $businessUnitUid = '', $range = 'all' );
 
+    public function top();
+
 }

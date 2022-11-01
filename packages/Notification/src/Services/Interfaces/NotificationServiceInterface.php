@@ -6,4 +6,6 @@ interface NotificationServiceInterface
 {
 
 
+    public function allNotifications();
+
 }

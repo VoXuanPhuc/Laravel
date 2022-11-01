@@ -12,4 +12,6 @@ interface BIAServiceInterface
     public function create(CreateBIARequest $request);
     public function update(UpdateBIARequest $request, string $uid);
     public function delete(string $uid);
+
+    public function top();
 }

@@ -12,4 +12,6 @@ interface BCPServiceInterface
     public function create(CreateBCPRequest $request);
     public function update(UpdateBCPRequest $request, string $uid);
     public function delete(string $uid);
+
+    public function top();
 }

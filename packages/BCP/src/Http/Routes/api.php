@@ -7,10 +7,21 @@ use Illuminate\Support\Facades\Route;
 Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , function() {
 
     /** DEPENDENCY SCENARIOS */
+    /**
+     * List
+     */
     Route::group(['prefix' => 'bcps'], function() {
         Route::get('/', [
             'as' => 'bcp.list',
             'uses' =>  BCPController::class. '@index'
+        ]);
+
+        /**
+         * Top
+         */
+        Route::get('/top', [
+            'as' => 'bcp.top',
+            'uses' =>  BCPController::class. '@top'
         ]);
 
         Route::post('/', [

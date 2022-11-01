@@ -16,6 +16,12 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => ActivityController::class . '@index'
     ]);
 
+
+    Route::get('/activities/top', [
+        'as' => 'activities.top',
+        'uses' => ActivityController::class . '@top'
+    ]);
+
     Route::get('/activities/{uid}', [
         'as' => 'activities.detail',
         'uses' => ActivityController::class . '@detail'

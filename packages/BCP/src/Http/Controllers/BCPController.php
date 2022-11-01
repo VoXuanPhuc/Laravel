@@ -32,6 +32,14 @@ class BCPController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function top(): mixed
+    {
+        return $this->bcpService->top();
+    }
+
+    /**
      * @param string $uid
      *
      * @return mixed

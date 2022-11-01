@@ -317,6 +317,15 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
     }
 
 
-
-
+    /**
+     * @return mixed
+     */
+    public function top()
+    {
+        return $this->activityRepository
+            ->orderBy('created_at', 'DESC')
+            ->take(2)
+            ->all()
+            ;
+    }
 }

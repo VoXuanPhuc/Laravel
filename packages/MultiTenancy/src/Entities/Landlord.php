@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoda\MultiTenancy;
+namespace Encoda\MultiTenancy\Entities;
 
 use Encoda\MultiTenancy\Models\Tenant;
 

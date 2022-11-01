@@ -2,6 +2,8 @@
 
 namespace Encoda\Identity\Models\Database;
 
+use Encoda\Notification\Traits\EcHasNotificationTrait;
+use Encoda\Notification\Traits\EcNotifiable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -16,6 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use HasRoles;
     use Authenticatable, Authorizable, HasFactory;
+    use EcNotifiable, EcHasNotificationTrait;
 
     protected $fillable = [
         'uid',

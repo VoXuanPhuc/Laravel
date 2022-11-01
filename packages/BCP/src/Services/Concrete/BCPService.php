@@ -5,6 +5,7 @@ namespace Encoda\BCP\Services\Concrete;
 use Encoda\BCP\Http\Requests\Report\CreateBCPRequest;
 use Encoda\BCP\Http\Requests\Report\UpdateBCPRequest;
 use Encoda\BCP\Models\BCP;
+use Encoda\BCP\Repositories\Concrete\BCPRepository;
 use Encoda\BCP\Repositories\Interfaces\BCPRepositoryInterface;
 use Encoda\BCP\Services\Interfaces\BCPServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
@@ -12,6 +13,8 @@ use Encoda\Core\Exceptions\ServerErrorException;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
 use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -195,5 +198,18 @@ class BCPService implements BCPServiceInterface
     public function delete(string $uid)
     {
         return $this->getBCP($uid)->delete();
+    }
+
+    /**
+     * @return LengthAwarePaginator|Collection|mixed
+     */
+    public function top()
+    {
+
+        return $this->bcpRepository
+            ->orderBy('created_at', 'DESC')
+            ->take(2)
+            ->all()
+            ;
     }
 }
