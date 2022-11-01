@@ -2,24 +2,35 @@
   <!-- BIA  -->
   <EcBox class="w-full md:w-8/12 mt-8">
     <SummaryRowSkeleton :rows="2" :loading="isLoading">
-      <EcFlex class="items-center mb-2" v-for="(bia, idx) in bias" :key="bia.uid">
-        <!-- BIA Row -->
-        <EcInputText
-          v-model="bias[idx].name"
-          variant="primary-dashboard"
-          componentName="EcInputText"
-          field="form.name"
-          class="w-8/12 text-sm"
-          v-tooltip="{ text: 'Enter to save' }"
-        />
-        <EcButton
-          variant="wrapper"
-          :class="[getStatus(bia)?.tag_color, getStatus(bia)?.tag_text_color || 'text-cWhite']"
-          class="ml-3 w-4/12 text-sm rounded-lg px-5 py-3 text-cBlack justify-center border-0"
-        >
-          {{ getStatus(bia)?.name }}
-        </EcButton>
-      </EcFlex>
+      <EcBox class="relative">
+        <EcFlex class="items-center mb-2" v-for="(bia, idx) in bias" :key="bia.uid">
+          <!-- BIA Row -->
+          <EcInputText
+            v-model="bias[idx].name"
+            variant="primary-dashboard"
+            componentName="EcInputText"
+            field="form.name"
+            class="w-8/12 text-sm"
+            v-tooltip="{ text: 'Enter to save' }"
+          />
+
+          <EcBox class="relative ml-3 w-4/12">
+            <EcButton
+              variant="wrapper"
+              :class="[getStatus(bia)?.tag_color, getStatus(bia)?.tag_text_color || 'text-cWhite']"
+              class="text-sm rounded-lg px-5 py-3 text-cBlack justify-center border-0"
+              @click="handleShowContextMenu(idx, bia)"
+            >
+              {{ getStatus(bia)?.name }}
+            </EcButton>
+          </EcBox>
+
+          <!-- Button Action -->
+        </EcFlex>
+
+        <!--Context menu -->
+        <BIAContextMenu :statuses="statuses" ref="contextMenu"></BIAContextMenu>
+      </EcBox>
     </SummaryRowSkeleton>
   </EcBox>
 </template>
@@ -28,6 +39,8 @@
 import { useTopBIA } from "../../use/useTopBIA"
 import { useBIAStatusEnum } from "@/modules/assessment/use/useBIAStatusEnum"
 import SummaryRowSkeleton from "./SummaryRowSkeleton.vue"
+import { ref } from "vue"
+import BIAContextMenu from "./BIAContextMenu.vue"
 
 export default {
   name: "DashboardSummaryBIA",
@@ -35,7 +48,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      bias: [],
+      bias: ref([]),
     }
   },
   setup() {
@@ -61,6 +74,18 @@ export default {
 
     /**
      *
+     * @param {*} idx
+     * @param {*} bia
+     */
+    handleShowContextMenu(idx, bia) {
+      bia.statusObj = this.getStatus(bia)
+      this.$refs.contextMenu.bia = bia
+      this.$refs.contextMenu.position = ++idx
+      this.$refs.contextMenu.isOpen = true
+    },
+
+    /**
+     *
      * @param {*} bia
      */
     getStatus(bia) {
@@ -71,6 +96,6 @@ export default {
       )
     },
   },
-  components: { SummaryRowSkeleton },
+  components: { SummaryRowSkeleton, BIAContextMenu },
 }
 </script>

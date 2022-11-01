@@ -11,8 +11,10 @@
           v-model="activities[idx].name"
           iconPrefix="DActivityDoc"
           variant="primary-dashboard"
+          :readonly="true"
           componentName="EcInputText"
-          field="form.name"
+          @click="handleClickActivity(activity)"
+          class="hover:cursor-pointer"
         />
       </EcFlex>
     </EcBox>
@@ -63,6 +65,14 @@ export default {
      */
     handleClickSeeAll() {
       goto("ViewActivityList")
+    },
+
+    handleClickActivity(activity) {
+      goto("ViewActivityDetail", {
+        params: {
+          uid: activity?.uid,
+        },
+      })
     },
 
     /** Fetch top Activities */

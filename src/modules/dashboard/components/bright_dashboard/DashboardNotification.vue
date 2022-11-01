@@ -1,56 +1,32 @@
 <template>
   <!-- Title -->
   <EcFlex class="items-center">
-    <EcButton variant="transparent">
-      <EcIcon icon="NotiCollapse" width="48" height="48" />
+    <EcButton variant="transparent" @click="handleToggleNotiSidebar">
+      <EcIcon :icon="toggleIcon" width="48" height="48" />
     </EcButton>
-    <EcLabel class="text-xl font-bold ml-2">Notifications</EcLabel>
+    <EcLabel v-if="isNotiSidebarOpened" class="text-xl font-bold ml-2">Notifications</EcLabel>
   </EcFlex>
 
   <!-- List notifications -->
-  <EcBox class="ml-2">
+  <EcBox v-if="isNotiSidebarOpened" class="ml-2">
     <NotificationItemSkeleton :loading="isLoading" :rows="3">
       <!-- Pinned -->
-      <EcFlex
+      <NotificationItem
         v-for="notification in notifications.pinnedNotifications"
         :key="notification.uid"
-        class="rounded-3xl border border-c3-300 p-4 mt-8"
-      >
-        <EcBox>
-          <EcIcon icon="NotiPinned" width="64" height="64" />
-        </EcBox>
-        <EcBox class="ml-3">
-          <EcLabel class="font-semibold">{{ notification?.title }}</EcLabel>
-          <EcText class="mt-3 text-c3-100"> {{ notification?.data }} </EcText>
-          <EcText class="mt-3 text-c3-100">{{ notification?.time }}</EcText>
-        </EcBox>
-      </EcFlex>
+        :notification="notification"
+        @callbackAfterMarkAsRead="handleAfterMarkNotificationAsRead"
+      />
 
       <!-- End Pinned Notification -->
 
       <!-- Newest Notification -->
-      <EcFlex
+      <NotificationItem
         v-for="notification in notifications.newestNotifications"
         :key="notification.uid"
-        class="relative rounded-3xl border border-c3-50 p-4 mt-6"
-      >
-        <EcIcon
-          class="absolute text-c1-200 right-0 mr-3 top-0 mt-3 hover:cursor-pointer"
-          icon="X"
-          width="16"
-          @click="handleRemoveNotification(notification.uid)"
-        />
-        <EcBox>
-          <EcIcon icon="NotiStar" width="64" height="64" />
-        </EcBox>
-
-        <EcBox class="ml-3">
-          <EcLabel class="font-semibold">{{ notification?.title }}</EcLabel>
-          <EcText class="mt-3 text-c3-100"> {{ notification?.data }} </EcText>
-          <EcText class="mt-3 text-c3-100">{{ notification?.time }}</EcText>
-        </EcBox>
-      </EcFlex>
-
+        :notification="notification"
+        @callbackAfterMarkAsRead="handleAfterMarkNotificationAsRead"
+      />
       <!-- End Newest Notification -->
 
       <!-- Unread -->
@@ -64,7 +40,7 @@
           <EcText class="mt-3">
             You have <strong> {{ notifications?.unreadCount || 0 }}</strong> unread notification(s)
           </EcText>
-          <EcText class="mt-3 text-c3-100"> </EcText>
+          <EcText class="mt-3 text-c3-100"></EcText>
         </EcBox>
       </EcFlex>
     </NotificationItemSkeleton>
@@ -78,22 +54,36 @@ import NotificationItemSkeleton from "./NotificationItemSkeleton.vue"
 import { useDashboardNotification } from "../../use/useDashboardNotification"
 import { ref } from "vue"
 
+import NotificationItem from "./NotificationItem.vue"
+import useBrightDashboard from "../../stores/useBrightDashboard"
+
 export default {
   name: "DashboardNotification",
-  components: { NotificationItemSkeleton },
+  components: { NotificationItemSkeleton, NotificationItem },
 
   data() {
     return {
       isLoading: false,
       notifications: ref({}),
+      processingNotifications: {},
     }
   },
   setup() {
     const { getDashboardNotifications } = useDashboardNotification()
+    const brightDashboardStore = useBrightDashboard()
 
     return {
       getDashboardNotifications,
+      brightDashboardStore,
     }
+  },
+  computed: {
+    toggleIcon() {
+      return this.brightDashboardStore.notiSidebarOpened ? "NotiExpanded" : "NotiCollapsed"
+    },
+    isNotiSidebarOpened() {
+      return this.brightDashboardStore.notiSidebarOpened
+    },
   },
 
   mounted() {
@@ -115,11 +105,14 @@ export default {
       }
     },
 
+    handleToggleNotiSidebar() {
+      this.brightDashboardStore.notiSidebarOpened = !this.brightDashboardStore.notiSidebarOpened
+    },
+
     /**
-     *
-     * @param {*} uid
+     * After mark as read, re-pull notifications
      */
-    handleRemoveNotification(uid) {
+    handleAfterMarkNotificationAsRead() {
       this.fetchNotifications()
     },
   },

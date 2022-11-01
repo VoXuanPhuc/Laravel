@@ -7,6 +7,6 @@
 
 <script>
 export default {
-  name: "NotiCard",
+  name: "NotiExpanded",
 }
 </script>

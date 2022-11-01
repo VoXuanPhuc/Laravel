@@ -121,9 +121,12 @@ export default {
     NotiCard: lazyLoad("NotiCard"),
     NotiMessage: lazyLoad("NotiMessage"),
     NotiClose: lazyLoad("NotiClose"),
-    NotiCollapse: lazyLoad("NotiCollapse"),
+    NotiExpanded: lazyLoad("NotiExpanded"),
+    NotiCollapsed: lazyLoad("NotiCollapsed"),
     DashboardBg: lazyLoad("DashboardBg"),
     DActivityDoc: lazyLoad("DActivityDoc"),
+    TriangleUp: lazyLoad("TriangleUp"),
+    Save: lazyLoad("Save"),
   },
 }
 </script>

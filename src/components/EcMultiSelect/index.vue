@@ -17,7 +17,9 @@
         :class="[variantCls.tag, tag?.tag_color || 'bg-c1-800', tag?.tag_text_color || 'text-cWhite']"
       >
         <span> {{ isGroupOptions ? tag?.type + ": " : "" }} {{ tag[nameKey] }}</span>
-        <span class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)">&times;</span>
+        <span v-if="!isSingleSelect" class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)"
+          >&times;</span
+        >
       </div>
     </div>
     <!-- Options -->
@@ -49,7 +51,7 @@
         <div v-if="!isGroupOptions">
           <div v-for="option in filteredOptions" :key="option[valueKey]" class="option" @click="onOptionClick(option)">
             <slot :name="`option-${option[valueKey]}`">
-              <p style="min-height: 2rem" :class="getOptionClass(option)">
+              <p style="min-height: 2rem" :class="getOptionClass(option)" :isOption="true">
                 {{ option[nameKey] }}
               </p>
             </slot>
@@ -74,7 +76,7 @@
             <div class="optionGroupItems" :class="groupExpansion[group?.name] ? '' : 'hidden'">
               <div v-for="option in group.data" :key="option[valueKey]" class="option" @click="onOptionClick(option)">
                 <slot :name="`option-${option[valueKey]}`">
-                  <p style="min-height: 2rem" :class="getOptionClass(option)">
+                  <p style="min-height: 2rem" :class="getOptionClass(option)" :isOption="true">
                     {{ option[nameKey] }}
                   </p>
                 </slot>
@@ -240,12 +242,22 @@ export default {
   methods: {
     handleClickSelect(event) {
       event.stopPropagation()
+
       if (!this.disabled) {
-        this.toggleOptions(true)
+        /**
+         * For Single select we will hide the options imediatly after the choosen, otherwise,
+         * show the options to allow user to select more
+         */
+        if (event.target?.__vnode?.props?.isOption && this.isSingleSelect) {
+          this.toggleOptions(false)
+        } else {
+          this.toggleOptions(true)
+        }
+
         // Focus on search input after render it
         this.$nextTick(
           function () {
-            this.$refs.searchInput.focus()
+            this.$refs?.searchInput?.focus()
           }.bind(this)
         )
       }
