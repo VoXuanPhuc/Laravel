@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import StatisticList from "./../components/StatisticList.vue"
+import StatisticList from "./../components/statistic/StatisticList.vue"
+import ChartList from "../components/statistic/ChartList.vue"
 import useDashboardStore from "../stores/useDashboard"
 import useTenantDashboardStore from "../stores/useTenantDashboard"
 import { storeToRefs } from "pinia"
 import { useGlobalStore } from "@/stores/global"
-import ChartList from "../components/ChartList.vue"
 
 export default {
   name: "ViewDashboard",

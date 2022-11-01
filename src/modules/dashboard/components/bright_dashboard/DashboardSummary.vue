@@ -1,7 +1,9 @@
 <template>
   <!-- Title -->
-  <EcLabel class="text-c3-100">Thursday, Augst 3rd</EcLabel>
-  <EcLabel class="text-xl font-semibold">Good Morning, Cathy Client.</EcLabel>
+  <EcBox>
+    <EcLabel class="text-c3-100">Thursday, Augst 3rd</EcLabel>
+    <EcLabel class="text-xl font-semibold">Good Morning, Cathy Client.</EcLabel>
+  </EcBox>
 
   <!-- BIA  -->
   <DashboardSummaryBIA />

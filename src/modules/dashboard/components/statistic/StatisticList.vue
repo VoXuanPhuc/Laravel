@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import StatisticItem from "@/modules/dashboard/components/StatisticItem.vue"
+import StatisticItem from "@/modules/dashboard/components/statistic/StatisticItem.vue"
 
 export default {
   name: "StatisticList",

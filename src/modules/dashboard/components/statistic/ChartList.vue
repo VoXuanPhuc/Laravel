@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ChartItem from "@/modules/dashboard/components/ChartItem.vue"
+import ChartItem from "@/modules/dashboard/components/statistic/ChartItem.vue"
 
 export default {
   name: "ChartList",

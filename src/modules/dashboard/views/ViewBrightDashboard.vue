@@ -1,6 +1,6 @@
 <template>
   <RLayout class="relative z-0">
-    <RLayoutTwoCol leftCls="lg:w-8/12 lg:pr-2 mb-8" rightCls="lg:w-4/12 lg:pr-4 mb-8">
+    <RLayoutTwoCol leftCls="lg:w-8/12  mb-8" rightCls="lg:w-4/12 mb-8">
       <template #left>
         <DashboardSummary></DashboardSummary>
       </template>
@@ -15,8 +15,8 @@
   </RLayout>
 </template>
 <script>
-import DashboardSummary from "../components/DashboardSummary.vue"
-import DashboardNotification from "../components/DashboardNotification.vue"
+import DashboardSummary from "../components/bright_dashboard/DashboardSummary.vue"
+import DashboardNotification from "../components/bright_dashboard/DashboardNotification.vue"
 
 export default {
   name: "ViewModernDashboard",
