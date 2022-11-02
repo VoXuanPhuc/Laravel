@@ -43,12 +43,21 @@ export default {
 
     const route = useRoute()
     const modules = [
+      // Dashboard for landlord
       {
         module: "dashboard",
         icon: "Dashboard",
         text: "core.dashboard",
         routeName: "ViewDashboard",
       },
+      // Dashboard for client
+      {
+        module: "bright_dashboard",
+        icon: "Dashboard",
+        text: "core.dashboard",
+        routeName: "ViewBrightDashboard",
+      },
+
       {
         module: "organization",
         icon: "OfficeBuilding",

@@ -42,6 +42,7 @@ export const useLoginStore = defineStore("login", () => {
         password: this.form.password,
       })
 
+      
       if (data && data.challengeName) {
         return data
       }
@@ -53,6 +54,8 @@ export const useLoginStore = defineStore("login", () => {
       localStorage.setItem(process.env.VUE_APP_TOKEN_KEY, data.accessToken)
       localStorage.setItem(process.env.VUE_APP_ID_TOKEN_KEY, data.idToken)
       localStorage.setItem(process.env.VUE_APP_TOKEN_EXPIRES, dayjs().add(data.expiresIn, "second"))
+
+      return data
     } catch (error) {
       globalStore.addErrorToastMessage(error ? error?.message : t("auth.errors.login"))
     }

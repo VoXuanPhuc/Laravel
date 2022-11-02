@@ -19,7 +19,7 @@ export default [
     props: true,
     meta: {
       title: "Dashboard",
-      module: "dashboard",
+      module: "bright_dashboard",
     },
   },
 ]

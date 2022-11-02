@@ -164,8 +164,9 @@ export default {
         if (window.PATH) {
           this.$router.push(window.PATH)
         } else {
+          
           this.$router.push({
-            name: "ViewBrightDashboard",
+            name: data?.landing,
           })
         }
       } catch (error) {
