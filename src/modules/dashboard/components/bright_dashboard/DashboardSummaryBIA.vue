@@ -11,6 +11,7 @@
             componentName="EcInputText"
             field="form.name"
             class="w-8/12 text-sm"
+            :readonly="true"
             v-tooltip="{ text: 'Enter to save' }"
           />
 
