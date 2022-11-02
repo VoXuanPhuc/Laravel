@@ -30,7 +30,7 @@ return new class extends Migration
     {
         if(Schema::hasTable(self::TABLE)){
             Schema::table(self::TABLE, function (Blueprint $table){
-                $table->string('mime_type', 50)->nullable()->change();
+                $table->string('mime_type', 511)->nullable()->change();
             });
         }
     }
