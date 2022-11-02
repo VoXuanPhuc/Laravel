@@ -25,12 +25,10 @@ const downloadFromBlob = (data, fileName, ext) => {
  * @param {*} fileName
  */
 const downloadFromUrl = async (url, fileName) => {
-  debugger
   const data = await fetcher.get(url, {
     responseType: "blob",
   })
 
-  debugger
   // Create blob url from data
   const downloadUrl = window.URL.createObjectURL(new Blob([data]))
 

@@ -34,7 +34,6 @@ export function useBIAList() {
     try {
       const { data } = await api.downloadBIAs()
 
-      debugger
       if (!data) {
         globalStore.addErrorToastMessage(this.$t("bia.errors.download"))
         return
@@ -55,7 +54,7 @@ export function useBIAList() {
   async function exportBIARecord(uid) {
     try {
       const { data } = await api.exportBIA(uid)
-      debugger
+
       if (!data) {
         globalStore.addErrorToastMessage(this.$t("bia.errors.download"))
         return

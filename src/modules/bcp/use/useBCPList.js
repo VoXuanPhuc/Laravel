@@ -60,7 +60,7 @@ export function useBCPList() {
   async function exportBCPRecord(uid) {
     try {
       const { data } = await api.exportBCP(uid)
-      debugger
+
       if (!data) {
         globalStore.addErrorToastMessage(this.$t("bcp.errors.download"))
         return
