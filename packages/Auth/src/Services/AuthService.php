@@ -7,6 +7,8 @@ use Encoda\Auth\DTOs\TokenDTO;
 use Encoda\Auth\Exceptions\UnauthorizedException;
 use Encoda\Auth\Interfaces\AuthServiceInterface;
 use Encoda\Core\Exceptions\BadRequestException;
+use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Dashboard\Enums\FrontEndRoutes as DashboardFERoutes;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
 use Encoda\Identity\Models\Database\User;
 use Encoda\Identity\Services\Interfaces\UserServiceInterface;
@@ -43,6 +45,7 @@ class AuthService implements AuthServiceInterface
      * @param Request $request
      * @return AuthChallengeDTO|TokenDTO
      * @throws UnauthorizedException|BadRequestException
+     * @throws NotFoundException
      */
     public function authenticate( Request $request )
     {
@@ -52,6 +55,11 @@ class AuthService implements AuthServiceInterface
         }
 
         $token = $this->getToken( $request->username, $request->password );
+
+        // Set landing location for the FE here for security reason
+        $token->landing = tenant()->landlord
+                        ? DashboardFERoutes::VIEW_DASHBOARD->value
+                        : DashboardFERoutes::VIEW_BRIGHT_DASHBOARD->value;
 
         return $this->tokenData( $token );
     }

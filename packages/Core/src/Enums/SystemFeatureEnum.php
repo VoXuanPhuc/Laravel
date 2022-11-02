@@ -5,7 +5,8 @@ namespace Encoda\Core\Enums;
 enum SystemFeatureEnum : string
 {
 
-    case DASHBOARD = 'dashboard';
+    case DASHBOARD = 'dashboard'; // For landlord
+    case BRIGHT_DASHBOARD = 'bright_dashboard'; // For clients
     case NOTIFICATION ='notification';
     case ORGANIZATION ='organization';
     case DEPARTMENT ='department';

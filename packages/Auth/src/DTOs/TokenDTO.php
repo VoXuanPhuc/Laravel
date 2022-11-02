@@ -10,6 +10,7 @@ class TokenDTO extends BaseDTO
     protected int $expiresIn;
     protected string $idToken;
     protected string $refreshToken;
+    public string $landing;
 
     /**
      * @param $accessToken

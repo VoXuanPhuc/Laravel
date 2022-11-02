@@ -45,7 +45,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
     {
 
         $defaultModules =  [
-            SystemFeatureEnum::DASHBOARD,
+
             SystemFeatureEnum::USER,
             SystemFeatureEnum::SETTING,
             SystemFeatureEnum::NOTIFICATION,
@@ -55,7 +55,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
 
         if( $organization->landlord ) {
            $landlordModules = [
-
+               SystemFeatureEnum::DASHBOARD,
                SystemFeatureEnum::ORGANIZATION,
                SystemFeatureEnum::INDUSTRY,
            ];
@@ -64,6 +64,7 @@ class OrganizationSettingService implements OrganizationSettingServiceInterface
         }
 
         $tenantModules = [
+            SystemFeatureEnum::BRIGHT_DASHBOARD,
             SystemFeatureEnum::DEPARTMENT,
             SystemFeatureEnum::ACTIVITY,
             SystemFeatureEnum::RESOURCE,
