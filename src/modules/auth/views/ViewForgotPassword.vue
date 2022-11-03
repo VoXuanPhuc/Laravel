@@ -1,14 +1,13 @@
 <template>
   <LayoutAuth>
     <EcHeadline variant="h1" as="h1" class="mb-6 lg:text-4xl">
-      {{ computedTitle }}
+      {{ $t("auth.forgotPassword") }}
     </EcHeadline>
-    <EcText class="text-c1-800 mb-12 mr-8 leading-tight">
-      {{ computedLabel }}
+    <EcText class="text-c1-200 mb-12 leading-tight">
+      {{ $t("auth.forgotPasswordNote") }}
     </EcText>
-    <EcBox v-if="!isLoading" class="w-full max-w-md">
+    <EcBox class="w-full max-w-md">
       <RFormInput
-        v-show="!isFinish"
         v-model="formEmail"
         class="mb-12"
         componentName="EcInputText"
@@ -21,18 +20,19 @@
         field="formEmail"
         @input="v$.formEmail.$touch()"
       />
-      <EcFlex>
-        <EcButton v-show="!isFinish" variant="primary" class="mr-5" @click="handleClickSend">
+      <EcFlex v-if="!isLoading">
+        <EcButton v-show="!isFinish" variant="primary" class="hover:bg-cWhite hover:text-c4-600 mr-5" @click="handleClickSend">
           {{ $t("auth.send") }}
         </EcButton>
-        <EcButton :variant="isFinish ? 'primary' : 'transparent'" @click="handleClickBackToLogin">
+        <EcButton class="hover:bg-cWhite hover:text-c4-600" variant="primary" @click="handleClickBackToLogin">
           {{ $t("auth.backToLogin") }}
         </EcButton>
       </EcFlex>
+
+      <EcFlex v-else class="items-center">
+        <EcSpinner type="dots" />
+      </EcFlex>
     </EcBox>
-    <EcFlex v-else class="items-center">
-      <EcSpinner type="dots" />
-    </EcFlex>
   </LayoutAuth>
 </template>
 
@@ -40,6 +40,8 @@
 import LayoutAuth from "@/modules/auth/components/LayoutAuth.vue"
 import { useForgotPassword } from "../stores/useForgotPassword"
 import { storeToRefs } from "pinia"
+import { useNewPasswordStore } from "../stores/useNewPassword"
+import { goto } from "@/modules/core/composables"
 
 export default {
   name: "ViewForgotPassword",
@@ -48,42 +50,43 @@ export default {
   },
   setup() {
     const forgotPasswordStore = useForgotPassword()
-
+    const newPasswordStore = useNewPasswordStore()
     const { v$, formEmail } = storeToRefs(forgotPasswordStore)
 
     return {
+      newPasswordStore,
       forgotPasswordStore,
       v$,
       formEmail,
     }
   },
-  computed: {
-    isLoading() {
-      return false
-    },
-    isFinish() {
-      return false
-    },
-    isSuccess() {
-      return false
-    },
-    computedTitle() {
-      return this.isFinish ? (this.isSuccess ? this.$t("auth.success") : this.$t("auth.fail")) : this.$t("auth.forgotPassword")
-    },
-    computedLabel() {
-      return this.isFinish
-        ? this.isSuccess
-          ? this.$t("auth.sendMailSuccessNote")
-          : this.$t("auth.sendMailFailNote")
-        : this.$t("auth.forgotPasswordNote")
-    },
+
+  data() {
+    return {
+      isLoading: false,
+      isFinish: false,
+      isSuccess: false,
+    }
   },
   methods: {
-    handleClickSend() {
-      this.v.$touch()
-      if (this.v.$invalid) return
-      this.forgotPasswordStore.sendForgotEmail()
+    async handleClickSend() {
+      this.v$.$touch()
+      if (this.v$.$invalid) return
+
+      this.isLoading = true
+      this.isSuccess = await this.forgotPasswordStore.sendForgotEmail(this.formEmail)
+
+      if (this.isSuccess) {
+        this.newPasswordStore.setNewPasswordChallenge({
+          email: this.formEmail,
+        })
+
+        goto("ViewConfirmForgotPassword")
+      }
+
+      this.isLoading = false
     },
+
     handleClickBackToLogin() {
       this.forgotPasswordStore.toLoginPage()
     },

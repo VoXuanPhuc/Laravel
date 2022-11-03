@@ -7,6 +7,7 @@
         <EcBox :class="variantCls.bcTitle">{{ $t("auth.bc") }}</EcBox>
       </EcFlex>
     </EcHeadline>
+    <EcBox></EcBox>
     <EcBox :class="variantCls.subtitle.class">
       <EcText> {{ $t("auth.loginSubtitle") }} </EcText>
     </EcBox>

@@ -1,6 +1,7 @@
 import ViewLogin from "../views/ViewLogin.vue"
 import ViewForgotPassword from "../views/ViewForgotPassword.vue"
 import ViewNewPassword from "../views/ViewNewPassword.vue"
+import ViewConfirmForgotPassword from "@/modules/auth/views/ViewConfirmForgotPassword"
 
 export default [
   {
@@ -31,6 +32,16 @@ export default [
     props: true,
     meta: {
       title: "Forgot Password",
+      isPublic: true,
+    },
+  },
+  {
+    path: "/confirm-forgot-password",
+    component: ViewConfirmForgotPassword,
+    name: "ViewConfirmForgotPassword",
+    props: true,
+    meta: {
+      title: "Confirm Forgot Password",
       isPublic: true,
     },
   },

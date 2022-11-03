@@ -8,20 +8,6 @@
     </EcText>
     <EcBox v-if="!isLoading" class="w-full max-w-md">
       <template v-if="!isFinish">
-        <!-- <RFormInput
-          v-model.trim="form.current_password"
-          componentName="EcInputText"
-          class="mb-5"
-          type="password"
-          :label="$t('auth.currentPassword')"
-          variant="primary-lg"
-          dark
-          iconPrefix="Key"
-          :validator="v$"
-          field="form.current_password"
-          @input="v$.form.current_password.$touch()"
-          @keypress.enter="handleClickConfirm"
-        /> -->
         <RFormInput
           v-model.trim="form.new_password"
           componentName="EcInputText"
