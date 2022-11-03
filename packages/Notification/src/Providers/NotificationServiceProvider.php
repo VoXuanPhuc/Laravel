@@ -2,6 +2,8 @@
 
 namespace Encoda\Notification\Providers;
 
+use Illuminate\Contracts\Notifications\Dispatcher;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationServiceProvider extends ServiceProvider
@@ -21,5 +23,12 @@ class NotificationServiceProvider extends ServiceProvider
     {
         $this->app->register( ServiceBindingProvider::class );
         $this->app->register( RepositoryBindingProvider::class );
+
+        $this->registerDispatcher();
+    }
+
+    protected function registerDispatcher() {
+        $this->app->bind( Dispatcher::class, ChannelManager::class);
+
     }
 }

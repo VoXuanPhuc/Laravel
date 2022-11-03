@@ -35,16 +35,9 @@ return [
     ],
 
     'passwords' => [
-        'api' => [
-            'provider' => 'api',
-            'table'    => 'user_password_resets',
-            'expire'   => 60,
-            'throttle' => 60,
-        ],
-
-        'admin-api' => [
-            'provider' => 'admin-api',
-            'table'    => 'admin_password_resets',
+        'users' => [
+            'provider' => 'cognito',
+            'table'    => 'password_resets',
             'expire'   => 60,
             'throttle' => 60,
         ],

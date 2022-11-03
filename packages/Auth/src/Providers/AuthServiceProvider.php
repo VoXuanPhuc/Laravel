@@ -16,6 +16,7 @@ class AuthServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         //Register more providers
         $this->app->register( ServiceBindingProvider::class );
+        $this->app->register( PasswordResetServiceProvider::class );
 
 
     }

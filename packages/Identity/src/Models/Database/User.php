@@ -5,6 +5,8 @@ namespace Encoda\Identity\Models\Database;
 use Encoda\Notification\Traits\EcHasNotificationTrait;
 use Encoda\Notification\Traits\EcNotifiable;
 use Illuminate\Auth\Authenticatable;
+use \Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +16,17 @@ use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, UserContract, JWTSubject
+class User extends Model implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    UserContract,
+    JWTSubject,
+    CanResetPasswordContract
 {
     use HasRoles;
     use Authenticatable, Authorizable, HasFactory;
     use EcNotifiable, EcHasNotificationTrait;
+    use CanResetPassword;
 
     protected $fillable = [
         'uid',

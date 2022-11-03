@@ -2,12 +2,14 @@
 namespace Encoda\AWSCognito\Providers;
 
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
+use Encoda\AWSCognito\Brokers\CognitoPasswordBroker;
 use Encoda\AWSCognito\Client\AWSCognitoClient;
 use Encoda\AWSCognito\Guards\CognitoGuard;
 use Encoda\AWSCognito\Services\CognitoJWT;
 use Encoda\AWSCognito\Services\CognitoJWTManager;
 use Encoda\AWSCognito\Services\CognitoJWTVerifier;
 use Encoda\AWSCognito\Services\CognitoTokenParser;
+use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +48,9 @@ class AwsCognitoServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerUserProvider();
 
         $this->extendAuthGuard();
+
+        //Password broker
+        $this->registerPasswordBroker();
     }
 
     /**
@@ -177,5 +182,9 @@ class AwsCognitoServiceProvider extends \Illuminate\Support\ServiceProvider
             );
         }) ;
 
+    }
+
+    protected function registerPasswordBroker() {
+        $this->app->register( CognitoPasswordResetServiceProvider::class );
     }
 }
