@@ -9,6 +9,7 @@ use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\Identity\Models\Database\User;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
+use Encoda\Notification\Traits\NotifySender;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,7 @@ class Activity extends Model implements ActivityContract
 {
     use SoftDeletes, MultiTenancyModel, DependencyModelTrait;
     use EasyActionLogTrait;
+    use NotifySender;
 
     const CREATED = 1;
     const IN_PROGRESS = 2;

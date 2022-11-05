@@ -5,6 +5,7 @@ namespace Encoda\Organization\Models;
 use Encoda\Activity\Models\Activity;
 use Encoda\Core\Models\Model;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
+use Encoda\Notification\Traits\NotifySender;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Division extends Model
 {
     use SoftDeletes, MultiTenancyModel;
+    use NotifySender;
 
     protected $table = 'divisions';
 

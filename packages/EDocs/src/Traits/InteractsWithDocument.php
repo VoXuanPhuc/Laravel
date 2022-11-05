@@ -87,7 +87,11 @@ trait InteractsWithDocument
             $query->where('type', $type);
         })->get();
         $documents->each(function ($document){
-            $document->delete();
+            /**
+             * @var Document $document
+             */
+            $document->model()->disassociate();
+            $document->save();
         });
     }
 

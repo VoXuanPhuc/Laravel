@@ -4,12 +4,14 @@ namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\DeviceContract;
 use Encoda\Core\Models\Model;
+use Encoda\Notification\Traits\NotifySender;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Equipment extends Model implements DeviceContract
 {
     use SoftDeletes;
+    use NotifySender;
 
     protected $table = 'equipments';
 

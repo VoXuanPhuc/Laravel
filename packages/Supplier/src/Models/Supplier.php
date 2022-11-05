@@ -9,10 +9,12 @@ use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\EDocs\Traits\InteractsWithDocument;
 use Encoda\MultiTenancy\Traits\MultiTenancyModel;
+use Encoda\Notification\Traits\NotifySender;
 use Encoda\Organization\Models\Organization;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Encoda\Notification\Enums\EventNotificationRuleActionEnum;
 
 /**
  *
@@ -21,6 +23,7 @@ class Supplier extends Model
 {
     use HasUID, MultiTenancyModel, DependencyModelTrait, InteractsWithDocument;
     use EasyActionLogTrait;
+    use NotifySender;
     /**
      * @var string
      */

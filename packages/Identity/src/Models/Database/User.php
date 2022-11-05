@@ -2,8 +2,10 @@
 
 namespace Encoda\Identity\Models\Database;
 
+use Encoda\Core\Models\Model;
 use Encoda\Notification\Traits\EcHasNotificationTrait;
 use Encoda\Notification\Traits\EcNotifiable;
+use Encoda\Notification\Traits\NotifySender;
 use Illuminate\Auth\Authenticatable;
 use \Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -11,7 +13,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Encoda\Identity\Contracts\UserContract;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -27,6 +28,7 @@ class User extends Model implements
     use Authenticatable, Authorizable, HasFactory;
     use EcNotifiable, EcHasNotificationTrait;
     use CanResetPassword;
+    use NotifySender;
 
     protected $fillable = [
         'uid',
@@ -55,6 +57,7 @@ class User extends Model implements
         'password',
         'api_token',
         'remember_token',
+        'deleted_at'
     ];
 
     protected $appends = [

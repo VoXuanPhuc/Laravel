@@ -13,6 +13,7 @@ use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\EDocs\Traits\InteractsWithDocument;
+use Encoda\Notification\Models\EventNotification;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
 use Encoda\Resource\Models\ResourceOwner;
@@ -230,4 +231,8 @@ class Organization extends Tenant
         return $this->hasMany(BIA::class);
     }
 
+    public function eventNotifications(): HasMany
+    {
+        return $this->hasMany(EventNotification::class);
+    }
 }

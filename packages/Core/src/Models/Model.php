@@ -1,7 +1,9 @@
 <?php
 
 namespace Encoda\Core\Models;
+use Encoda\Identity\Models\Database\User;
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Support\Facades\Schema;
 
 class Model extends BaseModel
 {
@@ -28,4 +30,12 @@ class Model extends BaseModel
 
     }
 
+    public static function getModelAllowedAttribute()
+    {
+        $attrs = collect(Schema::getColumnListing(self::getTableName()));
+        $attrs = $attrs->reject(function ($item){
+            return in_array($item, with(new static)->hidden);
+        });
+        return array_values($attrs->toArray());
+    }
 }

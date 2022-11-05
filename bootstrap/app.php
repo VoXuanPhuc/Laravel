@@ -64,7 +64,18 @@ $app->configure('config');
 $app->configure('auth');
 $app->configure('cors');
 $app->configure('jwt');
+$app->configure('queue');
+$app->configure('mail');
+$app->configure('view');
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
 
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+
+$app->alias('view', Illuminate\View\Factory::class);
+$app->alias('view', Illuminate\Contracts\View\Factory::class);
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -106,6 +117,9 @@ $app->configure('jwt');
 | totally optional, so you are not required to uncomment this line.
 |
 */
+$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Illuminate\View\ViewServiceProvider::class);
 
 $app->register( Encoda\Core\Providers\CoreServiceProvider::class );
 $app->register( Encoda\Core\Providers\BaseConcordServiceProvider::class );
@@ -131,6 +145,7 @@ $app->register( Encoda\Dependency\Providers\DependencyServiceProvider::class );
 $app->register( Encoda\EasyLog\Providers\EasyLogServiceProvider::class );
 $app->register( \Encoda\BCP\Providers\BCPServiceProvider::class );
 $app->register( Encoda\BIA\Providers\BIAServiceProvider::class );
+
 
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->alias('context', \Encoda\Core\Facades\Context::class);

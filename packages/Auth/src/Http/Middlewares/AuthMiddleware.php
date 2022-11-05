@@ -16,8 +16,9 @@ class AuthMiddleware
         $this->auth = $auth;
     }
 
-    public function handle($request, Closure $next ) {
-
+    public function handle($request, Closure $next )
+    {
+        $user = $this->auth->guard()->user();
         if( !$this->auth->guard()->user() ) {
             throw new UnauthorizedException('Unauthorized', 401 );
         }
