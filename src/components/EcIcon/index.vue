@@ -63,6 +63,7 @@ export default {
     Exclamation: lazyLoad("Exclamation"),
     ExclamationCircle: lazyLoad("ExclamationCircle"),
     Eye: lazyLoad("Eye"),
+    EyeSlashed: lazyLoad("EyeSlashed"),
     Home: lazyLoad("Home"),
     LocationMarker: lazyLoad("LocationMarker"),
     LockClosed: lazyLoad("LockClosed"),

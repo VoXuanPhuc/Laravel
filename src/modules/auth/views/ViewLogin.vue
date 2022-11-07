@@ -35,6 +35,7 @@
         :variant="variantCls.password.variant"
         :dark="variantCls.password.isDark"
         :validator="v"
+        :iconSuffix="passwordIconSuffix"
         field="form.password"
         @input="v.form.password.$touch()"
         @keypress.enter="handleClickLogin()"
@@ -123,6 +124,10 @@ export default {
     },
     variantCls() {
       return this.variants?.el || {}
+    },
+
+    passwordIconSuffix() {
+      return this.passwordFieldType === "password" ? "Eye" : "EyeSlashed"
     },
   },
   methods: {
