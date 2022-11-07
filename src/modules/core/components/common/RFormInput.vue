@@ -5,7 +5,7 @@
       <label
         :for="field"
         :class="[labelClass, customLabelClass]"
-        class="text-base font-medium cursor-text block pointer-events-none mb-2"
+        class="text-base text-cBlack font-medium cursor-text block pointer-events-none mb-2"
       >
         <slot name="label">
           {{ label }}

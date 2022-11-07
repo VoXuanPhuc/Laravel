@@ -3,7 +3,7 @@
     <EcHeadline variant="h1" as="h1" class="mb-6 lg:text-4xl">
       {{ $t("auth.confirmationCodeTitle") }}
     </EcHeadline>
-    <EcText class="text-c1-200 mb-12 leading-tight">
+    <EcText class="text-c1-800 mb-12 mr-8 leading-tight">
       {{ $t("auth.confirmForgotPasswordNote") }}
     </EcText>
     <EcBox class="w-full max-w-md">
@@ -47,13 +47,13 @@
           field="form.confirm_password"
           @input="v$.form.confirm_password.$touch()"
         />
-        <EcFlex v-if="!isLoading">
+        <EcFlex v-if="!isLoading" class="items-center">
           <EcButton class="hover:bg-cWhite hover:text-c4-600 mr-5" variant="primary" @click="handleClickConfirmChangePassword">
             {{ $t("auth.confirm") }}
           </EcButton>
-          <EcButton class="hover:bg-cWhite hover:text-c4-600" variant="primary" @click="handleClickBackToLogin">
+          <EcLabel class="text-c1-800 text-base hover:cursor-pointer" @click="handleClickBackToLogin">
             {{ $t("auth.backToLogin") }}
-          </EcButton>
+          </EcLabel>
         </EcFlex>
         <EcFlex v-else class="items-center">
           <EcSpinner type="dots" />

@@ -36,7 +36,7 @@ export default {
     missingTenantId: "Tenant ID is missing from the URL!",
     confirmationCode: "Confirmation Code",
     alreadySendCode: "Your code to reset password was sent",
-    sendCodeSuccess: "Send code to your email success",
+    sendCodeSuccess: "A verification code has been sent to your email",
     // Errors
     errors: {
       login: "Unable to login",
