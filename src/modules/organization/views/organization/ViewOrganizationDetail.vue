@@ -13,7 +13,8 @@
                   :documentTitle="logoTitle"
                   :maxFileNum="1"
                   :isImage="true"
-                  :dir="'logo'"
+                  dir="logo"
+                  docType="logo"
                   :isUploadOnSelect="true"
                   :uploadedFileUrls="uploadedFileUrls"
                   dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
@@ -376,7 +377,7 @@ export default {
         this.organization = orgRes
       }
       if (this.organization) {
-        this.uploadedFileUrls = [this.organization.logo_path]
+        this.uploadedFileUrls = [this.organization.logo?.url]
       }
       this.isLoading = false
     },
@@ -434,7 +435,7 @@ export default {
      * Handle logo uploaded
      */
     handleLogoUploaded(result) {
-      this.organization.logo_path = result.url
+      this.organization.logo = result
     },
   },
   watch: {

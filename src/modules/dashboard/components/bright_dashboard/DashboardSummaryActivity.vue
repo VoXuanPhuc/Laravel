@@ -30,7 +30,7 @@
       </EcFlex>
     </EcBox>
 
-    <EcFlex class="mt-6 text-sm text-c3-100 justify-end hover:cursor-pointer text" @click="handleClickSeeAll">See All</EcFlex>
+    <EcFlex class="mt-6 text-base text-c3-100 justify-end hover:cursor-pointer text" @click="handleClickSeeAll">See All</EcFlex>
   </EcBox>
 </template>
 

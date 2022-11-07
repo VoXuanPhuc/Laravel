@@ -22,7 +22,7 @@
     </EcFlex>
 
     <!-- Filter-->
-    <EcBox class="items-center mt-6 grid grid-cols-2">
+    <EcBox class="items-center mt-6 grid grid-cols-1 md:grid-cols-2">
       <!-- Filter -->
       <EcFlex class="items-center">
         <!-- From -->
@@ -39,7 +39,7 @@
       </EcFlex>
 
       <!-- Actions -->
-      <EcFlex class="justify-end">
+      <EcFlex class="justify-center md:justify-end mt-6 md:mt-0">
         <!-- Add BIA -->
         <EcButton class="mb-3 lg:mb-0" iconPrefix="plus-circle" variant="primary-sm" @click="handleClickAddBIA">
           {{ $t("bia.buttons.addBIA") }}

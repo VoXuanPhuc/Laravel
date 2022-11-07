@@ -9,7 +9,7 @@
       <EcBox>
         <!-- Name -->
         <EcFlex class="items-center">
-          <EcLabel class="text-xs w-3/12">Name</EcLabel>
+          <EcLabel class="text-sm w-3/12">Name</EcLabel>
           <RFormInput
             class="ml-2 w-9/12"
             v-model="bia.name"
@@ -21,7 +21,7 @@
 
         <!-- Due date -->
         <EcFlex class="items-center">
-          <EcLabel class="text-xs w-3/12">Due Date</EcLabel>
+          <EcLabel class="text-sm w-3/12">Due Date</EcLabel>
           <RFormInput
             class="ml-2 w-9/12"
             v-model="bia.due_date"
@@ -33,7 +33,7 @@
 
         <!-- Status -->
         <EcFlex class="items-center">
-          <EcLabel class="text-xs w-3/12">Status</EcLabel>
+          <EcLabel class="text-sm w-3/12">Status</EcLabel>
           <RFormInput
             v-model="bia.statusObj"
             class="ml-2 w-9/12"

@@ -12,12 +12,12 @@
             variant="primary-dashboard"
             componentName="EcInputText"
             field="form.name"
-            class="w-8/12 text-sm hover:cursor-auto"
+            class="w-8/12 text-base hover:cursor-auto"
             :readonly="true"
           />
           <EcButton
             variant="wrapper"
-            class="ml-3 text-sm w-4/12 rounded-lg px-5 py-3 justify-center"
+            class="ml-3 text-base w-4/12 rounded-lg px-5 py-3 justify-center"
             :class="[getStatus(bcp)?.tag_color, getStatus(bcp)?.tag_text_color || 'text-cWhite']"
             @click="handleShowContextMenu(idx, bcp)"
           >

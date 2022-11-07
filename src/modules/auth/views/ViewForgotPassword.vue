@@ -3,7 +3,7 @@
     <EcHeadline variant="h1" as="h1" class="mb-6 lg:text-4xl">
       {{ computedTitle }}
     </EcHeadline>
-    <EcText class="text-c1-200 mb-12 leading-tight">
+    <EcText class="text-c1-800 mb-12 mr-8 leading-tight">
       {{ computedLabel }}
     </EcText>
     <EcBox v-if="!isLoading" class="w-full max-w-md">

@@ -24,7 +24,7 @@
     </select>
     <div :class="variantCls.iconRoot">
       <slot name="icon" :variantCls="variantCls">
-        <EcIcon :class="variantCls.icon" :icon="variantAssets.iconName" />
+        <EcIcon :class="variantCls.icon" :icon="variantAssets.iconName" width="14" />
       </slot>
     </div>
   </div>

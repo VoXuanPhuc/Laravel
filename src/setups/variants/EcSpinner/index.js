@@ -9,7 +9,7 @@ export default {
   },
   primary: {
     el: {
-      circle: "inline-block w-4 h-4 border-t-2 rounded-full border-cWhite",
+      circle: "inline-block w-4 h-4 border-t-2 rounded-full border-cError-400",
       dots: "flex justify-center items-center w-auto h-auto",
       dotsItem: "w-4 h-4 rounded-full inline-block bg-c0-50",
     },

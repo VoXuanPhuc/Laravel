@@ -19,7 +19,7 @@
             <EcButton
               variant="wrapper"
               :class="[getStatus(bia)?.tag_color, getStatus(bia)?.tag_text_color || 'text-cWhite']"
-              class="text-sm rounded-lg px-5 py-3 text-cBlack justify-center border-0"
+              class="text-base rounded-lg px-5 py-3 text-cBlack justify-center border-0"
               @click="handleShowContextMenu(idx, bia)"
             >
               {{ getStatus(bia)?.name }}

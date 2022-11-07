@@ -8,7 +8,7 @@
     <EcBox>
       <!-- Name -->
       <EcFlex class="items-center">
-        <EcLabel class="text-xs w-3/12">Name</EcLabel>
+        <EcLabel class="text-sm w-3/12">Name</EcLabel>
         <RFormInput
           class="w-9/12"
           v-model="bcp.name"
@@ -20,7 +20,7 @@
 
       <!-- Due date -->
       <EcFlex class="items-center">
-        <EcLabel class="text-xs w-3/12">Due Date</EcLabel>
+        <EcLabel class="text-sm w-3/12">Due Date</EcLabel>
         <RFormInput
           class="w-9/12"
           v-model="bcp.due_date"
@@ -33,7 +33,7 @@
 
       <!-- Statuses -->
       <EcFlex class="items-center">
-        <EcLabel class="text-xs w-3/12">Status</EcLabel>
+        <EcLabel class="text-sm w-3/12">Status</EcLabel>
         <RFormInput
           v-model="bcp.statusObj"
           class="w-9/12"

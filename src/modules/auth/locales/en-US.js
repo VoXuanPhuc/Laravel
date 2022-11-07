@@ -1,7 +1,11 @@
 export default {
   auth: {
-    loginTitle: "Login to ReadyBC",
-    loginSubtitle: "Business Continuity Made Easy",
+    username: "Username",
+    loginTitle: "Welcome to ",
+    ready: "Ready",
+    bc: "BC",
+    loginSubtitle: "Login to your account",
+    clientPortal: "Client Login Portal",
     email: "Email",
     currentPassword: "Current Password",
     password: "Password",

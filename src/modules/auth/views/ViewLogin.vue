@@ -1,26 +1,25 @@
 <template>
   <LayoutAuth>
     <EcHeadline variant="h1" as="h1" :class="variantCls.title">
-      {{ $t("auth.loginTitle") }}
+      <EcFlex>
+        <EcBox>{{ $t("auth.loginTitle") }} </EcBox> &nbsp;
+        <EcBox :class="variantCls.readyTitle">{{ $t("auth.ready") }}</EcBox>
+        <EcBox :class="variantCls.bcTitle">{{ $t("auth.bc") }}</EcBox>
+      </EcFlex>
     </EcHeadline>
     <EcBox :class="variantCls.subtitle.class">
       <EcText> {{ $t("auth.loginSubtitle") }} </EcText>
-      <EcText v-if="tenantId" :class="variantCls.subtitle.tenantId"> ( {{ $t("auth.tenantId") }}: {{ tenantId }} ) </EcText>
-      <EcText v-else :class="variantCls.subtitle.warning">
-        {{ $t("auth.missingTenantId") }}
-      </EcText>
     </EcBox>
     <EcBox :class="variantCls.form">
       <RFormInput
         v-model="form.username"
         :class="variantCls.email.class"
         componentName="EcInputText"
-        :label="$t('auth.email')"
+        :label="$t('auth.username')"
         type="email"
         required="true"
         :variant="variantCls.email.variant"
         :dark="variantCls.email.isDark"
-        iconPrefix="Mail"
         :validator="v"
         field="form.username"
         @input="v.form.username.$touch()"
@@ -32,16 +31,23 @@
         :class="variantCls.password.class"
         componentName="EcInputText"
         :label="$t('auth.password')"
-        type="password"
+        :type="passwordFieldType"
         :variant="variantCls.password.variant"
         :dark="variantCls.password.isDark"
-        iconPrefix="LockClosed"
         :validator="v"
         field="form.password"
         @input="v.form.password.$touch()"
         @keypress.enter="handleClickLogin()"
+        @suffixEvent="handleShowPassword"
         data-test="inputPassword"
       />
+
+      <!-- Forgot password -->
+      <EcFlex :class="variantCls.forgotPassword.wrapper">
+        <EcText :class="variantCls.forgotPassword.class" @click="handleClickForgotPassword()">
+          {{ $t("auth.forgotPassword") }}
+        </EcText>
+      </EcFlex>
       <EcFlex v-if="!isLoading">
         <EcButton
           id="login"
@@ -52,17 +58,9 @@
         >
           {{ $t("auth.login") }}
         </EcButton>
-        <EcButton
-          class="!hover:text-c0-50"
-          :variant="variantCls.forgotPassword.variant"
-          :class="variantCls.forgotPassword.class"
-          @click="handleClickForgotPassword()"
-        >
-          {{ $t("auth.forgotPassword") }}
-        </EcButton>
       </EcFlex>
       <EcFlex v-else class="items-center h-12">
-        <EcSpinner variant="primary" type="dots" />
+        <EcSpinner type="dots" />
       </EcFlex>
     </EcBox>
   </LayoutAuth>
@@ -86,6 +84,7 @@ export default {
   },
   data() {
     return {
+      passwordFieldType: "password",
       isLoading: false,
       error: null,
     }
@@ -164,7 +163,6 @@ export default {
         if (window.PATH) {
           this.$router.push(window.PATH)
         } else {
-          
           this.$router.push({
             name: data?.landing,
           })
@@ -175,10 +173,18 @@ export default {
         this.error = error?.message
       }
     },
+
+    /**
+     * Forgot Password
+     */
     handleClickForgotPassword() {
       this.$router.push({
         name: "ViewForgotPassword",
       })
+    },
+
+    handleShowPassword() {
+      this.passwordFieldType = this.passwordFieldType === "password" ? "input" : "password"
     },
   },
 }

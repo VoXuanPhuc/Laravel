@@ -8,7 +8,7 @@
 
     <!-- Info -->
     <EcBox class="mt-4 lg:mt-0 lg:ml-6">
-      <EcText class="font-medium text-cBlack text-sm">
+      <EcText class="font-medium text-cBlack text-base">
         {{ info.label }}
       </EcText>
       <EcFlex class="items-center mt-2">

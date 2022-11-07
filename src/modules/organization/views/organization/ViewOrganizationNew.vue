@@ -12,7 +12,8 @@
               :maxFileNum="1"
               :isImage="true"
               :isUploadOnSelect="true"
-              :dir="'logo'"
+              dir="logo"
+              docType="logo"
               dropZoneCls="border-c0-500 border-dashed border-2 bg-cWhite p-2 md:py-4"
               @handleSingleUploadResult="handleLogoUploaded"
             />

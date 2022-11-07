@@ -2,7 +2,7 @@ export default {
   default: "text",
   text: {
     el: {
-      root: "text-sm",
+      root: "",
     },
   },
   pill: {

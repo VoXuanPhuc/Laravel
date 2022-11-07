@@ -98,9 +98,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    customPath: {
+    docType: {
       type: String,
-      default: "",
+      default: "misc",
     },
     documentTitle: {
       type: String,
@@ -161,16 +161,30 @@ export default {
       return ""
     },
 
+    /**
+     *
+     */
     getDir() {
       return this.dir
     },
 
+    /**
+     * File to be uploaded
+     */
     filesToBeUploaded() {
       return this.fileList.filter((file) => file.status !== this.FILE_STATUS.UPLOADED)
     },
+
+    /**
+     * File uploaded names
+     */
     filesUploadedName() {
       return this.uploadedFiles.map((f) => f.fileName)
     },
+
+    /**
+     * Exceed max allowed file number
+     */
     isExceedMaxFile() {
       return this.fileList.length >= this.maxFileNum
     },
@@ -281,13 +295,20 @@ export default {
 
       formData.append("file", fileObj.file)
       formData.append("dir", this.getDir)
+      formData.append("docType", this.docType)
 
       const options = {
         onUploadProgress(progressEvent) {
           fileObj.percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total)
         },
       }
-      const { data, error } = await apiUploadFile({ dir: this.getDir, data: formData, options })
+
+      const { data, error } = await apiUploadFile({
+        dir: this.getDir,
+        docType: this.docType,
+        data: formData,
+        options,
+      })
 
       if (error) {
         fileObj.status = this.FILE_STATUS.FAILED

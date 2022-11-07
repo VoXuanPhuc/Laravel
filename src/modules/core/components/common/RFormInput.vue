@@ -1,8 +1,12 @@
 <template>
   <EcBox class="w-full" :class="$attrs.class">
     <!-- Form control inner -->
-    <EcBox class="rounded-lg text-left text-sm">
-      <label :for="field" :class="labelClass" class="font-medium cursor-text block pointer-events-none text-md mb-2">
+    <EcBox class="rounded-lg text-left">
+      <label
+        :for="field"
+        :class="[labelClass, customLabelClass]"
+        class="text-base font-medium cursor-text block pointer-events-none mb-2"
+      >
         <slot name="label">
           {{ label }}
         </slot>
@@ -37,9 +41,10 @@
         <!-- Icon Suffix -->
         <slot name="suffix">
           <EcBox
+            @click="$emit('suffixEvent', $event)"
             v-if="iconSuffix"
-            :class="isFocus ? 'text-c0-500' : 'text-c0-300'"
-            class="absolute flex items-center pointer-events-none py-2 px-3 right-0"
+            :class="[isFocus ? 'text-c0-500' : 'text-c0-300', iconSuffixCustomCls]"
+            class="z-10 hover:cursor-pointer absolute flex items-center py-2 px-3 right-0"
             style="top: 50%; transform: translateY(-50%)"
           >
             <EcIcon width="24" height="24" :icon="iconSuffix" />
@@ -52,7 +57,7 @@
     <EcBox v-if="isDirty && hasError" class="mt-2">
       <EcBox>
         <!-- Goes through messages and if message exists in validation definition, it will display message based on if it's valid or not -->
-        <EcText v-for="key in Object.keys(messages)" :key="key" class="text-cError-600 text-sm mt-1">
+        <EcText v-for="key in Object.keys(messages)" :key="key" class="text-cError-600 text-base mt-1">
           {{ getMessage(getField, key) }}
         </EcText>
       </EcBox>
@@ -66,6 +71,7 @@ import get from "lodash.get"
 export default {
   inheritAttrs: false,
   name: "RFormInput",
+  emits: ["suffixEvent"],
   props: {
     /**
      * @description Name of the component to render
@@ -115,6 +121,14 @@ export default {
       type: String,
       default: "",
     },
+
+    /**
+     *
+     */
+    customLabelClass: {
+      type: String,
+      default: "",
+    },
     description: {
       type: String,
       default: "",
@@ -148,6 +162,12 @@ export default {
       type: String,
       default: "",
     },
+
+    iconSuffixCustomCls: {
+      type: String,
+      default: "",
+    },
+
     /**
      * @description Component theme (mostly for label color)
      */

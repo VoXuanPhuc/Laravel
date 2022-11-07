@@ -1,22 +1,24 @@
 <template>
   <EcFlex :class="variantCls.root">
     <!-- Image -->
-    <EcFlex :class="variantCls.image.wrapper">
-      <img :class="variantCls.image.img" :src="computedLogo" alt="Login Image" />
+    <EcFlex :class="variantCls.left.wrapper">
+      <EcBox :class="variantCls.left.desktop.bg">
+        <EcFlex :class="variantCls.left.container">
+          <img :class="variantCls.left.desktop.img" src="@/assets/images/login_logo.svg" />
+          <EcText v-if="!isLandlord" class="text-cWhite mt-8 text-2xl font-bold">{{ $t("auth.clientPortal") }}</EcText>
+        </EcFlex>
+      </EcBox>
+
+      <EcBox :class="variantCls.left.mobile.bg">
+        <EcFlex :class="variantCls.left.mobile.container">
+          <img :class="variantCls.left.mobile.img" src="@/assets/images/login_logo.svg" />
+          <EcText v-if="!isLandlord" class="text-cWhite mt-8 text-2xl font-bold">{{ $t("auth.clientPortal") }}</EcText>
+        </EcFlex>
+      </EcBox>
     </EcFlex>
 
     <!-- SVGs & Auth slot -->
     <EcFlex :class="variantCls.svgs.wrapper">
-      <EcBox :class="variantCls.svgs.mobile.class" :style="variantCls.svgs.mobile.style">
-        <svg width="100vw" height="30vw" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 22 C30 25, 50 20, 100 0 L100 30 0 30Z" fill="currentColor" />
-        </svg>
-      </EcBox>
-      <EcBox :class="variantCls.svgs.desktop.class" :style="variantCls.svgs.desktop.style">
-        <svg width="30vh" height="100vh" viewBox="0 0 30 100" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 0 C-20 40, 35 65, 28 100 L0 100 0 0Z" fill="currentColor" />
-        </svg>
-      </EcBox>
       <slot />
     </EcFlex>
 
@@ -32,6 +34,9 @@ export default {
   name: "LayoutAuth",
   inject: ["getComponentVariants"],
 
+  data() {
+    return {}
+  },
   setup() {
     const globalStore = useGlobalStore()
 
@@ -62,6 +67,10 @@ export default {
 
     computedLogo() {
       return this.logoImg || "https://via.placeholder.com/400x300"
+    },
+
+    isLandlord() {
+      return this.globalStore.isLandlord
     },
   },
 
