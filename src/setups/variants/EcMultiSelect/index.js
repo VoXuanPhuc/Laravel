@@ -2,7 +2,7 @@ export default {
   default: "primary",
   primary: {
     el: {
-      root: "flex text-sm items-center rounded-lg bg-cWhite border border-c4-100 w-full",
+      root: "flex text-base items-center rounded-lg bg-cWhite border border-c4-100 w-full",
       tagRoot: "flex flex-wrap w-full",
       tagRootGroupOptions: "",
       tag: "px-2 py-1 m-1 rounded",

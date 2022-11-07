@@ -26,13 +26,13 @@
     <EcBox v-if="!isLoading" class="mt-4 max-h-64 overflow-x-auto">
       <!-- Comments - Comment Row-->
       <EcBox v-if="isCurrentComments">
-        <EcLabel class="mt-1 mb-4 text-sm">Comments</EcLabel>
+        <EcLabel class="mt-1 mb-4 text-base">Comments</EcLabel>
         <RCommentRow></RCommentRow>
       </EcBox>
 
       <!-- Histories - Activity Row -->
       <EcBox v-if="isCurrentHistories">
-        <EcLabel class="mt-1 mb-4 text-sm">Histories</EcLabel>
+        <EcLabel class="mt-1 mb-4 text-base">Histories</EcLabel>
         <EcBox v-for="(log, idx) in logs" :key="idx">
           <RActivityLogRow :log="log"></RActivityLogRow>
         </EcBox>

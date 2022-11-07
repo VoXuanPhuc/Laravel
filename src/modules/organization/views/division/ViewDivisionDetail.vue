@@ -49,7 +49,9 @@
 
             <!-- Color picker -->
             <EcFlex class="flex-wrap max-w-full items-center mb-6">
-              <EcBox class="w-full sm:w-3/12 sm:pr-6"> Division Icon </EcBox>
+              <EcLabel class="w-full sm:w-3/12 sm:pr-6 text-base font-semibold">
+                {{ $t("organization.division.icon") }}
+              </EcLabel>
               <EcBox class="w-auto sm:w-auto sm:pr-2">
                 <EcColorPicker v-model="division.avatar_color" />
               </EcBox>

@@ -47,7 +47,7 @@
 
         <!-- Color picker -->
         <EcFlex class="flex-wrap max-w-full items-center mb-6">
-          <EcBox class="w-full sm:w-2/12 sm:pr-6"> {{ $t("organization.division.icon") }} </EcBox>
+          <EcBox class="w-full sm:w-2/12 sm:pr-6 text-base font-semibold"> {{ $t("organization.division.icon") }} </EcBox>
           <EcBox class="w-auto sm:w-auto sm:pr-2">
             <EcColorPicker v-model="form.avatar_color" />
           </EcBox>

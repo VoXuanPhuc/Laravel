@@ -4,7 +4,7 @@
     <EcLabel class="p-1 rounded-full text-cWhite" :class="[log?.causer_summary?.color]">{{ log?.causer_summary?.short }}</EcLabel>
 
     <!-- Factor performs action -->
-    <EcBox class="text-sm ml-3">
+    <EcBox class="text-base ml-3">
       <!-- Factors -->
       <EcFlex>
         <!-- Causer -->

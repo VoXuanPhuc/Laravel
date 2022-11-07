@@ -27,9 +27,9 @@
 
             <!-- File name -->
             <EcBox class="my-auto mb-1 p-1 text-left" :title="file?.name">
-              <EcLabel class="font-semibold text-xs truncate"> {{ ++idx }}. {{ file?.name }} </EcLabel>
+              <EcLabel class="font-semibold text-sm truncate"> {{ ++idx }}. {{ file?.name }} </EcLabel>
 
-              <EcLabel class="text-xs text-ellipsis ml-3">
+              <EcLabel class="text-sm text-ellipsis ml-3">
                 {{ formatDateTime(file?.created_at) }}
               </EcLabel>
             </EcBox>
