@@ -128,6 +128,9 @@ export default {
     },
 
     passwordIconSuffix() {
+      if (this.form.password?.length <= 0) {
+        return ""
+      }
       return this.passwordFieldType === "password" ? "Eye" : "EyeSlashed"
     },
   },

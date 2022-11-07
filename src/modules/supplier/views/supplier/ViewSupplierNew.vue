@@ -50,7 +50,7 @@
           <EcFlex class="w-full 2xl:w-6/12 mb-4 sm:pr-6">
             <EcBox class="w-full mb-6">
               <EcFlex>
-                <EcText class="mb-3">{{ $t("supplier.category.label") }}</EcText>
+                <EcText class="mb-3 text-base font-medium">{{ $t("supplier.category.label") }}</EcText>
                 <EcButton
                   class="h-6 ml-2"
                   title="Did not see category? Add new"
@@ -86,7 +86,6 @@
               @input="supplierValidator$.supplier.email.$touch()"
             />
           </EcBox>
-
 
           <!-- phone -->
           <EcBox class="w-1/2 mb-6">

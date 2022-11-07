@@ -20,14 +20,14 @@
           v-tooltip="{ text: 'Cancel doing activity' }"
           @click="handleOpenCancelModal"
         >
-          <EcIcon class="text-sm text-cError-500" icon="X" />
+          <EcIcon class="text-base text-cError-500" icon="X" />
         </EcButton>
       </EcFlex>
 
       <!-- Applications -->
       <EcBox class="w-full mb-8">
         <EcFlex class="items-center">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.software") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.software") }}</EcLabel>
           <!-- Add button -->
           <EcButton
             v-if="form.applications.length < applications.length"
@@ -71,7 +71,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.applications.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base text-cError-500 text-left"
               v-for="error in v$.form.applications.$each.$response.$errors[index].uid"
               :key="error"
             >
@@ -85,7 +85,7 @@
 
       <!-- IT data and storage -->
       <EcBox>
-        <EcLabel class="text-sm mb-3">{{ $t("activity.labels.dataStorage") }}</EcLabel>
+        <EcLabel class="text-base font-medium mb-3">{{ $t("activity.labels.dataStorage") }}</EcLabel>
 
         <EcFlex class="flex-wrap max-w-full mb-8">
           <EcBox class="w-full sm:w-4/12 sm:pr-6">
@@ -115,7 +115,7 @@
       <!-- Equipments -->
       <EcBox class="w-full mb-8">
         <EcFlex>
-          <EcLabel class="text-sm"> {{ $t("activity.labels.equipments") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.equipments") }}</EcLabel>
 
           <!-- Add button -->
           <EcButton
@@ -160,7 +160,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.equipments.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base text-cError-500 text-left"
               v-for="error in v$.form.equipments.$each.$response.$errors[index].uid"
               :key="error"
             >

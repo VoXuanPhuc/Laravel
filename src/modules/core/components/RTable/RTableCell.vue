@@ -20,7 +20,7 @@ export default {
   computed: {
     tableCellClass() {
       return {
-        "text-sm whitespace-no-wrap h-12 align-middle max-w-xs w-auto bg-cTransparent pl-6": true,
+        "text-base whitespace-no-wrap h-12 align-middle max-w-xs w-auto bg-cTransparent pl-6": true,
         "absolute top-auto right-0 px-2": this.variant === "gradient",
         truncate: this.isTruncate,
       }

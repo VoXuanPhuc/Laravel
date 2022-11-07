@@ -62,7 +62,7 @@
       <EcBox class="flex-wrap max-w-md items-center mb-8">
         <!-- Title and add button -->
         <EcFlex class="mb-3">
-          <EcLabel class="text-sm"> {{ $t("resource.category.label") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("resource.category.label") }}</EcLabel>
           <EcButton
             variant="primary-rounded"
             class="h-6 ml-2"
@@ -93,7 +93,7 @@
       <!-- Owners select -->
       <EcBox class="w-full mb-8">
         <EcFlex>
-          <EcLabel class="text-sm"> {{ $t("resource.labels.owners") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("resource.labels.owners") }}</EcLabel>
           <EcButton
             variant="primary-rounded"
             class="h-6 ml-2"

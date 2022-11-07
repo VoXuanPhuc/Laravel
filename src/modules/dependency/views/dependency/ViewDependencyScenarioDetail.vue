@@ -60,7 +60,7 @@
       <EcBox>
         <!-- Resource or activity -->
         <EcFlex class="mb-3">
-          <EcLabel class="text-sm"> {{ $t("dependencyScenario.target.label") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("dependencyScenario.target.label") }}</EcLabel>
           <!-- <EcButton
             variant="primary-rounded"
             class="h-6 ml-2"
@@ -107,7 +107,7 @@
       </EcBox>
 
       <!-- Up/down stream -->
-      <EcBox class="border border-bottom border-c1-100 mb-4" />
+      <EcBox class="border-b border-c1-100 mb-4" />
       <EcBox>
         <!-- Dependencies stream line -->
         <EcText class="font-bold text-lg mb-4">{{ $t("dependencyScenario.title.linksDependencies") }}</EcText>
@@ -117,7 +117,7 @@
           <EcBox class="w-1/2">
             <!-- label and add button -->
             <EcFlex class="mb-3">
-              <EcLabel class="text-sm mb-4">{{ $t("dependencyScenario.title.upstreamDependencies") }}</EcLabel>
+              <EcLabel class="text-base font-medium mb-4">{{ $t("dependencyScenario.title.upstreamDependencies") }}</EcLabel>
               <!-- <EcButton
                 variant="primary-rounded"
                 class="h-6 ml-2"
@@ -167,7 +167,7 @@
           <EcBox class="w-1/2">
             <!-- label and add button -->
             <EcFlex class="mb-3">
-              <EcLabel class="text-sm mb-4">{{ $t("dependencyScenario.title.downstreamDependencies") }}</EcLabel>
+              <EcLabel class="text-base font-medium mb-4">{{ $t("dependencyScenario.title.downstreamDependencies") }}</EcLabel>
               <!-- <EcButton
                 variant="primary-rounded"
                 class="h-6 ml-2"

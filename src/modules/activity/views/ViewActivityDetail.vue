@@ -108,7 +108,7 @@
       <!-- Roles select -->
       <EcBox class="w-full mb-8">
         <EcFlex class="items-center">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.roles") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.roles") }}</EcLabel>
           <!-- Add button -->
           <EcButton
             v-if="form.roles.length < roles.length"
@@ -149,7 +149,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.roles.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base font-medium text-cError-500 text-left"
               v-for="error in v$.form.roles.$each.$response.$errors[index].uid"
               :key="error"
             >
@@ -164,7 +164,7 @@
       <!-- Alternative roles select -->
       <EcBox class="w-full mb-8" v-if="filteredAlternativeRoles.length > 0">
         <EcFlex class="items-center">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.alternative_roles") }}</EcLabel>
           <!-- Add button -->
           <EcButton
             v-if="form.alternative_roles.length < filteredAlternativeRoles.length"
@@ -209,7 +209,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.alternative_roles.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base text-cError-500 text-left"
               v-for="error in v$.form.alternative_roles.$each.$response.$errors[index].uid"
               :key="error"
             >
@@ -255,7 +255,7 @@
       <!-- Utilities -->
       <EcBox class="w-full mb-8">
         <EcFlex class="items-center">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.utilities") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.utilities") }}</EcLabel>
           <!-- Add button -->
           <EcButton
             v-if="form.utilities.length < utilities.length"
@@ -300,7 +300,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.utilities.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base text-cError-500 text-left"
               v-for="error in v$.form.utilities.$each.$response.$errors[index].uid"
               :key="error"
             >

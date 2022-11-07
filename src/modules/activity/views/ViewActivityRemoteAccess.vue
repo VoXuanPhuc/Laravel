@@ -20,14 +20,14 @@
           v-tooltip="{ text: 'Cancel doing activity' }"
           @click="handleOpenCancelModal"
         >
-          <EcIcon class="text-sm text-cError-500" icon="X" />
+          <EcIcon class="text-base text-cError-500" icon="X" />
         </EcButton>
       </EcFlex>
 
       <!-- Remote factors -->
       <EcBox class="w-full mb-8">
         <EcFlex class="items-center">
-          <EcLabel class="text-sm"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
+          <EcLabel class="text-base font-medium"> {{ $t("activity.labels.enableRemote") }}</EcLabel>
           <!-- Add button -->
           <EcButton
             v-if="form.remote_access_factors.length < remoteAccessFactors.length"
@@ -71,7 +71,7 @@
           <!-- Error message -->
           <EcBox v-if="v$.form.remote_access_factors.$errors?.length > 0">
             <EcText
-              class="text-sm text-cError-500 text-left"
+              class="text-base text-cError-500 text-left"
               v-for="error in v$.form.remote_access_factors.$each.$response.$errors[index].uid"
               :key="error"
             >
