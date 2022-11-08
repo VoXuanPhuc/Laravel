@@ -96,4 +96,10 @@ class CognitoUserRepository extends CognitoIdentityBaseRepository implements Use
     {
         return $this->find( $email, $column )->getLinkedUser();
     }
+
+
+    public function reinviteUser($id)
+    {
+        return $this->cognitoUserAdminService->adminReinviteUser($id);
+    }
 }

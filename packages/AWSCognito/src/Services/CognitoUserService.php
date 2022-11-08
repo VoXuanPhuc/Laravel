@@ -194,6 +194,11 @@ class CognitoUserService extends CognitoBaseService
             $authResult = $result->get('AuthenticationResult');
 
             if( $authResult ) {
+                /**
+                 * @var CognitoAdminService $cognitoAdminService
+                 */
+                $cognitoAdminService = app(CognitoAdminService::class);
+                $cognitoAdminService->adminVerifyUserEmail($data['username']);
                 return (new TokenDTO())
                     ->accessToken( $authResult['AccessToken'] )
                     ->expiresIn( $authResult['ExpiresIn'] )

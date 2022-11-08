@@ -18,7 +18,6 @@ class UpdateSupplierRequest extends FormRequest
             'address' => 'string|max:255',
             'description' => 'string|max:1023',
             'email' => 'email|max:255',
-            'fax' => 'string|max:255',
             'phone_number' => 'string|max:15',
             'is_active' => 'required|boolean',
             'categories' => ['array', app(SupplierCategoryDataValidation::class)],

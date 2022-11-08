@@ -4,6 +4,7 @@ namespace Encoda\Identity\Http\Controllers;
 
 use Encoda\Identity\Contracts\UserContract;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
+use Encoda\Identity\Http\Requests\User\ReinviteUserRequest;
 use Encoda\Identity\Http\Requests\User\UpdateUserRequest;
 use Encoda\Identity\Services\Interfaces\AdminUserServiceInterface;
 use Encoda\Identity\Services\Interfaces\UserServiceInterface;
@@ -67,8 +68,20 @@ class UserController extends Controller
         return $this->userService->deleteUser( $id );
     }
 
-    public function confirmSignup( Request $request ) {
+    public function confirmSignup( Request $request )
+    {
         return $this->userService->confirmSignup( $request );
+    }
+
+    /**
+     * @param ReinviteUserRequest $request
+     * @param string              $id
+     *
+     * @return mixed
+     */
+    public function reinvite(ReinviteUserRequest $request,string $id)
+    {
+        return $this->userService->reinviteUser($id);
     }
 
 }

@@ -5,6 +5,7 @@ use Encoda\Auth\Exceptions\UserNotFoundException;
 use Encoda\AWSCognito\DTO\AuthChallengeDTO;
 use Encoda\AWSCognito\DTO\TokenDTO;
 use Encoda\AWSCognito\Services\CognitoUserService;
+use Encoda\Identity\Http\Requests\User\ReinviteUserRequest;
 use Encoda\Identity\Http\Requests\User\UpdateUserRequest;
 use Encoda\Identity\Http\Requests\User\CreateUserRequest;
 use Encoda\Identity\Repositories\Interfaces\UserRepositoryInterface;
@@ -83,5 +84,16 @@ class UserService implements UserServiceInterface
     public function authenticate($username, $password)
     {
        return $this->cognitoUserService->authenticate( $username, $password );
+    }
+
+    /**
+     * @param ReinviteUserRequest $request
+     * @param string              $id
+     *
+     * @return mixed
+     */
+    public function reinviteUser(string $id)
+    {
+        return $this->userRepository->reinviteUser($id);
     }
 }

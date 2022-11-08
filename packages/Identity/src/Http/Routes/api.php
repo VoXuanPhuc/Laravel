@@ -40,6 +40,12 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware' => 'auth'] , functi
         'uses' =>  UserController::class. '@update'
     ]);
 
+    //Reinvite user
+    Route::post('/users/{id}/reinvite', [
+        'as' => 'users.reinvite',
+        'uses' =>  UserController::class. '@reinvite'
+    ]);
+
     //Delete group
     Route::delete( '/users/{id}', [
         'as' => 'users.delete',

@@ -197,4 +197,71 @@ class CognitoAdminService extends CognitoBaseService
         }
         return $randomString;
     }
+
+    /**
+     * @param $username
+     *
+     * @return mixed|null
+     */
+    public function adminVerifyUserEmail($username)
+    {
+
+        $transformedAttributes = [
+            [
+                'Name' => 'email_verified',
+                'Value' => 'true',
+            ],
+        ];
+
+        $result = $this->cognitoClient->getClient()->adminUpdateUserAttributes(
+            [
+                'UserAttributes' => $transformedAttributes,
+                'Username' => $username,
+                'UserPoolId' => $this->cognitoClient->getUserPoolId(),
+            ]
+        );
+
+        return $result->get('@metadata');
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function adminReinviteUser($id)
+    {
+        $tempPassword = $this->generateTempPassword();
+        $cognitoUser = $this->adminGetUser($id);
+        if($cognitoUser->status !== CognitoErrorCode::FORCE_PASSWORD_STATUS){
+            throw new BadRequestException(__('auth::app.reinvite.wrong_status'));
+        }
+        try {
+            $result = $this->cognitoClient->getClient()->adminCreateUser(
+                [
+                    'Username' => $cognitoUser->username,
+                    'UserPoolId' => $this->cognitoClient->getUserPoolId(),
+                    'TemporaryPassword' => $tempPassword,
+                    'MessageAction' => "RESEND",
+                ]
+            );
+        }
+        catch ( CognitoIdentityProviderException $e ) {
+
+            Log::error($e->getMessage());
+            switch ( $e->getAwsErrorCode() )
+            {
+                case CognitoErrorCode::USERNAME_EXISTS:
+                    throw new BadRequestException('Selected username is existed');
+
+                default:
+                    throw new Exception('Unable to process request');
+            }
+
+        }
+
+        $cognitoUser = CognitoUser::transformFromAdminCreateUser($result->get('User') );
+        $cognitoUser->password = $tempPassword;
+
+
+        return $cognitoUser;
+    }
 }
