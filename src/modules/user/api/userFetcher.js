@@ -24,3 +24,7 @@ export const updateUser = async (userId, payload) => {
 export const assignRole = async (userId, payload) => {
   return fetcher.patch(`/identity/api/v1/users/${userId}/roles`, payload)
 }
+
+export const reinviteUser = async (userId) => {
+  return fetcher.post(`/identity/api/v1/users/${userId}/reinvite`)
+}

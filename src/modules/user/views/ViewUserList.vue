@@ -128,7 +128,7 @@ export default {
     const totalItems = 3
     const currentPage = 1
 
-    const { fetchUserList, searchQuery, entityName, permissionGroup } = useUserList()
+    const { fetchUserList, reinviteUser, searchQuery, entityName, permissionGroup } = useUserList()
 
     return {
       globalStore,
@@ -139,6 +139,7 @@ export default {
       entityName,
       totalItems,
       permissionGroup,
+      reinviteUser,
     }
   },
   data() {
@@ -267,13 +268,7 @@ export default {
     },
 
     async handleClickReinvite(item) {
-      // const clientId = this.clientId
-      // const variables = {
-      //   clientId,
-      //   loginId: item.id,
-      // }
-      // const { error } = await apiResendConfirmationEmail({ variables, fetcher })
-      const error = null
+      const { error } = await this.reinviteUser(item.id)
       if (error) {
         handleErrorForUser({ error, $t: this.$t })
       } else {

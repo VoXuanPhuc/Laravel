@@ -47,8 +47,24 @@ export function useUserList() {
     }
   }
 
+  // Fetch user lists
+  async function reinviteUser(id) {
+    try {
+      const { data } = await api.reinviteUser(id)
+
+      if (!data || data.error) {
+        handleErrorForUser({ error: data?.error, $t: t })
+      }
+
+      return data
+    } catch (error) {
+      globalStore.addErrorToastMessage(error ? error?.message : this.$t("user.errors.listUser"))
+    }
+  }
+
   return {
     fetchUserList,
+    reinviteUser,
     searchQuery,
     t,
     totalItems,
