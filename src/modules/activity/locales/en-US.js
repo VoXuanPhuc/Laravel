@@ -12,6 +12,10 @@ export default {
     cfDeleteNote2: "This action cannot be reverted. The record will be deleted permanently.",
     optional: "Optional",
     context: "Context",
+    // Delete
+    actionCannotBeRevert: "This action cannot be reverted. The record will be deleted permanently.",
+    confirmDeleteQuestion: "This action cannot be reverted. Are you sure you want to delete this activity?",
+    confirmDeleteAction: "If so, type the activity name into the box below to confirm",
 
     labels: {
       businessUnit: "Business Unit",

@@ -71,10 +71,28 @@ export function useActivityList() {
     }
   }
 
+  /**
+   *
+   * @param {*} uid
+   * @returns
+   */
+  const deletePermanentActivity = async (uid) => {
+    try {
+      const { data } = await api.permanentDelete(uid)
+
+      globalStore.addSuccessToastMessage(t("activity.messages.deleteSuccess"))
+
+      return data
+    } catch (error) {
+      globalStore.addErrorToastMessage(error?.message)
+    }
+  }
+
   return {
     getActivityList,
     downloadActivities,
     fetchActivityListByDivisionUid,
+    deletePermanentActivity,
     activities,
     t,
     totalItems,

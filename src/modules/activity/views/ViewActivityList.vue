@@ -53,7 +53,7 @@
         <EcBox></EcBox>
         <EcButton
           class="mb-3 lg:mb-0"
-          :iconPrefix="exportAcctivityIcon"
+          :iconPrefix="exportActivityIcon"
           variant="primary-sm"
           @click="handleClickDownloadActivities"
         >
@@ -129,7 +129,10 @@
                   <EcText class="font-medium">{{ $t("activity.buttons.edit") }}</EcText>
                 </EcFlex>
                 <!-- Delete action -->
-                <EcFlex class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100">
+                <EcFlex
+                  @click="handleOpenDeleteModal(item.uid, item.name)"
+                  class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100"
+                >
                   <EcIcon class="mr-3" icon="X" />
                   <EcText class="font-medium">{{ $t("activity.buttons.delete") }}</EcText>
                 </EcFlex>
@@ -143,6 +146,53 @@
       <RPaginationStatus :currentPage="currentPage" :limit="limit" :totalCount="totalItems" class="mb-4 sm:mb-0" />
       <RPagination v-model="currentPage" :itemPerPage="limit" :totalItems="totalItems" @input="setPage($event)" />
     </EcFlex>
+
+    <!-- Modals -->
+    <teleport to="#layer1">
+      <!-- Modal Delete -->
+      <EcModalSimple :isVisible="isModalDeleteOpen" variant="center-3xl" @overlay-click="handleCloseDeleteModal">
+        <EcBox class="text-center">
+          <EcFlex class="justify-center">
+            <EcIcon class="text-cError-500" width="4rem" height="4rem" icon="TrashAlt" />
+          </EcFlex>
+
+          <!-- Messages -->
+          <EcBox>
+            <EcHeadline as="h2" variant="h2" class="text-cError-500 text-4xl">
+              {{ $t("activity.confirmToDelete") }}
+            </EcHeadline>
+            <!-- Org name -->
+            <EcText class="text-lg font-semibold">
+              {{ this.activityNameDelete }}
+            </EcText>
+            <EcText class="text-c0-500 mt-4">
+              {{ $t("activity.confirmDeleteQuestion") }}
+            </EcText>
+            <EcText class="text-c0-500 mt-2">
+              {{ $t("activity.confirmDeleteAction") }}
+            </EcText>
+          </EcBox>
+
+          <!-- Confirm Org name -->
+          <EcBox class="mt-4">
+            <RFormInput componentName="EcInputText" v-model="confirmedActivityNameDelete"></RFormInput>
+          </EcBox>
+
+          <!-- Actions -->
+          <EcFlex v-if="!isDeleteLoading" class="justify-center mt-10">
+            <EcButton v-if="isMatchedDeleteActivityName" variant="warning" @click="handleDeleteActivity">
+              {{ $t("activity.buttons.delete") }}
+            </EcButton>
+            <EcButton class="ml-3" variant="tertiary-outline" @click="handleCloseDeleteModal">
+              {{ $t("activity.buttons.cancel") }}
+            </EcButton>
+          </EcFlex>
+          <EcFlex v-else class="items-center justify-center mt-10 h-10">
+            <EcSpinner type="dots" />
+          </EcFlex>
+        </EcBox>
+      </EcModalSimple>
+    </teleport>
   </RLayout>
 </template>
 
@@ -164,6 +214,7 @@ export default {
       getActivityList,
       downloadActivities,
       fetchActivityListByDivisionUid,
+      deletePermanentActivity,
       activities,
       t,
       totalItems,
@@ -183,6 +234,7 @@ export default {
       globalStore,
       getActivityList,
       downloadActivities,
+      deletePermanentActivity,
       activities,
       t,
       skip,
@@ -216,6 +268,11 @@ export default {
       // Search
       searchQuery: "",
       onFilter: "",
+      isModalDeleteOpen: false,
+      activityNameDelete: "",
+      activityUidDelete: "",
+      isDeleteLoading: false,
+      confirmedActivityNameDelete: "",
     }
   },
   mounted() {
@@ -227,7 +284,7 @@ export default {
     dateTimeFormat() {
       return this.globalStore.dateTimeFormat
     },
-    exportAcctivityIcon() {
+    exportActivityIcon() {
       return this.isDownloading ? "Spinner" : "DocumentDownload"
     },
 
@@ -237,6 +294,10 @@ export default {
 
     loadingBu() {
       return this.isBusinessUnitLoading ? this.$t("activity.placeholders.loading") : this.$t("activity.placeholders.bu")
+    },
+
+    isMatchedDeleteActivityName() {
+      return this.confirmedActivityNameDelete === this.activityNameDelete
     },
   },
   watch: {
@@ -354,6 +415,35 @@ export default {
       }
 
       this.isBusinessUnitLoading = false
+    },
+
+    // =========== Delete =========== \\
+
+    /**
+     * handle delete activity
+     * @param uid
+     */
+    async handleDeleteActivity() {
+      this.isDeleteLoading = true
+      await this.deletePermanentActivity(this.activityUidDelete)
+      await this.fetchActivities()
+      this.handleCloseDeleteModal()
+      this.isDeleteLoading = false
+    },
+
+    /** Open delete modal */
+    handleOpenDeleteModal(activityUid, activityName) {
+      this.activityNameDelete = activityName
+      this.activityUidDelete = activityUid
+      this.isModalDeleteOpen = true
+    },
+
+    /** Close delete modal */
+    handleCloseDeleteModal() {
+      this.isModalDeleteOpen = false
+      this.confirmedActivityNameDelete = ""
+      this.activityNameDelete = ""
+      this.activityUidDelete = ""
     },
   },
   components: { EcBox },
