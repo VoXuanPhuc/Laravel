@@ -5,6 +5,7 @@
 
 
 use Encoda\Notification\Http\Controllers\DashboardNotificationController;
+use Encoda\Notification\Http\Controllers\EmailTemplateController;
 use Encoda\Notification\Http\Controllers\EventNotificationController;
 use Encoda\Notification\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,10 @@ Route::group(['prefix' => '/identity/api/v1/', 'middleware' => 'auth'], function
         Route::get('/configs', [
             'as'   => 'event-notifications.configs',
             'uses' => EventNotificationController::class . '@configs'
+        ]);
+        Route::get('/configs/{module}', [
+            'as'   => 'event-notifications.configs',
+            'uses' => EventNotificationController::class . '@configByModule'
         ]);
         Route::get('/', [
             'as'   => 'event-notifications.list',
@@ -57,6 +62,35 @@ Route::group(['prefix' => '/identity/api/v1/', 'middleware' => 'auth'], function
             'as'   => 'notifications.dashboard',
             'uses' => DashboardNotificationController::class . '@index'
         ]);
+
+    });
+
+    Route::group(['prefix' => '/email-templates'], function () {
+
+        Route::get('/', [
+            'as'   => 'email-templates.index',
+            'uses' => EmailTemplateController::class . '@index'
+        ]);
+
+        Route::get('/{uid}', [
+            'as'   => 'email-templates.detail',
+            'uses' => EmailTemplateController::class . '@detail'
+        ]);
+
+        Route::post('/', [
+            'as'   => 'email-templates.create',
+            'uses' => EmailTemplateController::class . '@create'
+        ]);
+        Route::put('/{uid}', [
+            'as'   => 'email-templates.update',
+            'uses' => EmailTemplateController::class . '@update'
+        ]);
+
+        Route::delete('/{uid}', [
+            'as'   => 'email-templates.delete',
+            'uses' => EmailTemplateController::class . '@delete'
+        ]);
+
 
     });
 });

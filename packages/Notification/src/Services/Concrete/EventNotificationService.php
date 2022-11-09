@@ -2,16 +2,21 @@
 
 namespace Encoda\Notification\Services\Concrete;
 
+use Encoda\Activity\Models\Activity;
+use Encoda\Activity\Models\Equipment;
 use Encoda\Core\Exceptions\BaseException;
 use Encoda\Core\Exceptions\ForbiddenHttpException;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Exceptions\ServerErrorException;
+use Encoda\Core\Helpers\FileHelper;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
+use Encoda\EDocs\Models\Document;
 use Encoda\EDocs\Repositories\Interfaces\DocumentRepositoryInterface;
 use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Encoda\Identity\Models\Database\User;
 use Encoda\Identity\Repositories\Concrete\Database\UserRepository;
+use Encoda\Notification\DTOs\EventNotificationModuleConfigDTO;
 use Encoda\Notification\DTOs\EventNotificationSettingDTO;
 use Encoda\Notification\Enums\EventNotificationStatusEnum;
 use Encoda\Notification\Http\Requests\EventNotification\CreateEventNotificationRequest;
@@ -25,9 +30,15 @@ use Encoda\Notification\Enums\EventNotificationMethodEnum;
 use Encoda\Notification\Enums\EventNotificationRuleActionEnum;
 use Encoda\Notification\Enums\EventNotificationRuleModelEnum;
 use Encoda\Notification\Enums\EventNotificationTypeEnum;
+use Encoda\Organization\Models\BusinessUnit;
+use Encoda\Organization\Models\Division;
+use Encoda\Supplier\Models\Supplier;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
@@ -69,6 +80,38 @@ class EventNotificationService implements EventNotificationServiceInterface
 
 
         return $eventNotificationSettingDTO;
+    }
+
+    public function buildConfigByModule(string $module)
+    {
+        Validator::make([
+            'module' => $module
+        ] ,[
+            'module' => [Rule::in(values: array_column(EventNotificationRuleModelEnum::cases(), 'value'))],
+        ])->validate();
+        $eventNotificationModuleConfigDTO = new EventNotificationModuleConfigDTO();
+        $eventNotificationModuleConfigDTO->replacements = [
+            call_user_func([$this->getModelFromEventNotificationEnum(EventNotificationRuleModelEnum::tryFrom($module)), 'getModelAllowedAttribute'])
+        ];
+        return $eventNotificationModuleConfigDTO;
+    }
+
+    /**
+     * @param EventNotificationRuleModelEnum $eventNotificationRuleModelEnum
+     *
+     * @return string
+     */
+    public function getModelFromEventNotificationEnum(EventNotificationRuleModelEnum $eventNotificationRuleModelEnum): string
+    {
+        return match ($eventNotificationRuleModelEnum) {
+            EventNotificationRuleModelEnum::USER => User::class,
+            EventNotificationRuleModelEnum::ACTIVITY => Activity::class,
+            EventNotificationRuleModelEnum::BUSINESS_UNIT => BusinessUnit::class,
+            EventNotificationRuleModelEnum::DIVISION => Division::class,
+            EventNotificationRuleModelEnum::EQUIPMENT => Equipment::class,
+            EventNotificationRuleModelEnum::SUPPLIER => Supplier::class,
+        };
+
     }
 
     /**
@@ -199,6 +242,7 @@ class EventNotificationService implements EventNotificationServiceInterface
             DB::commit();
 
         } catch (BaseException $e) {
+            DB::rollBack();
             throw $e;
         } catch (Throwable $e) {
             DB::rollBack();
@@ -280,6 +324,7 @@ class EventNotificationService implements EventNotificationServiceInterface
             DB::commit();
 
         } catch (BaseException $e) {
+            DB::rollBack();
             throw $e;
         } catch (Throwable $e) {
             DB::rollBack();

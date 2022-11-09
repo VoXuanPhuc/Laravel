@@ -22,7 +22,7 @@ class CustomDbChannel
          * @var Model|null $object
          */
         $object = $notification->additionalData['object'] ?? null;
-        return $notifiable->routeNotificationFor('database')->create([
+        return $notifiable->routeNotificationFor('customDatabase')->create([
             'id' => $notification->id,
 
             //customize here

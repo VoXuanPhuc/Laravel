@@ -31,6 +31,14 @@ class EventNotificationController extends Controller
     /**
      * @return mixed
      */
+    public function configByModule(string $module)
+    {
+        return $this->eventNotificationService->buildConfigByModule($module);
+    }
+
+    /**
+     * @return mixed
+     */
     public function list()
     {
         return $this->eventNotificationService->list();

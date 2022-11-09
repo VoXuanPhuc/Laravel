@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Throwable;
 
 class DocumentService implements DocumentServiceInterface
@@ -87,9 +88,40 @@ class DocumentService implements DocumentServiceInterface
         }
         return 'organization/' .  tenant()->code . '/' . $path;
     }
+
+    /**
+     * @param $uid
+     *
+     * @return mixed
+     * @throws NotFoundExceptionAlias
+     */
     public function delete($uid)
     {
         $document = $this->getDocument($uid);
         return $document->delete();
     }
+
+    /**
+     * @param Document $document
+     *
+     * @return bool|Document
+     */
+    public function cloneDocument(Document $document)
+    {
+        //Generate clone document path
+        $fileName = basename($document->path);
+        $newFileName = FileHelper::generateHashNameString(null, pathinfo(basename($document->path),PATHINFO_EXTENSION) );
+        $newPath = str_replace($fileName, $newFileName, $document->path);
+        //Duplicate file
+        if(Storage::copy($document->path, $newPath)){
+            //Clone document
+            $newDocument = $document->replicate();
+            $newDocument->path = $newPath;
+            $newDocument->uid = Str::uuid();
+            $newDocument->save();
+            return $newDocument->refresh();
+        }
+        return false;
+    }
+
 }

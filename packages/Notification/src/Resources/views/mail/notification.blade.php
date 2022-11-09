@@ -1,4 +1,4 @@
 @extends('notification::layouts.email')
 @section('content')
-    {{ $data }}
+    {!! $data !!}
 @endsection

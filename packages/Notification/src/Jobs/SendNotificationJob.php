@@ -48,7 +48,12 @@ class SendNotificationJob extends Job
 
             $this->eventNotification->load(['owner', 'users']);
             $attachments = $this->buildAttachments();
-            foreach ($this->eventNotification->users as $user) {
+            if($this->eventNotification->all_user){
+                $users = User::query()->get();
+            }else{
+                $users = $this->eventNotification->users;
+            }
+            foreach ($users as $user) {
                 /**
                  * @var User $user
                  */

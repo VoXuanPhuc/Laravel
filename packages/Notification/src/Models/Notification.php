@@ -10,20 +10,52 @@ use Encoda\Core\Models\Model;
  */
 class Notification extends Model
 {
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * @var string[]
+     */
     protected $hidden = [
         'id',
         'notifiable_id',
     ];
 
+    /**
+     * @var string[]
+     */
     protected $appends = [
         'time',
     ];
 
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var string
+     */
     protected $table = 'notifications';
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
-        'pinned' => 'boolean'
+        'pinned' => 'boolean',
+        'read_at' => 'datetime',
+
     ];
 
     /**
@@ -54,5 +86,15 @@ class Notification extends Model
             return 'Yesterday';
         }
         return "{$diff->days} days ago";
+    }
+
+    /**
+     * Get the notifiable entity that the notification belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function notifiable()
+    {
+        return $this->morphTo();
     }
 }

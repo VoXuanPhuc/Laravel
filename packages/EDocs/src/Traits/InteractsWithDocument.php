@@ -4,8 +4,10 @@ namespace Encoda\EDocs\Traits;
 
 use Encoda\Core\Helpers\ObjectHelper;
 use Encoda\EDocs\Models\Document;
+use Encoda\EDocs\Services\Interfaces\DocumentServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Comment\Doc;
 
 trait InteractsWithDocument
@@ -37,9 +39,16 @@ trait InteractsWithDocument
             }
             if($document instanceof Document)
             {
-                $document->type = $type;
-                $document->model()->associate($this);
-                $document->save();
+                if($document->model && ($newDocument = app(DocumentServiceInterface::class)->cloneDocument($document))){
+                    $newDocument->type = $type;
+                    $newDocument->model()->associate($this);
+                    $newDocument->save();
+                }else{
+                    $document->type = $type;
+                    $document->model()->associate($this);
+                    $document->save();
+                }
+
             }
         });
     }

@@ -48,14 +48,14 @@ class FileHelper
      * @param string $defaultExt
      * @return string
      */
-    private static function generateHashNameString($file, string $defaultExt = 'txt' ): string
+    public static function generateHashNameString($file, string $defaultExt = 'txt' ): string
     {
 
         $hash =  Str::random(40);
 
-        $originalExt = $file->getClientOriginalExtension() ?: $defaultExt;
+        $originalExt = $file?->getClientOriginalExtension() ?: $defaultExt;
 
-        $extension = '.' . $originalExt;
+        $extension = $originalExt === "" ? "" : '.' . $originalExt;
 
         return time() . $hash . $extension;
 

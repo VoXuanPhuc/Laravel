@@ -10,6 +10,7 @@ use Encoda\Notification\Models\EventNotification;
 interface EventNotificationServiceInterface
 {
     public function buildConfigs();
+    public function buildConfigByModule(string $module);
     public function list();
     public function getEventNotification(string $uid);
     public function create(CreateEventNotificationRequest $request);

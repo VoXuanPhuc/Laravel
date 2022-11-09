@@ -13,6 +13,8 @@ use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
 use Encoda\EDocs\Traits\InteractsWithDocument;
+use Encoda\Identity\Models\Database\User;
+use Encoda\Notification\Models\EmailTemplate;
 use Encoda\Notification\Models\EventNotification;
 use Encoda\Resource\Models\Resource;
 use Encoda\Resource\Models\ResourceCategory;
@@ -234,5 +236,10 @@ class Organization extends Tenant
     public function eventNotifications(): HasMany
     {
         return $this->hasMany(EventNotification::class);
+    }
+
+    public function emailTemplates(): HasMany
+    {
+        return $this->hasMany(EmailTemplate::class);
     }
 }

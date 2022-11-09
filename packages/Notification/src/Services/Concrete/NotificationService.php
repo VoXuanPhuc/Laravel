@@ -46,8 +46,12 @@ class NotificationService implements NotificationServiceInterface
     public function allNotifications()
     {
         $user = auth()->user();
-
-        return $user->pinnedNotifications;
+        $pinnedNotifications = $user->pinnedNotifications;
+        $pinnedNotifications->map(function ($item){
+            $item->data = stripslashes($item->data);
+            return $item;
+        });
+        return $pinnedNotifications;
     }
 
     /**
