@@ -11,7 +11,7 @@ export const createNewActivity = async (payload) => {
  * @returns
  */
 export const fetchActivity = async (uid, relations = []) => {
-  var query = new URLSearchParams()
+  const query = new URLSearchParams()
 
   query.append(
     "relations",
@@ -51,6 +51,10 @@ export const updateApplicationAdnEquipment = async (payload, uid) => {
   return fetcher.put(`identity/api/v1/activities/${uid}/applications-and-equipments`, payload)
 }
 
+export const updateDependencyAndSupplier = async (payload, uid) => {
+  return fetcher.put(`identity/api/v1/activities/${uid}/dependencies-and-suppliers`, payload)
+}
+
 /**
  *
  * Get list activity
@@ -65,7 +69,7 @@ export const fetchActivities = async () => {
  * @returns
  */
 export const downloadActivities = async (divisionUid, businessUnitUid) => {
-  var query = new URLSearchParams()
+  const query = new URLSearchParams()
   query.append("divisionUid", divisionUid)
   query.append("businessUnitUid", businessUnitUid)
 

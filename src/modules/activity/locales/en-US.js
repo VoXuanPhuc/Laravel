@@ -35,6 +35,8 @@ export default {
       enableRemote: "What enables remote access?",
       unableEnableRemote: "If unable to deliver remotely, what sites / buildings are required?",
       software: "What applications or software are required?",
+      dependencies: "Internal Dependencies outside of your area",
+      suppliers: "Critical Suppliers",
       dataStorage: "IT Data Storage",
       data: "Data",
       storageLocation: "Storage location",
@@ -68,6 +70,7 @@ export default {
       software: "Software / Technology",
       tolerant: "Maximum Tolerable Period of Disruption (MTPD)",
       rto: "Recovery Time Objective (RTO)",
+      dependencies: "Internal Dependencies And Critical Suppliers",
       confirmToCancel: "Confirm to cancel",
       cancelQuestion: "Do you wish to cancel doing activity?",
     },
@@ -75,6 +78,7 @@ export default {
     messages: {
       updatedActivity: "Updated activity, redirect to activity list...",
       toNextStep: "Updated activity, redirect to next step...",
+      updatedActivityNext: "Updated activity, redirect to next step...",
       createSuccess: "Create activity successfully!",
       deleteSuccess: "Activity has been delete successfully!",
       code: "Code",
@@ -115,6 +119,10 @@ export default {
       tolerantTime:
         "If the disruption impact is dependent on the time of the week/month/year that the disruption occurs, please use ‘worst case’ scenario to assess MTPD and explain below",
       rtoPeriod: "If you are unsure, select the timeframe that is half the MTPD.",
+        moreDependency: "Add more dependency",
+        dependencyReload: "Reload dependencies list",
+        addSupplier: "Add supplier",
+        reloadSupplier: "Reload suppliers list",
     },
 
     tolerant: {

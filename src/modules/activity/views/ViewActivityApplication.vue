@@ -286,7 +286,7 @@ export default {
   },
   methods: {
     /**
-     * Creaate Activity
+     * Next to step 3
      */
     async handleClickNext() {
       this.v$.$touch()
@@ -295,9 +295,11 @@ export default {
       }
 
       const { uid } = this.$route.params
+
       this.isLoading = true
 
       this.form.step = this.STEP_APPLICATION
+
       const response = await this.updateApplicationAnEquipments(this.form, uid)
 
       if (response && response.uid) {
@@ -313,6 +315,13 @@ export default {
       goto("ViewActivityList")
     },
 
+
+      /**
+       * Redirect to activity tolerant
+       */
+      redirectToActivityDependencies() {
+          goto("ViewActivityTolerant")
+      },
     /**
      * Redirect to activity tolerant
      */

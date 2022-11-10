@@ -267,7 +267,7 @@ export default {
   },
   methods: {
     /**
-     * Creaate Activity
+     * Create Activity
      */
     async handleClickNext() {
       this.v$.$touch()
@@ -282,7 +282,7 @@ export default {
       const response = await this.updateApplicationAnEquipments(this.form, uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityTolerant, 1000)
+        setTimeout(this.redirectToActivityDependencies, 1000)
       }
       this.isLoading = false
     },
@@ -294,12 +294,13 @@ export default {
       goto("ViewActivityList")
     },
 
-    /**
-     * Redirect to activity tolerant
-     */
-    redirectToActivityTolerant() {
-      goto("ViewActivityUpdateTolerant")
-    },
+      /**
+       * Redirect to activity tolerant
+       */
+      redirectToActivityDependencies() {
+          goto("ViewUpdateActivityDependencies")
+      },
+
 
     // =========== APPLICATIONS ================ //
     /**

@@ -5,12 +5,14 @@ import ViewActivityRemoteAccess from "@/modules/activity/views/ViewActivityRemot
 import ViewActivityApplication from "@/modules/activity/views/ViewActivityApplication"
 import ViewActivityTolerant from "@/modules/activity/views/ViewActivityTolerant"
 import ViewActivityRTO from "@/modules/activity/views/ViewActivityRTO"
+import ViewActivityDependencies from "@/modules/activity/views/ViewActivityDependencies"
 
 // Update
 import ViewActivityUpdateRemoteAccess from "@/modules/activity/views/ViewActivityUpdateRemoteAccess"
 import ViewActivityUpdateApplication from "@/modules/activity/views/ViewActivityUpdateApplication"
 import ViewActivityUpdateTolerant from "@/modules/activity/views/ViewActivityUpdateTolerant"
 import ViewActivityUpdateRTO from "@/modules/activity/views/ViewActivityUpdateRTO"
+import ViewActivityUpdateDependencies from "@/modules/activity/views/ViewActivityUpdateDependencies"
 
 export default [
   {
@@ -110,6 +112,18 @@ export default [
     },
   },
 
+  {
+    path: "/activities/:uid/dependencies",
+    component: ViewActivityDependencies,
+    name: "ViewActivityDependencies",
+    props: true,
+    meta: {
+      title: "Internal Dependencies And Critical Suppliers",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
   // For update
 
   {
@@ -155,6 +169,18 @@ export default [
     props: true,
     meta: {
       title: "Update Activity RTO",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
+  {
+    path: "/activities/:uid/update-dependencies",
+    component: ViewActivityUpdateDependencies,
+    name: "ViewUpdateActivityDependencies",
+    props: true,
+    meta: {
+      title: "Update Internal Dependencies And Critical Suppliers",
       module: "activity",
       isPublic: true,
     },
