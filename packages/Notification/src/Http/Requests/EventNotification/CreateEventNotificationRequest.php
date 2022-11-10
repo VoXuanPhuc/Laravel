@@ -29,7 +29,7 @@ class CreateEventNotificationRequest extends FormRequest
             'data'           => 'required|string',
             'description'    => 'string',
             'pinned'         => 'required|boolean',
-            'dispatch_after' => 'after:now',
+            'dispatch_after' => 'after:now|nullable',
             'is_active'      => 'required|boolean',
             'all_user'       => 'filled|boolean',
             'methods'        => ['required', 'array'],
