@@ -194,4 +194,12 @@ class EmailTemplateService implements EmailTemplateServiceInterface
         $emailTemplate->clearDocumentCollection('attachments');
         return $emailTemplate->delete();
     }
+
+    /**
+     * @return mixed|void
+     */
+    public function all()
+    {
+        return $this->emailTemplateRepository->all(['uid','name']);
+    }
 }

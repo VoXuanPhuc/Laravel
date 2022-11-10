@@ -44,4 +44,10 @@ interface EmailTemplateServiceInterface
      * @return mixed
      */
     public function delete(string $uid);
+
+    /**
+     * Return all without pagination
+     * @return mixed
+     */
+    public function all();
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Encoda\Notification\Enums\EventNotificationStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -36,10 +37,10 @@ return new class extends Migration
                 $table->string('type');
                 $table->string('methods');
                 $table->text('data');
-                $table->text('description');
-                $table->boolean('pinned');
+                $table->text('description')->nullable();
+                $table->boolean('pinned')->nullable();
                 $table->dateTimeTz('dispatch_after')->nullable();
-                $table->string('status');
+                $table->string('status')->default( EventNotificationStatusEnum::NEW->value );
 
                 $table->foreignId('created_by')->nullable();
                 $table->foreign('created_by')
@@ -48,7 +49,7 @@ return new class extends Migration
                     ->nullOnDelete()
                     ->cascadeOnUpdate();
 
-                $table->boolean('is_active');
+                $table->boolean('is_active')->default( true );
                 $table->boolean('all_user')->default(false);
 
                 $table->softDeletesTz();

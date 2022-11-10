@@ -2,7 +2,9 @@
 
 namespace Encoda\Notification\Repositories\Interfaces;
 
-interface EmailTemplateRepositoryInterface
+use Encoda\Core\Interfaces\RepositoryInterface;
+
+interface EmailTemplateRepositoryInterface extends RepositoryInterface
 {
 
 }

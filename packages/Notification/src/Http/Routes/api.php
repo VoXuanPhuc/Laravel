@@ -65,11 +65,16 @@ Route::group(['prefix' => '/identity/api/v1/', 'middleware' => 'auth'], function
 
     });
 
-    Route::group(['prefix' => '/email-templates'], function () {
+    Route::group(['prefix' => '/notification-templates'], function () {
 
         Route::get('/', [
             'as'   => 'email-templates.index',
             'uses' => EmailTemplateController::class . '@index'
+        ]);
+
+        Route::get('/all', [
+            'as'   => 'email-templates.index',
+            'uses' => EmailTemplateController::class . '@all'
         ]);
 
         Route::get('/{uid}', [

@@ -46,6 +46,8 @@ class EventNotification extends Model
      * @var string[]
      */
     protected $casts = [
+        'pinned' => 'boolean',
+        'all_user' => 'boolean',
         'methods' => 'array',
         'status'  => EventNotificationStatusEnum::class,
         'type'    => EventNotificationTypeEnum::class,

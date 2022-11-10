@@ -30,7 +30,6 @@ class UpdateEventNotificationRequest extends FormRequest
             'description'    => 'string',
             'pinned'         => 'required|boolean',
             'dispatch_after' => 'after:now|nullable',
-            'is_active'      => 'required|boolean',
             'all_user'       => 'filled|boolean',
             'methods'        => ['required', 'array'],
             'methods.*'      => ['required',

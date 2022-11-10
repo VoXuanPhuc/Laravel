@@ -28,6 +28,14 @@ class EmailTemplateController extends Controller
         return $this->emailTemplateService->list();
     }
 
+  /**
+     * @return mixed
+     */
+    public function all()
+    {
+        return $this->emailTemplateService->all();
+    }
+
     /**
      * @param string $uid
      *
