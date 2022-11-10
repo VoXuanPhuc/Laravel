@@ -38,7 +38,7 @@ class UpdateEventNotificationRequest extends FormRequest
             ],
             'rules'          => ['array',
                                  Rule::requiredIf(request()->get('type') === EventNotificationTypeEnum::AUTO->value),
-                                 Rule::prohibitedIf(request()->get('type') === EventNotificationTypeEnum::MANUAL->value)],
+            ],
             'rules.*.model'  => ['string',
                                  Rule::requiredIf(request()->get('type') === EventNotificationTypeEnum::AUTO->value),
                                  Rule::in(values: array_column(EventNotificationRuleModelEnum::cases(), 'value'))
@@ -49,7 +49,6 @@ class UpdateEventNotificationRequest extends FormRequest
             ],
             'receivers'       => ['array',
                                  Rule::requiredIf(!request()->get('all_user')),
-                                 Rule::prohibitedIf(request()->get('all_user'))
             ],
             'receivers.*.uid' => [Rule::requiredIf(!request()->get('all_user')), 'string'],
             'attachments'    => ['array'],
