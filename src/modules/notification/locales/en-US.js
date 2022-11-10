@@ -51,8 +51,25 @@ export default {
       titleLogDetail: "Notification Log Detail",
     },
 
+    template: {
+      managedTemplates: "Managed Templates",
+      newTemplate: "New Template",
+      updateTemplate: "Update Template",
+      templateDetail: "Template Detail",
+
+      labels: {
+        name: "Name",
+        title: "Subject",
+        desc: "Description",
+      },
+      errors: {
+        contentRequired: "Notification content is required!",
+      },
+    },
+
     errors: {
       contentRequired: "Notification content is required!",
+      templateDetail: "Fetch template detail error",
     },
   },
 }

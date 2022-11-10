@@ -13,42 +13,42 @@
     <!-- Content -->
     <EcBox v-if="!isLoading" class="mt-8">
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">Name</EcLabel>
-        <EcText class="ml-2">{{ notification?.title }}</EcText>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">Name</EcLabel>
+        <EcText class="ml-2 text-base">{{ notification?.title }}</EcText>
       </EcFlex>
 
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">Type</EcLabel>
-        <EcText class="ml-2">{{ notification?.type }}</EcText>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">Type</EcLabel>
+        <EcText class="ml-2 text-base">{{ notification?.type }}</EcText>
       </EcFlex>
 
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">To</EcLabel>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">To</EcLabel>
         <EcBox class="ml-2">
-          <EcText>{{ notification?.notifiable?.name }}</EcText>
-          <EcText class="mt-1">{{ notification?.notifiable?.email }}</EcText>
+          <EcText class="text-base">{{ notification?.notifiable?.name }}</EcText>
+          <EcText class="mt-1 text-base">{{ notification?.notifiable?.email }}</EcText>
         </EcBox>
       </EcFlex>
 
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">Content</EcLabel>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">Content</EcLabel>
         <EcEditor class="ml-2" :modelValue="notification?.data" :disabled="true" />
       </EcFlex>
 
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">Sent</EcLabel>
-        <EcText class="ml-2">{{ notification?.created_at }}</EcText>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">Sent</EcLabel>
+        <EcText class="ml-2 text-base">{{ notification?.created_at }}</EcText>
       </EcFlex>
 
       <!-- Row -->
-      <EcFlex class="w-8/12 border-b border-c1-200 p-1">
-        <EcLabel class="w-24 border-r border-c1-200">Read At</EcLabel>
-        <EcText class="ml-2">{{ notification?.read_at }}</EcText>
+      <EcFlex class="w-10/12 border-b border-c1-200 p-1 hover:bg-c0-100 hover:cursor-pointer">
+        <EcLabel class="w-2/12 font-medium text-base">Read At</EcLabel>
+        <EcText class="ml-2 text-base">{{ notification?.read_at }}</EcText>
       </EcFlex>
     </EcBox>
 

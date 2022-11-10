@@ -24,7 +24,20 @@ export default {
       general: "General",
       eventNoti: "Event Notifications",
       mail: "Mail Settings",
-      notificationTemplates: "Nofitication Templates",
+      notificationTemplates: "Managed Templates",
+    },
+
+    mail: {
+      enabled: "Enable Organisation Email Settings",
+      yes: "Yes",
+      no: "No",
+      host: "Host",
+      port: "Port",
+      displayName: "Display Name",
+      fromAddress: "From Address",
+      toAddress: "To Address",
+      tls: "Enable StartTSL",
+      auth: "Enable Authentication",
     },
   },
 }

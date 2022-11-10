@@ -16,7 +16,7 @@ export function useSetting() {
       key: "notiTemplates",
       label: "setting.labels.notificationTemplates",
       icon: "Template",
-      routeName: "ViewNotificationTemplateList",
+      routeName: "ViewManagedTemplateList",
     },
     {
       key: "mail",

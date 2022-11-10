@@ -24,7 +24,7 @@
 
       <EcFlex :class="variantCls.logout" @click="handleClickLogout">
         <EcIcon icon="Logout" />
-        <EcText class="ml-2">Logout</EcText>
+        <EcText class="ml-2 text-base">Logout</EcText>
       </EcFlex>
 
       <!-- account tool box -->

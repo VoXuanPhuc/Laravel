@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n"
 import { required } from "@vuelidate/validators"
 import useVuelidate from "@vuelidate/core"
 
-export function useManagedTemplateDetail() {
+export function useManagedTemplateNew() {
   const globalStore = useGlobalStore()
   const { t } = useI18n()
 
@@ -23,41 +23,22 @@ export function useManagedTemplateDetail() {
   const v$ = useVuelidate(rules, { managedTemplate })
 
   /**
-   *
+   * Create Template
    * @returns
    */
-  const getManagedTemplateDetail = async (uid) => {
+  const createManagedTemplate = async (payload) => {
     try {
-      const { data } = await api.fetchTemplateDetail(uid)
+      const { data } = await api.createTemplate(payload)
 
       return data
     } catch (error) {
-      globalStore.addErrorToastMessage(error ? error?.message : t("notification.errors.templateDetail"))
-    }
-  }
-
-  /**
-   *
-   * @returns
-   */
-  const updateManagedTemplate = async (payload, uid) => {
-    try {
-      const { data } = await api.updateTemplate(payload, uid)
-
-      if (data) {
-        globalStore.addSuccessToastMessage("Updated")
-      }
-
-      return data
-    } catch (error) {
-      globalStore.addErrorToastMessage(error ? error?.message : t("notification.errors.update"))
+      globalStore.addErrorToastMessage(error ? error?.message : t("notification.errors.listTemplates"))
     }
   }
 
   return {
     managedTemplate,
     v$,
-    getManagedTemplateDetail,
-    updateManagedTemplate,
+    createManagedTemplate,
   }
 }

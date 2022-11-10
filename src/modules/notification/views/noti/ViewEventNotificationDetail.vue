@@ -224,7 +224,7 @@
           />
         </EcBox>
 
-        <EcSpinner v-if="isLoadingTemplateDetail" class="ml-2 mt-6" />
+        <EcSpinner v-if="isLoadingTemplateDetail || isLoadingTemplates" class="ml-2 mt-6" />
       </EcFlex>
 
       <!-- Content -->

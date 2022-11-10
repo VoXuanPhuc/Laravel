@@ -14,7 +14,7 @@
     <!-- Noti content -->
     <EcBox class="ml-3">
       <EcLabel class="font-semibold">{{ notification?.title }}</EcLabel>
-      <EcText class="mt-3 text-c3-100"> {{ notification?.data }} </EcText>
+      <EcText class="mt-3 text-base text-c3-100"> {{ notification?.content }} </EcText>
       <EcText class="mt-3 text-c3-100">{{ notification?.time }}</EcText>
     </EcBox>
   </EcFlex>

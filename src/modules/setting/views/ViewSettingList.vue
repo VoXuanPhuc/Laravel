@@ -1,5 +1,5 @@
 <template>
-  <RLayout :title="$t('setting.settings')" class="bg-c0-100">
+  <RLayout :title="$t('setting.settings')">
     <EcFlex class="mt-8 grid grild-cols-1 md:grid-cols-4 gap-3">
       <!-- Setting item -->
       <EcBox

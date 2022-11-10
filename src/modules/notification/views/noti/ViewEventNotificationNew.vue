@@ -219,7 +219,7 @@
           />
         </EcBox>
 
-        <EcSpinner v-if="isLoadingTemplateDetail" class="ml-2 mt-6" />
+        <EcSpinner v-if="isLoadingTemplateDetail || isLoadingTemplates" class="ml-2 mt-6" />
       </EcFlex>
 
       <!-- Content -->
@@ -478,7 +478,6 @@ export default {
       // Rule for auto
 
       if (this.isNotificationTypeAuto) {
-        debugger
         const rule = {
           model: this.eventNotification?.ruleModels?.value,
           action: this.eventNotification?.ruleActions?.value,
