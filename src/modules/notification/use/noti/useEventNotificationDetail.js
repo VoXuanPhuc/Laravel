@@ -68,7 +68,7 @@ export function useEventNotificationDetail() {
    */
   const updateEventNotification = async (payload, uid) => {
     try {
-      const { data } = await api.createEventNotification(payload, uid)
+      const { data } = await api.updateEventNotification(payload, uid)
 
       return data
     } catch (error) {
