@@ -40,6 +40,7 @@ class Notification extends Model
      */
     protected $appends = [
         'time',
+        'content',
     ];
 
     /**
@@ -89,6 +90,13 @@ class Notification extends Model
             return 'Yesterday';
         }
         return "{$diff->days} days ago";
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentAttribute() {
+        return strip_tags( $this->data );
     }
 
     /**
