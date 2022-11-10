@@ -421,7 +421,7 @@ export default {
       return this.receivers?.map((item) => {
         return {
           uid: item.id,
-          name: item.firstName,
+          name: [item.firstName, item.lastName].join(" "),
         }
       })
     },

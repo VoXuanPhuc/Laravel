@@ -83,7 +83,7 @@
                 <!-- Delete action -->
                 <EcFlex
                   class="items-center px-4 py-2 cursor-pointer text-cError-500 hover:bg-c0-100"
-                  @click="handleOpenDeleteModal(item.uid, item.name)"
+                  @click="handleOpenDeleteModal(item)"
                 >
                   <EcIcon class="mr-3" icon="X" />
                   <EcText class="font-medium">{{ $t("notification.buttons.delete") }}</EcText>
@@ -111,10 +111,21 @@
       />
     </EcFlex>
   </RLayout>
+
+  <teleport to="#layer1">
+    <ModalDeleteEventNotification
+      :isModalDeleteEventNotificationOpen="isModalDeleteEventNotificationOpen"
+      :eventNotification="toDeleteEventNofitication"
+      @handleCloseDeleteModal="handleCloseDeleteModal"
+      @handleDeleteCallback="handleDeleteCallback"
+    />
+  </teleport>
 </template>
+
 <script>
 import { goto } from "@/modules/core/composables"
 import { useGlobalStore } from "@/stores/global"
+import ModalDeleteEventNotification from "../../components/noti/ModalDeleteEventNotification.vue"
 import { useEventNotificationList } from "../../use/noti/useEventNotificationList"
 import EventNotificationSubMenu from "./EventNotificationSubMenu.vue"
 
@@ -142,6 +153,8 @@ export default {
       filters,
       currentPage: 1,
       isLoading: false,
+      isModalDeleteEventNotificationOpen: false,
+      toDeleteEventNofitication: {},
       headerData,
       recordLoading: [],
     }
@@ -216,6 +229,32 @@ export default {
         },
       })
     },
+
+    /**
+     * Open modal
+     * @param {*} item
+     */
+    handleOpenDeleteModal(item) {
+      this.isModalDeleteEventNotificationOpen = true
+      this.toDeleteEventNofitication = item
+    },
+
+    /**
+     *
+     * @param {*} item
+     */
+    handleCloseDeleteModal(item) {
+      this.isModalDeleteEventNotificationOpen = false
+      this.toDeleteEventNofitication = {}
+    },
+    /**
+     *
+     * @param {*} item
+     */
+    handleDeleteCallback() {
+      this.fetchEventNotificationTemplates()
+    },
+
     formatData() {},
   },
   watch: {
@@ -224,6 +263,6 @@ export default {
       this.fetchEventNotificationTemplates()
     },
   },
-  components: { EventNotificationSubMenu },
+  components: { EventNotificationSubMenu, ModalDeleteEventNotification },
 }
 </script>

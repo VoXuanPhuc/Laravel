@@ -70,9 +70,26 @@ export function useEventNotificationDetail() {
     try {
       const { data } = await api.updateEventNotification(payload, uid)
 
+      globalStore.addSuccessToastMessage("Updated")
       return data
     } catch (error) {
       globalStore.addErrorToastMessage(error ? error?.message : t("notification.errors.listTemplates"))
+    }
+  }
+
+  /**
+   *
+   * @param {*} filters
+   * @returns
+   */
+  const deleteEventNotification = async (uid) => {
+    try {
+      const { data } = await api.deleteEventNotification(uid)
+
+      globalStore.addSuccessToastMessage("Deleted")
+      return data
+    } catch (error) {
+      globalStore.addErrorToastMessage(error ? error?.message : t("notification.errors.deleteEventNoti"))
     }
   }
 
@@ -81,5 +98,6 @@ export function useEventNotificationDetail() {
     v$,
     getEventNotification,
     updateEventNotification,
+    deleteEventNotification,
   }
 }

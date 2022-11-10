@@ -22,6 +22,9 @@ export default {
       templates: "Templates",
       dispatchTime: "Dispatch After",
       sendAt: "Sent At",
+
+      confirmToDelete: "Confirm to Delete",
+      confirmDeleteQuestion: "Are you sure to delete this Event Notification?",
     },
 
     buttons: {
