@@ -374,8 +374,8 @@ module.exports = {
       DEFAULT: "1",
     },
     fontSize: {
-      xxs: "0.5rem",
-      xs: "0.625rem",
+      xxs: "0.65rem",
+      xs: "0.7rem",
       sm: "0.75rem",
       base: "0.875rem",
       lg: "1rem",

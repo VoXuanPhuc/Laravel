@@ -20,9 +20,9 @@
       @click="toggleCheckbox"
     >
       <slot v-if="checked">
-        <i v-html="assets.iconChecked" />
+        <i :class="assets.cls" v-html="assets.iconChecked" />
       </slot>
-      <i v-if="indeterminate && !checked" v-html="assets.iconIndeterminate" />
+      <i :class="assets.cls" v-if="indeterminate && !checked" v-html="assets.iconIndeterminate" />
     </div>
   </div>
 </template>

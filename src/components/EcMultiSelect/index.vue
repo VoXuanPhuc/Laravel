@@ -17,7 +17,11 @@
         :class="[variantCls.tag, tag?.tag_color || 'bg-c1-800', tag?.tag_text_color || 'text-cWhite']"
       >
         <span> {{ isGroupOptions ? tag?.type + ": " : "" }} {{ tag[nameKey] }}</span>
-        <span v-if="!isSingleSelect" class="cursor-pointer" :class="variantCls.tagRemove" @click.stop="removeTag(idx)"
+        <span
+          v-if="!isSingleSelect || (isSingleSelect && allowSelectNothing)"
+          class="cursor-pointer"
+          :class="variantCls.tagRemove"
+          @click.stop="removeTag(idx)"
           >&times;</span
         >
       </div>
@@ -154,6 +158,10 @@ export default {
       default: false,
     },
     isSingleSelect: {
+      type: Boolean,
+      default: false,
+    },
+    allowSelectNothing: {
       type: Boolean,
       default: false,
     },

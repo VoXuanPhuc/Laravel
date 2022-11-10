@@ -1913,6 +1913,13 @@
   dependencies:
     vue-demi "^0.13.11"
 
+"@vuepic/vue-datepicker@^3.5.3":
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/@vuepic/vue-datepicker/-/vue-datepicker-3.5.3.tgz#e671e7c93b8a93c3e647552b97e471e6fc6fa272"
+  integrity sha512-tyqnRDuqj02decCwzwGP7ht0erc33Ktcm8zyEx90C7Vt5Y4roq2CV21ovzmdRluUW8p/1abLcL7ZSqedWtAzKw==
+  dependencies:
+    date-fns "^2.29.3"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -3177,6 +3184,11 @@ dashdash@^1.12.0:
   integrity sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g==
   dependencies:
     assert-plus "^1.0.0"
+
+date-fns@^2.29.3:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
+  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 dayjs@^1.11.5:
   version "1.11.5"

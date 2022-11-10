@@ -9,7 +9,7 @@ export default {
       logout: "items-center ml-6 justify-center text-sm text-c3-100 hover:cursor-pointer",
       avatar: "w-5 h-5",
       menu_box: "absolute w-40 h-auto text-cBlack border border-c0-200 bg-cWhite shadow-lg mt-12 mr-1 z-20 rounded-md",
-      menu_item: "items-center w-full hover:bg-c1-100 hover:cursor-pointer p-3",
+      menu_item: "text-base items-center w-full hover:bg-c1-100 hover:cursor-pointer p-3",
     },
   },
 }

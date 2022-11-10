@@ -13,7 +13,7 @@
       </EcFlex>
 
       <!-- Settings -->
-      <EcFlex :class="variantCls.settings">
+      <EcFlex :class="variantCls.settings" @click="handleClickSettings">
         <EcIcon icon="Cog" />
       </EcFlex>
 
@@ -32,13 +32,13 @@
         <EcBox v-if="isAccountBoxOpen" :class="variantCls.menu_box">
           <!-- Menu item -->
           <EcFlex :class="variantCls.menu_item">
-            <EcText class="font-semibold">Version: 1.0</EcText>
+            <EcText class="text-base font-semibold">Version: 1.0</EcText>
           </EcFlex>
 
           <!-- Menu item -->
           <EcFlex :class="variantCls.menu_item" @click="handleClickMyAccount">
             <EcIcon icon="User" width="20" height="20" class="text-cSuccess-600" />
-            <EcText class="ml-2">My account</EcText>
+            <EcText class="text-base ml-2">My account</EcText>
           </EcFlex>
         </EcBox>
       </Transition>
@@ -121,8 +121,15 @@ export default {
     /**
      * View Setting
      */
-    handleClickMyAccount() {
+    handleClickSettings() {
       goto("ViewSettingList")
+    },
+
+    /**
+     * View Profile
+     */
+    handleClickMyAccount() {
+      goto("ViewProfile")
     },
 
     /**

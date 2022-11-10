@@ -30,6 +30,8 @@ import EcNetwork from "@/components/EcNetwork"
 import EcCarousel from "@/components/EcCarousel"
 import EcPdfViewer from "@/components/EcPdfViewer"
 import EcImageViewer from "@/components/EcImageViewer"
+import EcEditor from "@/components/EcEditor"
+import EcDateTimePicker from "@/components/EcDateTimePicker"
 
 // Project components
 import RMessage from "@/modules/core/components/common/RMessage"
@@ -102,6 +104,8 @@ const baseComponents = {
   EcCarousel,
   EcPdfViewer,
   EcImageViewer,
+  EcEditor,
+  EcDateTimePicker,
 }
 
 const coreComponents = {

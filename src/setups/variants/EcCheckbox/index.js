@@ -4,11 +4,11 @@ export default {
     el: {
       root: "inline-block cursor-pointer",
       hiddenInput: "w-0 h-0 opacity-0 absolute",
-      checkbox: "flex items-center w-6 h-6 rounded border border-c1-200 cursor-pointer focus:outline-none",
-      checkboxChecked:
-        "text-pink-500 flex items-center w-6 h-6 rounded bg-pink-100 border border-c1-200 cursor-pointer focus:outline-none pl-1",
+      checkbox: "flex relative items-center w-6 h-6 rounded border border-c1-200 cursor-pointer focus:outline-none ",
+      checkboxChecked: "flex relative items-center w-6 h-6 rounded border border-c1-200 cursor-pointer focus:outline-none",
     },
     assets: {
+      cls: "absolute ml-1",
       iconChecked: "&#x2713;",
       iconIndeterminate: "&#8259;",
     },

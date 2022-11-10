@@ -2,7 +2,7 @@
   <EcFlex class="relative rounded-3xl border p-4 mt-8" :class="[border]">
     <EcBox class="absolute text-c1-200 right-0 mr-3 top-0 mt-3 hover:cursor-pointer">
       <!-- Close icon -->
-      <EcIcon v-if="!isLoading" icon="X" width="16" @click="handleReadNotification(notification.uid)" />
+      <EcIcon v-if="!isLoading" icon="X" width="16" @click="handleReadNotification(notification.id)" />
       <EcSpinner v-else />
     </EcBox>
 
