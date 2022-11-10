@@ -187,7 +187,7 @@
       </EcFlex>
 
       <!-- Dispatch Time -->
-      <EcFlex class="flex-wrap max-w-md items-center mb-8 w-full">
+      <EcFlex v-if="!isNotificationTypeAuto" class="flex-wrap max-w-md items-center mb-8 w-full">
         <EcBox class="w-full md:w-8/12">
           <!-- label -->
           <EcFlex>

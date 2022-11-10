@@ -6,7 +6,7 @@ export default {
       templateDetail: "Notification Detail",
     },
     labels: {
-      notiTemplates: "Event Notifications",
+      eventNotifications: "Event Notifications",
       name: "Name",
       type: "Type",
       methods: "Notify by methods",
@@ -21,6 +21,7 @@ export default {
       receivers: "Receivers",
       templates: "Templates",
       dispatchTime: "Dispatch After",
+      sendAt: "Sent At",
     },
 
     buttons: {
@@ -39,6 +40,17 @@ export default {
       pinNoti: "The notification will pinned in the receiver dashboard",
       allUser: "The notification will send to all users",
     },
+
+    tabs: {
+      manageEventNotifications: "Manage Event Notifications",
+      notificationLogs: "Notification Logs",
+    },
+
+    logs: {
+      title: "Notification Logs",
+      titleLogDetail: "Notification Log Detail",
+    },
+
     errors: {
       contentRequired: "Notification content is required!",
     },

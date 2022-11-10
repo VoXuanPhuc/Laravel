@@ -24,6 +24,7 @@ export default {
       general: "General",
       eventNoti: "Event Notifications",
       mail: "Mail Settings",
+      notificationTemplates: "Nofitication Templates",
     },
   },
 }

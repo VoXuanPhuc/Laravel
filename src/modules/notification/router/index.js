@@ -2,6 +2,10 @@ import ViewEventNotificationList from "@/modules/notification/views/noti/ViewEve
 import ViewEventNotificationNew from "@/modules/notification/views/noti/ViewEventNotificationNew"
 import ViewEventNotificationDetail from "@/modules/notification/views/noti/ViewEventNotificationDetail"
 
+// Logs
+import ViewNotificationLog from "@/modules/notification/views/log/ViewNotificationLog"
+import ViewNotificationLogDetail from "@/modules/notification/views/log/ViewNotificationLogDetail"
+
 export default [
   {
     path: "/event-notifications",
@@ -28,6 +32,26 @@ export default [
     props: true,
     meta: {
       module: "settings",
+    },
+  },
+
+  // Logs
+  {
+    path: "/notifications/logs",
+    component: ViewNotificationLog,
+    name: "ViewNotificationLog",
+    props: true,
+    meta: {
+      module: "notification",
+    },
+  },
+  {
+    path: "/notifications/logs/:uid",
+    component: ViewNotificationLogDetail,
+    name: "ViewNotificationLogDetail",
+    props: true,
+    meta: {
+      module: "notification",
     },
   },
 ]

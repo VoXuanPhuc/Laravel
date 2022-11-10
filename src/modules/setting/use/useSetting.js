@@ -7,10 +7,16 @@ export function useSetting() {
       routeName: "ViewGeneralSetting",
     },
     {
-      key: "notiTemplates",
+      key: "eventNoti",
       label: "setting.labels.eventNoti",
       icon: "Bell",
       routeName: "ViewEventNotificationList",
+    },
+    {
+      key: "notiTemplates",
+      label: "setting.labels.notificationTemplates",
+      icon: "Template",
+      routeName: "ViewNotificationTemplateList",
     },
     {
       key: "mail",

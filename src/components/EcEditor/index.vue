@@ -1,7 +1,7 @@
 <template>
   <EcBox>
     <EcLabel class="text-base font-medium mb-2">{{ label }}</EcLabel>
-    <Editor :apiKey="apiKey" :init="init" v-model="value" @change="handleContentChange" />
+    <Editor :apiKey="apiKey" :init="init" :disabled="disabled" v-model="value" @change="handleContentChange" />
   </EcBox>
 </template>
 
@@ -20,6 +20,10 @@ export default {
     },
     modelValue: {
       type: String,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

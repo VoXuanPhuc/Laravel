@@ -11,7 +11,7 @@
       >
         <EcFlex>
           <EcIcon :icon="settingItem.icon" />
-          <EcLabel class="ml-2">{{ $t(settingItem.label) }}</EcLabel>
+          <EcLabel class="ml-2 hover:cursor-pointer">{{ $t(settingItem.label) }}</EcLabel>
         </EcFlex>
       </EcBox>
       <!-- End item -->
