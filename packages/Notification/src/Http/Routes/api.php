@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
 
 Route::group(['prefix' => '/identity/api/v1/', 'middleware' => 'auth'], function () {
+
+    // Event notifications
     Route::group(['prefix' => '/event-notifications'], function () {
         Route::get('/configs', [
             'as'   => 'event-notifications.configs',
@@ -45,11 +47,18 @@ Route::group(['prefix' => '/identity/api/v1/', 'middleware' => 'auth'], function
         ]);
 
     });
+
+    // Notifications
     Route::group(['prefix' => '/notifications'], function () {
 
         Route::get('/', [
             'as'   => 'notifications.index',
             'uses' => NotificationController::class . '@index'
+        ]);
+
+        Route::get('/logs/{uid}', [
+            'as'   => 'notifications.detail',
+            'uses' => NotificationController::class . '@detail'
         ]);
 
         Route::patch( '/{uid}/mark-as-read', [

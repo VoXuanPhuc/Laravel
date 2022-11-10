@@ -162,7 +162,17 @@ class EventNotificationService implements EventNotificationServiceInterface
         FilterFluent::init()
             ->setTable(EventNotification::getTableName())
             ->setQuery($query)
-            ->setAllowedFilters(['name', 'title', 'description', 'data'])
+            ->setAllowedFilters(['search','name', 'title', 'description', 'data'])
+            ->setCustomFilter('search', static function ($query, $type, $column, $value) {
+                // Group where name like and description like
+                $query->where( function( $query) use ( $value) {
+                    $query->where('name', 'LIKE', '%' . $value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $value . '%')
+                        ->orWhere('title', 'LIKE', '%' . $value . '%')
+                    ;
+                });
+
+            })
             ->validate()
             ->applyFilter();
     }

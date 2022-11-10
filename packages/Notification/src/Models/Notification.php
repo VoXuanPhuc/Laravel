@@ -4,12 +4,16 @@ namespace Encoda\Notification\Models;
 
 use Carbon\Carbon;
 use Encoda\Core\Models\Model;
+use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 
 /**
  * @property Carbon $created_at
  */
 class Notification extends Model
 {
+
+    use MultiTenancyModel;
+
     /**
      * The "type" of the primary key ID.
      *
@@ -28,7 +32,6 @@ class Notification extends Model
      * @var string[]
      */
     protected $hidden = [
-        'id',
         'notifiable_id',
     ];
 

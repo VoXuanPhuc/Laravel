@@ -28,13 +28,22 @@ return new class extends Migration
 
             $table->nullableMorphs('modelable');
 
-            $table->foreignId('event_notification_id');
+            $table->foreignId('event_notification_id')->nullable();
 
             $table->foreign('event_notification_id')
                 ->references('id')
                 ->on('event_notifications')
                 ->cascadeOnUpdate()
+                ->nullOnDelete();
+
+
+            $table->foreignId('organization_id')->nullable();
+            $table->foreign('organization_id')
+                ->references('id') // organization_id
+                ->on('organizations')
+                ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+
             $table->softDeletesTz();
             $table->timestampsTz();
         });

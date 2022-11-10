@@ -3,8 +3,12 @@
 namespace Encoda\Notification\Services\Concrete;
 
 use Encoda\Core\Exceptions\NotFoundException;
+use Encoda\Core\Helpers\FilterFluent;
+use Encoda\Core\Helpers\SortFluent;
+use Encoda\Notification\Models\Notification;
 use Encoda\Notification\Repositories\Interfaces\NotificationRepositoryInterface;
 use Encoda\Notification\Services\Interfaces\NotificationServiceInterface;
+use Illuminate\Validation\ValidationException;
 
 /**
  *
@@ -22,6 +26,64 @@ class NotificationService implements NotificationServiceInterface
     {
     }
 
+
+    /**
+     * @return mixed
+     * @throws ValidationException
+     */
+    public function list()
+    {
+        $query = $this->notificationRepository->query();
+
+        $this->applySearchFilter($query);
+        $this->applySortFilter($query);
+
+        return  $this->notificationRepository->applyPaging($query);
+
+    }
+
+
+    /**
+     * @param $query
+     * @throws ValidationException
+     */
+    public function applySearchFilter($query): void
+    {
+        //Apply filter
+        FilterFluent::init()
+            ->setTable(Notification::getTableName())
+            ->setQuery($query)
+            ->setAllowedFilters(['search', 'title', 'data',])
+            ->setCustomFilter('search', static function ($query, $type, $column, $value) {
+                // Group where name like and description like
+                $query->where( function( $query) use ( $value) {
+                    $query->where('title', 'LIKE', '%' . $value . '%')
+                        ->orWhere('data', 'LIKE', '%' . $value . '%');
+                });
+
+            })
+            ->validate()
+            ->applyFilter()
+        ;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function applySortFilter($query): void
+    {
+        //Apply sort
+        SortFluent::init()
+            ->setTable(Notification::getTableName())
+            ->setQuery($query)
+            ->setAllowedSorts(['name', 'title', ])
+            ->validate()
+            ->applySort();
+    }
+
     /**
      * @param $uid
      *
@@ -31,7 +93,7 @@ class NotificationService implements NotificationServiceInterface
     public function getNotification($uid)
     {
 
-        $notification = $this->notificationRepository->findByUid($uid);
+        $notification = $this->notificationRepository->find( $uid );
 
         if (!$notification) {
             throw new NotFoundException('Notification not found');
