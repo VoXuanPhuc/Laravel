@@ -72,15 +72,6 @@
           <RTableCell :class="{ 'rounded-tr-lg': first, 'rounded-br-lg': last }" :isTruncate="false" variant="gradient">
             <EcFlex class="items-center justify-center h-full">
               <RTableAction class="w-30" :isLoading="recordLoading[item.uid]">
-                <!-- View action -->
-                <EcFlex
-                  class="items-center px-4 py-2 cursor-pointer text-cBlack hover:bg-c0-100"
-                  @click="handleClickExportEventNotiRecord(item.uid)"
-                >
-                  <EcIcon class="mr-3" icon="DocumentDownload" />
-                  <EcText class="font-medium">{{ $t("notification.buttons.export") }}</EcText>
-                </EcFlex>
-
                 <!-- Edit action -->
                 <EcFlex
                   class="items-center px-4 py-2 cursor-pointer text-c1-500 hover:bg-c0-100"
