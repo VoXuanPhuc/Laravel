@@ -6,6 +6,7 @@ use Encoda\Activity\Contract\ActivityContract;
 use Encoda\Activity\Pivots\ActivityDisruptionScenario;
 use Encoda\Activity\Pivots\ActivityRecoveryTime;
 use Encoda\Core\Models\Model;
+use Encoda\Dependency\Models\DependencyScenario;
 use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\EasyLog\Entities\LogOptions;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
@@ -14,9 +15,11 @@ use Encoda\MultiTenancy\Traits\MultiTenancyModel;
 use Encoda\Notification\Traits\NotifySender;
 use Encoda\Organization\Models\BusinessUnit;
 use Encoda\Organization\Models\Division;
+use Encoda\Supplier\Models\Supplier;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -42,6 +45,7 @@ class Activity extends Model implements ActivityContract
     const STEP_ACTIVITY_INFO = 1; //Activity info
     const STEP_ACTIVITY_REMOTE_ACCESS_FACTOR = 2; //Activity remote access factor
     const STEP_ACTIVITY_SOFTWARE_EQUIPMENT = 3; //Software and equipment
+    const STEP_DEPENDENCY_SUPPLIER = 4; //Dependency and supplier
 
     protected $table = 'activities';
 
@@ -191,5 +195,20 @@ class Activity extends Model implements ActivityContract
             ->using(ActivityDisruptionScenario::class)
             ->withPivot(["workaround_solution", "workaround_feasibly"])
             ->withTimestamps();
+    }
+    /**
+     * @return BelongsToMany
+     */
+    public function suppliers(): BelongsToMany
+    {
+        return $this->belongsToMany(Supplier::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function dependencyScenarios(): BelongsToMany
+    {
+        return $this->belongsToMany(DependencyScenario::class);
     }
 }

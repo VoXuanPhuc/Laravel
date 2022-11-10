@@ -2,6 +2,7 @@
 
 namespace Encoda\Dependency\Models;
 
+use Encoda\Activity\Models\Activity;
 use Encoda\Core\Traits\HasUID;
 use Encoda\Dependency\Enums\DependableTypeEnum;
 use Encoda\EasyLog\Traits\EasyActionLogTrait;
@@ -147,5 +148,13 @@ class DependencyScenario extends Model
     public function getDownstreamCountAttribute(): int
     {
         return $this->downstreamDependencies()->count();
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class);
     }
 }

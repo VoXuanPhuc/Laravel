@@ -2,6 +2,7 @@
 
 namespace Encoda\Supplier\Models;
 
+use Encoda\Activity\Models\Activity;
 use Encoda\Core\Models\Model;
 use Encoda\Core\Traits\HasUID;
 use Encoda\Dependency\Traits\DependencyModelTrait;
@@ -77,6 +78,14 @@ class Supplier extends Model
     public function getCertsAttribute()
     {
         return $this->getDocuments('certs');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class);
     }
 
 }

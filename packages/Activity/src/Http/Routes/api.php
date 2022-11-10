@@ -75,6 +75,10 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => ActivityController::class . '@saveRecoveryTimeAndDisruptionScenario'
     ]);
 
+    Route::put('/activities/{activityUid}/dependencies-and-suppliers', [
+        'as' => 'activities.dependencies-and-suppliers.update',
+        'uses' => ActivityController::class . '@saveDependenciesAndSuppliers'
+    ]);
 
     // ============== UTILITIES ===============/
     Route::get('/utilities', [

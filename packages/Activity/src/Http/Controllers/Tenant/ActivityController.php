@@ -5,11 +5,13 @@ namespace Encoda\Activity\Http\Controllers\Tenant;
 use Encoda\Activity\Http\Controllers\Controller;
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRecoveryTimeAndDisruptionScenarioRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveDependenciesAndSuppliersRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveTolerablePeriodDisruptionRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Models\Activity;
+use Encoda\Activity\Services\Interfaces\ActivityDependencyServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityEquipmentServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
@@ -26,6 +28,7 @@ class ActivityController extends Controller
         protected ActivityEquipmentServiceInterface $equipmentService,
         protected ActivityTolerablePeriodDisruptionServiceInterface $tolerablePeriodDisruptionService,
         protected RecoveryTimeDisruptionScenarioServiceInterface $recoveryTimeDisruptionScenarioService,
+        protected ActivityDependencyServiceInterface $activityDependencyService
     )
     {
     }
@@ -134,6 +137,11 @@ class ActivityController extends Controller
         return $this
             ->recoveryTimeDisruptionScenarioService
             ->saveRecoveryTimeAndDisruptionScenario($request, $activityUid);
+    }
+
+    public function saveDependenciesAndSuppliers(SaveDependenciesAndSuppliersRequest $request, $activityUid): Activity
+    {
+        return $this->activityDependencyService->saveDependenciesAndSuppliers($request, $activityUid);
     }
 
 
