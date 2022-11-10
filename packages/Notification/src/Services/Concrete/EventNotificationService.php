@@ -91,7 +91,7 @@ class EventNotificationService implements EventNotificationServiceInterface
         ])->validate();
         $eventNotificationModuleConfigDTO = new EventNotificationModuleConfigDTO();
         $eventNotificationModuleConfigDTO->replacements = [
-            call_user_func([$this->getModelFromEventNotificationEnum(EventNotificationRuleModelEnum::tryFrom($module)), 'getModelAllowedAttribute'])
+            $module => call_user_func([$this->getModelFromEventNotificationEnum(EventNotificationRuleModelEnum::tryFrom($module)), 'getModelAllowedAttribute'])
         ];
         return $eventNotificationModuleConfigDTO;
     }
@@ -380,7 +380,7 @@ class EventNotificationService implements EventNotificationServiceInterface
             $replacements = array_merge($replacements, [
                 "general" => [
                     "action",
-                    "objectType",
+                    "modelType",
                 ],
                 "object"  => [
                     "name"

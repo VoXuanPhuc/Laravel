@@ -2,6 +2,9 @@
 
 namespace Encoda\Core\Helpers;
 
+use ReflectionClass;
+use ReflectionException;
+
 /**
  *
  */
@@ -20,5 +23,17 @@ class ObjectHelper
             return collect([$target]);
         }
         return $target;
+    }
+
+    /**
+     * @param $object
+     *
+     * @return string
+     * @throws ReflectionException
+     */
+    public static function getObjectShortName($object)
+    {
+        $reflect = new ReflectionClass($object);
+        return $reflect->getShortName();
     }
 }

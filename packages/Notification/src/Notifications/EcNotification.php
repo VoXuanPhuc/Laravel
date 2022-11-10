@@ -2,6 +2,7 @@
 
 namespace Encoda\Notification\Notifications;
 
+use Encoda\Core\Helpers\ObjectHelper;
 use Encoda\EDocs\Models\Document;
 use Encoda\Notification\Channels\CustomDbChannel;
 use Encoda\Notification\Enums\EventNotificationMethodEnum;
@@ -9,6 +10,7 @@ use Encoda\Notification\Models\EventNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 /**
  *
@@ -111,12 +113,16 @@ class EcNotification extends Notification
     {
         $additionalData = $this->additionalData;
         $additionalData = (object)$additionalData;
+        $object = $this->additionalData['object'] ?? null;
         $replacements = [
             'user'    => $notifiable,
             'owner'   => $this->eventNotification->owner,
-            'object'  => $this->additionalData['object'] ?? null,
+            'object'  => $object,
             'general' => $additionalData,
         ];
+        if($object){
+            $replacements[Str::lower(ObjectHelper::getObjectShortName($object))] = $object;
+        }
         return $replacements;
     }
 
