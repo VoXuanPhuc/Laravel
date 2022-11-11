@@ -214,7 +214,7 @@ export default {
       getActivityList,
       downloadActivities,
       fetchActivityListByDivisionUid,
-      deletePermanentActivity,
+      softDeleteActivity,
       activities,
       t,
       totalItems,
@@ -234,7 +234,7 @@ export default {
       globalStore,
       getActivityList,
       downloadActivities,
-      deletePermanentActivity,
+      softDeleteActivity,
       activities,
       t,
       skip,
@@ -425,7 +425,7 @@ export default {
      */
     async handleDeleteActivity() {
       this.isDeleteLoading = true
-      await this.deletePermanentActivity(this.activityUidDelete)
+      await this.softDeleteActivity(this.activityUidDelete)
       await this.fetchActivities()
       this.handleCloseDeleteModal()
       this.isDeleteLoading = false

@@ -35,6 +35,10 @@ export const updateActivity = async (payload, uid) => {
   return fetcher.put(`identity/api/v1/activities/${uid}`, payload)
 }
 
+export const deleteActivity = async (uid) => {
+  return fetcher.delete(`identity/api/v1/activities/${uid}`)
+}
+
 export const permanentDelete = async (uid) => {
   return fetcher.delete(`identity/api/v1/activities/${uid}/permanent`)
 }

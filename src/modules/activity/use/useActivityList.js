@@ -76,9 +76,9 @@ export function useActivityList() {
    * @param {*} uid
    * @returns
    */
-  const deletePermanentActivity = async (uid) => {
+  const softDeleteActivity = async (uid) => {
     try {
-      const { data } = await api.permanentDelete(uid)
+      const { data } = await api.deleteActivity(uid)
 
       globalStore.addSuccessToastMessage(t("activity.messages.deleteSuccess"))
 
@@ -92,7 +92,7 @@ export function useActivityList() {
     getActivityList,
     downloadActivities,
     fetchActivityListByDivisionUid,
-    deletePermanentActivity,
+    softDeleteActivity,
     activities,
     t,
     totalItems,
