@@ -240,11 +240,11 @@ class ActivityService extends BaseActivityService implements ActivityServiceInte
      */
     public function deleteActivity( $uid ): int
     {
+        /** @var Activity $activity */
         $activity = $this->getActivity( $uid );
 
         DB::beginTransaction();
         try {
-            $activity->itSolution()->delete();
             $this->activityRepository->delete($activity->id);
         }
         catch (Exception $e) {

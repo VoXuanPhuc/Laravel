@@ -72,7 +72,7 @@ class ActivityController extends Controller
 
 
     public function delete( $uid ) {
-        return [];
+        return $this->activityService->deleteActivity( $uid );
     }
 
     /**
