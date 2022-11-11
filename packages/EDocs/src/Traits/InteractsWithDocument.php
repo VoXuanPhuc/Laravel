@@ -75,6 +75,18 @@ trait InteractsWithDocument
         return $this->documents->where('type', $type);
     }
 
+
+    /**
+     * @param string $type
+     * @return MorphMany|mixed
+     */
+    public function getLogo(string $type ='logo')
+    {
+        return $this->documents()
+            ->withoutGlobalScope('organization_id')
+            ->where('type', $type);
+    }
+
     /**
      * @param string $type
      *
