@@ -125,6 +125,8 @@ export default {
      * Edit organization
      */
     handleClickEdit() {
+      helpers.setTenantData(this.organization)
+
       goto("ViewOrganizationDetail", {
         params: {
           uid: this.organization?.uid,
@@ -136,7 +138,7 @@ export default {
      */
     handleClickManageOrganization() {
       // Set tenant data
-      helpers.setTenantData({ uid: this.organization?.uid, name: this.organization?.name })
+      helpers.setTenantData(this.organization)
 
       goto("ViewOrganizationManagement", {
         params: {

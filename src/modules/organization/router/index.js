@@ -37,6 +37,7 @@ export default [
     meta: {
       title: "Organization Detail",
       module: "organization",
+      landlordAccess: true,
     },
   },
   {
