@@ -6,11 +6,13 @@ use Encoda\Activity\Http\Controllers\Controller;
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveTolerablePeriodDisruptionRequest;
 use Encoda\Activity\Http\Requests\Activity\UpdateActivityRequest;
 use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Services\Interfaces\ActivityEquipmentServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
+use Encoda\Activity\Services\Interfaces\ActivityTolerablePeriodDisruptionServiceInterface;
 
 class ActivityController extends Controller
 {
@@ -20,6 +22,7 @@ class ActivityController extends Controller
         protected ActivityServiceInterface $activityService,
         protected ActivityRemoteAccessServiceInterface $remoteAccessService,
         protected ActivityEquipmentServiceInterface $equipmentService,
+        protected ActivityTolerablePeriodDisruptionServiceInterface $tolerablePeriodDisruptionService,
     )
     {
     }
@@ -103,6 +106,17 @@ class ActivityController extends Controller
     {
 
         return $this->equipmentService->saveApplicationsAndEquipments( $request, $activityUid );
+    }
+
+    /**
+     * @param SaveTolerablePeriodDisruptionRequest $request
+     * @param $activityUid
+     * @return Activity
+     */
+    public function saveTolerablePeriodDisruptions(SaveTolerablePeriodDisruptionRequest $request, $activityUid ): Activity
+    {
+
+        return $this->tolerablePeriodDisruptionService->saveTolerablePeriodDisruptions( $request, $activityUid );
     }
 
 

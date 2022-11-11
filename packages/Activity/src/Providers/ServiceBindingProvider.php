@@ -4,18 +4,22 @@ namespace Encoda\Activity\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Encoda\Activity\Services\Concrete\ActivityService;
+use Encoda\Activity\Services\Concrete\ActivityTolerablePeriodDisruptionService;
 use Encoda\Activity\Services\Concrete\ApplicationService;
 use Encoda\Activity\Services\Concrete\EquipmentService;
 use Encoda\Activity\Services\Concrete\RemoteAccessFactorService;
+use Encoda\Activity\Services\Concrete\TolerablePeriodDisruptionService;
 use Encoda\Activity\Services\Concrete\UtilityService;
 use Encoda\Activity\Services\Interfaces\ActivityEquipmentServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
+use Encoda\Activity\Services\Interfaces\ActivityTolerablePeriodDisruptionServiceInterface;
 use Encoda\Activity\Services\Interfaces\ApplicationServiceInterface;
 use Encoda\Activity\Services\Concrete\ActivityEquipmentService;
 use Encoda\Activity\Services\Concrete\ActivityRemoteAccessService;
 use Encoda\Activity\Services\Interfaces\EquipmentServiceInterface;
 use Encoda\Activity\Services\Interfaces\RemoteAccessFactorServiceInterface;
+use Encoda\Activity\Services\Interfaces\TolerablePeriodDisruptionServiceInterface;
 use Encoda\Activity\Services\Interfaces\UtilityServiceInterface;
 
 class ServiceBindingProvider extends ServiceProvider
@@ -30,5 +34,7 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind( ApplicationServiceInterface::class, ApplicationService::class );
         $this->app->bind( EquipmentServiceInterface::class, EquipmentService::class );
         $this->app->bind( RemoteAccessFactorServiceInterface::class, RemoteAccessFactorService::class );
+        $this->app->bind( TolerablePeriodDisruptionServiceInterface::class, TolerablePeriodDisruptionService::class );
+        $this->app->bind( ActivityTolerablePeriodDisruptionServiceInterface::class, ActivityTolerablePeriodDisruptionService::class );
     }
 }

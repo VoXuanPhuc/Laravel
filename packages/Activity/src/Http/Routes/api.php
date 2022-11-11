@@ -4,6 +4,7 @@ use Encoda\Activity\Http\Controllers\Tenant\ActivityController;
 use Encoda\Activity\Http\Controllers\Tenant\ApplicationController;
 use Encoda\Activity\Http\Controllers\Tenant\EquipmentController;
 use Encoda\Activity\Http\Controllers\Tenant\RemoteAccessFactorController;
+use Encoda\Activity\Http\Controllers\Tenant\TolerablePeriodDisruptionController;
 use Encoda\Activity\Http\Controllers\Tenant\UtilityController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
@@ -60,6 +61,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     Route::put('/activities/{activityUid}/applications-and-equipments', [
         'as' => 'activities.applications-and-equipments.update',
         'uses' => ActivityController::class . '@saveApplicationsAndEquipments'
+    ]);
+
+    Route::put('/activities/{activityUid}/tolerable-period-disruptions', [
+        'as' => 'activities.tolerable-period-disruptions-update',
+        'uses' => ActivityController::class . '@saveTolerablePeriodDisruptions'
     ]);
 
 
@@ -169,5 +175,32 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     Route::delete('/remote-access-factors/{uid}', [
         'as' => 'remote-access-factors.delete',
         'uses' => RemoteAccessFactorController::class . '@delete'
+    ]);
+
+    // =============== TOLERABLE PERIOD DISRUPTION ================//
+    // =========== tolerable-period-disruption =========/
+    Route::get('/tolerable-period-disruption', [
+        'as' => 'tolerable-period-disruption.list',
+        'uses' => TolerablePeriodDisruptionController::class . '@index'
+    ]);
+
+    Route::get('/tolerable-period-disruption/{uid}', [
+        'as' => 'tolerable-period-disruption.detail',
+        'uses' => TolerablePeriodDisruptionController::class . '@detail'
+    ]);
+
+    Route::post('/tolerable-period-disruption', [
+        'as' => 'tolerable-period-disruption.create',
+        'uses' => TolerablePeriodDisruptionController::class . '@create'
+    ]);
+
+    Route::put('/tolerable-period-disruption/{uid}', [
+        'as' => 'tolerable-period-disruption.update',
+        'uses' => TolerablePeriodDisruptionController::class . '@update'
+    ]);
+
+    Route::delete('/tolerable-period-disruption/{uid}', [
+        'as' => 'tolerable-period-disruption.delete',
+        'uses' => TolerablePeriodDisruptionController::class . '@delete'
     ]);
 });
