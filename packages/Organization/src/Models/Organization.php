@@ -95,7 +95,7 @@ class Organization extends Tenant
 
     public function getLogoUrlAttribute()
     {
-        return $this->logo_path;
+        return $this->getDocuments('logo')?->first()?->url;
     }
 
 
