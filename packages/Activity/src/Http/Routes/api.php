@@ -4,7 +4,7 @@ use Encoda\Activity\Http\Controllers\Tenant\ActivityController;
 use Encoda\Activity\Http\Controllers\Tenant\ApplicationController;
 use Encoda\Activity\Http\Controllers\Tenant\EquipmentController;
 use Encoda\Activity\Http\Controllers\Tenant\RemoteAccessFactorController;
-use Encoda\Activity\Http\Controllers\Tenant\TolerablePeriodDisruptionController;
+use Encoda\Activity\Http\Controllers\Tenant\TolerableTimePeriodController;
 use Encoda\Activity\Http\Controllers\Tenant\UtilityController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Lumen\Routing\Router;
@@ -178,29 +178,29 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     ]);
 
     // =============== TOLERABLE PERIOD DISRUPTION ================//
-    // =========== tolerable-period-disruption =========/
-    Route::get('/tolerable-period-disruption', [
-        'as' => 'tolerable-period-disruption.list',
-        'uses' => TolerablePeriodDisruptionController::class . '@index'
+    // =========== tolerable-time-periods =========/
+    Route::get('/tolerable-time-periods/all', [
+        'as' => 'tolerable-time-periods.list',
+        'uses' => TolerableTimePeriodController::class . '@all'
     ]);
 
-    Route::get('/tolerable-period-disruption/{uid}', [
-        'as' => 'tolerable-period-disruption.detail',
-        'uses' => TolerablePeriodDisruptionController::class . '@detail'
+    Route::get('/tolerable-time-periods/{uid}', [
+        'as' => 'tolerable-time-periods.detail',
+        'uses' => TolerableTimePeriodController::class . '@detail'
     ]);
 
-    Route::post('/tolerable-period-disruption', [
-        'as' => 'tolerable-period-disruption.create',
-        'uses' => TolerablePeriodDisruptionController::class . '@create'
+    Route::post('/tolerable-time-periods', [
+        'as' => 'tolerable-time-periods.create',
+        'uses' => TolerableTimePeriodController::class . '@create'
     ]);
 
-    Route::put('/tolerable-period-disruption/{uid}', [
-        'as' => 'tolerable-period-disruption.update',
-        'uses' => TolerablePeriodDisruptionController::class . '@update'
+    Route::put('/tolerable-time-periods/{uid}', [
+        'as' => 'tolerable-time-periods.update',
+        'uses' => TolerableTimePeriodController::class . '@update'
     ]);
 
-    Route::delete('/tolerable-period-disruption/{uid}', [
-        'as' => 'tolerable-period-disruption.delete',
-        'uses' => TolerablePeriodDisruptionController::class . '@delete'
+    Route::delete('/tolerable-time-periods/{uid}', [
+        'as' => 'tolerable-time-periods.delete',
+        'uses' => TolerableTimePeriodController::class . '@delete'
     ]);
 });

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    protected string $tableName = 'tolerable_period_disruptions';
+    protected string $tableName = 'tolerable_time_period';
 
     /**
      * Run the migrations.

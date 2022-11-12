@@ -2,12 +2,10 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
-use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveTolerablePeriodDisruptionRequest;
 use Encoda\Activity\Models\Activity;
 use Encoda\Activity\Repositories\Interfaces\ActivityRepositoryInterface;
-use Encoda\Activity\Repositories\Interfaces\TolerablePeriodDisruptionRepositoryInterface;
-use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
+use Encoda\Activity\Repositories\Interfaces\TolerableTimePeriodRepositoryInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityTolerablePeriodDisruptionServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
@@ -21,7 +19,7 @@ class ActivityTolerablePeriodDisruptionService extends BaseActivityService imple
     public function __construct(
         protected ActivityServiceInterface                     $activityService,
         protected ActivityRepositoryInterface                  $activityRepository,
-        protected TolerablePeriodDisruptionRepositoryInterface $tolerablePeriodDisruptionRepository
+        protected TolerableTimePeriodRepositoryInterface $tolerablePeriodDisruptionRepository
     )
     {
     }

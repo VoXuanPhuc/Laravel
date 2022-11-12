@@ -7,7 +7,7 @@ use Encoda\Organization\Models\Organization;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TolerablePeriodDisruptionSeeder extends Seeder
+class TolerableTimePeriodSeeder extends Seeder
 {
     public function run() {
 
@@ -42,6 +42,6 @@ class TolerablePeriodDisruptionSeeder extends Seeder
         }, $tolerablePeriodDisruptions );
 
 
-        DB::table('tolerable_period_disruptions')->insert( $data );
+        DB::table('tolerable_time_period')->insert( $data );
     }
 }

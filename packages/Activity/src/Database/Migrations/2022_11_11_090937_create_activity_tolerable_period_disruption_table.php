@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    protected string $tableName = 'activity_tolerable_period_disruption';
+    protected string $tableName = 'activity_tolerable_time_period';
 
     /**
      * Run the migrations.
@@ -19,7 +19,8 @@ return new class extends Migration
             Schema::create($this->tableName, function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('activity_id');
-                $table->foreignId('tolerable_period_disruption_id');
+                $table->foreignId('tolerable_time_period_id')->nullable();
+
                 $table->string('dependent_time', '1023');
                 $table->text('reason_choose_dependent_time');
                 $table->timestamps();
@@ -30,11 +31,11 @@ return new class extends Migration
                     ->cascadeOnUpdate()
                     ->cascadeOnDelete();
 
-                $table->foreign('tolerable_period_disruption_id', 'tpd_id_idx')
+                $table->foreign('tolerable_time_period_id', 'tpd_id_idx')
                     ->references('id')
-                    ->on('tolerable_period_disruptions')
+                    ->on('tolerable_time_period')
                     ->cascadeOnUpdate()
-                    ->cascadeOnDelete();
+                    ->nullOnDelete();
             });
         }
     }

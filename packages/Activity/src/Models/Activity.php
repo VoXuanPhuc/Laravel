@@ -164,7 +164,7 @@ class Activity extends Model implements ActivityContract
      */
     public function tolerablePeriodDisruptions(): BelongsToMany
     {
-        return $this->belongsToMany(TolerablePeriodDisruption::class)
+        return $this->belongsToMany(TolerableTimePeriod::class)
             ->withPivot(["dependent_time", "reason_choose_dependent_time"])
             ->withTimestamps();
     }

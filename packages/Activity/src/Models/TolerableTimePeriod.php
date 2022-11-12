@@ -6,8 +6,10 @@ use Encoda\Core\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TolerablePeriodDisruption extends Model
+class TolerableTimePeriod extends Model
 {
+    protected $table = 'tolerable_time_period';
+
     use SoftDeletes;
 
     protected $guarded = [

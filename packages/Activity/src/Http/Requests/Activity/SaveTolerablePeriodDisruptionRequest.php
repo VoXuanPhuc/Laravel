@@ -17,7 +17,7 @@ class SaveTolerablePeriodDisruptionRequest extends FormRequest
             "tolerable_period_disruptions" => "required|array",
             "tolerable_period_disruptions.*.uid" => "required",
             "tolerable_period_disruptions.*.dependent_time" => "nullable|string|max:1023",
-            "tolerable_period_disruptions.*.reason_choose_dependent_time" => "nullable|string",
+            "tolerable_period_disruptions.*.reason_choose_dependent_time" => "nullable|string:max:1023",
         ];
     }
 }

@@ -13,6 +13,7 @@ class ActivitySeeder extends Seeder
                 EquipmentSeeder::class,
                 RemoteAccessFactorSeeder::class,
                 UtilitySeeder::class,
+                TolerableTimePeriodSeeder::class,
             ]
         );
     }

@@ -2,9 +2,9 @@
 
 namespace Encoda\Activity\Services\Concrete;
 
-use Encoda\Activity\Models\TolerablePeriodDisruption;
-use Encoda\Activity\Repositories\Interfaces\TolerablePeriodDisruptionRepositoryInterface;
-use Encoda\Activity\Services\Interfaces\TolerablePeriodDisruptionServiceInterface;
+use Encoda\Activity\Models\TolerableTimePeriod;
+use Encoda\Activity\Repositories\Interfaces\TolerableTimePeriodRepositoryInterface;
+use Encoda\Activity\Services\Interfaces\TolerableTimePeriodServiceInterface;
 use Encoda\Core\Exceptions\NotFoundException;
 use Encoda\Core\Helpers\FilterFluent;
 use Encoda\Core\Helpers\SortFluent;
@@ -13,12 +13,12 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServiceInterface
+class TolerableTimePeriodService implements TolerableTimePeriodServiceInterface
 {
 
     public function __construct(
-        protected TolerablePeriodDisruptionRepositoryInterface $TolerablePeriodDisruptionRepository,
-        protected OrganizationServiceInterface $organizationService
+        protected TolerableTimePeriodRepositoryInterface $tolerableTimePeriodRepository,
+        protected OrganizationServiceInterface           $organizationService
     )
     {
     }
@@ -27,12 +27,12 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
      * @return LengthAwarePaginator
      * @throws ValidationException
      */
-    public function listTolerablePeriodDisruptions()
+    public function listTolerableTimePeriods()
     {
-        $query = $this->TolerablePeriodDisruptionRepository->query();
+        $query = $this->tolerableTimePeriodRepository->query();
         $this->applySearchFilter($query);
         $this->applySortFilter($query);
-        return $this->TolerablePeriodDisruptionRepository->applyPaging($query);
+        return $this->tolerableTimePeriodRepository->applyPaging($query);
     }
 
     /**
@@ -44,7 +44,7 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
     {
         //Apply filter
         FilterFluent::init()
-            ->setTable(TolerablePeriodDisruption::getTableName())
+            ->setTable(TolerableTimePeriod::getTableName())
             ->setQuery($query)
             ->setAllowedFilters(['name', 'description'])
             ->validate()
@@ -62,7 +62,7 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
     {
         //Apply sort
         SortFluent::init()
-            ->setTable(TolerablePeriodDisruption::getTableName())
+            ->setTable(TolerableTimePeriod::getTableName())
             ->setQuery($query)
             ->setAllowedSorts(['name'])
             ->validate()
@@ -74,24 +74,24 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
      * @return mixed
      * @throws NotFoundException
      */
-    public function getTolerablePeriodDisruption( $uid )
+    public function getTolerableTimePeriod($uid )
     {
-        $TolerablePeriodDisruption = $this->TolerablePeriodDisruptionRepository->findbyUid($uid);
+        $tolerableTimePeriod = $this->tolerableTimePeriodRepository->findbyUid($uid);
 
-        if (!$TolerablePeriodDisruption) {
+        if (!$tolerableTimePeriod) {
             throw new NotFoundException(__('activity::app.remote_access_factor.not_found'));
         }
 
-        return $TolerablePeriodDisruption;
+        return $tolerableTimePeriod;
     }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function createTolerablePeriodDisruption( Request $request )
+    public function createTolerableTimePeriod(Request $request )
     {
-        return $this->TolerablePeriodDisruptionRepository->create( $request->all() );
+        return $this->tolerableTimePeriodRepository->create( $request->all() );
     }
 
     /**
@@ -100,11 +100,11 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
      * @return mixed
      * @throws NotFoundException
      */
-    public function updateTolerablePeriodDisruption( Request $request, $uid )
+    public function updateTolerableTimePeriod(Request $request, $uid )
     {
-        $TolerablePeriodDisruption = $this->getTolerablePeriodDisruption( $uid );
+        $TolerablePeriodDisruption = $this->getTolerableTimePeriod( $uid );
 
-        return $this->TolerablePeriodDisruptionRepository->update( $request->all(), $TolerablePeriodDisruption->id );
+        return $this->tolerableTimePeriodRepository->update( $request->all(), $TolerablePeriodDisruption->id );
     }
 
     /**
@@ -112,10 +112,18 @@ class TolerablePeriodDisruptionService implements TolerablePeriodDisruptionServi
      * @return int
      * @throws NotFoundException
      */
-    public function deleteTolerablePeriodDisruption( $uid )
+    public function deleteTolerablePeriod($uid )
     {
-        $TolerablePeriodDisruption = $this->getTolerablePeriodDisruption( $uid );
+        $tolerablePeriodDisruption = $this->getTolerableTimePeriod( $uid );
 
-        return $this->TolerablePeriodDisruptionRepository->delete( $TolerablePeriodDisruption->id );
+        return $this->tolerableTimePeriodRepository->delete( $tolerablePeriodDisruption->id );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function listAllTolerableTimePeriods()
+    {
+        return $this->tolerableTimePeriodRepository->all();
     }
 }
