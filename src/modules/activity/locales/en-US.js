@@ -66,12 +66,15 @@ export default {
       activityDetail: "Activity Detail",
       remote: "Remote access",
       software: "Software / Technology",
+      tolerant: "Maximum Tolerable Period of Disruption (MTPD)",
+      rto: "Recovery Time Objective (RTO)",
       confirmToCancel: "Confirm to cancel",
       cancelQuestion: "Do you wish to cancel doing activity?",
     },
 
     messages: {
       updatedActivity: "Updated activity, redirect to activity list...",
+      toNextStep: "Updated activity, redirect to next step...",
       createSuccess: "Create activity successfully!",
       deleteSuccess: "Activity has been delete successfully!",
       code: "Code",
@@ -105,6 +108,26 @@ export default {
       label: "Business Unit",
       uid: "uid",
       name: "Business Unit",
+    },
+
+    tooltips: {
+      cancel: "Cancel doing activity",
+      tolerantTime:
+        "If the disruption impact is dependent on the time of the week/month/year that the disruption occurs, please use ‘worst case’ scenario to assess MTPD and explain below",
+      rtoPeriod: "If you are unsure, select the timeframe that is half the MTPD.",
+    },
+
+    tolerant: {
+      time: "How long could the business operate without this function before it becomes a ‘moderate’ impact according to your risk scales?",
+      timeOf: "If dependent on time of the week/month/year, please outline here:",
+      reason: "Justification for MTPD - why have you chosen this time?",
+    },
+
+    rto: {
+      period:
+        "Period of time within which minimum levels of services and/or products and the supporting systems, applications, or functions are to be recovered after a disruption has occurred.",
+      testedRealTime: "Has the RTO been tested in real-time?",
+      scenario: "What scenario/s would disrupt this activity the most?",
     },
   },
 }

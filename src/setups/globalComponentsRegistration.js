@@ -32,6 +32,7 @@ import EcPdfViewer from "@/components/EcPdfViewer"
 import EcImageViewer from "@/components/EcImageViewer"
 import EcEditor from "@/components/EcEditor"
 import EcDateTimePicker from "@/components/EcDateTimePicker"
+import EcOptionSlider from "@/components/EcOptionSlider"
 
 // Project components
 import RMessage from "@/modules/core/components/common/RMessage"
@@ -106,6 +107,7 @@ const baseComponents = {
   EcImageViewer,
   EcEditor,
   EcDateTimePicker,
+  EcOptionSlider,
 }
 
 const coreComponents = {

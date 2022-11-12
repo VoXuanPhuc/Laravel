@@ -55,7 +55,7 @@ export function useActivityApplicationsAndEquipments() {
       if (!data) {
         globalStore.addErrorToastMessage(t("activity.errors.updateActivity"))
       } else {
-        globalStore.addSuccessToastMessage(t("activity.messages.updatedActivity"))
+        globalStore.addSuccessToastMessage(t("activity.messages.toNextStep"))
       }
 
       return data

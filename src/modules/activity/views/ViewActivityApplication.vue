@@ -184,7 +184,7 @@
         </EcButton>
 
         <EcButton variant="primary" class="ml-4" @click="handleClickNext">
-          {{ $t("activity.buttons.finish") }}
+          {{ $t("activity.buttons.next") }}
         </EcButton>
       </EcFlex>
 
@@ -301,7 +301,7 @@ export default {
       const response = await this.updateApplicationAnEquipments(this.form, uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityList, 1000)
+        setTimeout(this.redirectToActivityTolerant, 1000)
       }
       this.isLoading = false
     },
@@ -311,6 +311,13 @@ export default {
      */
     redirectToActivityList() {
       goto("ViewActivityList")
+    },
+
+    /**
+     * Redirect to activity tolerant
+     */
+    redirectToActivityTolerant() {
+      goto("ViewActivityTolerant")
     },
 
     // =========== APPLICATIONS ================ //

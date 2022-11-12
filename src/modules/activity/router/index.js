@@ -3,6 +3,10 @@ import ViewActivityNew from "@/modules/activity/views/ViewActivityNew"
 import ViewActivityDetail from "@/modules/activity/views/ViewActivityDetail"
 import ViewActivityRemoteAccess from "@/modules/activity/views/ViewActivityRemoteAccess"
 import ViewActivityApplication from "@/modules/activity/views/ViewActivityApplication"
+import ViewActivityTolerant from "@/modules/activity/views/ViewActivityTolerant"
+import ViewActivityRTO from "@/modules/activity/views/ViewActivityRTO"
+
+// Update
 import ViewActivityUpdateRemoteAccess from "@/modules/activity/views/ViewActivityUpdateRemoteAccess"
 import ViewActivityUpdateApplication from "@/modules/activity/views/ViewActivityUpdateApplication"
 
@@ -76,6 +80,29 @@ export default [
     props: true,
     meta: {
       title: "Activity Applications and Equipments",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
+  {
+    path: "/activities/:uid/tolerant",
+    component: ViewActivityTolerant,
+    name: "ViewActivityTolerant",
+    props: true,
+    meta: {
+      title: "Activity Tolerant",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+  {
+    path: "/activities/:uid/recovery-time",
+    component: ViewActivityRTO,
+    name: "ViewActivityRTO",
+    props: true,
+    meta: {
+      title: "Activity Recovery Time Objective",
       module: "activity",
       isPublic: true,
     },

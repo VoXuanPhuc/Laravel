@@ -45,7 +45,7 @@ $gray: #495057;
     but this will also keep them from being obnoxious
     */
     min-width: 3em;
-    white-space: nowrap;
+    white-space: pre-wrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0.5rem;
