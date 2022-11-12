@@ -14,6 +14,8 @@ class ActivitySeeder extends Seeder
                 RemoteAccessFactorSeeder::class,
                 UtilitySeeder::class,
                 TolerableTimePeriodSeeder::class,
+                DisruptionScenarioSeeder::class,
+                RecoveryTimeSeeder::class,
             ]
         );
     }

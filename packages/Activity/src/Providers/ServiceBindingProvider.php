@@ -6,7 +6,10 @@ use Carbon\Laravel\ServiceProvider;
 use Encoda\Activity\Services\Concrete\ActivityService;
 use Encoda\Activity\Services\Concrete\ActivityTolerablePeriodDisruptionService;
 use Encoda\Activity\Services\Concrete\ApplicationService;
+use Encoda\Activity\Services\Concrete\DisruptionScenarioService;
 use Encoda\Activity\Services\Concrete\EquipmentService;
+use Encoda\Activity\Services\Concrete\RecoveryTimeDisruptionScenarioService;
+use Encoda\Activity\Services\Concrete\RecoveryTimeService;
 use Encoda\Activity\Services\Concrete\RemoteAccessFactorService;
 use Encoda\Activity\Services\Concrete\TolerableTimePeriodService;
 use Encoda\Activity\Services\Concrete\UtilityService;
@@ -17,7 +20,10 @@ use Encoda\Activity\Services\Interfaces\ActivityTolerablePeriodDisruptionService
 use Encoda\Activity\Services\Interfaces\ApplicationServiceInterface;
 use Encoda\Activity\Services\Concrete\ActivityEquipmentService;
 use Encoda\Activity\Services\Concrete\ActivityRemoteAccessService;
+use Encoda\Activity\Services\Interfaces\DisruptionScenarioServiceInterface;
 use Encoda\Activity\Services\Interfaces\EquipmentServiceInterface;
+use Encoda\Activity\Services\Interfaces\RecoveryTimeDisruptionScenarioServiceInterface;
+use Encoda\Activity\Services\Interfaces\RecoveryTimeServiceInterface;
 use Encoda\Activity\Services\Interfaces\RemoteAccessFactorServiceInterface;
 use Encoda\Activity\Services\Interfaces\TolerableTimePeriodServiceInterface;
 use Encoda\Activity\Services\Interfaces\UtilityServiceInterface;
@@ -36,5 +42,8 @@ class ServiceBindingProvider extends ServiceProvider
         $this->app->bind( RemoteAccessFactorServiceInterface::class, RemoteAccessFactorService::class );
         $this->app->bind( TolerableTimePeriodServiceInterface::class, TolerableTimePeriodService::class );
         $this->app->bind( ActivityTolerablePeriodDisruptionServiceInterface::class, ActivityTolerablePeriodDisruptionService::class );
+        $this->app->bind( RecoveryTimeServiceInterface::class, RecoveryTimeService::class );
+        $this->app->bind( DisruptionScenarioServiceInterface::class, DisruptionScenarioService::class );
+        $this->app->bind( RecoveryTimeDisruptionScenarioServiceInterface::class, RecoveryTimeDisruptionScenarioService::class );
     }
 }

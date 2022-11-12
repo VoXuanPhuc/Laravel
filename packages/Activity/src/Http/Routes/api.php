@@ -2,7 +2,9 @@
 
 use Encoda\Activity\Http\Controllers\Tenant\ActivityController;
 use Encoda\Activity\Http\Controllers\Tenant\ApplicationController;
+use Encoda\Activity\Http\Controllers\Tenant\DisruptionScenarioController;
 use Encoda\Activity\Http\Controllers\Tenant\EquipmentController;
+use Encoda\Activity\Http\Controllers\Tenant\RecoveryTimeController;
 use Encoda\Activity\Http\Controllers\Tenant\RemoteAccessFactorController;
 use Encoda\Activity\Http\Controllers\Tenant\TolerableTimePeriodController;
 use Encoda\Activity\Http\Controllers\Tenant\UtilityController;
@@ -66,6 +68,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     Route::put('/activities/{activityUid}/tolerable-period-disruptions', [
         'as' => 'activities.tolerable-period-disruptions-update',
         'uses' => ActivityController::class . '@saveTolerablePeriodDisruptions'
+    ]);
+
+    Route::put('/activities/{activityUid}/recovery-time-and-disruption-scenario', [
+        'as' => 'activities.recovery-time-and-disruption-scenario.update',
+        'uses' => ActivityController::class . '@saveRecoveryTimeAndDisruptionScenario'
     ]);
 
 
@@ -202,5 +209,59 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     Route::delete('/tolerable-time-periods/{uid}', [
         'as' => 'tolerable-time-periods.delete',
         'uses' => TolerableTimePeriodController::class . '@delete'
+    ]);
+
+    // =============== RECOVERY TIME ================//
+    // =========== recovery-times =========/
+    Route::get('/recovery-times', [
+        'as' => 'recovery-times.list',
+        'uses' => RecoveryTimeController::class . '@index'
+    ]);
+
+    Route::get('/recovery-times/{uid}', [
+        'as' => 'recovery-times.detail',
+        'uses' => RecoveryTimeController::class . '@detail'
+    ]);
+
+    Route::post('/recovery-times', [
+        'as' => 'recovery-times.create',
+        'uses' => RecoveryTimeController::class . '@create'
+    ]);
+
+    Route::put('/recovery-times/{uid}', [
+        'as' => 'recovery-times.update',
+        'uses' => RecoveryTimeController::class . '@update'
+    ]);
+
+    Route::delete('/recovery-times/{uid}', [
+        'as' => 'recovery-times.delete',
+        'uses' => RecoveryTimeController::class . '@delete'
+    ]);
+
+    // =============== DISRUPTION SCENARIO ================//
+    // =========== disruption-scenarios =========/
+    Route::get('/disruption-scenarios', [
+        'as' => 'disruption-scenarios.list',
+        'uses' => DisruptionScenarioController::class . '@index'
+    ]);
+
+    Route::get('/disruption-scenarios/{uid}', [
+        'as' => 'disruption-scenarios.detail',
+        'uses' => DisruptionScenarioController::class . '@detail'
+    ]);
+
+    Route::post('/disruption-scenarios', [
+        'as' => 'disruption-scenarios.create',
+        'uses' => DisruptionScenarioController::class . '@create'
+    ]);
+
+    Route::put('/disruption-scenarios/{uid}', [
+        'as' => 'disruption-scenarios.update',
+        'uses' => DisruptionScenarioController::class . '@update'
+    ]);
+
+    Route::delete('/disruption-scenarios/{uid}', [
+        'as' => 'disruption-scenarios.delete',
+        'uses' => DisruptionScenarioController::class . '@delete'
     ]);
 });

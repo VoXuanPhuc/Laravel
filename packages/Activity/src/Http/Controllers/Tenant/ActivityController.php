@@ -4,6 +4,7 @@ namespace Encoda\Activity\Http\Controllers\Tenant;
 
 use Encoda\Activity\Http\Controllers\Controller;
 use Encoda\Activity\Http\Requests\Activity\CreateActivityRequest;
+use Encoda\Activity\Http\Requests\Activity\SaveRecoveryTimeAndDisruptionScenarioRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveRemoteAccessRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveApplicationsAndEquipmentRequest;
 use Encoda\Activity\Http\Requests\Activity\SaveTolerablePeriodDisruptionRequest;
@@ -13,6 +14,7 @@ use Encoda\Activity\Services\Interfaces\ActivityEquipmentServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityRemoteAccessServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityServiceInterface;
 use Encoda\Activity\Services\Interfaces\ActivityTolerablePeriodDisruptionServiceInterface;
+use Encoda\Activity\Services\Interfaces\RecoveryTimeDisruptionScenarioServiceInterface;
 
 class ActivityController extends Controller
 {
@@ -23,6 +25,7 @@ class ActivityController extends Controller
         protected ActivityRemoteAccessServiceInterface $remoteAccessService,
         protected ActivityEquipmentServiceInterface $equipmentService,
         protected ActivityTolerablePeriodDisruptionServiceInterface $tolerablePeriodDisruptionService,
+        protected RecoveryTimeDisruptionScenarioServiceInterface $recoveryTimeDisruptionScenarioService,
     )
     {
     }
@@ -117,6 +120,20 @@ class ActivityController extends Controller
     {
 
         return $this->tolerablePeriodDisruptionService->saveTolerablePeriodDisruptions( $request, $activityUid );
+    }
+
+    /**
+     * @param SaveRecoveryTimeAndDisruptionScenarioRequest $request
+     * @param                                              $activityUid
+     *
+     * @return Activity
+     */
+    public function saveRecoveryTimeAndDisruptionScenario(SaveRecoveryTimeAndDisruptionScenarioRequest $request, $activityUid): Activity
+    {
+
+        return $this
+            ->recoveryTimeDisruptionScenarioService
+            ->saveRecoveryTimeAndDisruptionScenario($request, $activityUid);
     }
 
 

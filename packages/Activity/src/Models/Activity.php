@@ -3,6 +3,8 @@
 namespace Encoda\Activity\Models;
 
 use Encoda\Activity\Contract\ActivityContract;
+use Encoda\Activity\Pivots\ActivityDisruptionScenario;
+use Encoda\Activity\Pivots\ActivityRecoveryTime;
 use Encoda\Core\Models\Model;
 use Encoda\Dependency\Traits\DependencyModelTrait;
 use Encoda\EasyLog\Entities\LogOptions;
@@ -169,4 +171,25 @@ class Activity extends Model implements ActivityContract
             ->withTimestamps();
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function recoveryTimes(): BelongsToMany
+    {
+        return $this->belongsToMany(RecoveryTime::class)
+            ->using(ActivityRecoveryTime::class)
+            ->withPivot(["is_rto_tested"])
+            ->withTimestamps();
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function disruptionScenarios(): BelongsToMany
+    {
+        return $this->belongsToMany(DisruptionScenario::class)
+            ->using(ActivityDisruptionScenario::class)
+            ->withPivot(["workaround_solution", "workaround_feasibly"])
+            ->withTimestamps();
+    }
 }

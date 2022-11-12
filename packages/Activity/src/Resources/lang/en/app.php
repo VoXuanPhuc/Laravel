@@ -25,6 +25,18 @@ return [
         'update_error' => 'Unable to update remote access factor',
         'delete_error' => 'Unable to delete remote access factor',
     ],
+    'recovery_time' => [
+        'not_found' => 'Recovery time not found',
+        'create_error' => 'Unable to create recovery time',
+        'update_error' => 'Unable to update recovery time',
+        'delete_error' => 'Unable to delete recovery time',
+    ],
+    'disruption_scenario' => [
+        'not_found' => 'Disruption scenario not found',
+        'create_error' => 'Unable to create disruption scenario',
+        'update_error' => 'Unable to update disruption scenario',
+        'delete_error' => 'Unable to delete disruption scenario',
+    ],
 
 
 ];
