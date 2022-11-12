@@ -9,6 +9,8 @@ import ViewActivityRTO from "@/modules/activity/views/ViewActivityRTO"
 // Update
 import ViewActivityUpdateRemoteAccess from "@/modules/activity/views/ViewActivityUpdateRemoteAccess"
 import ViewActivityUpdateApplication from "@/modules/activity/views/ViewActivityUpdateApplication"
+import ViewActivityUpdateTolerant from "@/modules/activity/views/ViewActivityUpdateTolerant"
+import ViewActivityUpdateRTO from "@/modules/activity/views/ViewActivityUpdateRTO"
 
 export default [
   {
@@ -129,6 +131,30 @@ export default [
     props: true,
     meta: {
       title: "Update Activity Applications and Equipments",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
+  {
+    path: "/activities/:uid/update-tolerant",
+    component: ViewActivityUpdateTolerant,
+    name: "ViewActivityUpdateTolerant",
+    props: true,
+    meta: {
+      title: "Update Activity Tolerant",
+      module: "activity",
+      isPublic: true,
+    },
+  },
+
+  {
+    path: "/activities/:uid/update-recovery-time",
+    component: ViewActivityUpdateRTO,
+    name: "ViewActivityUpdateRTO",
+    props: true,
+    meta: {
+      title: "Update Activity RTO",
       module: "activity",
       isPublic: true,
     },
