@@ -34,7 +34,14 @@
         </EcFlex>
 
         <!-- Slider -->
-        <EcOptionSlider class="mt-10" v-model="form.period" :options="filteredTimeOptions" />
+        <EcOptionSlider
+          v-if="!isLoadingRecoveryTimes"
+          class="mt-10"
+          v-model="form.recoveryTime"
+          :options="filteredRecoveryTimeOptions"
+          valueKey="uid"
+        />
+        <EcSpinner v-else />
       </EcBox>
       <!-- End add more application -->
 
@@ -43,12 +50,14 @@
         <!-- Status -->
         <EcFlex class="flex-wrap max-w-md mb-8">
           <RFormInput
-            v-model="form.tested_realtime"
+            v-model="form.is_rto_tested"
             :label="$t('activity.rto.testedRealTime')"
             componentName="EcToggle"
             showLabel
             :labelTrue="$t('activity.labels.yes')"
             :labelFalse="$t('activity.labels.no')"
+            :validator="v$"
+            field="form.is_rto_tested"
           />
         </EcFlex>
       </EcBox>
@@ -59,16 +68,54 @@
         <!-- Status -->
         <EcFlex class="flex-wrap max-w-md mb-8">
           <RFormInput
-            v-model="form.scenario"
+            v-model="form.disruption_scenarios"
             :label="$t('activity.rto.scenario')"
             componentName="EcMultiSelect"
-            :options="filteredScenarios"
-            :isSingleSelect="true"
+            :options="filteredDisruptionScenarios"
+            :valueKey="'uid'"
+            :validator="v$"
+            field="form.disruption_scenarios"
           />
         </EcFlex>
       </EcBox>
       <!-- Scenario -->
 
+      <!-- Existing workaround-->
+      <EcBox
+        v-for="(disruption, idx) in form.disruption_scenarios"
+        :key="disruption.uid"
+        class="ml-4 mb-8 border-b border-c0-200 border-dashed"
+      >
+        <!-- Workaround question-->
+        <EcFlex class="flex-wrap max-w-md mb-8">
+          <RFormInput
+            v-model="form.disruption_scenarios[idx].workaround_option"
+            :label="$t('activity.rto.existingWorkaround', { disruptionName: disruption.name })"
+            componentName="EcSelect"
+            :allowSelectNothing="false"
+            :options="filteredExistingWorkarounds"
+          />
+        </EcFlex>
+
+        <!-- Workaround Solution -->
+        <EcFlex v-if="form.disruption_scenarios[idx].workaround_option == EW_FREE_TEXT" class="flex-wrap max-w-md mb-8">
+          <RFormInput
+            v-model="form.disruption_scenarios[idx].workaround_solution"
+            :label="$t('activity.rto.workaroundSolution', { disruptionName: disruption.name })"
+            componentName="EcInputText"
+          />
+        </EcFlex>
+
+        <!-- Workaround Enacted -->
+        <EcFlex v-if="form.disruption_scenarios[idx].workaround_option == EW_FREE_TEXT" class="flex-wrap max-w-md mb-8">
+          <RFormInput
+            v-model="form.disruption_scenarios[idx].workaround_feasibly"
+            :label="$t('activity.rto.workaroundEnacted')"
+            componentName="EcInputText"
+          />
+        </EcFlex>
+      </EcBox>
+      <!-- Existing workaround-->
       <!-- End body -->
     </EcBox>
 
@@ -98,92 +145,82 @@
 </template>
 <script>
 import { goto } from "@/modules/core/composables"
-import { ref } from "vue"
-import { useApplications } from "@/readybc/composables/use/useApplications"
-import { useEquipments } from "@/readybc/composables/use/useEquipments"
-import { useActivityTolerant } from "../use/useActivityTolerant"
-
+import { useActivityRTO } from "../use/useActivityRTO"
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useActivityDetail } from "../use/useActivityDetail"
-import EcFlex from "@/components/EcFlex/index.vue"
-import EcLabel from "@/components/EcLabel/index.vue"
 
 export default {
-  name: "ViewActivityTolerant",
+  name: "ViewActivityRTO",
   data() {
     return {
       isModalCancelOpen: false,
       isLoading: false,
-      isLoadingSoftwares: false,
-      isLoadingEquipments: false,
+      isLoadingRecoveryTimes: false,
+      isLoadingDisruptionScenarios: false,
     }
   },
   setup() {
     // PRE LOAD
 
-    const { getApplications } = useApplications()
-    const { getEquipments } = useEquipments()
-
     // Functions
-    const { form, v$, updateApplicationAnEquipments } = useActivityTolerant()
-    const { getActivity } = useActivityDetail()
-
-    const applications = ref([])
-    const equipments = ref([])
-    const STEP_APPLICATION = 3
-
-    return {
+    const {
+      EW_NONE_IDENTIFIED,
+      EW_FREE_TEXT,
       form,
       v$,
-      applications,
-      equipments,
+      existingWorkarounds,
+      recoveryTimeOptions,
+      disruptionScenarios,
+      getRecoveryTimeOptions,
+      getDisruptionScenarios,
+      updateActivityRTO,
+    } = useActivityRTO()
+    const { getActivity } = useActivityDetail()
+
+    const STEP_APPLICATION = 5
+
+    return {
+      EW_NONE_IDENTIFIED,
+      EW_FREE_TEXT,
+      form,
+      v$,
+      existingWorkarounds,
+      recoveryTimeOptions,
+      disruptionScenarios,
       getActivity,
-      getApplications,
-      getEquipments,
-      updateApplicationAnEquipments,
+      getRecoveryTimeOptions,
+      getDisruptionScenarios,
+      updateActivityRTO,
       STEP_APPLICATION,
     }
   },
 
   mounted() {
     this.fetchActivity()
-    this.fetchApplications()
-    this.fetchEquipments()
+    this.fetchRecoveryTimeOptions()
+    this.fetchDisruptionScenarios()
   },
 
   computed: {
     /**
      * Filter Scenarios
      */
-    filteredScenarios() {
-      return [
-        { name: "Loss of Personnel", value: "1" },
-        { name: "Loss of IT Systems", value: "2" },
-        { name: "Denial of Access to Site", value: "3" },
-        { name: "Loss of Utilities or Equipment", value: "4" },
-        { name: "Critical Supplier Disruption", value: "4" },
-      ]
+    filteredDisruptionScenarios() {
+      return this.disruptionScenarios
     },
 
     /**
      * Filter Time Options
      */
-    filteredTimeOptions() {
-      return [
-        { name: "Immediate (<2 hours)", value: "im" },
-        { name: "2 Hours", value: "2" },
-        { name: "4 Hours", value: "4" },
-        { name: "6 Hours", value: "6" },
-        { name: "8 Hours", value: "8" },
-        { name: "12 Hours", value: "8" },
-        { name: "24 Hours", value: "8" },
-        { name: "2 Days", value: "8" },
-        { name: "3 Days", value: "8" },
-        { name: "1 Week", value: "8" },
-        { name: "2 Weeks", value: "8" },
-        { name: "4 Weeks", value: "8" },
-        { name: "> 4 Weeks", value: "8" },
-      ]
+    filteredRecoveryTimeOptions() {
+      return this.recoveryTimeOptions
+    },
+
+    /**
+     * Filter Existing workarounds
+     */
+    filteredExistingWorkarounds() {
+      return this.existingWorkarounds
     },
   },
   methods: {
@@ -201,12 +238,28 @@ export default {
 
       this.form.step = this.STEP_APPLICATION
 
-      const response = await this.updateApplicationAnEquipments(this.form, uid)
+      const response = await this.updateActivityRTO(this.mappedPayload(), uid)
 
       if (response && response.uid) {
         setTimeout(this.redirectToActivityList, 1000)
       }
       this.isLoading = false
+    },
+
+    /**
+     * Mapped payload
+     */
+    mappedPayload() {
+      return {
+        recovery_times: [
+          {
+            uid: this.form?.recoveryTime?.uid,
+            is_rto_tested: this.form?.is_rto_tested,
+          },
+        ],
+
+        disruption_scenarios: this.form?.disruption_scenarios,
+      }
     },
 
     /**
@@ -216,38 +269,8 @@ export default {
       goto("ViewActivityList")
     },
 
-    // =========== APPLICATIONS ================ //
-    /**
-     * Add more alternative role
-     */
-    handleAddMoreApplication() {
-      this.form.applications.push({ uid: "" })
-    },
+    // =========== Recovery times ================ //
 
-    /**
-     * Remove item in array
-     * @param {*} index
-     */
-    handleRemoveApplication(index) {
-      this.form.applications.splice(index, 1)
-    },
-
-    // =========== EQUIPMENTS ================ //
-
-    /**
-     * Add equipment
-     */
-    handleAddMoreEquipment() {
-      this.form.equipments.push({ uid: "" })
-    },
-
-    /**
-     * Remove item in array
-     * @param {*} index
-     */
-    handleRemoveEquipment(index) {
-      this.form.equipments.splice(index, 1)
-    },
     /**
      * Back to Activity Tolerant
      */
@@ -279,7 +302,7 @@ export default {
 
       this.isLoading = true
 
-      const response = await this.getActivity(uid, ["applications", "equipments"])
+      const response = await this.getActivity(uid, ["recoveryTimes", "disruptionScenarios"])
 
       if (response && response.uid) {
         this.transformFormData(response)
@@ -292,45 +315,60 @@ export default {
      * Transform data
      */
     transformFormData(response) {
-      // Applications
-      if (response.applications.length > 0) {
-        this.form.applications = response.applications
+      // recovery_times
+      const recoveryTime = response.recovery_times[0]
+
+      if (recoveryTime) {
+        this.form.recoveryTime = {
+          uid: recoveryTime?.uid,
+          name: recoveryTime?.name,
+        }
+
+        this.form.is_rto_tested = recoveryTime?.pivot?.is_rto_tested
       }
 
-      // Equipments
-      if (response.equipments.length > 0) {
-        this.form.equipments = response.equipments
+      // disruption_scenarios
+      if (response.disruption_scenarios) {
+        this.form.disruption_scenarios = response.disruption_scenarios?.map((item) => {
+          return {
+            uid: item?.uid,
+            name: item?.name,
+            workaround_option: item?.pivot?.workaround_solution?.length > 1 ? this.EW_FREE_TEXT : this.EW_NONE_IDENTIFIED,
+            workaround_solution: item?.pivot?.workaround_solution,
+            workaround_feasibly: item?.pivot?.workaround_feasibly,
+          }
+        })
       }
     },
 
     /**
-     * Applications
+     * Recovery Times
      */
-    async fetchApplications() {
-      this.isLoadingSoftwares = true
-      const response = await this.getApplications()
+    async fetchRecoveryTimeOptions() {
+      this.isLoadingRecoveryTimes = true
+      const response = await this.getRecoveryTimeOptions()
 
-      if (response && response.data) {
-        this.applications = response.data
+      if (response) {
+        this.recoveryTimeOptions = response
       }
 
-      this.isLoadingSoftwares = false
+      this.isLoadingRecoveryTimes = false
     },
 
     /**
-     * Equipments
+     * Disruption Scenarios
      */
-    async fetchEquipments() {
-      this.isLoadingEquipments = true
-      const response = await this.getEquipments()
+    async fetchDisruptionScenarios() {
+      this.isLoadingDisruptionScenarios = true
+      const response = await this.getDisruptionScenarios()
 
-      if (response && response.data) {
-        this.equipments = response.data
+      if (response) {
+        this.disruptionScenarios = response
       }
 
-      this.isLoadingEquipments = false
+      this.isLoadingDisruptionScenarios = false
     },
   },
-  components: { ModalCancelAddActivity, EcFlex, EcLabel },
+  components: { ModalCancelAddActivity },
 }
 </script>

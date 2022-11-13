@@ -128,6 +128,9 @@ export default {
         "Period of time within which minimum levels of services and/or products and the supporting systems, applications, or functions are to be recovered after a disruption has occurred.",
       testedRealTime: "Has the RTO been tested in real-time?",
       scenario: "What scenario/s would disrupt this activity the most?",
+      existingWorkaround: "What is the existing workarounds for {disruptionName} for this activity?",
+      workaroundSolution: "Please enter your solution for {disruptionName}",
+      workaroundEnacted: "How long could this workaround feasibly be enacted?",
     },
   },
 }

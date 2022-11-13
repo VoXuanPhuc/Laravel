@@ -54,6 +54,8 @@
 }
 </style>
 <script>
+// import { watchEffect } from "vue"
+
 export default {
   name: "EcOptionSlider",
   emits: ["update:modelValue", "blur", "focus"],
@@ -88,6 +90,16 @@ export default {
 
   setup(props) {
     const valueIdx = 0
+
+    // watchEffect(() => {
+    //   const foundIndex = props.options?.findIndex((item) => {
+    //     return item[props.valueKey] === props.modelValue[props.valueKey]
+    //   })
+
+    //   if (foundIndex) {
+    //     valueIdx = foundIndex
+    //   }
+    // })
 
     return {
       valueIdx,

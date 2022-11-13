@@ -81,12 +81,3 @@ export const fetchActivityListByOrganizationUid = async (organizationUid) => {
 export const fetchActivityListByDivisionUid = async (organizationUid, divisionUid) => {
   return fetcher.get(`/identity/api/v1/organizations/${organizationUid}/divisions/${divisionUid}/activities`)
 }
-
-// MTDP
-export const getMTDPTimePeriodOptions = async () => {
-  return fetcher.get(`/identity/api/v1/tolerable-time-periods/all`)
-}
-
-export const updateActivityMTDP = async (payload, uid) => {
-  return fetcher.put(`identity/api/v1/activities/${uid}/tolerable-period-disruptions`, payload)
-}

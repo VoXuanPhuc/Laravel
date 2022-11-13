@@ -1,7 +1,7 @@
 import useVuelidate from "@vuelidate/core"
 import { ref } from "vue"
 import { maxLength, required } from "@vuelidate/validators"
-import * as api from "../api/activityFetcher"
+import * as api from "../api/activityMTDPFetcher"
 import { useGlobalStore } from "@/stores/global"
 import { useI18n } from "vue-i18n"
 
