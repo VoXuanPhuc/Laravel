@@ -118,4 +118,12 @@ class DisruptionScenarioService implements DisruptionScenarioServiceInterface
 
         return $this->disruptionScenarioRepository->delete( $disruptionScenario->id );
     }
+
+    /**
+     * @return mixed
+     */
+    public function listAllDisruptionScenarios()
+    {
+        return $this->disruptionScenarioRepository->all();
+    }
 }

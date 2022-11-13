@@ -118,4 +118,12 @@ class RecoveryTimeService implements RecoveryTimeServiceInterface
 
         return $this->recoveryTimeRepository->delete( $recoveryTime->id );
     }
+
+    /**
+     * @return mixed
+     */
+    public function listAllRecoveryTimes()
+    {
+        return $this->recoveryTimeRepository->all();
+    }
 }

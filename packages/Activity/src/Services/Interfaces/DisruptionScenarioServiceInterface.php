@@ -15,4 +15,6 @@ interface DisruptionScenarioServiceInterface
     public function updateDisruptionScenario(Request $request, $uid);
 
     public function deleteDisruptionScenario( $uid );
+
+    public function listAllDisruptionScenarios();
 }

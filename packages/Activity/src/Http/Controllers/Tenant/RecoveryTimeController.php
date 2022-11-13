@@ -25,6 +25,14 @@ class RecoveryTimeController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function all() {
+
+        return $this->accessFactorService->listAllRecoveryTimes();
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */

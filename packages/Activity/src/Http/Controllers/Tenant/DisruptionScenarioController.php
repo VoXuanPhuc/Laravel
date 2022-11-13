@@ -25,6 +25,14 @@ class DisruptionScenarioController extends Controller
     }
 
     /**
+     * @return mixed
+     */
+    public function all() {
+
+        return $this->accessFactorService->listAllDisruptionScenarios();
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */

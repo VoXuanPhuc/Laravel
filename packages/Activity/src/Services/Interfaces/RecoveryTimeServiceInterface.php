@@ -15,4 +15,6 @@ interface RecoveryTimeServiceInterface
     public function updateRecoveryTime(Request $request, $uid);
 
     public function deleteRecoveryTime( $uid );
+
+    public function listAllRecoveryTimes();
 }

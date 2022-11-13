@@ -218,6 +218,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
         'uses' => RecoveryTimeController::class . '@index'
     ]);
 
+    Route::get('/recovery-times/all', [
+        'as' => 'recovery-times.all',
+        'uses' => RecoveryTimeController::class . '@all'
+    ]);
+
     Route::get('/recovery-times/{uid}', [
         'as' => 'recovery-times.detail',
         'uses' => RecoveryTimeController::class . '@detail'
@@ -243,6 +248,11 @@ Route::group( ['prefix' => '/identity/api/v1/', 'middleware'=> ['auth']] , funct
     Route::get('/disruption-scenarios', [
         'as' => 'disruption-scenarios.list',
         'uses' => DisruptionScenarioController::class . '@index'
+    ]);
+
+    Route::get('/disruption-scenarios/all', [
+        'as' => 'disruption-scenarios.list',
+        'uses' => DisruptionScenarioController::class . '@all'
     ]);
 
     Route::get('/disruption-scenarios/{uid}', [
