@@ -17,7 +17,7 @@
         <EcButton
           class="mx-auto mr-0 my-auto mt-0"
           variant="tertiary-rounded"
-          v-tooltip="{ text: $t('activity.tooltipCancel') }"
+          v-tooltip="{ text: $t('activity.tooltips.cancel') }"
           @click="handleOpenCancelModal"
         >
           <EcIcon class="text-base text-cError-500" icon="X" />
@@ -34,7 +34,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="handleAddMoreDependency"
-            v-tooltip="{ text: $t('activity.tooltipDependency') }"
+            v-tooltip="{ text: $t('activity.tooltips.addDependency') }"
           >
             <EcIcon icon="Plus" width="16" height="16" />
           </EcButton>
@@ -44,7 +44,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="fetchDependencies"
-            v-tooltip="{ text: $t('activity.tooltipDependencyReload') }"
+            v-tooltip="{ text: $t('activity.tooltips.dependencyReload') }"
           >
             <EcIcon icon="Refresh" width="16" height="16" />
           </EcButton>
@@ -78,7 +78,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="handleAddMoreSupplier"
-            v-tooltip="{ text: $t('activity.tooltipSupplier') }"
+            v-tooltip="{ text: $t('activity.tooltips.addSupplier') }"
           >
             <EcIcon icon="Plus" width="16" height="16" />
           </EcButton>
@@ -88,7 +88,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="fetchSuppliers"
-            v-tooltip="{ text: $t('activity.tooltipSupplierReload') }"
+            v-tooltip="{ text: $t('activity.tooltips.supplierReload') }"
           >
             <EcIcon icon="Refresh" width="16" height="16" />
           </EcButton>
@@ -121,8 +121,8 @@
           {{ $t("activity.buttons.back") }}
         </EcButton>
 
-        <EcButton variant="primary" class="ml-4" @click="handleClickFinish">
-          {{ $t("activity.buttons.finish") }}
+        <EcButton variant="primary" class="ml-4" @click="handleClickNext">
+          {{ $t("activity.buttons.next") }}
         </EcButton>
       </EcFlex>
 
@@ -148,6 +148,12 @@ import { useDependenciesAndSuppliers } from "@/modules/activity/use/useDependenc
 
 export default {
   name: "ViewActivityApplication",
+  props: {
+    uid: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       isModalCancelOpen: false,
@@ -186,37 +192,37 @@ export default {
   },
 
   mounted() {
+    this.fetchActivity()
     this.fetchSuppliers()
     this.fetchDependencies()
   },
 
   methods: {
     /**
-     * Create Activity
+     * Save dependencies
      */
-    async handleClickFinish() {
+    async handleClickNext() {
       this.v$.$touch()
       if (this.v$.$invalid) {
         return
       }
 
-      const { uid } = this.$route.params
       this.isLoading = true
 
       this.form.step = this.STEP_DEPENDENCIES
-      const response = await this.updateDependenciesAndSuppliers(this.form, uid)
+      const response = await this.updateDependenciesAndSuppliers(this.form, this.uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityList, 1000)
+        setTimeout(this.redirectToNextStep, 1000)
       }
       this.isLoading = false
     },
 
     /**
-     * Redirect to activity list
+     * Redirect to next step
      */
-    redirectToActivityList() {
-      goto("ViewActivityList")
+    redirectToNextStep() {
+      goto("ViewActivityTolerant")
     },
 
     // =========== Dependency_scenarios ================ //
@@ -259,6 +265,36 @@ export default {
      */
     handleCloseCancelModal() {
       this.isModalCancelOpen = false
+    },
+
+    /**
+     * Fetch Activity
+     */
+    async fetchActivity() {
+      this.isLoading = true
+
+      const response = await this.getActivity(this.uid, ["suppliers", "dependencyScenarios"])
+
+      if (response && response.uid) {
+        this.transformFormData(response)
+      }
+
+      this.isLoading = false
+    },
+
+    /**
+     * Transform data
+     */
+    transformFormData(response) {
+      // supplier
+      if (response.suppliers.length > 0) {
+        this.form.suppliers = response.suppliers
+      }
+
+      // dependencies
+      if (response.dependency_scenarios.length > 0) {
+        this.form.dependency_scenarios = response.dependency_scenarios
+      }
     },
 
     /**

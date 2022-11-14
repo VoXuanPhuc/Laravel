@@ -183,23 +183,23 @@ export default {
       const response = await this.updateActivityMTDP(payload, uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityRTO, 1000)
+        setTimeout(this.redirectToNextStep, 1000)
       }
       this.isLoading = false
     },
 
     /**
-     * Redirect to activity list
+     * Redirect to next step
      */
-    redirectToActivityRTO() {
+    redirectToNextStep() {
       goto("ViewActivityRTO")
     },
 
     /**
-     * Back to Activity list
+     * Back to previous step
      */
     handleClickBack() {
-      goto("ViewActivityApplication")
+      goto("ViewActivityDependencies")
     },
 
     /**

@@ -26,7 +26,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="handleAddMoreDependency"
-            v-tooltip="{ text: 'Add more dependency' }"
+            v-tooltip="{ text: $t('activity.tooltips.addDependency') }"
           >
             <EcIcon icon="Plus" width="16" height="16" />
           </EcButton>
@@ -36,12 +36,13 @@
             class="ml-2"
             variant="primary-rounded"
             @click="fetchDependencies"
-            v-tooltip="{ text: 'Reload dependency' }"
+            v-tooltip="{ text: $t('activity.tooltips.dependencyReload') }"
           >
             <EcIcon icon="Refresh" width="16" height="16" />
           </EcButton>
         </EcFlex>
 
+        <!-- dependencies -->
         <EcFlex class="max-w-md items-center mb-8">
           <EcBox class="w-full sm:w-12/20 sm:pr-6">
             <RFormInput
@@ -50,7 +51,7 @@
               :options="dependencies"
               :valueKey="'uid'"
               :validator="v$"
-              field="form.assignee"
+              field="form.dependency_scenarios"
             />
           </EcBox>
           <EcSpinner class="my-auto mb-1" v-if="isLoadingDependencies"></EcSpinner>
@@ -69,7 +70,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="handleAddMoreSupplier"
-            v-tooltip="{ text: 'Add more supplier' }"
+            v-tooltip="{ text: $t('activity.tooltips.addSupplier') }"
           >
             <EcIcon icon="Plus" width="16" height="16" />
           </EcButton>
@@ -79,7 +80,7 @@
             class="ml-2"
             variant="primary-rounded"
             @click="fetchSuppliers"
-            v-tooltip="{ text: 'Reload supplier list' }"
+            v-tooltip="{ text: $t('activity.tooltips.supplierReload') }"
           >
             <EcIcon icon="Refresh" width="16" height="16" />
           </EcButton>
@@ -93,7 +94,7 @@
               :options="suppliers"
               :valueKey="'uid'"
               :validator="v$"
-              field="form.dependency_scenarios"
+              field="form.suppliers"
             />
           </EcBox>
           <EcSpinner class="my-auto mb-1" v-if="isLoadingSuppliers"></EcSpinner>
@@ -112,8 +113,8 @@
           {{ $t("activity.buttons.back") }}
         </EcButton>
 
-        <EcButton variant="primary" class="ml-4" @click="handleClickFinish">
-          {{ $t("activity.buttons.finish") }}
+        <EcButton variant="primary" class="ml-4" @click="handleClickNext">
+          {{ $t("activity.buttons.next") }}
         </EcButton>
       </EcFlex>
 
@@ -131,7 +132,6 @@
 <script>
 import { goto } from "@/modules/core/composables"
 import { ref } from "vue"
-
 import ModalCancelAddActivity from "../components/ModalCancelAddActivity.vue"
 import { useActivityDetail } from "../use/useActivityDetail"
 import { useDependencyList } from "@/modules/dependency/use/dependency/useDependencyList"
@@ -139,7 +139,13 @@ import { useSupplierList } from "@/modules/supplier/use/supplier/useSupplierList
 import { useDependenciesAndSuppliers } from "@/modules/activity/use/useDependenciesAndSuppliers"
 
 export default {
-  name: "ViewActivityUpdateDependencies",
+  name: "ViewActivityApplication",
+  props: {
+    uid: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       isModalCancelOpen: false,
@@ -179,41 +185,39 @@ export default {
 
   mounted() {
     this.fetchActivity()
-    this.fetchDependencies()
     this.fetchSuppliers()
+    this.fetchDependencies()
   },
 
   methods: {
     /**
-     * Create Activity
+     * Save dependencies
      */
-    async handleClickFinish() {
+    async handleClickNext() {
       this.v$.$touch()
       if (this.v$.$invalid) {
         return
       }
 
-      const { uid } = this.$route.params
       this.isLoading = true
-      this.form.step = this.STEP_DEPENDENCIES
 
-      const response = await this.updateDependenciesAndSuppliers(this.form, uid)
+      this.form.step = this.STEP_DEPENDENCIES
+      const response = await this.updateDependenciesAndSuppliers(this.form, this.uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityList, 2000)
+        setTimeout(this.redirectToNextStep, 1000)
       }
       this.isLoading = false
     },
 
     /**
-     * Redirect to activity list
+     * Redirect to next step
      */
-    redirectToActivityList() {
-      goto("ViewActivityList")
+    redirectToNextStep() {
+      goto("ViewActivityTolerant")
     },
 
-    // =========== APPLICATIONS ================ //
-    // =========== dependency_scenarios ================ //
+    // =========== Dependency_scenarios ================ //
     /**
      * open new tab to add dependency
      */
@@ -223,7 +227,7 @@ export default {
       window.open(route.href)
     },
 
-    // =========== suppliers ================ //
+    // =========== Suppliers ================ //
 
     /**
      * open new tab to add supplier
@@ -235,28 +239,33 @@ export default {
     },
 
     /**
-     * Back to Activity list
+     * Back to pre Step
      */
     handleClickBack() {
-      const { uid } = this.$route.params
-      goto("ViewActivityUpdateApplication", {
-        params: {
-          uid,
-        },
-      })
+      goto("ViewActivityApplication")
     },
 
-    // ======== Pre-load =======//
+    /**
+     * Open cancel modal
+     */
+    handleOpenCancelModal() {
+      this.isModalCancelOpen = true
+    },
+
+    /**
+     * Open cancel modal
+     */
+    handleCloseCancelModal() {
+      this.isModalCancelOpen = false
+    },
 
     /**
      * Fetch Activity
      */
     async fetchActivity() {
-      const { uid } = this.$route.params
-
       this.isLoading = true
 
-      const response = await this.getActivity(uid, ["dependencyScenarios", "suppliers"])
+      const response = await this.getActivity(this.uid, ["suppliers", "dependencyScenarios"])
 
       if (response && response.uid) {
         this.transformFormData(response)
@@ -269,14 +278,14 @@ export default {
      * Transform data
      */
     transformFormData(response) {
-      // dependency_scenarios
-      if (response.dependency_scenarios.length > 0) {
-        this.form.dependency_scenarios = response.dependency_scenarios
-      }
-
-      // suppliers
+      // supplier
       if (response.suppliers.length > 0) {
         this.form.suppliers = response.suppliers
+      }
+
+      // dependencies
+      if (response.dependency_scenarios.length > 0) {
+        this.form.dependency_scenarios = response.dependency_scenarios
       }
     },
 

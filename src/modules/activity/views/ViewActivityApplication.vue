@@ -303,7 +303,7 @@ export default {
       const response = await this.updateApplicationAnEquipments(this.form, uid)
 
       if (response && response.uid) {
-        setTimeout(this.redirectToActivityTolerant, 1000)
+        setTimeout(this.redirectToNextStep, 1000)
       }
       this.isLoading = false
     },
@@ -315,18 +315,11 @@ export default {
       goto("ViewActivityList")
     },
 
-
-      /**
-       * Redirect to activity tolerant
-       */
-      redirectToActivityDependencies() {
-          goto("ViewActivityTolerant")
-      },
     /**
-     * Redirect to activity tolerant
+     * Redirect to activity dependencies
      */
-    redirectToActivityTolerant() {
-      goto("ViewActivityTolerant")
+    redirectToNextStep() {
+      goto("ViewActivityDependencies")
     },
 
     // =========== APPLICATIONS ================ //

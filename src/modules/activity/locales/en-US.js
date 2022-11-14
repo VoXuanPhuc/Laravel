@@ -119,10 +119,10 @@ export default {
       tolerantTime:
         "If the disruption impact is dependent on the time of the week/month/year that the disruption occurs, please use ‘worst case’ scenario to assess MTPD and explain below",
       rtoPeriod: "If you are unsure, select the timeframe that is half the MTPD.",
-        moreDependency: "Add more dependency",
-        dependencyReload: "Reload dependencies list",
-        addSupplier: "Add supplier",
-        reloadSupplier: "Reload suppliers list",
+      addDependency: "Add a new dependency",
+      dependencyReload: "Reload dependencies list",
+      addSupplier: "Add a new supplier",
+      supplierReload: "Reload suppliers list",
     },
 
     tolerant: {

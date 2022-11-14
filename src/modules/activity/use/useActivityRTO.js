@@ -93,7 +93,7 @@ export function useActivityRTO() {
       if (!data) {
         globalStore.addErrorToastMessage(t("activity.errors.updateActivity"))
       } else {
-        globalStore.addSuccessToastMessage(t("activity.messages.toNextStep"))
+        globalStore.addSuccessToastMessage(t("activity.messages.updatedActivity"))
       }
 
       return data

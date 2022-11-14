@@ -294,13 +294,12 @@ export default {
       goto("ViewActivityList")
     },
 
-      /**
-       * Redirect to activity tolerant
-       */
-      redirectToActivityDependencies() {
-          goto("ViewUpdateActivityDependencies")
-      },
-
+    /**
+     * Redirect to activity tolerant
+     */
+    redirectToActivityDependencies() {
+      goto("ViewUpdateActivityDependencies")
+    },
 
     // =========== APPLICATIONS ================ //
     /**
