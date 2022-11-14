@@ -91,6 +91,7 @@
 
                 <!-- Re-invite action -->
                 <EcFlex
+                  v-if="item.isEmailConfirmed !== 'true'"
                   class="items-center px-4 py-2 cursor-pointer text-c1-500 hover:bg-c0-100"
                   @click="handleClickReinvite(item)"
                 >
